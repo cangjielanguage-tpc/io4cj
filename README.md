@@ -1,37 +1,157 @@
-# okio
+<p align="center">
+<img src="./doc/assets/logo.png" width="30%" >
+</p>
 
-#### 介绍
-仓颉io归一化的接口，适配仓颉版okhttp
-
-#### 软件架构
-软件架构说明
-
-
-#### 安装教程
-
-1.  xxxx
-2.  xxxx
-3.  xxxx
-
-#### 使用说明
-
-1.  xxxx
-2.  xxxx
-3.  xxxx
-
-#### 参与贡献
-
-1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
+<p align="center">
+<img alt="" src="https://badg.now.sh/badge/release/v0.0.1?color=green" style="display: inline-block;" />
+<img alt="" src="https://badg.now.sh/badge/build/pass?color=green" style="display: inline-block;" />
+<img alt="" src="https://badg.now.sh/badge/cjc/v0.28.4?color=green" style="display: inline-block;" />
+<img alt="" src="https://badg.now.sh/badge/cjcov/90%25?color=green" style="display: inline-block;" />
+<img alt="" src="https://badg.now.sh/badge/project/open?color=green" style="display: inline-block;" />
+</p>
 
 
-#### 特技
 
-1.  使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2.  Gitee 官方博客 [blog.gitee.com](https://blog.gitee.com)
-3.  你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解 Gitee 上的优秀开源项目
-4.  [GVP](https://gitee.com/gvp) 全称是 Gitee 最有价值开源项目，是综合评定出的优秀开源项目
-5.  Gitee 官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6.  Gitee 封面人物是一档用来展示 Gitee 会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+## <img alt="" src="./doc/assets/readme-icon-introduction.png" style="display: inline-block;" width=3%/>介绍
+
+介绍库或者框架符合的标准，应用领域，解决什么问题。有哪些主要的特点，与同类库相比有哪些优点。
+
+### 特性
+
+- 🚀 特性1
+
+- 🚀 特性2
+
+- 💪 特性3
+
+- 🛠️ 特性4
+
+- 🌍 特性5
+
+- 💡  特性6
+
+### 路线
+
+<p align="center">
+<img src="./doc/assets/milestone.png" width="100%" >
+</p>
+
+
+
+##    <img alt="" src="./doc/assets/readme-icon-framework.png" style="display: inline-block;" width=3%/> 软件架构
+
+### 架构图
+
+<p align="center">
+<img src="./doc/assets/framework.png" width="60%" >
+</p>
+
+- 功能1介绍
+
+- 功能2介绍
+
+- 功能3介绍
+
+### 源码目录
+
+```shell
+.
+├── README.md
+├── doc
+│   ├── assets     
+│   ├── design.md  
+│   ├── proposal.md
+│   └── xxx_lib.md 
+├── src
+│   └── Template.cj
+└── test   
+    ├── HLT
+    ├── LLT
+    └── UT
+```
+
+- `doc`是库的设计文档、提案、库的使用文档
+- `src`是库源码目录
+- `test`是存放测试用例，包括HLT用例、LLT 用例和UT用例
+
+### 接口说明
+
+主要是核心类和成员函数说明
+
+#### class xxx
+
+##### func yyy
+
+成员函数功能描述
+
+```cangjie
+func yyy(): Unit
+```
+
+##### func zzz
+
+成员函数功能描述
+
+```cangjie
+func zzz(): Unit
+```
+
+#### class xxx
+
+##### func yyy
+
+成员函数功能描述
+
+```cangjie
+func yyy(): Unit
+```
+
+##### func zzz
+
+成员函数功能描述
+
+```cangjie
+func zzz(): Unit
+```
+
+#### func xxxx
+
+Top level函数功能描述
+
+```cangjie
+func xxxx(): Unit
+```
+
+## <img alt="" src="./doc/assets/readme-icon-compile.png" style="display: inline-block;" width=3%/>编译执行
+
+### 编译
+
+编译描述和具体shell命令
+
+```shell
+cpm update
+cpm build
+```
+
+### xx示例
+
+示例描述
+
+```cangjie
+import xxx.*
+
+```
+
+执行结果如下：
+
+```shell
+xxx
+```
+
+
+
+## <img alt="" src="./doc/assets/readme-icon-contribute.png" style="display: inline-block;" width=3%/>参与贡献
+
+主要写参与贡献的人以及个人主页链接
+
+[@chinesebear](https://gitee.com/chinesebear)
