@@ -1,34 +1,38 @@
 <p align="center">
 <img src="./doc/assets/logo.png" width="30%" >
 </p>
-
 <p align="center">
 <img alt="" src="https://badg.now.sh/badge/release/v0.0.1?color=green" style="display: inline-block;" />
 <img alt="" src="https://badg.now.sh/badge/build/pass?color=green" style="display: inline-block;" />
-<img alt="" src="https://badg.now.sh/badge/cjc/v0.28.4?color=green" style="display: inline-block;" />
-<img alt="" src="https://badg.now.sh/badge/cjcov/90%25?color=green" style="display: inline-block;" />
+<img alt="" src="https://badg.now.sh/badge/cjc/v0.29.3?color=green" style="display: inline-block;" />
+<img alt="" src="https://badg.now.sh/badge/cjcov/0%25?color=red" style="display: inline-block;" />
 <img alt="" src="https://badg.now.sh/badge/project/open?color=green" style="display: inline-block;" />
 </p>
 
 
 
+
 ## <img alt="" src="./doc/assets/readme-icon-introduction.png" style="display: inline-block;" width=3%/>介绍
 
-介绍库或者框架符合的标准，应用领域，解决什么问题。有哪些主要的特点，与同类库相比有哪些优点。
+Okio是OkHttp的低层IO库，Okio是对仓颉io库的补充，使访问、存储和处理数据变得更加容易。核心概念是source和sink，分别类似于仓颉的ReadStream和WriteStream。
+
+参考项目：[https://square.github.io/okio/](https://link.segmentfault.com/?enc=2VN47riy2Ak%2Fwy47iNAgWQ%3D%3D.%2BGZbqetBcijDGsPLatrZBzGOj7YkIAubAWAzDAettzY%3D) 。
+
+参考文档：https://segmentfault.com/a/1190000038470543
 
 ### 特性
 
-- 🚀 特性1
+- 🚀 buffer
 
-- 🚀 特性2
+- 💪 cipher
 
-- 💪 特性3
+- 💪 hashing
 
-- 🛠️ 特性4
+- 💪forwarding
 
-- 🌍 特性5
+- 💪gzip
 
-- 💡  特性6
+- 💪 deflate/inflate
 
 ### 路线
 
@@ -43,14 +47,10 @@
 ### 架构图
 
 <p align="center">
-<img src="./doc/assets/framework.png" width="60%" >
+<img src="./doc/assets/framework.png" width="100%" >
 </p>
 
-- 功能1介绍
 
-- 功能2介绍
-
-- 功能3介绍
 
 ### 源码目录
 
