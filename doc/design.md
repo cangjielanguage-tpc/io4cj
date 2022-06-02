@@ -1,6 +1,6 @@
 ## OkHttp的低层IO库
 
-OkHttp的低层IO库——Okio，Okio是对仓颉io库的补充，使访问、存储和处理数据变得更加容易。 
+OkHttp的低层IO库——Okio，Okio是对仓颉io库的补充，使访问、存储和处理数据变得更加容易。
 
 参考项目：[https://square.github.io/okio/](https://link.segmentfault.com/?enc=2VN47riy2Ak%2Fwy47iNAgWQ%3D%3D.%2BGZbqetBcijDGsPLatrZBzGOj7YkIAubAWAzDAettzY%3D) 。
 
@@ -24,19 +24,19 @@ open public class ByteString {
 	func base64(): String
 	func base64Url(): String
 	...
-} 
+}
 interface BufferedSource <: Source {
-	abstract override func close(): Unit
-	abstract func exhausted(): Bool
-	abstract func indexOf(b: Byte): Int64
-	abstract func read(p0: ByteBuffer): Int64
+	func close(): Unit
+	func exhausted(): Bool
+	func indexOf(b: Byte): Int64
+	func read(p0: ByteBuffer): Int64
 	...
 }
 interface BufferedSink <: Sink {
-	abstract override func close(): Unit
-	abstract func emit(): BufferedSink
-	abstract override func flush()
-	abstract fun write(p0: ByteBuffer): Int64
+	func close(): Unit
+	func emit(): BufferedSink
+	func flush()
+	func write(p0: ByteBuffer): Int64
 	...
 }
 ```
@@ -56,17 +56,17 @@ interface BufferedSink <: Sink {
 Sources 和 Sinks分别与InputStream和OutputStream交互操作。你可以将任何Source看做InputStream ，也可以将任何InputStream当做Source。对于Sink和Outputstream也是如此。
 
 ```cangjie
-open public interface Sink <: ReadStream {
-	abstract override func close(): Unit
-	abstract func flush(): Unit
-	abstract func timeout(): Duration
-	abstract func write(source: Buffer, byteCount: Int64): Unit
+interface Sink <: ReadStream {
+	func close(): Unit
+	func flush(): Unit
+	func timeout(): Duration
+	func write(source: Buffer, byteCount: Int64): Unit
 	...
 }
-open public interface Source <: ReadStream {
-	abstract override func close(): Unit
-	abstract override func read(sink: Buffer, byteCount: Int64): Int64
-	abstract override func timeout(): Duration
+interface Source <: ReadStream {
+	func close(): Unit
+	func read(sink: Buffer, byteCount: Int64): Int64
+	func timeout(): Duration
 	...
 }
 ```
