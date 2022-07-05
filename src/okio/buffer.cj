@@ -3,7 +3,7 @@ from std import collection.*
 
 public class Buffer <: BufferedSource & BufferedSink {
     public func write(source: Buffer, byteCount: Int64): Unit {
-
+        
     }
     public func write(byteString: ByteString): BufferedSink {
         this

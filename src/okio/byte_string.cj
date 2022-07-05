@@ -9,7 +9,7 @@ from crypto import enc.*
 func toByteArray(str: String): Array<Byte> {
     let data: Array<Byte> = Array<Byte> (str.size() + 1, {a => 0})
     for(i in 0..str.size()) {
-        data[i] = UInt8(ord(str[i]))
+        data[i] = UInt8(UInt32(str[i]))
     }
     data
 }
@@ -98,7 +98,7 @@ public class ByteString {
     public func toAsciiLowercase(): ByteString {
         let data: Array<Byte> = Array<Byte>(mySize, {a => 0})
         for(i in 0..mySize) {
-            if (myData[i] >= UInt8(ord('A')) && myData[i] <= UInt8(ord('Z'))) {
+            if (myData[i] >= UInt8(UInt32('A')) && myData[i] <= UInt8(UInt32('Z'))) {
                 data[i] = myData[i] + 32
             } else {
                 data[i] = myData[i]
@@ -114,7 +114,7 @@ public class ByteString {
     public func toAsciiUppercase(): ByteString {
         let data: Array<Byte> = Array<Byte>(mySize, {a => 0})
         for(i in 0..mySize) {
-            if (myData[i] >= UInt8(ord('a')) && myData[i] <= UInt8(ord('z'))) {
+            if (myData[i] >= UInt8(UInt32('a')) && myData[i] <= UInt8(UInt32('z'))) {
                 data[i] = myData[i] + 32
             } else {
                 data[i] = myData[i]

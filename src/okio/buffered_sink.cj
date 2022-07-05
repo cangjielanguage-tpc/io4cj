@@ -7,7 +7,6 @@ public interface BufferedSink <: Sink {
     func write(byteString: ByteString): BufferedSink
     func write(byteString: ByteString, offset: Int64, byteCount: Int64): BufferedSink
     func write(source: Buffer): BufferedSink
-    //func write(source: Array<Byte>, offset: Int64, byteCount: Int64): BufferedSink
     func write(source: Source, byteCount: Int64): BufferedSink
     func write(source: Buffer, byteCount: Int64): Unit
     func writeAll(source: Source): Int64
