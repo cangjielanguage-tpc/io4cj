@@ -1,10 +1,11 @@
-## OkHttp的低层IO库
+### OkHttp的低层IO库-okio
 
 OkHttp的低层IO库——Okio，Okio是对仓颉io库的补充，使访问、存储和处理数据变得更加容易。
-
-参考项目：[https://square.github.io/okio/](https://link.segmentfault.com/?enc=2VN47riy2Ak%2Fwy47iNAgWQ%3D%3D.%2BGZbqetBcijDGsPLatrZBzGOj7YkIAubAWAzDAettzY%3D) 。
-
-参考文档：https://segmentfault.com/a/1190000038470543
+### Segment与Segment Pool
+okio数据移动这一块，主要由3个关键类
+- Buffer 里面保存了一个segment双向循环链表,从head segment读取，从tail segment写入
+- Segment 真正保存数据的类，pos和limit保存了可以读写的位置，shared和owner表示是否可以修改此Segment里面的值
+- SegmentPool 保存了一个单向Segment链表，最大包含有8个Segment。recylce方法加入SegmentPool和take从SegmentPool里面读取，都是从next节点(链表的头节点)开始的
 
 ### ByteString与Buffer
 
@@ -70,4 +71,11 @@ interface Source <: ReadStream {
 	...
 }
 ```
+## 参考
 
+参考项目：
+- https://square.github.io/okio/
+
+参考文档：
+- https://segmentfault.com/a/1190000038470543
+- https://blog.csdn.net/weixin_42695485/article/details/112066128
