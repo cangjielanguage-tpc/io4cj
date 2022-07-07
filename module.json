@@ -1,0 +1,14 @@
+{
+  "cjc_version": "0.29.1",
+  "organization": "kool",
+  "name": "okio",
+  "description": "io library for okhttp ecosystem",
+  "version": "1.0.0",
+  "requires": {},
+  "package_requires": {
+    "crypto/enc": "./packages/crypto/enc.cjo"
+  },
+  "foreign_requires": {},
+  "output_type": "static",
+  "command_option": ""
+}
