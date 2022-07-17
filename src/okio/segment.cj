@@ -1,6 +1,7 @@
 package okio
 
 public class Segment {
+  
     static let SIZE = 8192
 
     static let SHARE_MINIMUM = 1024
@@ -88,7 +89,6 @@ public class Segment {
         return prefix
     }
 
-    //TODO add test
     func compact() {
         match(prev) {
           case Some(seg) => doCompact(seg)
@@ -110,7 +110,6 @@ public class Segment {
         SegmentPool.recycle(this);
     }
 
-    //TODO add test
     func writeTo(sink: Segment,  byteCount: Int64) {
         if (!sink.owner) {
             throw IllegalArgumentException()

@@ -2,7 +2,7 @@ package okio
 
 from std import sync.*
 
-class SegmentPool {
+public class SegmentPool {
 
     static let MAX_SIZE = 64 * 1024
 
@@ -31,10 +31,11 @@ class SegmentPool {
             case (_, None) | (None, _) => throw IllegalArgumentException()
             case (_, _) => 1
         }
+        mutex.lock()
         if (segment.shared || byteCount + Segment.SIZE > MAX_SIZE) {
+            mutex.unlock()
             return
         }
-        mutex.lock()
         byteCount += Segment.SIZE
         segment.next = next
         segment.pos = 0
