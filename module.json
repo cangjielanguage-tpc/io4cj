@@ -5,10 +5,8 @@
   "description": "io library for okhttp ecosystem",
   "version": "1.0.0",
   "requires": {},
-  "package_requires": {
-    "crypto/enc": "./packages/crypto/enc.cjo"
-  },
+  "package_requires": {},
   "foreign_requires": {},
-  "output_type": "static",
+  "output_type": "dynamic",
   "command_option": ""
 }

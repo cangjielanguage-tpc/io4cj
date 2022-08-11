@@ -76,6 +76,3 @@ interface Source <: ReadStream {
 参考项目：
 - https://square.github.io/okio/
 
-参考文档：
-- https://segmentfault.com/a/1190000038470543
-- https://blog.csdn.net/weixin_42695485/article/details/112066128

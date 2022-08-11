@@ -3,14 +3,15 @@ package okio
 from std import io.*
 from std import time.*
 
-public interface BufferedSource <: Source{
+public interface BufferedSource <: Source {
+    func getBuffer(): Buffer
     func exhausted(): Bool
     func require(byteCount: Int64): Unit
     func request(byteCount: Int64): Bool
-    //func read(sink: Array<Byte>): Int64
-    func read(sink: Buffer, byteCount: Int64): Int64
+    func read(sink: Array<Byte>): Int64
+    // func read(sink: Buffer, byteCount: Int64): Int64
     func read(sink: Array<Byte>, offset: Int64, byteCount: Int64): Int64
-    func readByte(): Byte
+    func readInt8(): Int8
     func readInt16(): Int16
     func readInt16Le(): Int16
     func readInt32(): Int32
@@ -31,9 +32,9 @@ public interface BufferedSource <: Source{
     func readUtf8LineStrict(): String
     func readUtf8LineStrict(limit: Int64): String
     func readUtf8CodePoint(): Int64
-    func indexOf(value: Byte): Int64
-    func indexOf(value: Byte, fromIndex: Int64): Int64
-    func indexOf(value: Byte, fromIndex: Int64, toIndex: Int64): Int64
+    func indexOf(value: Int8): Int64
+    func indexOf(value: Int8, fromIndex: Int64): Int64
+    func indexOf(value: Int8, fromIndex: Int64, toIndex: Int64): Int64
     func indexOf(bytes: ByteString): Int64
     func indexOf(bytes: ByteString, fromIndex: Int64): Int64
     func indexOfElement(targetBytes: ByteString): Int64
