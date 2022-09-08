@@ -1,12 +1,13 @@
 package okio
 
-public class Segment {
+// 缓冲区的一段。
+public class Segment <: Object & Equatable<Segment>{
   
     static let SIZE = 8192
 
     static let SHARE_MINIMUM = 1024
 
-    let data: Array<UInt8>
+    let data: Array<Byte>
 
     var pos: Int64
 
@@ -129,5 +130,10 @@ public class Segment {
         sink.limit += byteCount;
         pos += byteCount;
     }
-
+    public operator func == (that: Segment): Bool {
+        return refEq(this, that)
+    }
+    public operator func != (that: Segment): Bool {
+        return !refEq(this, that)
+    }
 }

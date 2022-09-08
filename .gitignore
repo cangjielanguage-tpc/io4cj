@@ -3,3 +3,7 @@
 .vscode/
 .idea/
 build/
+ci_lib
+ci_test
+bin
+module-resolve.json

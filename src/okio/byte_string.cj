@@ -2,21 +2,24 @@ package okio
 
 from std import collection.*
 from std import format.*
+from std import sync.*
+from std import io.*
 from encoding import hex.*
 from encoding import base64.*
-from crypto import enc.*
+//from crypto import enc.*
+
 
 func toByteArray(str: String): Array<Byte> {
-    let data: Array<Byte> = Array<Byte> (str.size() + 1, {a => 0})
-    for(i in 0..str.size()) {
+    let data: Array<Byte> = Array<Byte> (str.size + 1, {a => 0})
+    for(i in 0..str.size) {
         data[i] = UInt8(UInt32(str[i]))
     }
     data
 }
 
 func compare(aval: Array<Byte>, fromIndex: Int64, bval: Array<Byte>): Bool{
-    let asize: Int64 = aval.size()
-    let bsize: Int64 = bval.size()
+    let asize: Int64 = aval.size
+    let bsize: Int64 = bval.size
     if(asize - fromIndex < bsize) {
         return false
     }
@@ -28,256 +31,180 @@ func compare(aval: Array<Byte>, fromIndex: Int64, bval: Array<Byte>): Bool{
     true
 }
 
-public class ByteString {
-    private let myData: Array<Byte>
-    private let mySize: Int64
-    public init() {
-        let str: String = ""
-        this.myData = toByteArray(str)
-        this.mySize = str.size()
+public open class ByteString <: Hashable & ToString {
+    
+    protected static var lock: ReentrantMutex = ReentrantMutex()
+    
+    protected static let HEX_DIGITS: Array<Char> = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f']
+
+    // public static let EMPTY: ByteString = ByteString()
+    
+    let data: Array<Byte>
+
+    protected var hashcode: Int64 = 0
+    
+    protected var utf8: String = ""
+    
+    public init (data: Array<Byte>){
+        this.data = data
     }
 
-    public init(str: String) {
-        this.myData = toByteArray(str)
-        this.mySize = str.size()
+    /**
+     * Returns a new byte string containing a clone of the bytes of {@code data}.
+     */
+    public func of (data: Array<Byte>): ByteString {
+        return ByteString(data.clone())
     }
 
-    public init(value: Collection<Byte>) {
-        this.myData = Array<Byte>(value)
-        this.mySize = value.size()
+    /**
+     * Returns a new byte string containing a copy of {@code byteCount} bytes of {@code data} starting
+     * at {@code offset}.
+     */
+    public func of(target: Array<Byte>, offset: Int64, byteCount: Int64): ByteString {
+        let bytes: Array<Byte> = Array<Byte>(byteCount, item: 0)
+        var i = 0
+        while (i < byteCount) {
+            bytes[i] = target[i + offset]
+            i++
+        }
+        return ByteString(bytes)
     }
 
-    public init(value: Array<Byte>) {
-        this.myData = value
-        this.mySize = value.size()
+    // Returns a new byte string containing the {@code UTF-8} bytes of {@code s}. */
+    // public static func encodeUtf8(s: String): ByteString {
+    // }
+
+    /** Constructs a new {@code String} by decoding the bytes as {@code UTF-8}. */
+    public func UTF8(): String {
+        if (utf8 == "") {
+            return String.fromUtf8(this.data)
+        }
+        return utf8
     }
 
-    public func utf8(): String {
-        String.fromUtf8(myData)
+    /**
+     * Returns this byte string encoded as <a
+     * href="http://www.ietf.org/rfc/rfc2045.txt">Base64</a>. In violation of the
+     * RFC, the returned string does not wrap lines at 76 columns.
+     */
+    public func base64 (): String {
+        return toBase64String(this.data)
     }
 
-    public func base64(): String {
-        toBase64String(myData)
+    /**
+     * Decodes the Base64-encoded bytes and returns their value as a byte string.
+     * Returns null if {@code base64} is not a Base64-encoded sequence of bytes.
+     */
+    public static func decodeBase64 (base64: String): ?ByteString {
+        match (fromBase64String(base64)) {
+            case Some(arr) => return ByteString(arr)
+            case None =>  return None
+        }
     }
 
-    public func base64Url(): String {
-        ""
-    }
-
+    /** Returns this byte string encoded in hexadecimal. */
     public func hex(): String {
-        toHexString(myData)
-    }
-
-    public func md5(): ByteString {
-        ByteString(MD5.digestBytes(myData))
-    }
-
-    public func sha1(): ByteString {
-        ByteString(SHA1.digestBytes(myData))
-    }
-
-    public func sha256(): ByteString {
-        ByteString(SHA256.digestBytes(myData))
-    }
-
-    public func sha512(): ByteString {
-        this
-    }
-
-    public func hmacSha1(key: ByteString): ByteString {
-        ByteString(HMac.hmacSHA1(key.toByteArray(), myData))
-    }
-
-    public func hmacSha256(key: ByteString): ByteString {
-        ByteString(HMac.hmacSHA256(key.toByteArray(), myData))
-    }
-
-    public func hmacSha512(key: ByteString): ByteString {
-        this
-    }
-    public func toAsciiLowercase(): ByteString {
-        let data: Array<Byte> = Array<Byte>(mySize, {a => 0})
-        for(i in 0..mySize) {
-            if (myData[i] >= UInt8(UInt32('A')) && myData[i] <= UInt8(UInt32('Z'))) {
-                data[i] = myData[i] + 32
-            } else {
-                data[i] = myData[i]
-            }
+        let chars: Array<Char> = Array<Char>(this.data.size * 2, item: ' ')
+        var c = 0
+        for (d in this.data) {
+            chars[c] = HEX_DIGITS[Int64((d >> 4) & 0x0f)]
+            c++
+            chars[c] = HEX_DIGITS[Int64(d & 0x0f)]
+            c++
         }
-        ByteString(data)
+        return String(chars)
     }
 
-    public func substring(beginIndex: Int64, endIndex: Int64): ByteString {
-        this
-    }
-
-    public func toAsciiUppercase(): ByteString {
-        let data: Array<Byte> = Array<Byte>(mySize, {a => 0})
-        for(i in 0..mySize) {
-            if (myData[i] >= UInt8(UInt32('a')) && myData[i] <= UInt8(UInt32('z'))) {
-                data[i] = myData[i] + 32
-            } else {
-                data[i] = myData[i]
-            }
+    /** Decodes the hex-encoded bytes and returns their value a byte string. */
+    public static func decodeHex(hex: String): ByteString {
+        if (hex.size % 2 != 0) {
+            throw IllegalArgumentException("Unexpected hex string: ${hex}")
         }
-        ByteString(data)
+        return ByteString(fromHexString(hex).getOrThrow().clone())
     }
 
-    private func internalGet(pos: Int64): Byte {
-        myData[pos]
-    }
-
-    private func getSize(): Int64 {
-        mySize
-    }
-
-    public func toByteArray(): Array<Byte> {
-        myData.clone()
-    }
-
-    public func rangeEquals(offset: Int64, other: ByteString, otherOffset: Int64, byteCount: Int64): Bool {
-        let otherData: Array<Byte> = other.toByteArray()
-        for (i in 0..byteCount) {
-            if (myData[offset + i] != otherData[otherOffset + i]) {
-                return false
-            }
+    private static func decodeHexDigit (c: Char): UInt32 {
+        let uc = UInt32(c)
+        if (uc >= UInt32('0') && uc <= UInt32('9')) {
+            return uc - UInt32('0')
         }
-        true
+        if (uc >= UInt32('a') && uc <= UInt32('f')) {
+            return uc - UInt32('a') + 10
+        }
+        if (uc >= UInt32('A') && uc <= UInt32('F')) {
+            return uc - UInt32('A') + 10
+        }
+        throw IllegalArgumentException("Unexpected hex digit: ${c}")
     }
 
-    public func rangeEquals(offset: Int64, other: Array<Byte>, otherOffset: Int64, byteCount: Int64): Bool {
-        for (i in 0..byteCount) {
-            if (myData[offset + i] != other[otherOffset + i]) {
-                return false
-            }
+    public static func read (input: InputStream, byteCount: Int64): ByteString {
+        if (input.length != byteCount) {
+            throw IllegalArgumentException()
         }
-        true
-    }
-
-    public func copyInto(offset: Int64, target: Array<Byte>, targetOffset: Int64, byteCount: Int64): Unit {
-        if (offset + byteCount > mySize) {
-            throw IllegalArgumentException("out of range")
-        }
-        for(i in 0..byteCount) {
-            target[i] = myData[offset + i]
+        synchronized(lock) {
+            let arr = Array<Byte>(byteCount, item: 0)
+            input.read(arr)
+            return ByteString(arr)
         }
     }
 
-    public func startsWith(prefix: ByteString): Bool {
-        let prefixData: Array<Byte> = prefix.toByteArray()
-        for(i in 0..prefixData.size() ) {
-            if(myData[i] != prefixData[i]) {
-                return false
-            }
+    public func toAsciiLowercase (): ByteString {
+        let arr = this.data.clone()
+        var index = 0
+        while (index < this.data.size) {
+            arr[index] = UInt8(UInt32(Char(this.data[index]).toAsciiLowerCase()))
+            index++
         }
-        true
+        return ByteString(arr)
     }
 
-    public func startsWith(prefix: Array<Byte>): Bool {
-        for(i in 0..prefix.size()) {
-            if(myData[i] != prefix[i]) {
-                return false
-            }
+    public func toAsciiUppercase (): ByteString {
+        let arr = this.data.clone()
+        var index = 0
+        while (index < this.data.size) {
+            arr[index] = UInt8(UInt32(Char(this.data[index]).toAsciiUpperCase()))
+            index++
         }
-        true
+        return ByteString(arr)
     }
 
-    public func endsWith(suffix: ByteString): Bool {
-        let suffixData: Array<Byte> = suffix.toByteArray()
-        let offset: Int64 = mySize - suffixData.size()
-        for(i in 0..suffixData.size() ) {
-            if(myData[i + offset] != suffixData[i]) {
-                return false
-            }
-        }
-        true
+    public func getByte (pos: Int64): Byte {
+        return this.data[pos]
     }
 
-    public func endsWith(suffix: Array<Byte>): Bool {
-        let offset: Int64 = mySize - suffix.size()
-        for(i in 0..suffix.size()) {
-            if(myData[i + offset] != suffix[i]) {
-                return false
-            }
-        }
-        true
+    public func size(): Int64 {
+        return this.data.size
     }
 
-    public func indexOf(other: ByteString, fromIndex: Int64): Int64 {
-        let ret: Int64 = -1
-        if(mySize - fromIndex < other.getSize()) {
-            return -1
-        }
-        let data: Array<Byte> = other.toByteArray()
-        for(i in fromIndex..mySize) {
-            if(mySize - i < data.size()) {
-                return ret
-            }
-            if (compare(myData, i, data)) {
-                return i
-            }
-        }
-        -1
+    public func toByteArray (): Array<Byte> {
+        return this.data.clone()
     }
 
-    public func indexOf(other: Array<Byte>, fromIndex: Int64): Int64 {
-        let ret: Int64 = -1
-        if(mySize - fromIndex < other.size()) {
-            return -1
-        }
-        for(i in fromIndex..mySize) {
-            if(mySize - i < other.size()) {
-                return ret
-            }
-            if (compare(myData, i, other)) {
-                return i
-            }
-        }
-        -1
+    public func write (out: OutputStream): Unit {
+        out.write(this.data)
     }
 
-    public func lastIndexOf(other: ByteString, fromIndex: Int64): Int64 {
-        var ret: Int64 = -1
-        if(mySize - fromIndex < other.getSize()) {
-            return -1
-        }
-        let data: Array<Byte> = other.toByteArray()
-        for(i in fromIndex..mySize) {
-            if(mySize - i < data.size()) {
-                return ret
-            }
-            if (compare(myData, i, data)) {
-                ret = i
-            }
-        }
-        ret
+    public func equals (o: ByteString): Bool {
+        return true  // TODO
     }
 
-    public func lastIndexOf(other: Array<Byte>, fromIndex: Int64): Int64 {
-        var ret: Int64 = -1
-        if(mySize - fromIndex < other.size()) {
-            return -1
-        }
-        for(i in fromIndex..mySize) {
-            if(mySize - i < other.size()) {
-                return ret
-            }
-            if (compare(myData, i , other)) {
-                ret = i
-            }
-        }
-        ret
+    public func hashCode (): Int64 {
+        return 0   //TODO
     }
 
-    public func hashCode(): Int64 {
-        0
+    public func toString (): String {
+        return ""  // TODO
     }
 
-    public func compareTo(other: ByteString): Int64 {
-        0
-    }
+//    private func readObject (`in`: ObjectInputStream): Unit {
+//
+//    }
 
-    public func toString(): String {
-        myData.toString()
-    }
+//    private func writeObject (out: ObjectOutputStream): Unit {
+//
+//    }
+
+//    public init() {}
 }
+
+

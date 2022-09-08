@@ -13,35 +13,34 @@ public class SegmentPool {
     static var byteCount = 0
 
     static func take(): Segment {
-        return match(next) {
-            case Some(segment) => doTake(segment);
-            case None => Segment()
+        synchronized (mutex) {
+            match(next) {
+                case None => ()
+                case Some(result) => 
+                    next = result.next
+                    result.next = None
+                    byteCount -= Segment.SIZE
+                    return result
+            }
         }
-    }
-
-    private static func doTake(lastNext: Segment) {
-            next = lastNext.next
-            lastNext.next = None
-            byteCount -= Segment.SIZE
-            return lastNext
+        return Segment()
     }
 
     static func recycle(segment: Segment) {
         match((segment.next, segment.prev)) {
-            case (_, None) | (None, _) => throw IllegalArgumentException()
-            case (_, _) => 1
+            case (None, None) => ()
+            case _ => throw IllegalArgumentException()
         }
-        mutex.lock()
-        if (segment.shared || byteCount + Segment.SIZE > MAX_SIZE) {
-            mutex.unlock()
-            return
+        synchronized (mutex) {
+            if (segment.shared || byteCount + Segment.SIZE > MAX_SIZE) {
+                return
+            }
+            byteCount += Segment.SIZE
+            segment.next = next
+            segment.pos = 0
+            segment.limit = 0
+            next = Some(segment)
         }
-        byteCount += Segment.SIZE
-        segment.next = next
-        segment.pos = 0
-        segment.limit = 0
-        next = Some(segment)
-        mutex.unlock()
     }
     
 }
