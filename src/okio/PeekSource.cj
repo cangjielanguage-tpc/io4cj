@@ -49,8 +49,8 @@ class PeekSource <: Source {
     public func close(): Unit {
         this.closed = true
     }
-    public func timeout(): Duration {
-        Duration.second()// TODO
+    public func timeout(): Timeout {
+        return Timeout()  // TODO
     }
 
     public func isClosed(): Bool {

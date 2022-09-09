@@ -9,7 +9,7 @@ public interface BufferedSource <: Source {
     func require(byteCount: Int64): Unit
     func request(byteCount: Int64): Bool
     func read(sink: Array<Byte>): Int64
-    // func read(sink: Buffer, byteCount: Int64): Int64
+    func read(sink: ByteBuffer): Int64
     func read(sink: Array<Byte>, offset: Int64, byteCount: Int64): Int64
     func readInt8(): Int8
     func readInt16(): Int16
@@ -25,7 +25,7 @@ public interface BufferedSource <: Source {
     func readByteArray(): Array<Byte>
     func readByteArray(byteCount: Int64): Array<Byte>
     func readFully(sink: Array<Byte>): Unit
-    func readFully(sink: Array<Byte>, byteCount: Int64): Unit
+    func readFully(sink: Buffer, byteCount: Int64): Unit
     func readAll(sink: Sink): Int64
     func readUtf8(): String
     func readUtf8Line(): String
