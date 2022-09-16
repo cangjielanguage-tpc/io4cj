@@ -8,7 +8,7 @@ class RealBufferedSink <: BufferedSink {
 
     public let sink: Sink
 
-    var closed: Bool = true
+    var closed: Bool = false
 
     init (sink: Sink){
         this.sink = sink
@@ -155,10 +155,13 @@ class RealBufferedSink <: BufferedSink {
     } 
 
     public override func timeout(): Timeout {
-        return sink.timeout()
+        return this.sink.timeout()
     }
 
-    public override func write(source: Buffer, byteCount: Int64): Unit {}
+    public override func write(source: Buffer, byteCount: Int64): Unit {
+        this.sink.write(source, byteCount)
+        emitCompleteSegments()
+    }
 
     public override func isClosed():Bool {false}
 

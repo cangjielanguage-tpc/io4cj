@@ -28,7 +28,6 @@ public abstract class ByteBuffer <: Buffer & ToString & Hashable & Equatable<Buf
     }
 
     public static func allocateDirect(capacity: Int64) /* : Buffer */ {
-        // return new DirectByteBuffer(capacity);
         // TODO
     }
 

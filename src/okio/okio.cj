@@ -1,10 +1,11 @@
 package okio
 from std import socket.Socket
 from net import tls.TlsSocket
+from std import io.File
 
 public class Okio {
 
-    private init (){}
+    public init (){}
 
 
     public static func buffer(source: Source): BufferedSource {
@@ -20,11 +21,17 @@ public class Okio {
         let sink = sink(SocketBuffer(socket), timeout)
         return timeout.sink(sink)
     }
+    public static func sink(file: File): Sink {
+        return sink(file, Timeout())
+    }
 
     public static func source(socket: Socket): Source {
         let timeout = timeout(socket)
         let source = source(SocketBuffer(socket), timeout)
         return timeout.source(source)
+    }
+    public static func source(file: File): Source {
+        return source(file, Timeout())
     }
 
     private static func source (input: InputStream, timeout: Timeout) : Source { 
@@ -63,7 +70,7 @@ public class Okio {
         return source
     }
 
-    private static func sink (out: OutputStream, timeout: Timeout) : Sink {
+    public static func sink (out: OutputStream, timeout: Timeout) : Sink {
         func subWrite(source: Buffer, byteCount: Int64): Unit {
             Util.checkOffsetAndCount(source.size, 0, byteCount)
             var byteCount = byteCount

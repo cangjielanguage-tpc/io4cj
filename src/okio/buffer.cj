@@ -3,8 +3,20 @@ package okio
 import nio.ArrayCopy
 
 from std import math.*
+from std import collection.StringBuilder
 
-public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffer>  {
+let let_0: UInt8 = UInt8(UInt32('0'))
+let let_9: UInt8 = UInt8(UInt32('9'))
+let let_a: UInt8 = UInt8(UInt32('a'))
+let let_f: UInt8 = UInt8(UInt32('f'))
+let let_A: UInt8 = UInt8(UInt32('A'))
+let let_F: UInt8 = UInt8(UInt32('F'))
+let let__: UInt8 = UInt8(UInt32('_'))
+let let_LF: Int8 = Int8(UInt32('\n'))
+let let_CR: Int8 = Int8(UInt32('\r'))
+let REPLACEMENT_CHARACTER: Int64 = Int64(UInt32('\u{fffd}'))
+
+public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffer> & ToString {
 
     static let DIGITS: Array<Byte> = [0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f]
     
@@ -37,11 +49,27 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
     }
 
     public func write(byteString: ByteString): BufferedSink {
+        byteString.write(this)
         this
     }
 
-    public func write(source: Array<Byte>, offset: Int64, byteCount: Int64): Int64 {
-        0
+    public func write(source: Array<Byte>): Buffer {
+        return write(source, 0, source.size)
+    }
+
+    public func write(source: Array<Byte>, offset: Int64, byteCount: Int64): Buffer {
+        Util.checkOffsetAndCount(source.size, offset, byteCount)
+        var offset = offset
+        var limit = offset + byteCount
+        while (offset < limit) {
+            let tail = writableSegment(1)
+            let toCopy = math.min(limit - offset, Segment.SIZE - tail.limit)
+            nio.ArrayCopy(source, offset, tail.data, tail.limit, toCopy)
+            offset += toCopy
+            tail.limit += toCopy
+        }
+        size += byteCount
+        return this
     }
 
     public func writeAll(source: Source): Int64 {
@@ -55,15 +83,76 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
     }
 
     public func write(source: Source, byteCount: Int64): BufferedSink {
-        this
+        this  // TODO 
     }
 
     public func writeUtf8(string: String): BufferedSink {
-        this
+        return writeUtf8(string, 0, string.size)
     }
 
+    @overflowWrapping
     public func writeUtf8(string: String, beginIndex: Int64, endIndex: Int64): BufferedSink {
-        this
+        if (beginIndex < 0) {
+            throw IllegalArgumentException("beginIndex < 0: ${beginIndex}")
+        }
+        if (endIndex < beginIndex) {
+            throw IllegalArgumentException("endIndex < beginIndex: ${endIndex} < ${beginIndex}")
+        }
+        if (endIndex > string.size) {
+            throw IllegalArgumentException("endIndex > string.length: ${endIndex} > ${string.size}")
+        }
+        var i = beginIndex
+        while (i < endIndex) {
+            var c: Char = string.charAt(i)
+            if (UInt32(c) < 0x80) {
+                let tail = writableSegment(1)
+                let data = tail.data
+                var segmentOffset = tail.limit - i
+                var runLimit = math.min(endIndex, Segment.SIZE - segmentOffset)
+                data[segmentOffset + i] = UInt8(UInt32(c))
+                i++
+                while (i < runLimit) {
+                    c = string.charAt(i)
+                    if (UInt32(c) >= 0x80){
+                        break
+                    }
+                    data[segmentOffset + i] = UInt8(UInt32(c))
+                    i++
+                }
+                var runSize = i + segmentOffset - tail.limit
+                tail.limit += runSize
+                size += runSize
+            } else if (UInt32(c) < 0x800) {
+                // Emit a 11-bit character with 2 bytes.
+                writeInt8(Int64(UInt32(c) >>  6)        | 0xc0) // 110xxxxx
+                writeInt8(Int64(UInt32(c)       & 0x3f) | 0x80) // 10xxxxxx
+                i++
+            } else if (UInt32(c) < 0xd800 || UInt32(c) > 0xdfff) {
+                // Emit a 16-bit character with 3 bytes.
+                writeInt8(Int64(UInt32(c) >> 12)        | 0xe0) // 1110xxxx
+                writeInt8(Int64(UInt32(c) >>  6 & 0x3f) | 0x80) // 10xxxxxx
+                writeInt8(Int64(UInt32(c)       & 0x3f) | 0x80) // 10xxxxxx
+                i++
+            } else {
+                let  low: UInt32 = if (i + 1 < endIndex) {
+                    UInt32(string.charAt(i+1))
+                } else {
+                    0
+                }
+                if (UInt32(c) > 0xdbff || low < 0xdc00 || low > 0xdfff) {
+                    writeInt8(Int64(UInt32('?')))
+                    i++
+                    continue
+                }
+                let codePoint = 0x010000 + (Int64((UInt32(c)) & !0xd800) << 10 | Int64(low) & !0xdc00)
+                writeInt8(codePoint >> 18        | 0xf0) // 11110xxx
+                writeInt8(codePoint >> 12 & 0x3f | 0x80) // 10xxxxxx
+                writeInt8(codePoint >>  6 & 0x3f | 0x80) // 10xxyyyy
+                writeInt8(codePoint       & 0x3f | 0x80) // 10yyyyyy
+                i += 2
+            }
+        }
+        return this
     }
 
     @overflowWrapping
@@ -181,19 +270,17 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
     }
 
     public func writeDecimalInt64(value: Int64): BufferedSink {
-        this
+        this  // TODO 
     }
 
     public func writeHexadecimalUInt64(value: Int64): BufferedSink {
-        this
+        this  // TODO 
     }
 
-    public func flush(): Unit {
-        return
-    }
+    public func flush(): Unit {}
 
     public func emit(): BufferedSink {
-        this
+        return this
     }
 
     public func exhausted(): Bool {
@@ -201,11 +288,13 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
     }
 
     public func require(byteCount: Int64): Unit {
-
+        if (size < byteCount) {
+            throw EOFException()
+        }
     }
 
     public func request(byteCount: Int64): Bool {
-        true
+        return this.size >= byteCount
     }
 
     func readByte(): UInt8 {
@@ -356,7 +445,7 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
 
     public func readDecimalInt64(): Int64 {
         if (this.size == 0) {
-            throw IllegalArgumentException(" size == 0")
+            throw IllegalStateException(" size == 0")
         }
         var value = 0
         var seen = 0
@@ -365,13 +454,98 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         var overflowZone = Int64.Min / 10
         var overflowDigit = (Int64.Min % 10) + 1
         // TODO
-        return 0
+        do {
+            let segment = this.head.getOrThrow()
+            let data = segment.data
+            var pos = segment.pos
+            var limit = segment.limit
+            while (pos < limit) {
+                let b = data[pos]
+                if (b >= let_0 && b <= let_9) {
+                    var digit = Int64(let_0 - b)
+                    if (value < overflowZone || value == overflowZone && digit < overflowDigit) {
+                        throw NumberFormatException("Number too large: ")
+                    }
+                    value *= 10
+                    value += digit
+                } else if (b == let__ && seen == 0) {
+                    negative = true
+                    overflowDigit -= 1
+                } else {
+                    if (seen == 0) {
+                        throw NumberFormatException("Expected leading [0-9] or '-' character but was 0x")
+                    }
+                    done = true
+                    break
+                }
+            }
+            if (pos ==limit) {
+                this.head = segment.pop()
+                SegmentPool.recycle(segment)
+            } else {
+                segment.pos = pos
+            }
+        } while (!done && match (this.head) {
+            case None => false
+            case _ => true
+        })
+        this.size -= seen
+        return if (negative) {
+            value
+        } else {
+            -value
+        }
     }
 
     public func readHexadecimalUInt64(): Int64 {
-        0
+        if (this.size == 0) {
+            throw IllegalStateException("size == 0")
+        }
+        var value = 0
+        var seen = 0
+        var done = false
+        do {
+            let segment = this.head.getOrThrow()
+            let data = segment.data
+            var pos = segment.pos
+            var limit = segment.limit
+            while (pos < limit) {
+                var digit = 0
+                var b: UInt8 = data[pos]
+                if (b >= let_0 && b <= let_9) {
+                    digit = Int64(b - let_0)
+                } else if (b >= let_a && b <= let_f) {
+                    digit = Int64(b - let_a + 10)
+                } else if (b >= let_A && b <= let_F) {
+                    digit = Int64(b - let_A + 10)
+                } else {
+                    if (seen == 0) {
+                        throw NumberFormatException ("Expected leading [0-9a-fA-F] character but was 0x" )
+                    }
+                    done = true
+                    break
+                }
+                if ((UInt64(value) & 0xf000000000000000) != 0) {
+                    throw NumberFormatException("Number too large: ") // TODO 
+                }
+                value <<= 4
+                value |= digit
+                pos++
+                seen++
+            }
+            if (pos ==limit) {
+                this.head = segment.pop()
+                SegmentPool.recycle(segment)
+            } else {
+                segment.pos = pos
+            }
+        } while (!done && match (this.head) {
+            case None => false
+            case _ => true
+        })
+        this.size -= seen
+        return value
     }
-
 
     public func readByteString(): ByteString {
         ByteString(readByteArray())
@@ -469,24 +643,136 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         return byteCount
     }
 
-    public func readUtf8(): String {
-        ""
+    public override func readUtf8(): ?String {
+        None
+    }
+    public func readUtf8(byteCount: Int64): String {
+        return readString(byteCount)  // TODO: readString(byteCount, Util.UTF_8)
     }
 
-    public func readUtf8Line(): String {
-        ""
+    public func readString(): String {  // TODO: readString(Charset charset)
+        try {
+            return readString(size)
+        } catch (e: EOFException) {
+            throw e
+        }
     }
 
-    public func readUtf8LineStrict(): String {
-        ""
+    public func readString(byteCount: Int64) : String {  // TODO:  readString(long byteCount, Charset charset) 
+        Util.checkOffsetAndCount(this.size, 0, byteCount)
+        if (byteCount > Int64(Int32.Max)) {
+            throw IllegalArgumentException("byteCount > Integer.MAX_VALUE: ${byteCount}")
+        }
+        if (byteCount == 0) {
+            return ""
+        }
+        let s = this.head.getOrThrow()
+        if (s.pos + byteCount > s.limit) {
+            return String.fromUtf8(readByteArray(byteCount))
+        }
+        let result = String.fromUtf8(s.data, start: s.pos, length: byteCount)
+        s.pos += byteCount
+        this.size -= byteCount
+        if (s.pos == s.limit) {
+            this.head = s.pop()
+            SegmentPool.recycle(s)
+        }
+        return result
     }
 
-    public func readUtf8LineStrict(limit: Int64): String {
-        ""
+
+    public override func readUtf8Line(): ?String {
+        None
+    }
+
+    func readUtf8Line(newLine: Int64): String {
+        if (newLine > 0 && getInt8(newLine -1) == Int8(UInt32('\r'))) {
+            let result = readUtf8(newLine -1)
+            this.skip(2)
+            return result
+        } else {
+            let result = readUtf8(newLine)
+            this.skip(1)
+            return result
+        }
+    }
+
+    public func readUtf8LineStrict(): ?String {
+        return readUtf8LineStrict(Int64.Max)
+    }
+
+    public func readUtf8LineStrict(limit: Int64): ?String {
+        if (limit < 0) {
+            throw IllegalArgumentException("limit < 0: ${limit}")
+        }
+        var scanLength = if (limit == Int64.Max) {
+            Int64.Max
+        } else {
+            limit + 1
+        }
+        var newLine = indexOf(let_LF, 0, scanLength)
+        if (scanLength < size 
+            && getInt8(scanLength - 1) == let_CR
+            && getInt8(scanLength) == let_LF) {
+            return readUtf8Line(scanLength)
+        }
+        let data = Buffer()
+        copyTo(data, 0, math.min(32, size))
+        throw EOFException("\\n not found: limit= ${math.min(size, limit)} content= ${data.readByteString().hex()} …") 
     }
 
     public func readUtf8CodePoint(): Int64 {
-        0
+        if (size == 0) {
+            throw EOFException()
+        }
+        var b0 = UInt8(getInt8(0))
+        var codePoint = 0
+        var byteCount = 0
+        var min = 0
+        if ((b0 & 0x80) == 0) {
+            codePoint = Int64(b0 & 0x7f)
+            byteCount = 1                   // 7 bits (ASCII).
+            min = 0x0
+        } else if ((b0 & 0xe0) == 0xc0) {   // 0x110xxxxx
+            codePoint = Int64(b0 & 0x1f) 
+            byteCount = 2                   // 11 bits (5 + 6).
+            min = 0x80 
+        } else if ((b0 & 0xf0) == 0xe0) {   // 0x1110xxxx
+            codePoint = Int64(b0 & 0x0f) 
+            byteCount = 3                   // 16 bits (4 + 6 + 6).
+            min = 0x800 
+        } else if ((b0 & 0xf8) == 0xf0) {   // 0x11110xxx
+            codePoint = Int64(b0 & 0x07) 
+            byteCount = 4                   // 21 bits (3 + 6 + 6 + 6).
+            min = 0x10000 
+        } else {                            // We expected the first byte of a code point but got something else.
+            skip(1)
+            return REPLACEMENT_CHARACTER 
+        }
+        if (size < byteCount) {
+            throw EOFException("size < ${byteCount}:${size}(to read code point prefixed ${b0}")
+        }
+        for (i in 1..byteCount) {
+            let b = UInt8(getInt8(i))
+            if ((b & 0xc0) == 0x80) {
+                codePoint <<= 6 
+                codePoint |= Int64(b & 0x3f) 
+            } else {
+                skip(1)
+                return REPLACEMENT_CHARACTER
+            }
+        }
+        skip(byteCount) 
+        if (codePoint > 0x10ffff) {
+            return REPLACEMENT_CHARACTER  // Reject code points larger than the Unicode maximum.
+        }
+        if (codePoint >= 0xd800 && codePoint <= 0xdfff) {
+            return REPLACEMENT_CHARACTER  // Reject partial surrogates.
+        }
+        if (codePoint < min) {
+            return REPLACEMENT_CHARACTER  // Reject overlong code points.
+        }
+        return codePoint 
     }
 
     public func indexOf(value: Int8): Int64 {
@@ -539,6 +825,7 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
                 if (data[pos] == b) {
                     return pos - s.getOrThrow().pos + offset
                 }
+                pos++
             }
             offset += (s.getOrThrow().limit - s.getOrThrow().pos)
             fromIndex = offset
@@ -706,16 +993,16 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
     }
 
     public func skip(byteCount: Int64): Unit {
-        var byteCount = byteCount
         let s = this.head.getOrThrow()
+        var byteCount = byteCount
         while (byteCount > 0) {
             let toSkip = min(byteCount, s.limit - s.pos)
             size -= toSkip
+            byteCount -= toSkip
             s.pos += toSkip
             if (s.pos == s.limit) {
-                let toRecycle = this.head.getOrThrow()
-                this.head = toRecycle.pop()
-                SegmentPool.recycle(toRecycle)
+                this.head = s.pop()
+                SegmentPool.recycle(s)
             }
         }
     }
@@ -843,9 +1130,65 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         }
     }
     public operator func == (that: Buffer): Bool {
+    //         var head: ?Segment = None 
+    // var size: Int64 = 0
+        match ((that.head, this.head)) {
+            case (Some(n), Some(m)) => 
+                if (n != m) {
+                    return false
+                }
+            case (None, None) => () 
+            case _ => return false
+        }
+        if (this.size != that.size) {
+            return false
+        }
         return refEq(this, that)
     }
     public operator func != (that: Buffer): Bool {
         return !refEq(this, that)
+    }
+
+    public func getInt8(pos: Int64): Int8 {
+        var pos = pos
+        Util.checkOffsetAndCount(size, pos, 1)
+        if (size - pos > pos) {
+            var s = this.head.getOrThrow()
+            while (true) {
+                let segmentByteCount = s.limit - s.pos
+                if (pos < segmentByteCount) {
+                    return Int8(s.data[s.pos + pos])
+                }
+                pos -= segmentByteCount
+                s = s.next.getOrThrow()
+            }
+        } else {
+            pos -= size
+            var s = this.head.getOrThrow()
+            while (true) {
+                pos += s.limit - s.pos
+                if (pos >= 0) {
+                    return Int8(s.data[s.pos + pos])
+                }
+                s = s.prev.getOrThrow()
+            }
+        }
+        return 1
+    }
+
+    public func toString():String {
+        let sb = StringBuilder()
+        sb.append("[size=${this.size}] ")
+        var temp = this.head
+        while (true) {
+            match (temp) {
+                case None => break
+                case Some(v) =>
+                    sb.append(v.data[v.pos..v.limit])
+                    break
+                    temp = v.next
+            }
+        }
+        return sb.toString()
     }
 }

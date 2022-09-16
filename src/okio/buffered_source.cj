@@ -27,10 +27,10 @@ public interface BufferedSource <: Source {
     func readFully(sink: Array<Byte>): Unit
     func readFully(sink: Buffer, byteCount: Int64): Unit
     func readAll(sink: Sink): Int64
-    func readUtf8(): String
-    func readUtf8Line(): String
-    func readUtf8LineStrict(): String
-    func readUtf8LineStrict(limit: Int64): String
+    func readUtf8(): ?String
+    func readUtf8Line(): ?String
+    func readUtf8LineStrict(): ?String
+    func readUtf8LineStrict(limit: Int64): ?String
     func readUtf8CodePoint(): Int64
     func indexOf(value: Int8): Int64
     func indexOf(value: Int8, fromIndex: Int64): Int64

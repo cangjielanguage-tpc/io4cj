@@ -34,3 +34,19 @@ class InterruptedIOException <: IOException {
         super(string)
     }
 }
+class IllegalStateException <: Exception {
+    public init(){
+        super()
+    }
+    public init(string: String) {
+        super(string)
+    }
+}
+class NumberFormatException <: Exception {
+    public init(){
+        super()
+    }
+    public init(string: String) {
+        super(string)
+    }
+}

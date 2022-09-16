@@ -33,7 +33,6 @@ class PeekSource <: Source {
         if (byteCount == 0) {
             return 0
         }
-            // if (!upstream.request(pos + 1)) return -1L;
         match ((this.expectedSegment, this.buffer.head)) {
             case (None, Some(v)) =>
                 this.expectedSegment = v
