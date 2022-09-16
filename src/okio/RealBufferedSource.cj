@@ -100,6 +100,10 @@ class RealBufferedSource <: BufferedSource {
         return 0
     }
 
+    public func read(sink: ByteBuffer): Int64 {
+        return 0
+    }
+
     public func readFully(sink: Array<Byte>): Unit {
         
     }
@@ -112,7 +116,7 @@ class RealBufferedSource <: BufferedSource {
     //     return 0
     // }
 
-    public func readFully (sink: Array<Byte>, byteCount: Int64): Unit {
+    public func readFully (sink: Buffer, byteCount: Int64): Unit {
         
     }
 
@@ -239,8 +243,8 @@ class RealBufferedSource <: BufferedSource {
         
     }
 
-    public func timeout(): Duration {
-        Duration.second()
+    public func timeout(): Timeout {
+        return Timeout()  // TODO
     }
 
     public func toString (): String {

@@ -5,7 +5,15 @@
   "description": "io library for okhttp ecosystem",
   "version": "1.0.0",
   "requires": {},
-  "package_requires": {},
+  "package_requires": {
+    "charset/charset_charset.encoding": "./ci_lib/charset/charset.encoding.cjo",
+    "charset/charset_charset.korean": "./ci_lib/charset/charset.korean.cjo",
+    "charset/charset_charset.simplechinese": "./ci_lib/charset/charset.simplechinese.cjo",
+    "charset/charset_charset.singlebyte": "./ci_lib/charset/charset.singlebyte.cjo",
+    "charset/charset_charset": "./ci_lib/charset/charset.cjo",
+    "charset/charset_charset.traditionchinese": "./ci_lib/charset/charset.traditionchinese.cjo",
+    "charset/charset_charset.unicode": "./ci_lib/charset/charset.unicode.cjo"
+  },
   "foreign_requires": {},
   "output_type": "dynamic",
   "command_option": ""

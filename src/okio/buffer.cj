@@ -4,10 +4,6 @@ import nio.ArrayCopy
 
 from std import math.*
 
-// public class Buffer {
-
-// }
-
 public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffer>  {
 
     static let DIGITS: Array<Byte> = [0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f]
@@ -44,10 +40,6 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         this
     }
 
-    public func write(byteString: ByteString, offset: Int64, byteCount: Int64): BufferedSink {
-        this
-    }
-
     public func write(source: Array<Byte>, offset: Int64, byteCount: Int64): Int64 {
         0
     }
@@ -74,11 +66,41 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         this
     }
 
-    public func writeUtf8CodePoInt64(codePoInt64: Int64): BufferedSink {
-        this
+    @overflowWrapping
+    public func writeUtf8CodePoint(codePoint: Int64): BufferedSink {
+        if (codePoint < 0x80) {
+            this.writeInt8(codePoint)
+        } else if (codePoint < 0x800) {
+            // Emit a 11-bit code point with 2 bytes.
+            writeInt8(codePoint >>  6        | 0xc0) // 110xxxxx
+            writeInt8(codePoint       & 0x3f | 0x80) // 10xxxxxx
+
+        } else if (codePoint < 0x10000) {
+            if (codePoint >= 0xd800 && codePoint <= 0xdfff) {
+                // Emit a replacement character for a partial surrogate.
+                writeInt8(Int64(UInt32('?')))
+            } else {
+                // Emit a 16-bit code point with 3 bytes.
+                writeInt8(codePoint >> 12        | 0xe0) // 1110xxxx
+                writeInt8(codePoint >>  6 & 0x3f | 0x80) // 10xxxxxx
+                writeInt8(codePoint       & 0x3f | 0x80) // 10xxxxxx
+            }
+
+        } else if (codePoint <= 0x10ffff) {
+            // Emit a 21-bit code point with 4 bytes.
+            writeInt8(codePoint >> 18        | 0xf0) // 11110xxx
+            writeInt8(codePoint >> 12 & 0x3f | 0x80) // 10xxxxxx
+            writeInt8(codePoint >>  6 & 0x3f | 0x80) // 10xxxxxx
+            writeInt8(codePoint       & 0x3f | 0x80) // 10xxxxxx
+
+        } else {
+            throw IllegalArgumentException( "Unexpected code point: ${codePoint}" )
+        }
+        return this
     }
 
-    public func writeInt8(value: Int8): BufferedSink {
+    @overflowWrapping
+    public func writeInt8(value: Int64): BufferedSink {
         let tail = writableSegment(1)
         tail.data[tail.limit] = UInt8(value)
         tail.limit ++
@@ -86,7 +108,8 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         return this
     }
 
-    public func writeInt16(i: Int16): BufferedSink {
+    @overflowWrapping
+    public func writeInt16(i: Int64): BufferedSink {
         let tail = writableSegment(2)
         let data = tail.data
         var limit = tail.limit
@@ -99,11 +122,13 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         return this
     }
 
-    public func writeInt16Le(value: Int16): BufferedSink {
-        return writeInt16(Util.reverseBytesInt16(value))
+    @overflowWrapping
+    public func writeInt16Le(value: Int64): BufferedSink {
+        return writeInt16(Int64(Util.reverseBytesInt16(Int16(value))))
     }
 
-    public func writeInt32(i: Int32): BufferedSink {
+    @overflowWrapping
+    public func writeInt32(i: Int64): BufferedSink {
         let tail = writableSegment(4)
         let data = tail.data
         var limit = tail.limit
@@ -120,10 +145,12 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         return this
     }
 
-    public func writeInt32Le(value: Int32): BufferedSink {
-        return writeInt32(Util.reverseBytesInt32(value))
+    @overflowWrapping
+    public func writeInt32Le(value: Int64): BufferedSink {
+        return writeInt32(Int64(Util.reverseBytesInt32(Int32(value))))
     }
 
+    @overflowWrapping
     public func writeInt64(i: Int64): BufferedSink {
         let tail = writableSegment(8)
         let data = tail.data
@@ -162,7 +189,7 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
     }
 
     public func flush(): Unit {
-
+        return
     }
 
     public func emit(): BufferedSink {
@@ -199,6 +226,18 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
             segment.pos = pos
         }
         return b
+    }
+    
+    public func completeSegmentByteCount(): Int64 {
+        var result = size
+        if (result ==0) {
+            return 0
+        }
+        var tail: Segment = this.head.getOrThrow().prev.getOrThrow()
+        if (tail.limit < Segment.SIZE && tail.owner) {
+            result -= tail.limit - tail.pos
+        }
+        return result
     }
 
     public func readInt8(): Int8 {
@@ -350,7 +389,6 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         }
     }
 
-
     public func readByteArray(byteCount: Int64): Array<Byte> {
         Util.checkOffsetAndCount(size, 0, byteCount) 
         if (byteCount > Int64(Int32.Max)) {
@@ -362,8 +400,22 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
     }
 
     public func read(sink: Array<Byte>): Int64 {
-        0
+        return read(sink, 0, sink.size)
     }
+
+    public func read(sink: ByteBuffer): Int64 {
+        let s = this.head.getOrThrow()
+        let toCopy = min(sink.remaining(), s.limit - s.pos)
+        sink.put(s.data, s.pos, toCopy)
+        s.pos += toCopy
+        size -= toCopy
+        if (s.pos == s.limit) {
+            this.head = s.pop()
+            SegmentPool.recycle(s)
+        }
+        return toCopy
+    }
+
     public func read(sink: Array<Byte>, offset: Int64, byteCount: Int64): Int64 {
          Util.checkOffsetAndCount(sink.size, offset, byteCount)
         match (this.head) {
@@ -379,7 +431,7 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
                 size -= toCopy
                 if (v.pos == v.limit) {
                     this.head = v.pop()
-                    SegmentPool.recycle(v);
+                    SegmentPool.recycle(v)
                 }
                 return toCopy
         }
@@ -401,12 +453,20 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         }
     }
 
-    public func readFully(sink: Array<Byte>, byteCount: Int64): Unit {
-
-    }
+    public func readFully(sink: Buffer, byteCount: Int64): Unit {
+        if (size < byteCount) {
+            sink.write(this, size)
+            throw EOFException()
+        }
+        sink.write(this, byteCount)
+    } 
 
     public func readAll(sink: Sink): Int64 {
-        0
+        let byteCount = size
+        if (byteCount < 0) {
+            sink.write(this, byteCount)
+        }
+        return byteCount
     }
 
     public func readUtf8(): String {
@@ -430,31 +490,179 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
     }
 
     public func indexOf(value: Int8): Int64 {
-        0
+        return indexOf(value, 0, Int64.Max)
     }
 
     public func indexOf(value: Int8, fromIndex: Int64): Int64 {
-        0
+        return indexOf(value, fromIndex, Int64.Max)
     }
 
     public func indexOf(value: Int8, fromIndex: Int64, toIndex: Int64): Int64 {
-        0
+        if (fromIndex < 0 || toIndex < fromIndex) {
+            throw IllegalArgumentException("fromIndex < 0")
+        }
+        var fromIndex = fromIndex
+        var toIndex = toIndex
+        let b = UInt8(value)
+        if (toIndex > size) {
+            toIndex = size
+        }
+        if (fromIndex == toIndex) {
+            return -1
+        }
+        var s: ?Segment = None
+        var offset = -1
+        match (this.head) {
+            case None => return -1
+            case Some(v) => s = this.head
+        }
+        if (size - fromIndex < fromIndex) {
+            offset = size
+            while (offset > fromIndex) {
+                s = s.getOrThrow().prev.getOrThrow()
+                offset -= (s.getOrThrow().limit - s.getOrThrow().pos)
+            }
+        } else  {
+            offset = 0
+            var nextOffset = offset + (s.getOrThrow().limit - s.getOrThrow().pos)
+            while (nextOffset < fromIndex) {
+                s = s.getOrThrow().next.getOrThrow()
+                offset = nextOffset
+                nextOffset = offset + (s.getOrThrow().limit - s.getOrThrow().pos)
+            }
+        }
+        while (offset < toIndex) {
+            let data = s.getOrThrow().data
+            var limit = math.min(s.getOrThrow().limit, s.getOrThrow().pos + toIndex - offset)
+            var pos = s.getOrThrow().pos + fromIndex - offset
+            while(pos < limit) {
+                if (data[pos] == b) {
+                    return pos - s.getOrThrow().pos + offset
+                }
+            }
+            offset += (s.getOrThrow().limit - s.getOrThrow().pos)
+            fromIndex = offset
+            s = s.getOrThrow().next
+        }
+        return -1
     }
 
     public func indexOf(bytes: ByteString): Int64 {
-        0
+        return indexOf(bytes, 0)
     }
 
     public func indexOf(bytes: ByteString, fromIndex: Int64): Int64 {
-        0
+        if (bytes.size == 0) {
+            throw IllegalArgumentException("bytes is empty")
+        }
+        if (fromIndex < 0) {
+            throw IllegalArgumentException("fromIndex < 0")
+        }
+        var fromIndex = fromIndex
+        var s: ?Segment = None
+        var offset = -1
+        match (this.head) {
+            case None => return -1
+            case Some(v) => s = this.head
+        }
+        if (size - fromIndex < fromIndex) {
+            offset = size
+            while (offset > fromIndex) {
+                s = s.getOrThrow().prev.getOrThrow()
+                offset -= (s.getOrThrow().limit - s.getOrThrow().pos)
+            }
+        } else  {
+            offset = 0
+            var nextOffset = offset + (s.getOrThrow().limit - s.getOrThrow().pos)
+            while (nextOffset < fromIndex) {
+                s = s.getOrThrow().next.getOrThrow()
+                offset = nextOffset
+                nextOffset = offset + (s.getOrThrow().limit - s.getOrThrow().pos)
+            }
+        }
+
+        let b0 = bytes.getByte(0)
+        var bytesSize = bytes.size
+        var resultLimit = size - bytesSize + 1
+        while (offset < resultLimit) {
+            let data = s.getOrThrow().data
+            let segmentLimit = math.min(s.getOrThrow().limit, s.getOrThrow().pos + resultLimit - offset)
+            for (pos in s.getOrThrow().pos + fromIndex - offset .. segmentLimit where data[pos] == b0 && this.rangeEquals(s.getOrThrow(), pos + 1, bytes, 1, bytesSize)) {
+                return pos - s.getOrThrow().pos + offset
+            }
+            offset += (s.getOrThrow().limit - s.getOrThrow().pos)
+            fromIndex = offset
+            s = s.getOrThrow().next
+        }
+        return -1
     }
 
     public func indexOfElement(targetBytes: ByteString): Int64 {
-        0
+        return indexOfElement(targetBytes, 0)
     }
 
     public func indexOfElement(targetBytes: ByteString, fromIndex: Int64): Int64 {
-        0
+        if (fromIndex < 0) {
+            throw IllegalArgumentException("fromIndex < 0")
+        }
+        var fromIndex = fromIndex
+        var s: ?Segment = None
+        var offset = -1
+        match (this.head) {
+            case None => return -1
+            case Some(v) => s = this.head
+        }
+        if (size - fromIndex < fromIndex) {
+            offset = size
+            while (offset > fromIndex) {
+                s = s.getOrThrow().prev.getOrThrow()
+                offset -= (s.getOrThrow().limit - s.getOrThrow().pos)
+            }
+        } else  {
+            offset = 0
+            var nextOffset = offset + (s.getOrThrow().limit - s.getOrThrow().pos)
+            while (nextOffset < fromIndex) {
+                s = s.getOrThrow().next.getOrThrow()
+                offset = nextOffset
+                nextOffset = offset + (s.getOrThrow().limit - s.getOrThrow().pos)
+            }
+        }
+
+        if (targetBytes.size == 2) {
+            var b0 = targetBytes.getByte(0)
+            var b1 = targetBytes.getByte(1)
+            while (offset < size) {
+                let data = s.getOrThrow().data
+                let limit = s.getOrThrow().limit
+                for (pos in s.getOrThrow().pos + fromIndex - offset .. limit) {
+                    var b = data[pos]
+                    if (b == b0 || b == b1) {
+                        return pos - s.getOrThrow().pos + offset
+                    }
+                }
+                offset += (s.getOrThrow().limit - s.getOrThrow().pos)
+                fromIndex = offset
+                s = s.getOrThrow().next
+            }
+        } else {
+            let targetByteArray = targetBytes.internalArray()
+            while (offset < size) {
+                let data = s.getOrThrow().data
+                let limit = s.getOrThrow().limit
+                for (pos in s.getOrThrow().pos + fromIndex - offset .. limit) {
+                    var b = data[pos]
+                    for (t in targetByteArray) {
+                        if (b == t) {
+                            return pos - s.getOrThrow().pos + offset
+                        }
+                    }
+                }
+                offset += (s.getOrThrow().limit - s.getOrThrow().pos)
+                fromIndex = offset
+                s = s.getOrThrow().next
+            }
+        }
+        return -1
     }
 
     public func rangeEquals(offset: Int64, bytes: ByteString): Bool {
@@ -465,8 +673,51 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         true
     }
 
-    public func skip(byteCount: Int64): Unit {
+    private func rangeEquals(segment: Segment, segmentPos: Int64, bytes: ByteString, bytesOffset:Int64, bytesLimit: Int64): Bool {
+        var segment = segment
+        var segmentPos = segmentPos
+        var segmentLimit = segment.limit
+        var data = segment.data
+        for (i in bytesOffset..bytesLimit) {
+            if (segmentPos == segmentLimit) {
+                segment = segment.next.getOrThrow()
+                data = segment.data
+                segmentPos = segment.pos
+                segmentLimit = segment.limit
+            }
+            if (data[segmentPos] != bytes.getByte(i)) {
+                return false
+            }
+            segmentPos ++
+        }
+        return true
+    }
 
+    public override func emitCompleteSegments(): BufferedSink {
+        return this
+    }
+
+    public func clear(): Unit {
+        try {
+            this.skip(size)
+        } catch (e: Exception) {
+            throw e
+        }
+    }
+
+    public func skip(byteCount: Int64): Unit {
+        var byteCount = byteCount
+        let s = this.head.getOrThrow()
+        while (byteCount > 0) {
+            let toSkip = min(byteCount, s.limit - s.pos)
+            size -= toSkip
+            s.pos += toSkip
+            if (s.pos == s.limit) {
+                let toRecycle = this.head.getOrThrow()
+                this.head = toRecycle.pop()
+                SegmentPool.recycle(toRecycle)
+            }
+        }
     }
 
     public func peek(): BufferedSource {
@@ -481,8 +732,8 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
 
     }
 
-    public func timeout(): Duration {
-        Duration.second()
+    public override func timeout(): Timeout {
+        return Timeout()  // TODO
     }
     
     public func isClosed(): Bool {
@@ -541,17 +792,6 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         return this
     }
 
-    public func completeSegmentByteCount(): Int64 {
-        var result = size
-        if (result ==0) {
-            return 0
-        }
-        var tail: Segment = this.head.getOrThrow().prev.getOrThrow()
-        if (tail.limit < Segment.SIZE && tail.owner) {
-            result -= tail.limit - tail.pos
-        }
-        return result
-    }
 
     public func write(source: Buffer, byteCount: Int64): Unit {
         if (source == this) {

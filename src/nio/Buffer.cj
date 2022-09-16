@@ -121,7 +121,7 @@ public abstract class Buffer <: Object {
     }
 
     
-    public func remaining() {
+    public func remaining(): Int64 {
         return lim - pos
     }
 

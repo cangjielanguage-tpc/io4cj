@@ -4,10 +4,11 @@ from std import collection.*
 from std import format.*
 from std import sync.*
 from std import io.*
+from std import math.*
 from encoding import hex.*
 from encoding import base64.*
 //from crypto import enc.*
-
+import nio.*
 
 func toByteArray(str: String): Array<Byte> {
     let data: Array<Byte> = Array<Byte> (str.size + 1, {a => 0})
@@ -31,7 +32,7 @@ func compare(aval: Array<Byte>, fromIndex: Int64, bval: Array<Byte>): Bool{
     true
 }
 
-public open class ByteString <: Hashable & ToString {
+public open class ByteString <: Object & Hashable & ToString & Equatable<ByteString> {
     
     protected static var lock: ReentrantMutex = ReentrantMutex()
     
@@ -71,8 +72,11 @@ public open class ByteString <: Hashable & ToString {
     }
 
     // Returns a new byte string containing the {@code UTF-8} bytes of {@code s}. */
-    // public static func encodeUtf8(s: String): ByteString {
-    // }
+    public static func encodeUtf8(s: String): ByteString {
+        let byteString = ByteString(s.toUtf8Array())
+        byteString.utf8 = s
+        return byteString
+    }
 
     /** Constructs a new {@code String} by decoding the bytes as {@code UTF-8}. */
     public func UTF8(): String {
@@ -90,6 +94,10 @@ public open class ByteString <: Hashable & ToString {
     public func base64 (): String {
         return toBase64String(this.data)
     }
+
+    // public String base64Url() {
+    //     return Base64.encodeUrl(data);
+    // }
 
     /**
      * Decodes the Base64-encoded bytes and returns their value as a byte string.
@@ -137,15 +145,23 @@ public open class ByteString <: Hashable & ToString {
         throw IllegalArgumentException("Unexpected hex digit: ${c}")
     }
 
-    public static func read (input: InputStream, byteCount: Int64): ByteString {
-        if (input.length != byteCount) {
-            throw IllegalArgumentException()
+    public static func read(input: InputStream, byteCount: Int64): ByteString {
+        if (byteCount < 0) {
+            throw IllegalArgumentException("byteCount < 0")
         }
         synchronized(lock) {
             let arr = Array<Byte>(byteCount, item: 0)
             input.read(arr)
             return ByteString(arr)
         }
+    }
+
+    public static func read(input: InputStream): ByteString {
+        return read(input, input.length)
+    }
+
+    public static func read(path: String): ByteString {
+        return read(File(path, Read, Open))
     }
 
     public func toAsciiLowercase (): ByteString {
@@ -168,43 +184,154 @@ public open class ByteString <: Hashable & ToString {
         return ByteString(arr)
     }
 
+    public func substring(beginIndex: Int64): ByteString {
+        return substring(beginIndex, data.size)
+    }
+
+    public func substring(beginIndex: Int64, endIndex: Int64): ByteString {
+        if (beginIndex < 0) {
+            throw IllegalArgumentException("beginIndex < 0")
+        }
+        if (endIndex > this.data.size) {
+            throw IllegalArgumentException("endIndex > size(${data.size})")
+        }
+        let subLen = endIndex - beginIndex
+        if (subLen < 0 ) {
+            throw IllegalArgumentException("endIndex < beginIndex")
+        }
+        if (beginIndex == 0 && endIndex == this.data.size) {
+            return this
+        }
+        let copy = Array<Byte>(subLen, item: 0)
+        nio.ArrayCopy(this.data, beginIndex, copy, 0, subLen)
+        return ByteString(copy)
+    }
+
     public func getByte (pos: Int64): Byte {
         return this.data[pos]
     }
 
-    public func size(): Int64 {
-        return this.data.size
+    public prop let size: Int64 {
+        get () {
+            return this.data.size
+        }
     }
 
     public func toByteArray (): Array<Byte> {
         return this.data.clone()
     }
 
+    func internalArray(): Array<Byte> {
+        return this.data
+    }
+
+//   public ByteBuffer asByteBuffer() {
+//     return ByteBuffer.wrap(data).asReadOnlyBuffer();
+//   }
+
+    public func write (outPath: String, mode!: OpenMode = Append): Unit {
+        write(File(outPath, Write, mode))
+    }
+
     public func write (out: OutputStream): Unit {
         out.write(this.data)
     }
 
+    public func write (buffer: Buffer) {
+        buffer.write(this.data, 0, data.size)
+    }
+
+    public func rangeEquals(offset: Int64, other: ByteString, otherOffset: Int64, byteCount: Int64): Bool {
+        return other.rangeEquals(otherOffset, this.data, offset, byteCount)
+    }
+
+    public func rangeEquals(offset: Int64, other: Array<Byte>, otherOffset: Int64, byteCount: Int64): Bool {
+        return offset >= 0 && offset <= data.size - byteCount
+        && otherOffset >= 0 && otherOffset <= other.size - byteCount
+        && Util.arrayRangeEquals(data, offset, other, otherOffset, byteCount)
+    }
+
+    public func startsWith(prefix: ByteString): Bool {
+        return rangeEquals(0, prefix, 0, prefix.size)
+    }
+
+    public func startsWith(prefix: Array<Byte>): Bool {
+        return rangeEquals(0, prefix, 0, prefix.size)
+    }   
+
+    public func endsWith (suffix: ByteString):Bool {
+        return rangeEquals(this.size - suffix.size, suffix, 0, suffix.size)
+    }
+
+    public func endsWith (suffix:Array<Byte>) :Bool {
+        return rangeEquals(this.size - suffix.size, suffix, 0, suffix.size)
+    }
+
+    public func indexOf(other: ByteString): Int64 {
+        return indexOf(other.internalArray(), 0)
+    }
+
+    public func indexOf(other: ByteString, fromIndex: Int64): Int64 {
+        return indexOf(other.internalArray(), fromIndex)
+    }
+
+    public func indexOf(other: Array<Byte>): Int64 {
+        return indexOf(other, 0)
+    }
+
+    public func indexOf(other: Array<Byte>, fromIndex: Int64): Int64 {
+        for (i in max(fromIndex, 0)..data.size-other.size where Util.arrayRangeEquals(this.data, i, other, 0, other.size)) {
+            return i
+        }
+        return -1
+    }
+
+    public func lastIndexOf(other: ByteString) : Int64 {
+        return lastIndexOf(other.internalArray(), this.size)
+    }
+
+    public func lastIndexOf(other: ByteString, fromIndex: Int64): Int64 {
+        return lastIndexOf(other.internalArray(), fromIndex)
+    }
+
+    public func lastIndexOf(other: Array<Byte>): Int64 {
+        return lastIndexOf(other, this.size)
+    }
+
+    public func lastIndexOf(other: Array<Byte>, fromIndex: Int64): Int64 {
+        for (i in min(fromIndex, data.size - other.size)..=0:-1 where Util.arrayRangeEquals(this.data, i, other, 0, other.size)) {
+            return i
+        }
+        return -1
+    }
+
+    public operator func == (that: ByteString): Bool {
+        return refEq(this, that)
+    }
+
+    public operator func != (that: ByteString): Bool {
+        return !refEq(this, that)
+    }
+
     public func equals (o: ByteString): Bool {
-        return true  // TODO
+        return this == o
     }
 
     public func hashCode (): Int64 {
-        return 0   //TODO
+        return Util.hashCode(this.data)
     }
 
     public func toString (): String {
-        return ""  // TODO
+        if ( this.data.size == 0) {
+            return "[size=0]"
+        }
+        let text = UTF8()
+        let safeText = text.replace("\\", "\\\\")
+                            .replace("\n", "\\n")
+                            .replace("\r", "\\r")
+        return "[text=${safeText}]"
     }
 
-//    private func readObject (`in`: ObjectInputStream): Unit {
-//
-//    }
-
-//    private func writeObject (out: ObjectOutputStream): Unit {
-//
-//    }
-
-//    public init() {}
 }
 
 

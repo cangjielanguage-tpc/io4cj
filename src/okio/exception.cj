@@ -26,3 +26,11 @@ class EOFException <: Exception {
         super(string)
     }
 }
+class InterruptedIOException <: IOException {
+    public init(){
+        super()
+    }
+    public init(string: String) {
+        super(string)
+    }
+}
