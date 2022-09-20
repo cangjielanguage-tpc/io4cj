@@ -5,7 +5,7 @@ from std import sync.*
 
 public open class Timeout <: Object {
 
-    private var hasdeadline: ?Bool = None
+    private var hasdeadline: ?Bool = Some(false)
     private var deadlinenanotime: ?Int64 = None
     private var timeoutnanos: ?Int64 = None
     

@@ -54,7 +54,6 @@ public abstract class Buffer <: Object {
         return pos
     }
 
-    
     public open func position(newPosition: Int64): Buffer {
         if (newPosition > lim || newPosition < 0) {
             throw IllegalArgumentException("newPosition")

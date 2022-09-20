@@ -167,36 +167,3 @@ public open class AsyncTimeout <: Timeout & Equatable<AsyncTimeout> {
         return !refEq(this, that)
     }
 }
-
-class AsyncTimeoutSink <: Sink {
-    public func write(source: Buffer, byteCount: Int64): Unit {
-        Util.checkOffsetAndCount(source.size, 0, byteCount)
-        var byteCount = byteCount
-        while (byteCount >0) {
-            var toWrite = 0
-            var s = source.head.getOrThrow()
-            while (toWrite < AsyncTimeout.TIMEOUT_WRITE_SIZE) {
-                toWrite += (s.limit - s.pos)
-                if (toWrite >= byteCount) {
-                    toWrite = byteCount
-                    break
-                }
-                s = s.next.getOrThrow()
-            }
-            var throwOnTimeout = false
-
-        }
-    }
-    public func close(): Unit {
-
-    }
-    public func flush(): Unit {}
-    public func timeout(): Timeout {
-        Timeout()  // TODO
-    }
-
-    public func isClosed(): Bool {
-        false
-    }
-
-}
