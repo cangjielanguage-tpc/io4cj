@@ -5,8 +5,8 @@ from std import io.File
 
 public class Okio {
 
-    public init (){}
-
+    // Do not expose the constructor to call static functions.
+    init (){}
 
     public static func buffer(source: Source): BufferedSource {
         return RealBufferedSource(source)
@@ -21,6 +21,8 @@ public class Okio {
         let sink = sink(SocketBuffer(socket), timeout)
         return timeout.sink(sink)
     }
+
+    // TODO: Later, I need to customize a file object to call parameters. There are many file object parameters in cangjie, which is very troublesome
     public static func sink(file: File): Sink {
         return sink(file, Timeout())
     }
@@ -30,6 +32,7 @@ public class Okio {
         let source = source(SocketBuffer(socket), timeout)
         return timeout.source(source)
     }
+
     public static func source(file: File): Source {
         return source(file, Timeout())
     }
@@ -47,7 +50,7 @@ public class Okio {
                 let tail = sink.writableSegment(1)
                 let maxToCopy = math.min(byteCount, Segment.SIZE - tail.limit)
                 let bytesRead = input.read(tail.data[tail.limit.. tail.limit + maxToCopy])
-                if (bytesRead == -1) {
+                if (bytesRead == 0) {
                     if (tail.pos == tail.limit) {
                         sink.head = tail.pop()
                         SegmentPool.recycle(tail)

@@ -42,12 +42,12 @@ public open class AsyncTimeout <: Timeout & Equatable<AsyncTimeout> {
         }
     }
 
-    public open func newTimeoutException(e: IOException): IOException {
-        return InterruptedIOException("timeout ${e.toString()}")
+    public open func newTimeoutException(e: Exception): Exception {
+        return InterruptedException("timeout ${e.toString()}")
     }
 
-    public open func newTimeoutException(): IOException {
-        return InterruptedIOException("timeout")
+    public open func newTimeoutException(): Exception {
+        return InterruptedException("timeout")
     }
 
     protected open func timedOut(): Unit{
@@ -82,7 +82,7 @@ public open class AsyncTimeout <: Timeout & Equatable<AsyncTimeout> {
             try {
                 sink.flush()
                 throwOnTimeout = true
-            } catch (e: IOException) {
+            } catch (e: Exception) {
                 throw exit(e);
             } finally {
                 exit(throwOnTimeout);
@@ -106,7 +106,7 @@ public open class AsyncTimeout <: Timeout & Equatable<AsyncTimeout> {
                 let result = source.read(sink, byteCount)
                 throwOnTimeout = true
                 return result
-            } catch (e:IOException) {
+            } catch (e:Exception) {
                 throw exit(e)
             } finally {
                 exit(throwOnTimeout)
@@ -121,7 +121,7 @@ public open class AsyncTimeout <: Timeout & Equatable<AsyncTimeout> {
         return source
     }
 
-    func exit(e: IOException): IOException {
+    func exit(e: Exception): Exception {
         if (!exit()) {
             return e
         }

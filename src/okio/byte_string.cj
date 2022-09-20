@@ -34,8 +34,6 @@ func compare(aval: Array<Byte>, fromIndex: Int64, bval: Array<Byte>): Bool{
 
 public open class ByteString <: Object & Hashable & ToString & Equatable<ByteString> {
     
-    protected static var lock: ReentrantMutex = ReentrantMutex()
-    
     protected static let HEX_DIGITS: Array<Char> = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f']
 
     // public static let EMPTY: ByteString = ByteString()
@@ -95,10 +93,6 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
         return toBase64String(this.data)
     }
 
-    // public String base64Url() {
-    //     return Base64.encodeUrl(data);
-    // }
-
     /**
      * Decodes the Base64-encoded bytes and returns their value as a byte string.
      * Returns null if {@code base64} is not a Base64-encoded sequence of bytes.
@@ -149,11 +143,16 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
         if (byteCount < 0) {
             throw IllegalArgumentException("byteCount < 0")
         }
-        synchronized(lock) {
-            let arr = Array<Byte>(byteCount, item: 0)
-            input.read(arr)
-            return ByteString(arr)
+        if (input.length < byteCount) {
+            throw EOFException()
         }
+        let arr = Array<Byte>(byteCount, item: 0)
+        try {
+            input.read(arr)
+        } catch (e: Exception) {
+            throw EOFException(e.toString())
+        }
+        return ByteString(arr)
     }
 
     public static func read(input: InputStream): ByteString {
@@ -224,10 +223,6 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
     func internalArray(): Array<Byte> {
         return this.data
     }
-
-//   public ByteBuffer asByteBuffer() {
-//     return ByteBuffer.wrap(data).asReadOnlyBuffer();
-//   }
 
     public func write (outPath: String, mode!: OpenMode = Append): Unit {
         write(File(outPath, Write, mode))

@@ -83,7 +83,15 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
     }
 
     public func write(source: Source, byteCount: Int64): BufferedSink {
-        this  // TODO 
+        var byteCount = byteCount
+        while (byteCount > 0) {
+            let read = source.read(this, byteCount)
+            if (read == -1) {
+                throw EOFException()
+            }
+            byteCount -= read
+        }
+        return this
     }
 
     public func writeUtf8(string: String): BufferedSink {
@@ -453,7 +461,6 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         var done = false
         var overflowZone = Int64.Min / 10
         var overflowDigit = (Int64.Min % 10) + 1
-        // TODO
         do {
             let segment = this.head.getOrThrow()
             let data = segment.data
@@ -526,7 +533,7 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
                     break
                 }
                 if ((UInt64(value) & 0xf000000000000000) != 0) {
-                    throw NumberFormatException("Number too large: ") // TODO 
+                    throw NumberFormatException("Number too large: ")
                 }
                 value <<= 4
                 value |= digit
@@ -613,7 +620,18 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
 
     // @override Source
     public func read(sink: Buffer, byteCount: Int64): Int64 {
-        0
+        if (byteCount < 0) {
+            throw IllegalArgumentException("byteCount < 0: ${byteCount}")
+        }
+        if (size == 0) {
+            return -1
+        }
+        var byteCount = byteCount
+        if (byteCount > size) {
+            byteCount = size
+        }
+        sink.write(this, byteCount)
+        return byteCount
     }
 
     public func readFully(sink: Array<Byte>): Unit {
@@ -644,8 +662,13 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
     }
 
     public override func readUtf8(): ?String {
-        None
+        try {
+            return readString(size)
+        } catch (e: EOFException) {
+            throw e
+        }
     }
+
     public func readUtf8(byteCount: Int64): String {
         return readString(byteCount)  // TODO: readString(byteCount, Util.UTF_8)
     }
@@ -682,7 +705,13 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
 
 
     public override func readUtf8Line(): ?String {
-        None
+        let newline = indexOf(let_LF)
+        if (newline == -1 && size != 0) {
+            return readUtf8(size)
+        } else if (newline == -1 && size == 0) {
+            return None
+        }
+        return readUtf8Line(newline);
     }
 
     func readUtf8Line(newLine: Int64): String {
@@ -705,12 +734,15 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         if (limit < 0) {
             throw IllegalArgumentException("limit < 0: ${limit}")
         }
-        var scanLength = if (limit == Int64.Max) {
+        let scanLength = if (limit == Int64.Max) {
             Int64.Max
         } else {
             limit + 1
         }
-        var newLine = indexOf(let_LF, 0, scanLength)
+        let newLine = indexOf(let_LF, 0, scanLength)
+        if (newLine != -1) {
+            return readUtf8Line(newLine)
+        }
         if (scanLength < size 
             && getInt8(scanLength - 1) == let_CR
             && getInt8(scanLength) == let_LF) {
@@ -953,11 +985,21 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
     }
 
     public func rangeEquals(offset: Int64, bytes: ByteString): Bool {
-        true
+        return rangeEquals(offset, bytes, 0, bytes.size)
     }
 
     public func rangeEquals(offset: Int64, bytes: ByteString, bytesOffset: Int64, byteCount: Int64): Bool {
-        true
+        if (offset < 0
+            || bytesOffset < 0
+            || byteCount < 0
+            || size - offset < byteCount
+            || bytes.size - bytesOffset < byteCount) {
+            return false
+        }
+        for (i in 0..byteCount where UInt8(getInt8(offset + i)) != bytes.getByte(bytesOffset + i)) {
+            return false
+        }
+        return true
     }
 
     private func rangeEquals(segment: Segment, segmentPos: Int64, bytes: ByteString, bytesOffset:Int64, bytesLimit: Int64): Bool {
@@ -1015,16 +1057,14 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
 //        0
 //    }
 
-    public func close(): Unit {
-
-    }
+    public func close(): Unit {}
 
     public override func timeout(): Timeout {
-        return Timeout()  // TODO
+        return Timeout.NONE
     }
     
     public func isClosed(): Bool {
-        return true
+        throw Exception("isClosed not support.")
     }
 
     @overflowWrapping
@@ -1129,9 +1169,8 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
             byteCount -= movedByteCount
         }
     }
+
     public operator func == (that: Buffer): Bool {
-    //         var head: ?Segment = None 
-    // var size: Int64 = 0
         match ((that.head, this.head)) {
             case (Some(n), Some(m)) => 
                 if (n != m) {
@@ -1145,6 +1184,7 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         }
         return refEq(this, that)
     }
+
     public operator func != (that: Buffer): Bool {
         return !refEq(this, that)
     }
