@@ -6,12 +6,20 @@ from std import sync.*
 
 let reentrantMutex = ReentrantMutex()
 
+let IDLE_TIMEOUT_MILLIS: UInt64 = 60000
+
 public open class AsyncTimeout <: Timeout & Equatable<AsyncTimeout> { 
     static let TIMEOUT_WRITE_SIZE: Int64 = 64 * 1024;
     private var inQueue = false
 
+    private let lock: ReentrantMutex = ReentrantMutex()
+
+    private static let monitor: Monitor = Monitor()
+
     var head: ?AsyncTimeout = None
     var next: ?AsyncTimeout = None
+
+    private var timeoutAt: Int64 = -1
 
     protected var fun: ?()->Unit = None
 
@@ -34,11 +42,56 @@ public open class AsyncTimeout <: Timeout & Equatable<AsyncTimeout> {
             match (this.head) {
                 case None => 
                     this.head = AsyncTimeout()
-                    // TODO : 看门狗 
+                    this.watchdog()
                 case _ => ()
             }
-            let now  =  Time.now().unixNano()
+            let now = Time.now().unixNano()
+            if (timeoutNanos != 0 && hasDeadline) {
+                node.timeoutAt = math.min(timeoutNanos, node.deadlineNanoTime() - now)
+            } else if (timeoutNanos != 0) {
+                node.timeoutAt = now + timeoutNanos
+            } else if (hasDeadline) {
+                node.timeoutAt = node.deadlineNanoTime()
+            } else {
+                throw Exception("Assertion scheduleTimeout")
+            }
+            let remainingNanos = node.remainingNanos(now)
+            var prev = this.head.getOrThrow()
+            while (true) {
+                match (prev.next) {
+                    case Some(v) => 
+                        if (remainingNanos >= v.remainingNanos(now)) {
+                            continue
+                        }
+                    case None => ()
+                } 
+                node.next = prev.next
+                prev.next = node
+                if (this.head == prev) {
+                    monitor.notify()
+                }
+                break
+            }
+        }
+    }
 
+    private func watchdog() {
+        spawn { =>
+            while (true) {
+                var timedout: ?AsyncTimeout = None
+                synchronized (lock) {
+                    timedout = awaitTimeout()
+                    match (timedout) {
+                        case None => continue
+                        case _ => ()
+                    }
+                    if (timedout == this.head) {
+                        this.head = None
+                        return
+                    }
+                }
+                timedout.getOrThrow().timedOut()
+            }
         }
     }
 
@@ -165,5 +218,37 @@ public open class AsyncTimeout <: Timeout & Equatable<AsyncTimeout> {
     }
     public operator func != (that: AsyncTimeout): Bool {
         return !refEq(this, that)
+    }
+
+    public func awaitTimeout(): ?AsyncTimeout {
+        let node = head
+        match (node) {
+            case None => 
+                let startNanos = Time.now().unixNano()
+                monitor.wait(timeout: IDLE_TIMEOUT_MILLIS)
+                if (match (head.getOrThrow().next) {
+                    case None => true
+                    case _ => false
+                } && Time.now().unixNano() - startNanos >= Int64(IDLE_TIMEOUT_MILLIS)) {
+                    return head
+                } else {
+                    return None
+                }
+            case Some(v) =>
+                var waitNanos = node.getOrThrow().remainingNanos(Time.now().unixNano())
+                if (waitNanos > 0) {
+                    let waitMillis = waitNanos / 1000000
+                    waitNanos = waitNanos - (waitMillis * 1000000)
+                    monitor.wait(timeout: UInt64(waitNanos + waitMillis))
+                    return None
+                } 
+                head.getOrThrow().next = node.getOrThrow().next
+                node.getOrThrow().next = None
+                return node
+        }
+    }
+
+    private func remainingNanos(now: Int64): Int64 {
+        return this.timeoutAt - now
     }
 }
