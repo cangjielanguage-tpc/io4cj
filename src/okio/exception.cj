@@ -26,7 +26,7 @@ class EOFException <: Exception {
         super(string)
     }
 }
-class InterruptedIOException <: IOException {
+class InterruptedException <: Exception {
     public init(){
         super()
     }

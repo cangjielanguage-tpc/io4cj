@@ -97,39 +97,77 @@ class RealBufferedSource <: BufferedSource {
     }
 
     public func read(sink: Array<Byte>): Int64 {
-        return 0
-    }
-
-    public func read(sink: ByteBuffer): Int64 {
-        return 0
+        return read(sink, 0, sink.size)
     }
 
     public func readFully(sink: Array<Byte>): Unit {
-        
+        var offset = 0
+        while (offset < sink.size) {
+            let read = read(sink, offset, sink.size - offset)
+            if (read == -1) {
+                throw EOFException()
+            }
+            offset += read
+        }
     }
 
     public func read(sink: Array<Byte>, offset: Int64, byteCount: Int64): Int64 {
+        Util.checkOffsetAndCount(sink.size, offset, byteCount);
+        if (this.buf.size == 0) {
+            let read = source.read(this.buf, Segment.SIZE);
+            if (read == -1) {
+                return -1
+            }
+        }
+        let toRead = math.min(byteCount, this.buf.size);
+        return this.buf.read(sink, offset, toRead);
         return 0
     }
 
-    // public func read (sink: ByteBuffer): Int32 {
-    //     return 0
-    // }
+    public override func read (sink: ByteBuffer): Int64 {
+        if (this.buf.size == 0) {
+            let read = source.read(this.buf, Segment.SIZE);
+            if (read == -1) {
+                return -1
+            }
+        }
+        return this.buf.read(sink)
+    }
 
     public func readFully (sink: Buffer, byteCount: Int64): Unit {
-        
+        try {
+            require(byteCount)
+        } catch ( e: EOFException) {
+            sink.writeAll(this.buf)
+            throw e
+        }
+        this.buf.readFully(sink, byteCount)
     }
 
     public func readAll(sink: Sink): Int64 {
-        return 0
+        var totalBytesWritten = 0
+        while (this.source.read(this.buf, Segment.SIZE) != -1) {
+            let emitByteCount = this.buf.completeSegmentByteCount()
+            if (emitByteCount > 0) {
+                totalBytesWritten += emitByteCount
+                sink.write(this.buf, emitByteCount)
+            }
+        }
+        if (this.buf.size > 0) {
+            totalBytesWritten += this.buf.size
+            sink.write(this.buf, this.buf.size)
+        }
+        return totalBytesWritten
     }
 
     public func readUtf8 (): ?String {
-        return None
+        this.buf.writeAll(source)
+        return this.buf.readUtf8()
     }
 
     public func readUtf8 (byteCount: Int64): String {
-        return ""
+        require(byteCount)
+        return this.buf.readUtf8(byteCount)
     }
 
     // public func readString (charset: Charset): String {
@@ -154,11 +192,32 @@ class RealBufferedSource <: BufferedSource {
     }
 
     public func readUtf8LineStrict (): ?String {
-        return None
+        return readUtf8LineStrict(Int64.Max)
     }
 
     public func readUtf8LineStrict (limit: Int64): ?String {
-        return None
+        if (limit < 0) {
+            throw IllegalArgumentException("limit < 0: ${limit}")
+        }
+        let scanLength = if (limit == Int64.Max) {
+            Int64.Max
+        } else {
+            limit + 1
+        }
+        let newLine = indexOf(let_LF, 0, scanLength)
+        if (newLine != -1) {
+            return this.buf.readUtf8Line(newLine)
+        }
+        if (scanLength < Int64.Max 
+            && request(scanLength)
+            && request(scanLength + 1)
+            && this.buf.getInt8(scanLength - 1) == let_CR
+            && this.buf.getInt8(scanLength) == let_LF) {
+            return this.buf.readUtf8Line(scanLength)
+        }
+        let data = Buffer()
+        this.buf.copyTo(data, 0, math.min(32, this.buf.size))
+        throw EOFException("\\n not found: limit= ${math.min(this.buf.size, limit)} content= ${data.readByteString().hex()} …") 
     }
 
     public func readUtf8CodePoint(): Int64 {
@@ -360,15 +419,20 @@ class RealBufferedSource <: BufferedSource {
     // }
 
     public func isOpen (): Bool {
-        return true
+        return !this.closed
     }
 
     public func close (): Unit {
-        
+        if (closed) {
+            return
+        }
+        this.closed = true;
+        source.close()
+        this.buf.clear()
     }
 
     public func timeout(): Timeout {
-        return Timeout()  // TODO
+        return source.timeout()  // TODO
     }
 
     public func toString (): String {
@@ -376,7 +440,7 @@ class RealBufferedSource <: BufferedSource {
     }
 
     public func isClosed(): Bool {
-        return false
+        return !isOpen()
     }
     
 }

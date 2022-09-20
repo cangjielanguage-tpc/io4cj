@@ -5,10 +5,11 @@ from std import sync.*
 
 public open class Timeout <: Object {
 
+    public static let NONE: Timeout = AnonymousTimeout()
     private var hasdeadline: ?Bool = Some(false)
     private var deadlinenanotime: ?Int64 = None
     private var timeoutnanos: ?Int64 = None
-    
+
     public init() {}
 
     public open func timeout(timeout: Int64): Timeout {
@@ -60,7 +61,7 @@ public open class Timeout <: Object {
 
     public open func throwIfReached() {
         if (this.hasdeadline.getOrThrow() && this.deadlinenanotime.getOrThrow() - Time.now().unixNano() <= 0) {
-            throw InterruptedIOException("deadline reached");
+            throw InterruptedException("deadline reached");
         }
     }
 
@@ -100,10 +101,10 @@ public open class Timeout <: Object {
             }
 
             if (elapsedNanos >= waitNanos) {
-                throw IOException("timeout")
+                throw Exception("timeout")
             }
         } catch (e: Exception) {
-            throw IOException("interrupted")
+            throw Exception("interrupted")
         }
     }
 
@@ -119,5 +120,18 @@ public open class Timeout <: Object {
         }
         return bNanos
     }
+}
+
+class AnonymousTimeout <: Timeout {
+    public init() {
+        super()
+    }
+    public override func timeout(timeout: Int64): Timeout {
+        return this
+    }
+    public override func deadlineNanoTime(deadLineNanoTime: Int64): Timeout {
+        return this
+    }
+    public override func throwIfReached() {}
 }
 
