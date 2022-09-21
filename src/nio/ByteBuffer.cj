@@ -10,25 +10,8 @@ public abstract class ByteBuffer <: Buffer & ToString & Hashable & Equatable<Buf
     
     init (mark: Int64, position: Int64, limit: Int64, capacity: Int64, hbs: Array<Byte>, offset: Int64) {
         super(mark, position, limit, capacity)
-        if (capacity != hbs.size) {
-            throw Exception("capacity != hbs.size")
-        }
         this.hb = hbs
         this.offset = offset
-    }
-
-    init (mark: Int64, position: Int64, limit: Int64, capacity: Int64, offset: Int64) {
-        super(mark, position, limit, capacity)
-        this.hb = Array<Byte>()
-        this.offset = offset
-    }
-
-    func base(): Array<UInt8> {
-        return this.hb
-    }
-
-    public static func allocateDirect(capacity: Int64) /* : Buffer */ {
-        // TODO
     }
 
     public static func allocate(capacity: Int64): ByteBuffer {
@@ -39,26 +22,26 @@ public abstract class ByteBuffer <: Buffer & ToString & Hashable & Equatable<Buf
     }
 
     public static func wrap(array: Array<UInt8>, offset: Int64, length: Int64): ByteBuffer {
-        return HeapByteBuffer(array, offset, length);
+        return HeapByteBuffer(array, offset, length)
     }
 
     public static func wrap(array: Array<UInt8>): ByteBuffer {
         return wrap(array, 0, array.size)
     }
 
-    public func slice(): Buffer;
+    public func slice(): Buffer
     
-    public func duplicate(): Buffer;
+    public func duplicate(): Buffer
     
-    public func asReadOnlyBuffer(): Buffer;
+    public func asReadOnlyBuffer(): Buffer
     
-    public func get(): UInt8;
+    public func get(): UInt8
     
-    public func put(b: UInt8): Buffer;
+    public func put(b: UInt8): Buffer
     
-    public func get(index: Int64): UInt8;
+    public func get(index: Int64): UInt8
     
-    public func put(index: Int64, b: UInt8): Buffer;
+    public func put(index: Int64, b: UInt8): Buffer
 
     public open func get(dst: Array<UInt8>, offset: Int64, length: Int64) : Buffer {
         checkBounds(offset, length, dst.size)
@@ -110,16 +93,15 @@ public abstract class ByteBuffer <: Buffer & ToString & Hashable & Equatable<Buf
     }
 
     public open func hasArray(): Bool {
-        // return  // 感觉不需要实现
         return false
     }
 
     // override
-    // public func array(): Array<UInt8> {
-    //     return this.hb
-    // }
+    public override func array(): Array<UInt8> {
+        return this.hb
+    }
 
-    public open func arrayOffset(): Int64 {
+    public override func arrayOffset(): Int64 {
         return this.offset
     }
 
@@ -129,7 +111,7 @@ public abstract class ByteBuffer <: Buffer & ToString & Hashable & Equatable<Buf
     }
 
     public override func limit(newLimit: Int64): Buffer {
-            super.limit(newLimit)
+        super.limit(newLimit)
         return this
     }
 
@@ -144,33 +126,32 @@ public abstract class ByteBuffer <: Buffer & ToString & Hashable & Equatable<Buf
     }
 
     public override func flip(): Buffer {
-        super.flip();
-        return this;
+        super.flip()
+        return this
     }
 
     public override func rewind(): Buffer {
-        super.rewind();
-        return this;
+        super.rewind()
+        return this
     }
 
-    func compact(): Buffer
+    public func compact(): ByteBuffer
 
     public open func toString(): String {
-
         let sb = StringBuilder()
-        // sb.append(hb.toString()+"   || ")
         sb.append("ByteBuffer: [pos=")
-        sb.append(position());
-        sb.append(" lim=");
-        sb.append(limit());
-        sb.append(" cap=");
-        sb.append(capacity());
-        sb.append("]");
+        sb.append(position())
+        sb.append(" lim=")
+        sb.append(limit())
+        sb.append(" cap=")
+        sb.append(capacity())
+        sb.append("]")
         let src = sb.toString()
         sb.clear()
         return src
     }
 
+    @overflowWrapping
     public open func hashCode(): Int64 {
         var h = 1
         var p = position()
@@ -187,16 +168,6 @@ public abstract class ByteBuffer <: Buffer & ToString & Hashable & Equatable<Buf
         return !refEq(this, that)
     }
 
-    // public func compareTo(): Bool
-    // public final ByteOrder order()
-    // public final ByteBuffer order(ByteOrder bo) {
-    public func alignedSlice(unitSize: Int64): ByteBuffer {
-        var pos = position()
-        var lim = limit()
-        // var pos_mod = 
-        return this
-    }
-
-    func slice(pos: Int64, lim: Int64): Buffer;
+    public func slice(pos: Int64, lim: Int64): ByteBuffer
     
 }

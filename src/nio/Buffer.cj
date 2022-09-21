@@ -3,7 +3,7 @@ package nio
 
 
 
-public abstract class Buffer <: Object {
+public abstract class Buffer <: Object & ToString {
     // Invariants: mar <= pos <= lim <= capa
     // Read / write mark
     var mar: Int64 = -1
@@ -129,31 +129,18 @@ public abstract class Buffer <: Object {
         return pos < lim
     }
 
-    
     public func isReadOnly(): Bool
 
-    
-    // public func hasArray(): Bool
-
-    
-    // public func array():  // object
-
-    
     public func arrayOffset(): Int64
 
-    
     public func isDirect(): Bool
 
-    
     public func slice(): Buffer 
 
-    
     public func duplicate(): Buffer 
 
+    public func array(): Array<UInt8>
 
-    public func base(): Array<UInt8>
-
-    
     func nextGetIndex(): Int64 {
         if (pos >= lim){
             throw Exception()
