@@ -36,7 +36,6 @@ class RealBufferedSource <: BufferedSource {
         }
         let toRead = min(byteCount, this.buf.size)
         return this.buf.read(sink, toRead)
-        return 0
     }
 
     public func exhausted (): Bool {
@@ -121,7 +120,6 @@ class RealBufferedSource <: BufferedSource {
         }
         let toRead = math.min(byteCount, this.buf.size);
         return this.buf.read(sink, offset, toRead);
-        return 0
     }
 
     public override func read (sink: ByteBuffer): Int64 {

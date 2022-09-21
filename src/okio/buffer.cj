@@ -100,15 +100,9 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
 
     @overflowWrapping
     public func writeUtf8(string: String, beginIndex: Int64, endIndex: Int64): BufferedSink {
-        if (beginIndex < 0) {
-            throw IllegalArgumentException("beginIndex < 0: ${beginIndex}")
-        }
-        if (endIndex < beginIndex) {
-            throw IllegalArgumentException("endIndex < beginIndex: ${endIndex} < ${beginIndex}")
-        }
-        if (endIndex > string.size) {
-            throw IllegalArgumentException("endIndex > string.length: ${endIndex} > ${string.size}")
-        }
+        if (beginIndex < 0) { throw IllegalArgumentException("beginIndex < 0: ${beginIndex}") }
+        if (endIndex < beginIndex) { throw IllegalArgumentException("endIndex < beginIndex: ${endIndex} < ${beginIndex}") }
+        if (endIndex > string.size) { throw IllegalArgumentException("endIndex > string.length: ${endIndex} > ${string.size}") }
         var i = beginIndex
         while (i < endIndex) {
             var c: Char = string.charAt(i)
@@ -130,23 +124,17 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
                 var runSize = i + segmentOffset - tail.limit
                 tail.limit += runSize
                 size += runSize
-            } else if (UInt32(c) < 0x800) {
-                // Emit a 11-bit character with 2 bytes.
+            } else if (UInt32(c) < 0x800) {                     // Emit a 11-bit character with 2 bytes.
                 writeInt8(Int64(UInt32(c) >>  6)        | 0xc0) // 110xxxxx
                 writeInt8(Int64(UInt32(c)       & 0x3f) | 0x80) // 10xxxxxx
                 i++
-            } else if (UInt32(c) < 0xd800 || UInt32(c) > 0xdfff) {
-                // Emit a 16-bit character with 3 bytes.
-                writeInt8(Int64(UInt32(c) >> 12)        | 0xe0) // 1110xxxx
-                writeInt8(Int64(UInt32(c) >>  6 & 0x3f) | 0x80) // 10xxxxxx
-                writeInt8(Int64(UInt32(c)       & 0x3f) | 0x80) // 10xxxxxx
+            } else if (UInt32(c) < 0xd800 || UInt32(c) > 0xdfff) {  // Emit a 16-bit character with 3 bytes.
+                writeInt8(Int64(UInt32(c) >> 12)        | 0xe0)     // 1110xxxx
+                writeInt8(Int64(UInt32(c) >>  6 & 0x3f) | 0x80)     // 10xxxxxx
+                writeInt8(Int64(UInt32(c)       & 0x3f) | 0x80)     // 10xxxxxx
                 i++
             } else {
-                let  low: UInt32 = if (i + 1 < endIndex) {
-                    UInt32(string.charAt(i+1))
-                } else {
-                    0
-                }
+                let low: UInt32 = if (i + 1 < endIndex) { UInt32(string.charAt(i+1)) } else { 0 }
                 if (UInt32(c) > 0xdbff || low < 0xdc00 || low > 0xdfff) {
                     writeInt8(Int64(UInt32('?')))
                     i++
@@ -452,9 +440,7 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
     }
 
     public func readDecimalInt64(): Int64 {
-        if (this.size == 0) {
-            throw IllegalStateException(" size == 0")
-        }
+        if (this.size == 0) { throw IllegalStateException(" size == 0") }
         var value = 0
         var seen = 0
         var negative: Bool = false
@@ -497,10 +483,9 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
             case _ => true
         })
         this.size -= seen
-        return if (negative) {
-            value
-        } else {
-            -value
+        return match (negative) {
+            case true => value
+            case false => -value
         }
     }
 
@@ -598,7 +583,7 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
     }
 
     public func read(sink: Array<Byte>, offset: Int64, byteCount: Int64): Int64 {
-         Util.checkOffsetAndCount(sink.size, offset, byteCount)
+        Util.checkOffsetAndCount(sink.size, offset, byteCount)
         match (this.head) {
             case None => return -1
             case Some(v) =>
@@ -754,9 +739,7 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
     }
 
     public func readUtf8CodePoint(): Int64 {
-        if (size == 0) {
-            throw EOFException()
-        }
+        if (size == 0) { throw EOFException() }
         var b0 = UInt8(getInt8(0))
         var codePoint = 0
         var byteCount = 0
@@ -781,9 +764,7 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
             skip(1)
             return REPLACEMENT_CHARACTER 
         }
-        if (size < byteCount) {
-            throw EOFException("size < ${byteCount}:${size}(to read code point prefixed ${b0}")
-        }
+        if (size < byteCount) { throw EOFException("size < ${byteCount}:${size}(to read code point prefixed ${b0}") }
         for (i in 1..byteCount) {
             let b = UInt8(getInt8(i))
             if ((b & 0xc0) == 0x80) {
@@ -795,16 +776,12 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
             }
         }
         skip(byteCount) 
-        if (codePoint > 0x10ffff) {
-            return REPLACEMENT_CHARACTER  // Reject code points larger than the Unicode maximum.
+        return match {
+            case codePoint > 0x10ffff => REPLACEMENT_CHARACTER                          // Reject code points larger than the Unicode maximum.
+            case codePoint >= 0xd800 && codePoint <= 0xdfff => REPLACEMENT_CHARACTER    // Reject partial surrogates.
+            case codePoint < min => REPLACEMENT_CHARACTER                               // Reject overlong code points.
+            case _ => codePoint
         }
-        if (codePoint >= 0xd800 && codePoint <= 0xdfff) {
-            return REPLACEMENT_CHARACTER  // Reject partial surrogates.
-        }
-        if (codePoint < min) {
-            return REPLACEMENT_CHARACTER  // Reject overlong code points.
-        }
-        return codePoint 
     }
 
     public func indexOf(value: Int8): Int64 {
@@ -925,60 +902,47 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
             throw IllegalArgumentException("fromIndex < 0")
         }
         var fromIndex = fromIndex
-        var s: ?Segment = None
-        var offset = -1
-        match (this.head) {
+        var offset = 0
+        var s: Segment = match (this.head) {
             case None => return -1
-            case Some(v) => s = this.head
+            case Some(v) => v
         }
         if (size - fromIndex < fromIndex) {
             offset = size
             while (offset > fromIndex) {
-                s = s.getOrThrow().prev.getOrThrow()
-                offset -= (s.getOrThrow().limit - s.getOrThrow().pos)
+                s = s.prev.getOrThrow()
+                offset -= (s.limit - s.pos)
             }
         } else  {
-            offset = 0
-            var nextOffset = offset + (s.getOrThrow().limit - s.getOrThrow().pos)
+            var nextOffset = offset + (s.limit - s.pos)
             while (nextOffset < fromIndex) {
-                s = s.getOrThrow().next.getOrThrow()
+                s = s.next.getOrThrow()
                 offset = nextOffset
-                nextOffset = offset + (s.getOrThrow().limit - s.getOrThrow().pos)
+                nextOffset = offset + (s.limit - s.pos)
             }
         }
-
         if (targetBytes.size == 2) {
             var b0 = targetBytes.getByte(0)
             var b1 = targetBytes.getByte(1)
             while (offset < size) {
-                let data = s.getOrThrow().data
-                let limit = s.getOrThrow().limit
-                for (pos in s.getOrThrow().pos + fromIndex - offset .. limit) {
-                    var b = data[pos]
-                    if (b == b0 || b == b1) {
-                        return pos - s.getOrThrow().pos + offset
-                    }
+                for (pos in s.pos + fromIndex - offset..s.limit where s.data[pos] == b0 || s.data[pos] == b1) {
+                    return pos - s.pos + offset
                 }
-                offset += (s.getOrThrow().limit - s.getOrThrow().pos)
+                offset += (s.limit - s.pos)
                 fromIndex = offset
-                s = s.getOrThrow().next
+                s = s.next.getOrThrow()
             }
         } else {
             let targetByteArray = targetBytes.internalArray()
             while (offset < size) {
-                let data = s.getOrThrow().data
-                let limit = s.getOrThrow().limit
-                for (pos in s.getOrThrow().pos + fromIndex - offset .. limit) {
-                    var b = data[pos]
-                    for (t in targetByteArray) {
-                        if (b == t) {
-                            return pos - s.getOrThrow().pos + offset
-                        }
+                for (pos in s.pos + fromIndex - offset..s.limit) {
+                    for (t in targetByteArray where s.data[pos] == t) {
+                        return pos - s.pos + offset
                     }
                 }
-                offset += (s.getOrThrow().limit - s.getOrThrow().pos)
+                offset += (s.limit - s.pos)
                 fromIndex = offset
-                s = s.getOrThrow().next
+                s = s.next.getOrThrow()
             }
         }
         return -1
