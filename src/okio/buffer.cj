@@ -21,8 +21,14 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
     static let DIGITS: Array<Byte> = [0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f]
     
     var head: ?Segment = None 
-    var size: Int64 = 0
+    var mysize: Int64 = 0
     
+    public prop let size: Int64 {
+        get() {
+            return mysize
+        }
+    }
+
     public init() {}
 
     func writableSegment (minimumCapacity: Int64): Segment {
@@ -44,20 +50,20 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         }
     }
 
-    public func getBuffer(): Buffer {
+    public override func getBuffer(): Buffer {
         return this
     }
 
-    public func write(byteString: ByteString): BufferedSink {
+    public override func write(byteString: ByteString): BufferedSink {
         byteString.write(this)
         this
     }
 
-    public func write(source: Array<Byte>): Buffer {
+    public override func write(source: Array<Byte>): Buffer {
         return write(source, 0, source.size)
     }
 
-    public func write(source: Array<Byte>, offset: Int64, byteCount: Int64): Buffer {
+    public override func write(source: Array<Byte>, offset: Int64, byteCount: Int64): Buffer {
         Util.checkOffsetAndCount(source.size, offset, byteCount)
         var offset = offset
         var limit = offset + byteCount
@@ -68,11 +74,11 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
             offset += toCopy
             tail.limit += toCopy
         }
-        size += byteCount
+        mysize += byteCount
         return this
     }
 
-    public func writeAll(source: Source): Int64 {
+    public override func writeAll(source: Source): Int64 {
         var totalBytesRead = 0
         var readCount: Int64 = 0
         while (readCount != -1) {
@@ -82,7 +88,7 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         return totalBytesRead
     }
 
-    public func write(source: Source, byteCount: Int64): BufferedSink {
+    public override func write(source: Source, byteCount: Int64): BufferedSink {
         var byteCount = byteCount
         while (byteCount > 0) {
             let read = source.read(this, byteCount)
@@ -94,12 +100,12 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         return this
     }
 
-    public func writeUtf8(string: String): BufferedSink {
+    public override func writeUtf8(string: String): BufferedSink {
         return writeUtf8(string, 0, string.size)
     }
 
     @overflowWrapping
-    public func writeUtf8(string: String, beginIndex: Int64, endIndex: Int64): BufferedSink {
+    public override func writeUtf8(string: String, beginIndex: Int64, endIndex: Int64): BufferedSink {
         if (beginIndex < 0) { throw IllegalArgumentException("beginIndex < 0: ${beginIndex}") }
         if (endIndex < beginIndex) { throw IllegalArgumentException("endIndex < beginIndex: ${endIndex} < ${beginIndex}") }
         if (endIndex > string.size) { throw IllegalArgumentException("endIndex > string.length: ${endIndex} > ${string.size}") }
@@ -123,7 +129,7 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
                 }
                 var runSize = i + segmentOffset - tail.limit
                 tail.limit += runSize
-                size += runSize
+                mysize += runSize
             } else if (UInt32(c) < 0x800) {                     // Emit a 11-bit character with 2 bytes.
                 writeInt8(Int64(UInt32(c) >>  6)        | 0xc0) // 110xxxxx
                 writeInt8(Int64(UInt32(c)       & 0x3f) | 0x80) // 10xxxxxx
@@ -152,7 +158,7 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
     }
 
     @overflowWrapping
-    public func writeUtf8CodePoint(codePoint: Int64): BufferedSink {
+    public override func writeUtf8CodePoint(codePoint: Int64): BufferedSink {
         if (codePoint < 0x80) {
             this.writeInt8(codePoint)
         } else if (codePoint < 0x800) {
@@ -185,16 +191,16 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
     }
 
     @overflowWrapping
-    public func writeInt8(value: Int64): BufferedSink {
+    public override func writeInt8(value: Int64): BufferedSink {
         let tail = writableSegment(1)
         tail.data[tail.limit] = UInt8(value)
         tail.limit ++
-        size += 1
+        mysize += 1
         return this
     }
 
     @overflowWrapping
-    public func writeInt16(i: Int64): BufferedSink {
+    public override func writeInt16(i: Int64): BufferedSink {
         let tail = writableSegment(2)
         let data = tail.data
         var limit = tail.limit
@@ -203,17 +209,17 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         data[limit] = UInt8(UInt16(i) & 0xff)
         limit++
         tail.limit = limit
-        size += 2
+        mysize += 2
         return this
     }
 
     @overflowWrapping
-    public func writeInt16Le(value: Int64): BufferedSink {
+    public override func writeInt16Le(value: Int64): BufferedSink {
         return writeInt16(Int64(Util.reverseBytesInt16(Int16(value))))
     }
 
     @overflowWrapping
-    public func writeInt32(i: Int64): BufferedSink {
+    public override func writeInt32(i: Int64): BufferedSink {
         let tail = writableSegment(4)
         let data = tail.data
         var limit = tail.limit
@@ -226,17 +232,17 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         data[limit] = UInt8(UInt32(i) & 0xff)
         limit++
         tail.limit = limit
-        size += 4
+        mysize += 4
         return this
     }
 
     @overflowWrapping
-    public func writeInt32Le(value: Int64): BufferedSink {
+    public override func writeInt32Le(value: Int64): BufferedSink {
         return writeInt32(Int64(Util.reverseBytesInt32(Int32(value))))
     }
 
     @overflowWrapping
-    public func writeInt64(i: Int64): BufferedSink {
+    public override func writeInt64(i: Int64): BufferedSink {
         let tail = writableSegment(8)
         let data = tail.data
         var limit = tail.limit
@@ -257,39 +263,39 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         data[limit] = UInt8(UInt64(i) & 0xff)
         limit++
         tail.limit = limit
-        size += 8
+        mysize += 8
         return this
     }
 
-    public func writeInt64Le(value: Int64): BufferedSink {
+    public override func writeInt64Le(value: Int64): BufferedSink {
         return writeInt64(Util.reverseBytesInt64(value))
     }
 
-    public func writeDecimalInt64(value: Int64): BufferedSink {
+    public override func writeDecimalInt64(value: Int64): BufferedSink {
         this  // TODO 
     }
 
-    public func writeHexadecimalUInt64(value: Int64): BufferedSink {
+    public override func writeHexadecimalUInt64(value: Int64): BufferedSink {
         this  // TODO 
     }
 
-    public func flush(): Unit {}
+    public override func flush(): Unit {}
 
-    public func emit(): BufferedSink {
+    public override func emit(): BufferedSink {
         return this
     }
 
-    public func exhausted(): Bool {
+    public override func exhausted(): Bool {
         return size == 0
     }
 
-    public func require(byteCount: Int64): Unit {
+    public override func require(byteCount: Int64): Unit {
         if (size < byteCount) {
             throw EOFException()
         }
     }
 
-    public func request(byteCount: Int64): Bool {
+    public override func request(byteCount: Int64): Bool {
         return this.size >= byteCount
     }
 
@@ -303,7 +309,7 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         let data = segment.data
         var b = data[pos]
         pos++
-        size -= 1
+        mysize -= 1
         if (pos == limit) {
             this.head = segment.pop()
             SegmentPool.recycle(segment)
@@ -325,11 +331,11 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         return result
     }
 
-    public func readInt8(): Int8 {
+    public override func readInt8(): Int8 {
         return Int8(readByte())
     }
 
-    public func readInt16(): Int16 {
+    public override func readInt16(): Int16 {
         if (this.size < 2) {
             throw IllegalArgumentException(" size < 2: ${size}")
         }
@@ -345,7 +351,7 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         pos ++
         s = s | UInt16(data[pos] & 0xff)
         pos ++
-        size -= 2
+        mysize -= 2
         if (pos == limit ) {
             this.head = segment.pop()
             SegmentPool.recycle(segment)
@@ -355,11 +361,11 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         return Int16(s)
     }
 
-    public func readInt16Le(): Int16 {
+    public override func readInt16Le(): Int16 {
         return Util.reverseBytesInt16(readInt16())
     }
 
-    public func readInt32(): Int32 {
+    public override func readInt32(): Int32 {
         if (this.size < 4) {
             throw IllegalArgumentException(" size < 4: ${size}")
         }
@@ -382,7 +388,7 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         pos ++
         s = s | UInt32(data[pos] & 0xff)
         pos ++
-        size -= 4
+        mysize -= 4
         if (pos == limit ) {
             this.head = segment.pop()
             SegmentPool.recycle(segment)
@@ -392,11 +398,11 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         return Int32(s)
     }
 
-    public func readInt32Le(): Int32 {
+    public override func readInt32Le(): Int32 {
         return Util.reverseBytesInt32(readInt32())
     }
 
-    public func readInt64(): Int64 {
+    public override func readInt64(): Int64 {
         if (this.size < 8) {
             throw IllegalArgumentException(" size < 8: ${size}")
         }
@@ -425,7 +431,7 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         pos ++
         s = s | UInt64(data[pos] & 0xff)
         pos ++
-        size -= 8
+        mysize -= 8
         if (pos == limit) {
             this.head = segment.pop()
             SegmentPool.recycle(segment)
@@ -435,11 +441,11 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         return Int64(s)
     }
 
-    public func readInt64Le(): Int64 {
+    public override func readInt64Le(): Int64 {
         return Util.reverseBytesInt64(readInt64())
     }
 
-    public func readDecimalInt64(): Int64 {
+    public override func readDecimalInt64(): Int64 {
         if (this.size == 0) { throw IllegalStateException(" size == 0") }
         var value = 0
         var seen = 0
@@ -482,14 +488,14 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
             case None => false
             case _ => true
         })
-        this.size -= seen
+        this.mysize -= seen
         return match (negative) {
             case true => value
             case false => -value
         }
     }
 
-    public func readHexadecimalUInt64(): Int64 {
+    public override func readHexadecimalUInt64(): Int64 {
         if (this.size == 0) {
             throw IllegalStateException("size == 0")
         }
@@ -535,19 +541,19 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
             case None => false
             case _ => true
         })
-        this.size -= seen
+        this.mysize -= seen
         return value
     }
 
-    public func readByteString(): ByteString {
+    public override func readByteString(): ByteString {
         ByteString(readByteArray())
     }
 
-    public func readByteString(byteCount: Int64): ByteString {
+    public override func readByteString(byteCount: Int64): ByteString {
         ByteString(readByteArray(byteCount))
     }
 
-    public func readByteArray(): Array<Byte> {
+    public override func readByteArray(): Array<Byte> {
         try {
             return readByteArray(this.size)
         } catch (e: AssertionException) {
@@ -555,7 +561,7 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         }
     }
 
-    public func readByteArray(byteCount: Int64): Array<Byte> {
+    public override func readByteArray(byteCount: Int64): Array<Byte> {
         Util.checkOffsetAndCount(size, 0, byteCount) 
         if (byteCount > Int64(Int32.Max)) {
             throw IllegalArgumentException()
@@ -565,16 +571,16 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         return result
     }
 
-    public func read(sink: Array<Byte>): Int64 {
+    public override func read(sink: Array<Byte>): Int64 {
         return read(sink, 0, sink.size)
     }
 
-    public func read(sink: ByteBuffer): Int64 {
+    public override func read(sink: ByteBuffer): Int64 {
         let s = this.head.getOrThrow()
         let toCopy = min(sink.remaining(), s.limit - s.pos)
         sink.put(s.data, s.pos, toCopy)
         s.pos += toCopy
-        size -= toCopy
+        mysize -= toCopy
         if (s.pos == s.limit) {
             this.head = s.pop()
             SegmentPool.recycle(s)
@@ -582,7 +588,7 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         return toCopy
     }
 
-    public func read(sink: Array<Byte>, offset: Int64, byteCount: Int64): Int64 {
+    public override func read(sink: Array<Byte>, offset: Int64, byteCount: Int64): Int64 {
         Util.checkOffsetAndCount(sink.size, offset, byteCount)
         match (this.head) {
             case None => return -1
@@ -594,7 +600,7 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
                 }
                 nio.ArrayCopy(v.data, v.pos, sink, offset, toCopy)
                 v.pos += toCopy
-                size -= toCopy
+                mysize -= toCopy
                 if (v.pos == v.limit) {
                     this.head = v.pop()
                     SegmentPool.recycle(v)
@@ -604,7 +610,7 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
     }
 
     // @override Source
-    public func read(sink: Buffer, byteCount: Int64): Int64 {
+    public override func read(sink: Buffer, byteCount: Int64): Int64 {
         if (byteCount < 0) {
             throw IllegalArgumentException("byteCount < 0: ${byteCount}")
         }
@@ -619,7 +625,7 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         return byteCount
     }
 
-    public func readFully(sink: Array<Byte>): Unit {
+    public override func readFully(sink: Array<Byte>): Unit {
         var offset = 0
         while (offset < sink.size) {
             let read = read(sink, offset, sink.size - offset)
@@ -630,7 +636,7 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         }
     }
 
-    public func readFully(sink: Buffer, byteCount: Int64): Unit {
+    public override func readFully(sink: Buffer, byteCount: Int64): Unit {
         if (size < byteCount) {
             sink.write(this, size)
             throw EOFException()
@@ -638,7 +644,7 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         sink.write(this, byteCount)
     } 
 
-    public func readAll(sink: Sink): Int64 {
+    public override func readAll(sink: Sink): Int64 {
         let byteCount = size
         if (byteCount < 0) {
             sink.write(this, byteCount)
@@ -654,11 +660,11 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         }
     }
 
-    public func readUtf8(byteCount: Int64): String {
+    public override func readUtf8(byteCount: Int64): ?String {
         return readString(byteCount)  // TODO: readString(byteCount, Util.UTF_8)
     }
 
-    public func readString(): String {  // TODO: readString(Charset charset)
+    public override func readString(): ?String {  // TODO: readString(Charset charset)
         try {
             return readString(size)
         } catch (e: EOFException) {
@@ -680,7 +686,7 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         }
         let result = String.fromUtf8(s.data, start: s.pos, length: byteCount)
         s.pos += byteCount
-        this.size -= byteCount
+        this.mysize -= byteCount
         if (s.pos == s.limit) {
             this.head = s.pop()
             SegmentPool.recycle(s)
@@ -699,7 +705,7 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         return readUtf8Line(newline);
     }
 
-    func readUtf8Line(newLine: Int64): String {
+    func readUtf8Line(newLine: Int64): ?String {
         if (newLine > 0 && getInt8(newLine -1) == Int8(UInt32('\r'))) {
             let result = readUtf8(newLine -1)
             this.skip(2)
@@ -1003,7 +1009,7 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         var byteCount = byteCount
         while (byteCount > 0) {
             let toSkip = min(byteCount, s.limit - s.pos)
-            size -= toSkip
+            this.mysize -= toSkip
             byteCount -= toSkip
             s.pos += toSkip
             if (s.pos == s.limit) {
@@ -1056,7 +1062,7 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         if (byteCount == 0 ) {
             return this
         }
-        out.size += byteCount
+        out.mysize += byteCount
         var s = this.head.getOrThrow()
         while (offset >= s.limit - s.pos) {
             offset -= (s.limit - s.pos)
@@ -1107,8 +1113,8 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
                         }
                         if (v.owner && byteCount + v.limit - temp <= Segment.SIZE) {
                             source.head.getOrThrow().writeTo(v, byteCount)
-                            source.size -= byteCount
-                            size += byteCount
+                            source.mysize -= byteCount
+                            mysize += byteCount
                             return
                         } else {
                             source.head = source.head.getOrThrow().split(byteCount)
@@ -1128,8 +1134,8 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
                     let tail = v.prev.getOrThrow().push(segmentToMove)
                     tail.compact()
             }   
-            source.size -= movedByteCount
-            size += movedByteCount
+            source.mysize -= movedByteCount
+            mysize += movedByteCount
             byteCount -= movedByteCount
         }
     }
@@ -1180,7 +1186,7 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         return 1
     }
 
-    public func toString():String {
+    public override func toString():String {
         let sb = StringBuilder()
         sb.append("[size=${this.size}] ")
         var temp = this.head
@@ -1194,5 +1200,9 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
             }
         }
         return sb.toString()
+    }
+
+    public override func buffer(): Buffer {
+        return this
     }
 }

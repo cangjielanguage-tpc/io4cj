@@ -22,12 +22,24 @@ public class Okio {
         return timeout.sink(sink)
     }
 
+    public static func sink(socket: TlsSocket): Sink {
+        let timeout = timeout(socket)
+        let sink = sink(SocketBuffer(socket), timeout)
+        return timeout.sink(sink)
+    }
+
     // TODO: Later, I need to customize a file object to call parameters. There are many file object parameters in cangjie, which is very troublesome
     public static func sink(file: File): Sink {
         return sink(file, Timeout())
     }
 
     public static func source(socket: Socket): Source {
+        let timeout = timeout(socket)
+        let source = source(SocketBuffer(socket), timeout)
+        return timeout.source(source)
+    }
+
+    public static func source(socket: TlsSocket): Source {
         let timeout = timeout(socket)
         let source = source(SocketBuffer(socket), timeout)
         return timeout.source(source)
@@ -58,7 +70,7 @@ public class Okio {
                     return -1
                 }
                 tail.limit += bytesRead
-                sink.size += bytesRead
+                sink.mysize += bytesRead
                 return bytesRead
             } catch (e: Exception) {
                 throw e
@@ -73,7 +85,7 @@ public class Okio {
         return source
     }
 
-    public static func sink (out: OutputStream, timeout: Timeout) : Sink {
+    private static func sink (out: OutputStream, timeout: Timeout) : Sink {
         func subWrite(source: Buffer, byteCount: Int64): Unit {
             Util.checkOffsetAndCount(source.size, 0, byteCount)
             var byteCount = byteCount
@@ -81,10 +93,10 @@ public class Okio {
                 timeout.throwIfReached()
                 var head = source.head.getOrThrow()
                 var toCopy = math.min(byteCount, head.limit - head.pos)
-                out.write(head.data[head.pos..head.pos+toCopy]) // TODO 
+                out.write(head.data[head.pos..head.pos+toCopy])
                 head.pos += toCopy
                 byteCount -= toCopy
-                source.size -= toCopy
+                source.mysize -= toCopy
                 if (head.pos == head.limit) {
                     source.head = head.pop()
                     SegmentPool.recycle(head)
@@ -104,14 +116,12 @@ public class Okio {
         return sink
     }
 
-    public static func timeout(socket: Socket): AsyncTimeout {
+    private static func timeout(socket: Socket): AsyncTimeout {
         func subtimeout (): Unit {
             try {
                 socket.close()
             } catch (e: Exception) {
-                println("123")  // TODO 
-            } catch (e: Error) {
-                println("45")  // TODO 
+                e.printStackTrace()
             } 
         }
         let ast = AsyncTimeout()
@@ -119,14 +129,12 @@ public class Okio {
         return ast
     }
 
-    public static func timeout(socket: TlsSocket): AsyncTimeout {
+    private static func timeout(socket: TlsSocket): AsyncTimeout {
         func subtimeout (): Unit {
             try {
                 socket.close()
             } catch (e: Exception) {
-                println("123")  // TODO 
-            } catch (e: Error) {
-                println("45")  // TODO 
+                e.printStackTrace()
             } 
         }
         let ast = AsyncTimeout()

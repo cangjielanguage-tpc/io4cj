@@ -10,28 +10,6 @@ from encoding import base64.*
 //from crypto import enc.*
 import nio.*
 
-func toByteArray(str: String): Array<Byte> {
-    let data: Array<Byte> = Array<Byte> (str.size + 1, {a => 0})
-    for(i in 0..str.size) {
-        data[i] = UInt8(UInt32(str[i]))
-    }
-    data
-}
-
-func compare(aval: Array<Byte>, fromIndex: Int64, bval: Array<Byte>): Bool{
-    let asize: Int64 = aval.size
-    let bsize: Int64 = bval.size
-    if(asize - fromIndex < bsize) {
-        return false
-    }
-    for(i in 0..asize) {
-        if(aval[i + fromIndex] != bval[i]) {
-            return false
-        }
-    }
-    true
-}
-
 public open class ByteString <: Object & Hashable & ToString & Equatable<ByteString> {
     
     protected static let HEX_DIGITS: Array<Char> = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f']

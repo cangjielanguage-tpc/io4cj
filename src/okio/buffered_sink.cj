@@ -3,8 +3,11 @@ package okio
 // from std import io.*
 from std import time.*
 
-public interface BufferedSink <: Sink {
+public interface BufferedSink <: Sink & ToString {
+    func buffer(): Buffer
     func write(byteString: ByteString): BufferedSink
+    func write(source: Array<Byte>): BufferedSink
+    func write(source: Array<Byte>, offset: Int64, byteCount: Int64): BufferedSink
     // func write(source: Buffer): BufferedSink
     func write(source: Source, byteCount: Int64): BufferedSink
     // func write(source: Buffer, byteCount: Int64): Unit
