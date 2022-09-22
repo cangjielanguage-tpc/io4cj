@@ -16,7 +16,7 @@ let let_LF: Int8 = Int8(UInt32('\n'))
 let let_CR: Int8 = Int8(UInt32('\r'))
 let REPLACEMENT_CHARACTER: Int64 = Int64(UInt32('\u{fffd}'))
 
-public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffer> & ToString {
+public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffer> & ToString & Hashable {
 
     static let DIGITS: Array<Byte> = [0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f]
     
@@ -672,13 +672,13 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         }
     }
 
-    public func readString(byteCount: Int64) : String {  // TODO:  readString(long byteCount, Charset charset) 
+    public override func readString(byteCount: Int64) : ?String {  // TODO:  readString(long byteCount, Charset charset) 
         Util.checkOffsetAndCount(this.size, 0, byteCount)
         if (byteCount > Int64(Int32.Max)) {
             throw IllegalArgumentException("byteCount > Integer.MAX_VALUE: ${byteCount}")
         }
         if (byteCount == 0) {
-            return ""
+            return None
         }
         let s = this.head.getOrThrow()
         if (s.pos + byteCount > s.limit) {
@@ -717,11 +717,11 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         }
     }
 
-    public func readUtf8LineStrict(): ?String {
+    public override func readUtf8LineStrict(): ?String {
         return readUtf8LineStrict(Int64.Max)
     }
 
-    public func readUtf8LineStrict(limit: Int64): ?String {
+    public override func readUtf8LineStrict(limit: Int64): ?String {
         if (limit < 0) {
             throw IllegalArgumentException("limit < 0: ${limit}")
         }
@@ -744,7 +744,7 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         throw EOFException("\\n not found: limit= ${math.min(size, limit)} content= ${data.readByteString().hex()} …") 
     }
 
-    public func readUtf8CodePoint(): Int64 {
+    public override func readUtf8CodePoint(): Int64 {
         if (size == 0) { throw EOFException() }
         var b0 = UInt8(getInt8(0))
         var codePoint = 0
@@ -790,15 +790,15 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         }
     }
 
-    public func indexOf(value: Int8): Int64 {
+    public override func indexOf(value: Int8): Int64 {
         return indexOf(value, 0, Int64.Max)
     }
 
-    public func indexOf(value: Int8, fromIndex: Int64): Int64 {
+    public override func indexOf(value: Int8, fromIndex: Int64): Int64 {
         return indexOf(value, fromIndex, Int64.Max)
     }
 
-    public func indexOf(value: Int8, fromIndex: Int64, toIndex: Int64): Int64 {
+    public override func indexOf(value: Int8, fromIndex: Int64, toIndex: Int64): Int64 {
         if (fromIndex < 0 || toIndex < fromIndex) {
             throw IllegalArgumentException("fromIndex < 0")
         }
@@ -849,11 +849,11 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         return -1
     }
 
-    public func indexOf(bytes: ByteString): Int64 {
+    public override func indexOf(bytes: ByteString): Int64 {
         return indexOf(bytes, 0)
     }
 
-    public func indexOf(bytes: ByteString, fromIndex: Int64): Int64 {
+    public override func indexOf(bytes: ByteString, fromIndex: Int64): Int64 {
         if (bytes.size == 0) {
             throw IllegalArgumentException("bytes is empty")
         }
@@ -899,11 +899,11 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         return -1
     }
 
-    public func indexOfElement(targetBytes: ByteString): Int64 {
+    public override func indexOfElement(targetBytes: ByteString): Int64 {
         return indexOfElement(targetBytes, 0)
     }
 
-    public func indexOfElement(targetBytes: ByteString, fromIndex: Int64): Int64 {
+    public override func indexOfElement(targetBytes: ByteString, fromIndex: Int64): Int64 {
         if (fromIndex < 0) {
             throw IllegalArgumentException("fromIndex < 0")
         }
@@ -954,11 +954,11 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         return -1
     }
 
-    public func rangeEquals(offset: Int64, bytes: ByteString): Bool {
+    public override func rangeEquals(offset: Int64, bytes: ByteString): Bool {
         return rangeEquals(offset, bytes, 0, bytes.size)
     }
 
-    public func rangeEquals(offset: Int64, bytes: ByteString, bytesOffset: Int64, byteCount: Int64): Bool {
+    public override func rangeEquals(offset: Int64, bytes: ByteString, bytesOffset: Int64, byteCount: Int64): Bool {
         if (offset < 0
             || bytesOffset < 0
             || byteCount < 0
@@ -1004,7 +1004,7 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         }
     }
 
-    public func skip(byteCount: Int64): Unit {
+    public override func skip(byteCount: Int64): Unit {
         let s = this.head.getOrThrow()
         var byteCount = byteCount
         while (byteCount > 0) {
@@ -1019,26 +1019,22 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         }
     }
 
-    public func peek(): BufferedSource {
+    public override func peek(): BufferedSource {
         return Okio.buffer(PeekSource(this))
     }
 
-//    public func seek(l: Int64, pos: SeekOrigin): Int64 {
-//        0
-//    }
-
-    public func close(): Unit {}
+    public override func close(): Unit {}
 
     public override func timeout(): Timeout {
         return Timeout.NONE
     }
     
-    public func isClosed(): Bool {
+    public override func isClosed(): Bool {
         throw Exception("isClosed not support.")
     }
 
     @overflowWrapping
-    public func hashCode(): Int64 {
+    public override func hashCode(): Int64 {
         match (this.head) {
             case None => 
                 return 0
@@ -1090,7 +1086,7 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
     }
 
 
-    public func write(source: Buffer, byteCount: Int64): Unit {
+    public override func write(source: Buffer, byteCount: Int64): Unit {
         if (source == this) {
             throw IllegalArgumentException("source == this")
         }

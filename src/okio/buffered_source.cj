@@ -30,6 +30,7 @@ public interface BufferedSource <: Source & ToString {
     func readUtf8(): ?String
     func readUtf8(byteCount: Int64): ?String
     func readString(): ?String
+    func readString(byteCount: Int64): ?String
     func readUtf8Line(): ?String
     func readUtf8LineStrict(): ?String
     func readUtf8LineStrict(limit: Int64): ?String
