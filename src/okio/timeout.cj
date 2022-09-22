@@ -6,9 +6,9 @@ from std import sync.*
 public open class Timeout <: Object {
 
     public static let NONE: Timeout = AnonymousTimeout()
-    private var hasdeadline: ?Bool = Some(false)
-    private var deadlinenanotime: ?Int64 = None
-    private var timeoutnanos: ?Int64 = None
+    private var hasdeadline: Bool = false
+    private var deadlinenanotime: Int64 = 0
+    private var timeoutnanos: Int64 = 0
 
     public init() {}
 
@@ -21,18 +21,18 @@ public open class Timeout <: Object {
     }
 
     public open func timeoutNanos(): Int64 {
-        return timeoutnanos.getOrThrow()
+        return timeoutnanos
     }
 
     public open func hasDeadline(): Bool {
-        return hasdeadline.getOrThrow()
+        return hasdeadline
     }
 
     public open func deadlineNanoTime(): Int64 {
-        if (!hasdeadline.getOrThrow()) {
+        if (!hasdeadline) {
             throw IllegalArgumentException("No deadline")
         }
-        return deadlinenanotime.getOrThrow()
+        return deadlinenanotime
     }
 
     public open func deadlineNanoTime(deadlineNanoTime: Int64): Timeout {
@@ -60,7 +60,7 @@ public open class Timeout <: Object {
     }
 
     public open func throwIfReached() {
-        if (this.hasdeadline.getOrThrow() && this.deadlinenanotime.getOrThrow() - Time.now().unixNano() <= 0) {
+        if (this.hasdeadline && this.deadlinenanotime - Time.now().unixNano() <= 0) {
             throw InterruptedException("deadline reached");
         }
     }

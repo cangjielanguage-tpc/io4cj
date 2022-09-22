@@ -3,7 +3,7 @@ package okio
 from std import io.*
 from std import time.*
 
-public interface BufferedSource <: Source {
+public interface BufferedSource <: Source & ToString {
     func getBuffer(): Buffer
     func exhausted(): Bool
     func require(byteCount: Int64): Unit
@@ -28,6 +28,8 @@ public interface BufferedSource <: Source {
     func readFully(sink: Buffer, byteCount: Int64): Unit
     func readAll(sink: Sink): Int64
     func readUtf8(): ?String
+    func readUtf8(byteCount: Int64): ?String
+    func readString(): ?String
     func readUtf8Line(): ?String
     func readUtf8LineStrict(): ?String
     func readUtf8LineStrict(limit: Int64): ?String

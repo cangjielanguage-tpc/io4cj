@@ -17,11 +17,11 @@ class RealBufferedSource <: BufferedSource {
         return this.buf
     }
 
-    public func getBuffer (): Buffer {
+    public override func getBuffer (): Buffer {
         return this.buf
     }
 
-    public func read (sink: Buffer, byteCount: Int64): Int64 {
+    public override func read (sink: Buffer, byteCount: Int64): Int64 {
         if (byteCount <0) {
             throw IllegalArgumentException("byteCount <0: ${byteCount}")
         }
@@ -38,20 +38,20 @@ class RealBufferedSource <: BufferedSource {
         return this.buf.read(sink, toRead)
     }
 
-    public func exhausted (): Bool {
+    public override func exhausted (): Bool {
         if (closed) {
             throw IllegalArgumentException("closed")
         }
         return this.buf.exhausted() && this.source.read(this.buf, Segment.SIZE) == -1
     }
 
-    public func require(byteCount: Int64): Unit {
+    public override func require(byteCount: Int64): Unit {
         if (!request(byteCount)) {
             throw EOFException()
         }
     }
 
-    public func request (byteCount: Int64): Bool {
+    public override func request (byteCount: Int64): Bool {
         if (byteCount <0) {
             throw IllegalArgumentException("byteCount <0: ${byteCount}")
         }
@@ -66,17 +66,17 @@ class RealBufferedSource <: BufferedSource {
         return true
     }
 
-    public func readInt8(): Int8 {
+    public override func readInt8(): Int8 {
         this.require(1)
         return buf.readInt8()
     }
 
-    public func readByteString (): ByteString {
+    public override func readByteString (): ByteString {
         buf.writeAll(source)
         return buf.readByteString()
     }
 
-    public func readByteString (byteCount: Int64): ByteString {
+    public override func readByteString (byteCount: Int64): ByteString {
         require(byteCount)
         return buf.readByteString()
     }
@@ -85,21 +85,21 @@ class RealBufferedSource <: BufferedSource {
     //     return 0
     // }
 
-    public func readByteArray (): Array<Byte> {
+    public override func readByteArray (): Array<Byte> {
         buf.writeAll(source)
         return buf.readByteArray()
     }
 
-    public func readByteArray (byteCount: Int64): Array<Byte> {
+    public override func readByteArray (byteCount: Int64): Array<Byte> {
         require(byteCount)
         return buf.readByteArray(byteCount)
     }
 
-    public func read(sink: Array<Byte>): Int64 {
+    public override func read(sink: Array<Byte>): Int64 {
         return read(sink, 0, sink.size)
     }
 
-    public func readFully(sink: Array<Byte>): Unit {
+    public override func readFully(sink: Array<Byte>): Unit {
         var offset = 0
         while (offset < sink.size) {
             let read = read(sink, offset, sink.size - offset)
@@ -110,7 +110,7 @@ class RealBufferedSource <: BufferedSource {
         }
     }
 
-    public func read(sink: Array<Byte>, offset: Int64, byteCount: Int64): Int64 {
+    public override func read(sink: Array<Byte>, offset: Int64, byteCount: Int64): Int64 {
         Util.checkOffsetAndCount(sink.size, offset, byteCount);
         if (this.buf.size == 0) {
             let read = source.read(this.buf, Segment.SIZE);
@@ -132,7 +132,7 @@ class RealBufferedSource <: BufferedSource {
         return this.buf.read(sink)
     }
 
-    public func readFully (sink: Buffer, byteCount: Int64): Unit {
+    public override func readFully (sink: Buffer, byteCount: Int64): Unit {
         try {
             require(byteCount)
         } catch ( e: EOFException) {
@@ -142,7 +142,7 @@ class RealBufferedSource <: BufferedSource {
         this.buf.readFully(sink, byteCount)
     }
 
-    public func readAll(sink: Sink): Int64 {
+    public override func readAll(sink: Sink): Int64 {
         var totalBytesWritten = 0
         while (this.source.read(this.buf, Segment.SIZE) != -1) {
             let emitByteCount = this.buf.completeSegmentByteCount()
@@ -158,26 +158,27 @@ class RealBufferedSource <: BufferedSource {
         return totalBytesWritten
     }
 
-    public func readUtf8 (): ?String {
+    public override func readUtf8 (): ?String {
         this.buf.writeAll(source)
         return this.buf.readUtf8()
     }
 
-    public func readUtf8 (byteCount: Int64): String {
+    public override func readUtf8 (byteCount: Int64): ?String {
         require(byteCount)
         return this.buf.readUtf8(byteCount)
     }
 
-    // public func readString (charset: Charset): String {
-    //     return ""
-    // }
+    public override func readString (): ?String {
+        this.buf.writeAll(source)
+        return this.buf.readString()
+    }
 
     // public func readString (byteCount: Int64, charset: Charset): String {
     //     return ""
     // }
 
     @overflowWrapping
-    public func readUtf8Line (): ?String {
+    public override func readUtf8Line (): ?String {
         let newline = indexOf(Int8(UInt32('\n')))
         if (newline == -1) {
             return if (this.buf.size != 0 ) {
@@ -189,11 +190,11 @@ class RealBufferedSource <: BufferedSource {
         return this.buf.readUtf8Line(newline)
     }
 
-    public func readUtf8LineStrict (): ?String {
+    public override func readUtf8LineStrict (): ?String {
         return readUtf8LineStrict(Int64.Max)
     }
 
-    public func readUtf8LineStrict (limit: Int64): ?String {
+    public override func readUtf8LineStrict (limit: Int64): ?String {
         if (limit < 0) {
             throw IllegalArgumentException("limit < 0: ${limit}")
         }
@@ -218,7 +219,7 @@ class RealBufferedSource <: BufferedSource {
         throw EOFException("\\n not found: limit= ${math.min(this.buf.size, limit)} content= ${data.readByteString().hex()} …") 
     }
 
-    public func readUtf8CodePoint(): Int64 {
+    public override func readUtf8CodePoint(): Int64 {
         require(1)
         let b0: Int8 = this.buf.getInt8(0)
         if ((UInt8(b0) & 0xe0) == 0xc0) {
@@ -307,15 +308,15 @@ class RealBufferedSource <: BufferedSource {
         }
     }
 
-    public func indexOf (b: Int8): Int64 {
+    public override func indexOf (b: Int8): Int64 {
         return indexOf(b, 0, Int64.Max)
     }
 
-    public func indexOf (b: Int8, fromIndex: Int64): Int64 {
+    public override func indexOf (b: Int8, fromIndex: Int64): Int64 {
         return indexOf(b, fromIndex, Int64.Max)
     }
 
-    public func indexOf (b: Int8, fromIndex: Int64, toIndex: Int64): Int64 {
+    public override func indexOf (b: Int8, fromIndex: Int64, toIndex: Int64): Int64 {
         var fromIndex = fromIndex
         if (closed) {
             throw IllegalStateException("closed")
@@ -337,11 +338,11 @@ class RealBufferedSource <: BufferedSource {
         return -1
     }
 
-    public func indexOf (bytes: ByteString): Int64 {
+    public override func indexOf (bytes: ByteString): Int64 {
         return indexOf(bytes, 0)
     }
 
-    public func indexOf (bytes: ByteString, fromIndex: Int64): Int64 {
+    public override func indexOf (bytes: ByteString, fromIndex: Int64): Int64 {
         var fromIndex = fromIndex
         if (closed) {
             throw IllegalStateException("closed")
@@ -361,11 +362,11 @@ class RealBufferedSource <: BufferedSource {
         return -1
     }
 
-    public func indexOfElement (targetBytes: ByteString): Int64 {
+    public override func indexOfElement (targetBytes: ByteString): Int64 {
         return indexOfElement(targetBytes, 0)
     }
 
-    public func indexOfElement (targetBytes: ByteString, fromIndex: Int64): Int64 {
+    public override func indexOfElement (targetBytes: ByteString, fromIndex: Int64): Int64 {
         var fromIndex = fromIndex
         if (closed) {
             throw IllegalStateException("closed")
@@ -385,11 +386,11 @@ class RealBufferedSource <: BufferedSource {
         return 0
     }
 
-    public func rangeEquals(offset: Int64, bytes: ByteString): Bool {
+    public override func rangeEquals(offset: Int64, bytes: ByteString): Bool {
         return rangeEquals(offset, bytes, 0, bytes.size)
     }
     
-    public func rangeEquals(offset: Int64, bytes: ByteString, bytesOffset: Int64, byteCount: Int64): Bool {
+    public override func rangeEquals(offset: Int64, bytes: ByteString, bytesOffset: Int64, byteCount: Int64): Bool {
         if (closed) {
             throw IllegalStateException("closed")
         }
@@ -408,7 +409,7 @@ class RealBufferedSource <: BufferedSource {
         return true
     }
 
-    public func peek (): BufferedSource {
+    public override func peek (): BufferedSource {
         return Okio.buffer(PeekSource(this))
     }
 
@@ -420,7 +421,7 @@ class RealBufferedSource <: BufferedSource {
         return !this.closed
     }
 
-    public func close (): Unit {
+    public override func close (): Unit {
         if (closed) {
             return
         }
@@ -429,15 +430,15 @@ class RealBufferedSource <: BufferedSource {
         this.buf.clear()
     }
 
-    public func timeout(): Timeout {
-        return source.timeout()  // TODO
+    public override func timeout(): Timeout {
+        return source.timeout()
     }
 
-    public func toString (): String {
-        return "buffer(source)"
+    public override func toString (): String {
+        return "RealBufferedSource: ${this.buf.toString()}"
     }
 
-    public func isClosed(): Bool {
+    public override func isClosed(): Bool {
         return !isOpen()
     }
     

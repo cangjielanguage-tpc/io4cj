@@ -14,7 +14,7 @@ class RealBufferedSink <: BufferedSink {
         this.sink = sink
     }
 
-    public func buffer (): Buffer {
+    public override func buffer (): Buffer {
         return this.buf
     }
 
@@ -23,6 +23,22 @@ class RealBufferedSink <: BufferedSink {
             throw IllegalArgumentException("closed.")
         }
         this.buf.write(byteString)
+        return emitCompleteSegments()
+    }
+
+    public override func write(source: Array<Byte>): BufferedSink {
+        if (closed) {
+            throw IllegalStateException("closed")
+        }
+        this.buf.write(source)
+        return emitCompleteSegments()
+    }
+
+    public override func write(source: Array<Byte>, offset: Int64, byteCount: Int64): BufferedSink {
+        if (closed) {
+            throw IllegalStateException("closed")
+        }
+        this.buf.write(source, offset, byteCount)
         return emitCompleteSegments()
     }
 
@@ -120,6 +136,9 @@ class RealBufferedSink <: BufferedSink {
     }
 
     public override func emit(): BufferedSink {
+        if (closed) {
+            throw IllegalStateException("closed")
+        }
         let byteCount = this.buf.size
         if (byteCount > 0) {
             this.sink.write(this.buf, byteCount)
@@ -134,7 +153,7 @@ class RealBufferedSink <: BufferedSink {
         var thrown: ?Exception = None
         try {
             if (this.buf.size >0) {
-                this.write(this.buf, this.buf.size)
+                this.sink.write(this.buf, this.buf.size)
             }
         } catch (e:Exception) {
             thrown = e
@@ -159,7 +178,7 @@ class RealBufferedSink <: BufferedSink {
     }
 
     public override func write(source: Buffer, byteCount: Int64): Unit {
-        this.sink.write(source, byteCount)
+        this.buf.write(source, byteCount)
         emitCompleteSegments()
     }
 
@@ -176,7 +195,9 @@ class RealBufferedSink <: BufferedSink {
         return this
     }
 
-    
+    public override func toString (): String {
+        return "RealBufferedSink: ${this.buf.toString()}"
+    }
 }
 
 
