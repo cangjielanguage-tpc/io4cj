@@ -1,13 +1,13 @@
 package nio
 
 public func ArrayCopy(src: Array<Byte>, srcPos: Int64, dest: Array<Byte>, destPos: Int64, length: Int64) {
-    let diff = destPos - destPos
+    let diff = srcPos - destPos
     for (i in srcPos..srcPos + length) {
         dest[i - diff] = src[i]
     }
 }
 
-public open class HeapByteBuffer <: ByteBuffer {
+public open class HeapByteBuffer <: ByteBuffer & ToString {
 
     init (cap: Int64, lim: Int64) {
         super (-1, 0, lim, cap, Array<Byte>(cap, item: 0), 0)
@@ -21,20 +21,20 @@ public open class HeapByteBuffer <: ByteBuffer {
         super(mark, pos, lim, cap, buf, off)
     }
 
-    public func slice(): ByteBuffer {
+    public override func slice(): ByteBuffer {
         return HeapByteBuffer(this.hb, -1, 0, this.remaining(), this.remaining(), this.position() + offset)
     }
 
-    func slice (pos: Int64, lim: Int64): ByteBuffer {
+    public override func slice (pos: Int64, lim: Int64): ByteBuffer {
         let rem = lim - pos
         return HeapByteBuffer(hb, -1, 0, rem, rem, pos + offset)
     }
 
-    public func duplicate(): ByteBuffer {
+    public override func duplicate(): ByteBuffer {
         return HeapByteBuffer(hb, this.markValue(), this.position(), this.limit(), this.capacity(), offset)
     }
 
-    public func asReadOnlyBuffer():ByteBuffer {
+    public override func asReadOnlyBuffer():ByteBuffer {
         return HeapByteBuffer(hb, this.markValue(), this.position(), this.limit(), this.capacity(), offset)
     }
 
@@ -42,15 +42,11 @@ public open class HeapByteBuffer <: ByteBuffer {
         return i + offset
     }
 
-    public func byteOffset(i: Int64): Int64 {
-        return i
-    }
-
-    public func get(): Byte {
+    public override func get(): Byte {
         return hb[ix(nextGetIndex())]
     }
 
-    public func get(i:Int64) : Byte {
+    public override func get(i:Int64) : Byte {
         return hb[ix(checkIndex(i))]
     }
 
@@ -64,20 +60,20 @@ public open class HeapByteBuffer <: ByteBuffer {
         return this
     }
 
-    public func isDirect(): Bool {
+    public override func isDirect(): Bool {
         return false
     }
 
-    public func isReadOnly() : Bool {
+    public override func isReadOnly() : Bool {
         return false
     }
 
-    public func put(x: Byte): ByteBuffer {
+    public override func put(x: Byte): ByteBuffer {
         hb[ix(nextGetIndex())] = x
         return this
     }
 
-    public func put(i: Int64, x: Byte): ByteBuffer {
+    public override func put(i: Int64, x: Byte): ByteBuffer {
         hb[ix(checkIndex(i))] = x
         return this
     }
@@ -117,21 +113,12 @@ public open class HeapByteBuffer <: ByteBuffer {
         return this
     }
 
-    public open func compact(): ByteBuffer {
+    public override func compact(): ByteBuffer {
         ArrayCopy(hb, ix(position()), hb, ix(0), remaining())
         position(remaining())
         limit(capacity())
         discardMark()
         return this
     }
-
-    func myGet(i : Int64): Byte {
-        return hb[i]
-    }
-
-    func myPut(i: Int64, b: Byte) {
-        hb[i] = b
-    }
-
 }
 
