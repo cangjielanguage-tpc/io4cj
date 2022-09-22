@@ -12,7 +12,7 @@
 
 ## <img alt="" src="./doc/assets/readme-icon-introduction.png" style="display: inline-block;" width=3%/>介绍
 
-Okio是OkHttp的低层IO库，Okio是对仓颉io库的补充，使访问、存储和处理数据变得更加容易。核心概念是source和sink，分别类似于仓颉的ReadStream和WriteStream。
+Okio是OkHttp的低层IO库，Okio是对仓颉io库的补充，使访问、存储和处理数据变得更加容易。核心概念是source和sink，分别类似于仓颉的InputStream和OutputStream。
 
 参考项目：[https://square.github.io/okio/](https://link.segmentfault.com/?enc=2VN47riy2Ak%2Fwy47iNAgWQ%3D%3D.%2BGZbqetBcijDGsPLatrZBzGOj7YkIAubAWAzDAettzY%3D) 。
 
@@ -47,7 +47,9 @@ Okio是OkHttp的低层IO库，Okio是对仓颉io库的补充，使访问、存�
 <p align="center">
 <img src="./doc/assets/framework.png" width="100%" >
 </p>
-
+<p align="center">
+<img src="./doc/assets/okio_framework.jpg" width="100%" >
+</p>
 
 
 ### 源码目录
@@ -61,7 +63,8 @@ Okio是OkHttp的低层IO库，Okio是对仓颉io库的补充，使访问、存�
 │   ├── proposal.md
 │   └── xxx_lib.md 
 ├── src
-│   └── Template.cj
+│   ├── nio
+│   └── okio
 └── test   
     ├── HLT
     ├── LLT
@@ -74,79 +77,80 @@ Okio是OkHttp的低层IO库，Okio是对仓颉io库的补充，使访问、存�
 
 ### 接口说明
 
-主要是核心类和成员函数说明
-
-#### class xxx
-
-##### func yyy
-
-成员函数功能描述
-
-```cangjie
-func yyy(): Unit
-```
-
-##### func zzz
-
-成员函数功能描述
-
-```cangjie
-func zzz(): Unit
-```
-
-#### class xxx
-
-##### func yyy
-
-成员函数功能描述
-
-```cangjie
-func yyy(): Unit
-```
-
-##### func zzz
-
-成员函数功能描述
-
-```cangjie
-func zzz(): Unit
-```
-
-#### func xxxx
-
-Top level函数功能描述
-
-```cangjie
-func xxxx(): Unit
-```
+主要是核心类和成员函数说明，详情见 [API](./doc/api.md)
 
 ## <img alt="" src="./doc/assets/readme-icon-compile.png" style="display: inline-block;" width=3%/>编译执行
 
 ### 编译
 
-编译描述和具体shell命令
+设置好cjc和cpm的编译环境
 
 ```shell
-cpm update
+cd okio
 cpm build
 ```
-
-### xx示例
-
-示例描述
-
+#### 测试demo脚本
+```shell
+#!/bin/bash
+okio_home=`pwd`
+okio_home_lib=${okio_home}/build/okio
+export LD_LIBRARY_PATH=$okio_home_lib:$LD_LIBRARY_PATH
+cjc --import-path $okio_home_lib/.. -L $okio_home_lib -l okio_nio -l okio_okio $1 -o a.out -g
+time ./a.out
+```
+#### 文件读写示例
 ```cangjie
-import xxx.*
+from std import io.*
+from std import time.*
+from okio import okio.*
+main() {
+    var file = File("demo.txt", Write, ForceCreate)
+    Okio.buffer(Okio.sink(file))
+        .writeUtf8("abcdefghijklmn \n")
+        .writeUtf8("中国 \n")
+        .writeUtf8("1234")
+        .close();
 
+    file = File("demo.txt", Read, Open)
+    let bufferedSource = Okio.buffer(Okio.source(file));
+    println(bufferedSource.readUtf8Line())
+    println(bufferedSource.readUtf8Line())
+    println(bufferedSource.readUtf8Line())
+}
 ```
 
-执行结果如下：
+##### 执行结果如下：
 
 ```shell
-xxx
+abcdefghijklmn 
+中国 
+1234
 ```
 
+#### 文件拷贝示例
 
+```cangjie
+from std import io.*
+from std import time.*
+from okio import okio.*
+main() {
+    let a = Time.now().unixNano() / 1000000  // 计算开始时间
+    let file = File("apache-tomcat-8.5.81.rar", Read, Open)
+    let bs = ByteString.read(file, file.length)
+    var file2 = File("apache-tomcat-8.5.81-2.rar", Write, ForceCreate)
+    bs.write(file2)
+    let b = Time.now().unixNano() / 1000000  // 计算结束时间
+    println(b)
+    println(a)
+    println(b-a)
+}
+```
+#### 执行结果如下: 
+```shell
+1663827401063
+1663827401032
+31
+```
 
 ## <img alt="" src="./doc/assets/readme-icon-contribute.png" style="display: inline-block;" width=3%/>参与贡献
 

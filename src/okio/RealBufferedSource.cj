@@ -173,9 +173,10 @@ class RealBufferedSource <: BufferedSource {
         return this.buf.readString()
     }
 
-    // public func readString (byteCount: Int64, charset: Charset): String {
-    //     return ""
-    // }
+    public override func readString(byteCount: Int64): ?String {
+        require(byteCount)
+        return this.buf.readString(byteCount)
+    }
 
     @overflowWrapping
     public override func readUtf8Line (): ?String {
