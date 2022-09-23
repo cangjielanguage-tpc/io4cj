@@ -103,20 +103,6 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
         return ByteString(fromHexString(hex).getOrThrow().clone())
     }
 
-    private static func decodeHexDigit (c: Char): UInt32 {
-        let uc = UInt32(c)
-        if (uc >= UInt32('0') && uc <= UInt32('9')) {
-            return uc - UInt32('0')
-        }
-        if (uc >= UInt32('a') && uc <= UInt32('f')) {
-            return uc - UInt32('a') + 10
-        }
-        if (uc >= UInt32('A') && uc <= UInt32('F')) {
-            return uc - UInt32('A') + 10
-        }
-        throw IllegalArgumentException("Unexpected hex digit: ${c}")
-    }
-
     public static func read(input: InputStream, byteCount: Int64): ByteString {
         if (byteCount < 0) {
             throw IllegalArgumentException("byteCount < 0")
