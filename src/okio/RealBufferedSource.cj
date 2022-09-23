@@ -13,10 +13,6 @@ class RealBufferedSource <: BufferedSource {
         this.source = source
     }
 
-    public func buffer (): Buffer {
-        return this.buf
-    }
-
     public override func getBuffer (): Buffer {
         return this.buf
     }
@@ -353,7 +349,6 @@ class RealBufferedSource <: BufferedSource {
             if (result != -1) {
                 return result
             }
-
             let lastBufferSize = this.buf.size
             if (source.read(this.buf, Segment.SIZE) == -1) {
                 return -1
