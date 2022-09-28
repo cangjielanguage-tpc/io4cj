@@ -1131,7 +1131,7 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
                     tail.compact()
             }   
             source.mysize -= movedByteCount
-            mysize += movedByteCount
+            this.mysize += movedByteCount
             byteCount -= movedByteCount
         }
     }
