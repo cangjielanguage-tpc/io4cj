@@ -71,7 +71,7 @@ public class Segment <: Object & Equatable<Segment> {
             prefix = sharedCopy()
         } else {
             prefix = SegmentPool.take()
-            data.copyTo(prefix.data, 0, byteCount, SIZE - byteCount)
+            data.copyTo(prefix.data, 0, 0, byteCount)
         }
         prefix.limit = prefix.pos + byteCount
         pos += byteCount
