@@ -2,51 +2,51 @@
 
 package okio
 
-class AssertionException <: Exception {
+public class AssertionException <: Exception {
     public init(){
-        super()
+        this("")
     }
     public init(string: String) {
-        super(string)
+        super("AssertionException: \n${string}")
     }
 }
-class ArrayIndexOutOfBoundsException <: IndexOutOfBoundsException {
+public class ArrayIndexOutOfBoundsException <: Exception {
     public init(){
-        super()
+        this("")
     }
     public init(string: String) {
-        super(string)
+        super("ArrayIndexOutOfBoundsException: \n${string}")
     }
 }
-class EOFException <: Exception {
+public class EOFException <: Exception {
     public init(){
-        super()
+        this("")
     }
     public init(string: String) {
-        super(string)
+        super("EOFException: \n${string}")
     }
 }
-class InterruptedException <: Exception {
+public class InterruptedException <: Exception {
     public init(){
-        super()
+        this("")
     }
     public init(string: String) {
-        super(string)
+        super("InterruptedException: \n${string}")
     }
 }
-class IllegalStateException <: Exception {
+public class IllegalStateException <: Exception {
     public init(){
-        super()
+        this("")
     }
     public init(string: String) {
-        super(string)
+        super("IllegalStateException: \n${string}")
     }
 }
-class NumberFormatException <: Exception {
+public class NumberFormatException <: Exception {
     public init(){
-        super()
+        this("")
     }
     public init(string: String) {
-        super(string)
+        super("NumberFormatException: \n${string}")
     }
 }

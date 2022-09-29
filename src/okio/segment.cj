@@ -13,7 +13,11 @@ public class Segment <: Object & Equatable<Segment> {
     var prev: ?Segment = Option.None
 
     public init() {
-        this(Array<UInt8>(SIZE, item: 0), 0, 0, false, true)
+        this.data = Array<UInt8>(SIZE, item: 0)
+        this.pos = 0
+        this.limit = 0
+        this.shared = false
+        this.owner = true
     }
 
     public init(data: Array<UInt8>, pos: Int64, limit: Int64, shared: Bool, owner: Bool) {
@@ -26,12 +30,7 @@ public class Segment <: Object & Equatable<Segment> {
 
     func sharedCopy(): Segment {
         shared = true
-        return Segment(data, 0, 0, true, false)
-    }
-
-    func unsharedCopy(): Segment {
-        shared = true
-        return Segment(data.clone(), 0, 0, true, false)
+        return Segment(this.data, this.pos, this.limit, true, false)
     }
 
     public func push(segment: Segment): Segment {

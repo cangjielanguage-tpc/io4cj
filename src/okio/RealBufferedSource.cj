@@ -204,16 +204,12 @@ class RealBufferedSource <: BufferedSource {
         if (newLine != -1) {
             return this.buf.readUtf8Line(newLine)
         }
-        if (scanLength < Int64.Max 
-            && request(scanLength)
-            && request(scanLength + 1)
-            && this.buf.getInt8(scanLength - 1) == let_CR
-            && this.buf.getInt8(scanLength) == let_LF) {
+        if (scanLength < Int64.Max && request(scanLength) && request(scanLength + 1) && this.buf.getInt8(scanLength - 1) == let_CR && this.buf.getInt8(scanLength) == let_LF) {
             return this.buf.readUtf8Line(scanLength)
         }
         let data = Buffer()
         this.buf.copyTo(data, 0, math.min(32, this.buf.size))
-        throw EOFException("\\n not found: limit= ${math.min(this.buf.size, limit)} content= ${data.readByteString().hex()} …") 
+        throw EOFException("\\n not found: limit= ${math.min(this.buf.size, limit)} content= ${data.readByteString().hex()} …")
     }
 
     public override func readUtf8CodePoint(): Int64 {
@@ -259,7 +255,7 @@ class RealBufferedSource <: BufferedSource {
         return this.buf.readInt64Le()
     }
 
-    public override func readDecimalInt64(): Int64 { 
+    public override func readDecimalInt64(): Int64 {
         require(1)
         var pos = 0
         while (request(pos + 1)) {
@@ -409,10 +405,6 @@ class RealBufferedSource <: BufferedSource {
         return Okio.buffer(PeekSource(this))
     }
 
-    // public func inputStream (): InputStream {
-    //     return InputStream()
-    // }
-
     public func isOpen (): Bool {
         return !this.closed
     }
@@ -437,5 +429,4 @@ class RealBufferedSource <: BufferedSource {
     public override func isClosed(): Bool {
         return !isOpen()
     }
-    
 }
