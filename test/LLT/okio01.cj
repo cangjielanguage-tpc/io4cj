@@ -31,21 +31,14 @@ main () {
         .writeUtf8(c)
         .close()
     file = File(path, Read, Open)
+    file = File(path, Read, Open)
     let bufferedSource = Okio.buffer(Okio.source(file))
-    var ess: String = ""
-    try {
-        let str4 = bufferedSource.close()
-    } catch(e: Exception) {
-        ess = e.toString()
-    }
+    
     bufferedSource.close()
     bufferedSource.timeout()
     bufferedSource.isClosed()
     str1.timeout()
     let str5 = str1.isClosed()
-    if (ess != "NoneValueException") {
-        return 1
-    }
     if (str5) {
         return 2
     }

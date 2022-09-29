@@ -120,7 +120,7 @@ class RealBufferedSource <: BufferedSource {
 
     public override func read (sink: ByteBuffer): Int64 {
         if (this.buf.size == 0) {
-            let read = source.read(this.buf, Segment.SIZE);
+            let read = source.read(this.buf, Segment.SIZE)
             if (read == -1) {
                 return -1
             }

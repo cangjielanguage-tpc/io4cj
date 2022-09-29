@@ -21,7 +21,6 @@ main () {
     }
     var server = Socket(TCP, "127.0.0.1", 100)
     let sin = Okio.sink(server)
-    let str5 = real0s.readAll(sin)
     let str46 = real0s.readUtf8()
     let str6 = real0s.readString()
     let b0 = okio.Buffer()

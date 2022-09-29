@@ -1005,9 +1005,12 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
     }
 
     public override func skip(byteCount: Int64): Unit {
-        let s = this.head.getOrThrow()
         var byteCount = byteCount
         while (byteCount > 0) {
+            let s = match(this.head) {
+                case Some(v) => v
+                case None => throw EOFException()
+            }
             let toSkip = min(byteCount, s.limit - s.pos)
             this.mysize -= toSkip
             byteCount -= toSkip

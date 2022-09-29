@@ -182,7 +182,9 @@ class RealBufferedSink <: BufferedSink {
         emitCompleteSegments()
     }
 
-    public override func isClosed():Bool {false}
+    public override func isClosed():Bool {
+        this.closed
+    }
 
     public override func emitCompleteSegments(): BufferedSink {
         if (this.closed) {
