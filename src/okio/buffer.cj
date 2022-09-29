@@ -1052,6 +1052,7 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
     }
 
     public func copyTo(out: Buffer, offset: Int64, byteCount: Int64): Buffer {
+        println("offset=${offset}, byteCount=${byteCount}")
         Util.checkOffsetAndCount(size, offset, byteCount)
         var offset = offset
         var byteCount = byteCount
@@ -1070,17 +1071,18 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
             copy.pos += offset
             copy.limit = min(copy.pos + byteCount, copy.limit)
             match (out.head) {
-                case None => 
+                case None =>
                     copy.next = copy
                     copy.prev = copy
                     out.head = copy
                 case Some(v) =>
-                    out.head.getOrThrow().prev.getOrThrow().push(v)
+                    v.prev.getOrThrow().push(copy)
                     ()
                     
             }
             byteCount -= copy.limit - copy.pos
             offset = 0
+            s = s.next.getOrThrow()
         }
         return this
     }

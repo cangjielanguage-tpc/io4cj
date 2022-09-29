@@ -19,8 +19,8 @@ main () {
         es = e.toString()
     }
     real0s.readHexadecimalUInt64()
-    if (es != "Exception") {
-        return 1
+    if (es.contains("NumberFormatException")) {
+        return 0
     }
-    return 0
+    return 1
 }

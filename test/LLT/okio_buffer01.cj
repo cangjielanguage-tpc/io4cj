@@ -60,8 +60,8 @@ main () {
     } catch(e: Exception) {
         ess = e.toString()
     }
-    if (ess != "Exception") {
-        return 1
+    if (ess.contains("EOFException")) {
+        return 0
     }
-    return 0
+    return 1
 }

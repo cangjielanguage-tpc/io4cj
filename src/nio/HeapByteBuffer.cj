@@ -90,13 +90,15 @@ public open class HeapByteBuffer <: ByteBuffer & ToString {
     }
 
     public override func put(src: ByteBuffer): ByteBuffer {
-        if (src is HeapByteBuffer) {
+        if (src.isDirect()) {
+            throw Exception("not supported.")
+        } else if (src is HeapByteBuffer) {
             if (src == this) {
-                throw Exception() // createSameBufferException
+                throw CreateSameBufferException()
             }
             let sb: HeapByteBuffer = match ((src as HeapByteBuffer)) {
-                case Some (v) => v
                 case None => throw NoneValueException()
+                case Some (v) => v
             }
             let n = sb.remaining()
             if (n > remaining()) {
@@ -105,8 +107,6 @@ public open class HeapByteBuffer <: ByteBuffer & ToString {
             ArrayCopy(sb.hb, sb.ix(sb.position()), hb, ix(position()), n)
             sb.position(sb.position() + n )
             position(position() +n)
-        } else if (src.isDirect()) {
-            throw Exception("not supported.")
         } else {
             super.put(src)
         }
@@ -121,4 +121,11 @@ public open class HeapByteBuffer <: ByteBuffer & ToString {
         return this
     }
 }
+
+public class CreateSameBufferException <: IllegalArgumentException {
+    public init(){
+        super("CreateSameBufferException: \n")
+    }
+}
+
 
