@@ -1232,7 +1232,7 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
      */
     public override func indexOf(value: Int8, fromIndex: Int64, toIndex: Int64): Int64 {
         if (fromIndex < 0 || toIndex < fromIndex) {
-            throw IllegalArgumentException("fromIndex < 0")
+            throw IllegalArgumentException("fromIndex: ${fromIndex} is greater than toIndex: ${fromIndex} or less than 0")
         }
         var fromIndex = fromIndex
         var toIndex = toIndex
@@ -1601,7 +1601,6 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
      * @since 0.32.5
      */
     public func copyTo(out: Buffer, offset: Int64, byteCount: Int64): Buffer {
-        println("offset=${offset}, byteCount=${byteCount}")
         Util.checkOffsetAndCount(size, offset, byteCount)
         var offset = offset
         var byteCount = byteCount
