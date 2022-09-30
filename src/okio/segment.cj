@@ -1,6 +1,19 @@
+/*
+ * Copyright (c) Cangjie Library Team 2022-2022. All rights resvered.
+ */
+
+/**
+ * @file
+ * The file declars the Segment class.
+ */
 package okio
 
-// 缓冲区的一段。
+
+/**
+ * The class is Segment inherited from Object & Equatable<Segment>
+ * @author liyanqing14
+ * @since 0.32.5
+ */
 public class Segment <: Object & Equatable<Segment> {
     static let SIZE = 8192
     static let SHARE_MINIMUM = 1024
@@ -12,6 +25,11 @@ public class Segment <: Object & Equatable<Segment> {
     var next: ?Segment = Option.None
     var prev: ?Segment = Option.None
 
+    /**
+     * The Function is init constructor
+     *
+     * @since 0.32.5
+     */
     public init() {
         this.data = Array<UInt8>(SIZE, item: 0)
         this.pos = 0
@@ -20,6 +38,16 @@ public class Segment <: Object & Equatable<Segment> {
         this.owner = true
     }
 
+    /**
+     * The Function is init constructor
+     *
+     * @param data of Array<UInt8>
+     * @param pos of Int64
+     * @param limit of Int64
+     * @param shared of Bool
+     * @param owner of Bool
+     * @since 0.32.5
+     */
     public init(data: Array<UInt8>, pos: Int64, limit: Int64, shared: Bool, owner: Bool) {
         this.data = data
         this.pos = pos
@@ -33,6 +61,14 @@ public class Segment <: Object & Equatable<Segment> {
         return Segment(this.data, this.pos, this.limit, true, false)
     }
 
+    /**
+     * The Function is push
+     *
+     * @param segment of Segment
+     *
+     * @return Type of Segment
+     * @since 0.32.5
+     */
     public func push(segment: Segment): Segment {
         segment.prev = this
         segment.next = next
@@ -41,6 +77,12 @@ public class Segment <: Object & Equatable<Segment> {
         return segment
     }
 
+    /**
+     * The Function is pop
+     *
+     * @return Type of ?Segment
+     * @since 0.32.5
+     */
     public func pop(): ?Segment {
         let nextA = next.getOrThrow()
         let result: ?Segment = if (nextA != this) {
@@ -78,6 +120,11 @@ public class Segment <: Object & Equatable<Segment> {
         return prefix
     }
 
+    /**
+     * The Function is compact
+     *
+     * @since 0.32.5
+     */
     public func compact() {
         match (prev) {
             case Some(seg) => doCompact(seg)
@@ -103,6 +150,13 @@ public class Segment <: Object & Equatable<Segment> {
         SegmentPool.recycle(this);
     }
 
+    /**
+     * The Function is writeTo
+     *
+     * @param sink of Segment
+     * @param byteCount of Int64
+     * @since 0.32.5
+     */
     public func writeTo(sink: Segment, byteCount: Int64) {
         if (!sink.owner) {
             throw IllegalArgumentException()
@@ -122,9 +176,25 @@ public class Segment <: Object & Equatable<Segment> {
         sink.limit += byteCount
         pos += byteCount
     }
+    /**
+     * The Function is ==
+     *
+     * @param that of Segment
+     *
+     * @return Type of Bool
+     * @since 0.32.5
+     */
     public operator func ==(that: Segment): Bool {
         return refEq(this, that)
     }
+    /**
+     * The Function is !=
+     *
+     * @param that of Segment
+     *
+     * @return Type of Bool
+     * @since 0.32.5
+     */
     public operator func !=(that: Segment): Bool {
         return !refEq(this, that)
     }

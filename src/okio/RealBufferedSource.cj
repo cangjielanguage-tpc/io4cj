@@ -1,22 +1,59 @@
+/*
+ * Copyright (c) Cangjie Library Team 2022-2022. All rights resvered.
+ */
+
+/**
+ * @file
+ * The file declars the RealBufferedSource class.
+ */
 package okio
 
 
 class RealBufferedSource <: BufferedSource {
 
+    /**
+     * let member buf type is Buffer
+     * @since 0.32.5
+     */
     public let buf: Buffer = Buffer()
-    
+
+    /**
+     * let member source type is Source
+     * @since 0.32.5
+     */
     public let source: Source
     
     var closed: Bool = false
-    
+
+    /**
+     * The Function is init constructor
+     *
+     * @param source of Source
+     * @since 0.32.5
+     */
     public init (source: Source){
         this.source = source
     }
 
+    /**
+     * The Function is getBuffer
+     *
+     * @return Type of Buffer
+     * @since 0.32.5
+     */
     public override func getBuffer (): Buffer {
         return this.buf
     }
 
+    /**
+     * The Function is read
+     *
+     * @param sink of Buffer
+     * @param byteCount of Int64
+     *
+     * @return Type of Int64
+     * @since 0.32.5
+     */
     public override func read (sink: Buffer, byteCount: Int64): Int64 {
         if (byteCount <0) {
             throw IllegalArgumentException("byteCount <0: ${byteCount}")
@@ -34,6 +71,12 @@ class RealBufferedSource <: BufferedSource {
         return this.buf.read(sink, toRead)
     }
 
+    /**
+     * The Function is exhausted
+     *
+     * @return Type of Bool
+     * @since 0.32.5
+     */
     public override func exhausted (): Bool {
         if (closed) {
             throw IllegalArgumentException("closed")
@@ -41,12 +84,28 @@ class RealBufferedSource <: BufferedSource {
         return this.buf.exhausted() && this.source.read(this.buf, Segment.SIZE) == -1
     }
 
+    /**
+     * The Function is require
+     *
+     * @param byteCount of Int64
+     *
+     * @return Type of Unit
+     * @since 0.32.5
+     */
     public override func require(byteCount: Int64): Unit {
         if (!request(byteCount)) {
             throw EOFException()
         }
     }
 
+    /**
+     * The Function is request
+     *
+     * @param byteCount of Int64
+     *
+     * @return Type of Bool
+     * @since 0.32.5
+     */
     public override func request (byteCount: Int64): Bool {
         if (byteCount <0) {
             throw IllegalArgumentException("byteCount <0: ${byteCount}")
@@ -62,16 +121,36 @@ class RealBufferedSource <: BufferedSource {
         return true
     }
 
+    /**
+     * The Function is readInt8
+     *
+     * @return Type of Int8
+     * @since 0.32.5
+     */
     public override func readInt8(): Int8 {
         this.require(1)
         return buf.readInt8()
     }
 
+    /**
+     * The Function is readByteString
+     *
+     * @return Type of ByteString
+     * @since 0.32.5
+     */
     public override func readByteString (): ByteString {
         buf.writeAll(source)
         return buf.readByteString()
     }
 
+    /**
+     * The Function is readByteString
+     *
+     * @param byteCount of Int64
+     *
+     * @return Type of ByteString
+     * @since 0.32.5
+     */
     public override func readByteString (byteCount: Int64): ByteString {
         require(byteCount)
         return buf.readByteString()
@@ -81,20 +160,50 @@ class RealBufferedSource <: BufferedSource {
     //     return 0
     // }
 
+    /**
+     * The Function is readByteArray
+     *
+     * @return Type of Array<Byte>
+     * @since 0.32.5
+     */
     public override func readByteArray (): Array<Byte> {
         buf.writeAll(source)
         return buf.readByteArray()
     }
 
+    /**
+     * The Function is readByteArray
+     *
+     * @param byteCount of Int64
+     *
+     * @return Type of Array<Byte>
+     * @since 0.32.5
+     */
     public override func readByteArray (byteCount: Int64): Array<Byte> {
         require(byteCount)
         return buf.readByteArray(byteCount)
     }
 
+    /**
+     * The Function is read
+     *
+     * @param sink of Array<Byte>
+     *
+     * @return Type of Int64
+     * @since 0.32.5
+     */
     public override func read(sink: Array<Byte>): Int64 {
         return read(sink, 0, sink.size)
     }
 
+    /**
+     * The Function is readFully
+     *
+     * @param sink of Array<Byte>
+     *
+     * @return Type of Unit
+     * @since 0.32.5
+     */
     public override func readFully(sink: Array<Byte>): Unit {
         var offset = 0
         while (offset < sink.size) {
@@ -106,6 +215,16 @@ class RealBufferedSource <: BufferedSource {
         }
     }
 
+    /**
+     * The Function is read
+     *
+     * @param sink of Array<Byte>
+     * @param offset of Int64
+     * @param byteCount of Int64
+     *
+     * @return Type of Int64
+     * @since 0.32.5
+     */
     public override func read(sink: Array<Byte>, offset: Int64, byteCount: Int64): Int64 {
         Util.checkOffsetAndCount(sink.size, offset, byteCount);
         if (this.buf.size == 0) {
@@ -118,6 +237,14 @@ class RealBufferedSource <: BufferedSource {
         return this.buf.read(sink, offset, toRead);
     }
 
+    /**
+     * The Function is read
+     *
+     * @param sink of ByteBuffer
+     *
+     * @return Type of Int64
+     * @since 0.32.5
+     */
     public override func read (sink: ByteBuffer): Int64 {
         if (this.buf.size == 0) {
             let read = source.read(this.buf, Segment.SIZE)
@@ -128,6 +255,15 @@ class RealBufferedSource <: BufferedSource {
         return this.buf.read(sink)
     }
 
+    /**
+     * The Function is readFully
+     *
+     * @param sink of Buffer
+     * @param byteCount of Int64
+     *
+     * @return Type of Unit
+     * @since 0.32.5
+     */
     public override func readFully (sink: Buffer, byteCount: Int64): Unit {
         try {
             require(byteCount)
@@ -138,6 +274,14 @@ class RealBufferedSource <: BufferedSource {
         this.buf.readFully(sink, byteCount)
     }
 
+    /**
+     * The Function is readAll
+     *
+     * @param sink of Sink
+     *
+     * @return Type of Int64
+     * @since 0.32.5
+     */
     public override func readAll(sink: Sink): Int64 {
         var totalBytesWritten = 0
         while (this.source.read(this.buf, Segment.SIZE) != -1) {
@@ -154,26 +298,60 @@ class RealBufferedSource <: BufferedSource {
         return totalBytesWritten
     }
 
+    /**
+     * The Function is readUtf8
+     *
+     * @return Type of ?String
+     * @since 0.32.5
+     */
     public override func readUtf8 (): ?String {
         this.buf.writeAll(source)
         return this.buf.readUtf8()
     }
 
+    /**
+     * The Function is readUtf8
+     *
+     * @param byteCount of Int64
+     *
+     * @return Type of ?String
+     * @since 0.32.5
+     */
     public override func readUtf8 (byteCount: Int64): ?String {
         require(byteCount)
         return this.buf.readUtf8(byteCount)
     }
 
+    /**
+     * The Function is readString
+     *
+     * @return Type of ?String
+     * @since 0.32.5
+     */
     public override func readString (): ?String {
         this.buf.writeAll(source)
         return this.buf.readString()
     }
 
+    /**
+     * The Function is readString
+     *
+     * @param byteCount of Int64
+     *
+     * @return Type of ?String
+     * @since 0.32.5
+     */
     public override func readString(byteCount: Int64): ?String {
         require(byteCount)
         return this.buf.readString(byteCount)
     }
 
+    /**
+     * The Function is readUtf8Line
+     *
+     * @return Type of ?String
+     * @since 0.32.5
+     */
     @overflowWrapping
     public override func readUtf8Line (): ?String {
         let newline = indexOf(Int8(UInt32('\n')))
@@ -187,10 +365,24 @@ class RealBufferedSource <: BufferedSource {
         return this.buf.readUtf8Line(newline)
     }
 
+    /**
+     * The Function is readUtf8LineStrict
+     *
+     * @return Type of ?String
+     * @since 0.32.5
+     */
     public override func readUtf8LineStrict (): ?String {
         return readUtf8LineStrict(Int64.Max)
     }
 
+    /**
+     * The Function is readUtf8LineStrict
+     *
+     * @param limit of Int64
+     *
+     * @return Type of ?String
+     * @since 0.32.5
+     */
     public override func readUtf8LineStrict (limit: Int64): ?String {
         if (limit < 0) {
             throw IllegalArgumentException("limit < 0: ${limit}")
@@ -212,6 +404,12 @@ class RealBufferedSource <: BufferedSource {
         throw EOFException("\\n not found: limit= ${math.min(this.buf.size, limit)} content= ${data.readByteString().hex()} …")
     }
 
+    /**
+     * The Function is readUtf8CodePoint
+     *
+     * @return Type of Int64
+     * @since 0.32.5
+     */
     public override func readUtf8CodePoint(): Int64 {
         require(1)
         let b0: Int8 = this.buf.getInt8(0)
@@ -225,36 +423,78 @@ class RealBufferedSource <: BufferedSource {
         return this.buf.readUtf8CodePoint()
     }
 
+    /**
+     * The Function is readInt16
+     *
+     * @return Type of Int16
+     * @since 0.32.5
+     */
     public override func readInt16 (): Int16 {
         require(2)
         return this.buf.readInt16()
     }
 
+    /**
+     * The Function is readInt16Le
+     *
+     * @return Type of Int16
+     * @since 0.32.5
+     */
     public override func readInt16Le (): Int16 {
         require(2)
         return this.buf.readInt16Le()
     }
 
+    /**
+     * The Function is readInt32
+     *
+     * @return Type of Int32
+     * @since 0.32.5
+     */
     public override func readInt32 (): Int32 {
         require(4)
         return this.buf.readInt32()
     }
 
+    /**
+     * The Function is readInt32Le
+     *
+     * @return Type of Int32
+     * @since 0.32.5
+     */
     public override func readInt32Le (): Int32 {
         require(4)
         return this.buf.readInt32Le()
     }
 
+    /**
+     * The Function is readInt64
+     *
+     * @return Type of Int64
+     * @since 0.32.5
+     */
     public override func readInt64 (): Int64 {
         require(8)
         return this.buf.readInt64()
     }
 
+    /**
+     * The Function is readInt64Le
+     *
+     * @return Type of Int64
+     * @since 0.32.5
+     */
     public override func readInt64Le (): Int64 {
         require(8)
         return this.buf.readInt64Le()
     }
 
+    /**
+     * The Function is readDecimalInt64
+     *
+     * @return Type of Int64
+     * @since 0.32.5
+     */
     public override func readDecimalInt64(): Int64 {
         require(1)
         var pos = 0
@@ -270,6 +510,12 @@ class RealBufferedSource <: BufferedSource {
         }
         return this.buf.readDecimalInt64()
     }
+    /**
+     * The Function is readHexadecimalUInt64
+     *
+     * @return Type of Int64
+     * @since 0.32.5
+     */
     public override func readHexadecimalUInt64(): Int64 {
         require(1)
         var pos = 0
@@ -286,6 +532,14 @@ class RealBufferedSource <: BufferedSource {
         return this.buf.readHexadecimalUInt64()
     }
 
+    /**
+     * The Function is skip
+     *
+     * @param byteCount of Int64
+     *
+     * @return Type of Unit
+     * @since 0.32.5
+     */
     public override func skip (byteCount: Int64): Unit {
         if (closed) {
             throw IllegalStateException("closed")
@@ -301,14 +555,41 @@ class RealBufferedSource <: BufferedSource {
         }
     }
 
+    /**
+     * The Function is indexOf
+     *
+     * @param b of Int8
+     *
+     * @return Type of Int64
+     * @since 0.32.5
+     */
     public override func indexOf (b: Int8): Int64 {
         return indexOf(b, 0, Int64.Max)
     }
 
+    /**
+     * The Function is indexOf
+     *
+     * @param b of Int8
+     * @param fromIndex of Int64
+     *
+     * @return Type of Int64
+     * @since 0.32.5
+     */
     public override func indexOf (b: Int8, fromIndex: Int64): Int64 {
         return indexOf(b, fromIndex, Int64.Max)
     }
 
+    /**
+     * The Function is indexOf
+     *
+     * @param b of Int8
+     * @param fromIndex of Int64
+     * @param toIndex of Int64
+     *
+     * @return Type of Int64
+     * @since 0.32.5
+     */
     public override func indexOf (b: Int8, fromIndex: Int64, toIndex: Int64): Int64 {
         var fromIndex = fromIndex
         if (closed) {
@@ -331,10 +612,27 @@ class RealBufferedSource <: BufferedSource {
         return -1
     }
 
+    /**
+     * The Function is indexOf
+     *
+     * @param bytes of ByteString
+     *
+     * @return Type of Int64
+     * @since 0.32.5
+     */
     public override func indexOf (bytes: ByteString): Int64 {
         return indexOf(bytes, 0)
     }
 
+    /**
+     * The Function is indexOf
+     *
+     * @param bytes of ByteString
+     * @param fromIndex of Int64
+     *
+     * @return Type of Int64
+     * @since 0.32.5
+     */
     public override func indexOf (bytes: ByteString, fromIndex: Int64): Int64 {
         var fromIndex = fromIndex
         if (closed) {
@@ -354,10 +652,27 @@ class RealBufferedSource <: BufferedSource {
         return -1
     }
 
+    /**
+     * The Function is indexOfElement
+     *
+     * @param targetBytes of ByteString
+     *
+     * @return Type of Int64
+     * @since 0.32.5
+     */
     public override func indexOfElement (targetBytes: ByteString): Int64 {
         return indexOfElement(targetBytes, 0)
     }
 
+    /**
+     * The Function is indexOfElement
+     *
+     * @param targetBytes of ByteString
+     * @param fromIndex of Int64
+     *
+     * @return Type of Int64
+     * @since 0.32.5
+     */
     public override func indexOfElement (targetBytes: ByteString, fromIndex: Int64): Int64 {
         var fromIndex = fromIndex
         if (closed) {
@@ -378,10 +693,30 @@ class RealBufferedSource <: BufferedSource {
         return 0
     }
 
+    /**
+     * The Function is rangeEquals
+     *
+     * @param offset of Int64
+     * @param bytes of ByteString
+     *
+     * @return Type of Bool
+     * @since 0.32.5
+     */
     public override func rangeEquals(offset: Int64, bytes: ByteString): Bool {
         return rangeEquals(offset, bytes, 0, bytes.size)
     }
-    
+
+    /**
+     * The Function is rangeEquals
+     *
+     * @param offset of Int64
+     * @param bytes of ByteString
+     * @param bytesOffset of Int64
+     * @param byteCount of Int64
+     *
+     * @return Type of Bool
+     * @since 0.32.5
+     */
     public override func rangeEquals(offset: Int64, bytes: ByteString, bytesOffset: Int64, byteCount: Int64): Bool {
         if (closed) {
             throw IllegalStateException("closed")
@@ -401,14 +736,32 @@ class RealBufferedSource <: BufferedSource {
         return true
     }
 
+    /**
+     * The Function is peek
+     *
+     * @return Type of BufferedSource
+     * @since 0.32.5
+     */
     public override func peek (): BufferedSource {
         return Okio.buffer(PeekSource(this))
     }
 
+    /**
+     * The Function is isOpen
+     *
+     * @return Type of Bool
+     * @since 0.32.5
+     */
     public func isOpen (): Bool {
         return !this.closed
     }
 
+    /**
+     * The Function is close
+     *
+     * @return Type of Unit
+     * @since 0.32.5
+     */
     public override func close (): Unit {
         if (closed) {
             return
@@ -418,14 +771,32 @@ class RealBufferedSource <: BufferedSource {
         this.buf.clear()
     }
 
+    /**
+     * The Function is timeout
+     *
+     * @return Type of Timeout
+     * @since 0.32.5
+     */
     public override func timeout(): Timeout {
         return source.timeout()
     }
 
+    /**
+     * The Function is toString
+     *
+     * @return Type of String
+     * @since 0.32.5
+     */
     public override func toString (): String {
         return "RealBufferedSource: ${this.buf.toString()}"
     }
 
+    /**
+     * The Function is isClosed
+     *
+     * @return Type of Bool
+     * @since 0.32.5
+     */
     public override func isClosed(): Bool {
         return !isOpen()
     }

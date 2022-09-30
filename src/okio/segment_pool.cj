@@ -1,7 +1,20 @@
+/*
+ * Copyright (c) Cangjie Library Team 2022-2022. All rights resvered.
+ */
+
+/**
+ * @file
+ * The file declars the SegmentPool class.
+ */
 package okio
 
 from std import sync.*
 
+/**
+ * The class is SegmentPool
+ * @author liyanqing14
+ * @since 0.32.5
+ */
 public class SegmentPool {
 
     static let MAX_SIZE = 64 * 1024
