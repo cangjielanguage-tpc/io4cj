@@ -1,3 +1,11 @@
+/*
+ * Copyright (c) Cangjie Library Team 2022-2022. All rights resvered.
+ */
+
+/**
+ * @file
+ * The file declars the AsyncTimeout class.
+ */
 
 package okio
 
@@ -8,6 +16,11 @@ let reentrantMutex = ReentrantMutex()
 
 let IDLE_TIMEOUT_MILLIS: UInt64 = 60000
 
+/**
+ * The class is AsyncTimeout inherited from Timeout & Equatable<AsyncTimeout>
+ * @author liyanqing14
+ * @since 0.32.5
+ */
 public open class AsyncTimeout <: Timeout & Equatable<AsyncTimeout> { 
     static let TIMEOUT_WRITE_SIZE: Int64 = 64 * 1024;
     private var inQueue = false
@@ -23,6 +36,11 @@ public open class AsyncTimeout <: Timeout & Equatable<AsyncTimeout> {
 
     protected var fun: ?()->Unit = None
 
+    /**
+     * The Function is enter
+     *
+     * @since 0.32.5
+     */
     public open func enter() {
         if (inQueue) {
             throw IllegalArgumentException("Unbalanced enter/exit")
@@ -95,10 +113,24 @@ public open class AsyncTimeout <: Timeout & Equatable<AsyncTimeout> {
         }
     }
 
+    /**
+     * The Function is newTimeoutException
+     *
+     * @param e of Exception
+     *
+     * @return Type of Exception
+     * @since 0.32.5
+     */
     public open func newTimeoutException(e: Exception): Exception {
         return InterruptedException("timeout ${e.toString()}")
     }
 
+    /**
+     * The Function is newTimeoutException
+     *
+     * @return Type of Exception
+     * @since 0.32.5
+     */
     public open func newTimeoutException(): Exception {
         return InterruptedException("timeout")
     }
@@ -110,6 +142,14 @@ public open class AsyncTimeout <: Timeout & Equatable<AsyncTimeout> {
         }
     }
 
+    /**
+     * The Function is sink
+     *
+     * @param sink of Sink
+     *
+     * @return Type of Sink
+     * @since 0.32.5
+     */
     public func sink(sink: Sink): Sink {
         func subWrite(source: Buffer, byteCount: Int64): Unit {
             Util.checkOffsetAndCount(source.size, 0, byteCount)
@@ -151,6 +191,14 @@ public open class AsyncTimeout <: Timeout & Equatable<AsyncTimeout> {
         return asink
     }
 
+    /**
+     * The Function is source
+     *
+     * @param source of Source
+     *
+     * @return Type of Source
+     * @since 0.32.5
+     */
     public func source(source: Source): Source {
         func subRead (sink: Buffer, byteCount: Int64): Int64 {
             var throwOnTimeout = false
@@ -186,6 +234,12 @@ public open class AsyncTimeout <: Timeout & Equatable<AsyncTimeout> {
         }
     }
 
+    /**
+     * The Function is exit
+     *
+     * @return Type of Bool
+     * @since 0.32.5
+     */
     public func exit() : Bool {
         if (!inQueue) {
             return false
@@ -213,13 +267,35 @@ public open class AsyncTimeout <: Timeout & Equatable<AsyncTimeout> {
         }
     }
 
+    /**
+     * The Function is ==
+     *
+     * @param that of AsyncTimeout
+     *
+     * @return Type of Bool
+     * @since 0.32.5
+     */
     public operator func == (that: AsyncTimeout): Bool {
         return refEq(this, that)
     }
+    /**
+     * The Function is !=
+     *
+     * @param that of AsyncTimeout
+     *
+     * @return Type of Bool
+     * @since 0.32.5
+     */
     public operator func != (that: AsyncTimeout): Bool {
         return !refEq(this, that)
     }
 
+    /**
+     * The Function is awaitTimeout
+     *
+     * @return Type of ?AsyncTimeout
+     * @since 0.32.5
+     */
     public func awaitTimeout(): ?AsyncTimeout {
         let node = head
         match (node) {

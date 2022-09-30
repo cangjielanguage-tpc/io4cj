@@ -1,8 +1,21 @@
+/*
+ * Copyright (c) Cangjie Library Team 2022-2022. All rights resvered.
+ */
+
+/**
+ * @file
+ * The file declars the Buffer class.
+ */
 package nio
 
 
 
 
+/**
+ * The class is Buffer inherited from Object & ToString
+ * @author liyanqing14
+ * @since 0.32.5
+ */
 public abstract class Buffer <: Object & ToString {
     // Invariants: mar <= pos <= lim <= capa
     // Read / write mark
@@ -45,15 +58,35 @@ public abstract class Buffer <: Object & ToString {
         }
     }
 
+    /**
+     * The Function is capacity
+     *
+     * @return Type of Int64
+     * @since 0.32.5
+     */
     public func capacity(): Int64 {
         return capa
     }
 
-    
+
+    /**
+     * The Function is position
+     *
+     * @return Type of Int64
+     * @since 0.32.5
+     */
     public func position(): Int64 {
         return pos
     }
 
+    /**
+     * The Function is position
+     *
+     * @param newPosition of Int64
+     *
+     * @return Type of Buffer
+     * @since 0.32.5
+     */
     public open func position(newPosition: Int64): Buffer {
         if (newPosition > lim || newPosition < 0) {
             throw IllegalArgumentException("newPosition")
@@ -65,12 +98,26 @@ public abstract class Buffer <: Object & ToString {
         return this
     }
 
-    
+
+    /**
+     * The Function is limit
+     *
+     * @return Type of Int64
+     * @since 0.32.5
+     */
     public func limit(): Int64 {
         return lim
     }
 
-    
+
+    /**
+     * The Function is limit
+     *
+     * @param newLimit of Int64
+     *
+     * @return Type of Buffer
+     * @since 0.32.5
+     */
     public open func limit(newLimit: Int64): Buffer {
         if (newLimit > capa || newLimit < 0) {
             throw IllegalArgumentException("newLimit")
@@ -81,12 +128,24 @@ public abstract class Buffer <: Object & ToString {
         return this
     }
 
-    
+
+    /**
+     * The Function is mark
+     *
+     * @return Type of Buffer
+     * @since 0.32.5
+     */
     public func mark(): Buffer {
         mar = pos
         return this
     }
 
+    /**
+     * The Function is reset
+     *
+     * @return Type of Buffer
+     * @since 0.32.5
+     */
     public open func reset(): Buffer  {
         var m = mar
         if (m < 0){
@@ -96,7 +155,13 @@ public abstract class Buffer <: Object & ToString {
         return this
     }
 
-    
+
+    /**
+     * The Function is clear
+     *
+     * @return Type of Buffer
+     * @since 0.32.5
+     */
     public open func clear(): Buffer  {
         pos = 0
         lim = capa
@@ -104,7 +169,13 @@ public abstract class Buffer <: Object & ToString {
         return this
     }
 
-    
+
+    /**
+     * The Function is flip
+     *
+     * @return Type of Buffer
+     * @since 0.32.5
+     */
     public open func flip(): Buffer  {
         lim = pos
         pos = 0
@@ -112,33 +183,87 @@ public abstract class Buffer <: Object & ToString {
         return this
     }
 
-    
+
+    /**
+     * The Function is rewind
+     *
+     * @return Type of Buffer
+     * @since 0.32.5
+     */
     public open func rewind(): Buffer  {
         pos = 0
         mar = -1
         return this
     }
 
-    
+
+    /**
+     * The Function is remaining
+     *
+     * @return Type of Int64
+     * @since 0.32.5
+     */
     public func remaining(): Int64 {
         return lim - pos
     }
 
-    
+
+    /**
+     * The Function is hasRemaining
+     *
+     * @return Type of Bool
+     * @since 0.32.5
+     */
     public func hasRemaining(): Bool {
         return pos < lim
     }
 
+    /**
+     * The Function is isReadOnly
+     *
+     * @return Type of Bool
+     * @since 0.32.5
+     */
     public func isReadOnly(): Bool
 
+    /**
+     * The Function is arrayOffset
+     *
+     * @return Type of Int64
+     * @since 0.32.5
+     */
     public func arrayOffset(): Int64
 
+    /**
+     * The Function is isDirect
+     *
+     * @return Type of Bool
+     * @since 0.32.5
+     */
     public func isDirect(): Bool
 
+    /**
+     * The Function is slice
+     *
+     * @return Type of Buffer
+     * @since 0.32.5
+     */
     public func slice(): Buffer 
 
+    /**
+     * The Function is duplicate
+     *
+     * @return Type of Buffer
+     * @since 0.32.5
+     */
     public func duplicate(): Buffer 
 
+    /**
+     * The Function is array
+     *
+     * @return Type of Array<UInt8>
+     * @since 0.32.5
+     */
     public func array(): Array<UInt8>
 
     func nextGetIndex(): Int64 {

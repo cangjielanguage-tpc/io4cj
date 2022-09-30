@@ -1,3 +1,11 @@
+/*
+ * Copyright (c) Cangjie Library Team 2022-2022. All rights resvered.
+ */
+
+/**
+ * @file
+ * The file declars the Buffer class.
+ */
 package okio
 
 import nio.ArrayCopy
@@ -16,19 +24,33 @@ let let_LF: Int8 = Int8(UInt32('\n'))
 let let_CR: Int8 = Int8(UInt32('\r'))
 let REPLACEMENT_CHARACTER: Int64 = Int64(UInt32('\u{fffd}'))
 
+/**
+ * The class is Buffer inherited from Object & BufferedSource & BufferedSink & Equatable<Buffer> & ToString & Hashable
+ * @author liyanqing14
+ * @since 0.32.5
+ */
 public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffer> & ToString & Hashable {
 
     static let DIGITS: Array<Byte> = [0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f]
     
     var head: ?Segment = None 
     var mysize: Int64 = 0
-    
+
+    /**
+     * let member size type is Int64 {
+     * @since 0.32.5
+     */
     public prop let size: Int64 {
         get() {
             return mysize
         }
     }
 
+    /**
+     * The Function is init constructor
+     *
+     * @since 0.32.5
+     */
     public init() {}
 
     func writableSegment (minimumCapacity: Int64): Segment {
@@ -50,19 +72,51 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         }
     }
 
+    /**
+     * The Function is getBuffer
+     *
+     * @return Type of Buffer
+     * @since 0.32.5
+     */
     public override func getBuffer(): Buffer {
         return this
     }
 
+    /**
+     * The Function is write
+     *
+     * @param byteString of ByteString
+     *
+     * @return Type of BufferedSink
+     * @since 0.32.5
+     */
     public override func write(byteString: ByteString): BufferedSink {
         byteString.write(this)
         this
     }
 
+    /**
+     * The Function is write
+     *
+     * @param source of Array<Byte>
+     *
+     * @return Type of Buffer
+     * @since 0.32.5
+     */
     public override func write(source: Array<Byte>): Buffer {
         return write(source, 0, source.size)
     }
 
+    /**
+     * The Function is write
+     *
+     * @param source of Array<Byte>
+     * @param offset of Int64
+     * @param byteCount of Int64
+     *
+     * @return Type of Buffer
+     * @since 0.32.5
+     */
     public override func write(source: Array<Byte>, offset: Int64, byteCount: Int64): Buffer {
         Util.checkOffsetAndCount(source.size, offset, byteCount)
         var offset = offset
@@ -78,6 +132,14 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         return this
     }
 
+    /**
+     * The Function is writeAll
+     *
+     * @param source of Source
+     *
+     * @return Type of Int64
+     * @since 0.32.5
+     */
     public override func writeAll(source: Source): Int64 {
         var totalBytesRead = 0
         var readCount: Int64 = 0
@@ -88,6 +150,15 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         return totalBytesRead
     }
 
+    /**
+     * The Function is write
+     *
+     * @param source of Source
+     * @param byteCount of Int64
+     *
+     * @return Type of BufferedSink
+     * @since 0.32.5
+     */
     public override func write(source: Source, byteCount: Int64): BufferedSink {
         var byteCount = byteCount
         while (byteCount > 0) {
@@ -100,10 +171,28 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         return this
     }
 
+    /**
+     * The Function is writeUtf8
+     *
+     * @param string of String
+     *
+     * @return Type of BufferedSink
+     * @since 0.32.5
+     */
     public override func writeUtf8(string: String): BufferedSink {
         return writeUtf8(string, 0, string.size)
     }
 
+    /**
+     * The Function is writeUtf8
+     *
+     * @param string of String
+     * @param beginIndex of Int64
+     * @param endIndex of Int64
+     *
+     * @return Type of BufferedSink
+     * @since 0.32.5
+     */
     @overflowWrapping
     public override func writeUtf8(string: String, beginIndex: Int64, endIndex: Int64): BufferedSink {
         if (beginIndex < 0) { throw IllegalArgumentException("beginIndex < 0: ${beginIndex}") }
@@ -157,6 +246,14 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         return this
     }
 
+    /**
+     * The Function is writeUtf8CodePoint
+     *
+     * @param codePoint of Int64
+     *
+     * @return Type of BufferedSink
+     * @since 0.32.5
+     */
     @overflowWrapping
     public override func writeUtf8CodePoint(codePoint: Int64): BufferedSink {
         if (codePoint < 0x80) {
@@ -190,6 +287,14 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         return this
     }
 
+    /**
+     * The Function is writeInt8
+     *
+     * @param value of Int64
+     *
+     * @return Type of BufferedSink
+     * @since 0.32.5
+     */
     @overflowWrapping
     public override func writeInt8(value: Int64): BufferedSink {
         let tail = writableSegment(1)
@@ -199,6 +304,14 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         return this
     }
 
+    /**
+     * The Function is writeInt16
+     *
+     * @param i of Int64
+     *
+     * @return Type of BufferedSink
+     * @since 0.32.5
+     */
     @overflowWrapping
     public override func writeInt16(i: Int64): BufferedSink {
         let tail = writableSegment(2)
@@ -213,11 +326,27 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         return this
     }
 
+    /**
+     * The Function is writeInt16Le
+     *
+     * @param value of Int64
+     *
+     * @return Type of BufferedSink
+     * @since 0.32.5
+     */
     @overflowWrapping
     public override func writeInt16Le(value: Int64): BufferedSink {
         return writeInt16(Int64(Util.reverseBytesInt16(Int16(value))))
     }
 
+    /**
+     * The Function is writeInt32
+     *
+     * @param i of Int64
+     *
+     * @return Type of BufferedSink
+     * @since 0.32.5
+     */
     @overflowWrapping
     public override func writeInt32(i: Int64): BufferedSink {
         let tail = writableSegment(4)
@@ -236,11 +365,27 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         return this
     }
 
+    /**
+     * The Function is writeInt32Le
+     *
+     * @param value of Int64
+     *
+     * @return Type of BufferedSink
+     * @since 0.32.5
+     */
     @overflowWrapping
     public override func writeInt32Le(value: Int64): BufferedSink {
         return writeInt32(Int64(Util.reverseBytesInt32(Int32(value))))
     }
 
+    /**
+     * The Function is writeInt64
+     *
+     * @param i of Int64
+     *
+     * @return Type of BufferedSink
+     * @since 0.32.5
+     */
     @overflowWrapping
     public override func writeInt64(i: Int64): BufferedSink {
         let tail = writableSegment(8)
@@ -267,34 +412,92 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         return this
     }
 
+    /**
+     * The Function is writeInt64Le
+     *
+     * @param value of Int64
+     *
+     * @return Type of BufferedSink
+     * @since 0.32.5
+     */
     public override func writeInt64Le(value: Int64): BufferedSink {
         return writeInt64(Util.reverseBytesInt64(value))
     }
 
+    /**
+     * The Function is writeDecimalInt64
+     *
+     * @param value of Int64
+     *
+     * @return Type of BufferedSink
+     * @since 0.32.5
+     */
     public override func writeDecimalInt64(value: Int64): BufferedSink {
         this  // TODO 
     }
 
+    /**
+     * The Function is writeHexadecimalUInt64
+     *
+     * @param value of Int64
+     *
+     * @return Type of BufferedSink
+     * @since 0.32.5
+     */
     public override func writeHexadecimalUInt64(value: Int64): BufferedSink {
         this  // TODO 
     }
 
+    /**
+     * The Function is flush
+     *
+     * @return Type of Unit
+     * @since 0.32.5
+     */
     public override func flush(): Unit {}
 
+    /**
+     * The Function is emit
+     *
+     * @return Type of BufferedSink
+     * @since 0.32.5
+     */
     public override func emit(): BufferedSink {
         return this
     }
 
+    /**
+     * The Function is exhausted
+     *
+     * @return Type of Bool
+     * @since 0.32.5
+     */
     public override func exhausted(): Bool {
         return size == 0
     }
 
+    /**
+     * The Function is require
+     *
+     * @param byteCount of Int64
+     *
+     * @return Type of Unit
+     * @since 0.32.5
+     */
     public override func require(byteCount: Int64): Unit {
         if (size < byteCount) {
             throw EOFException()
         }
     }
 
+    /**
+     * The Function is request
+     *
+     * @param byteCount of Int64
+     *
+     * @return Type of Bool
+     * @since 0.32.5
+     */
     public override func request(byteCount: Int64): Bool {
         return this.size >= byteCount
     }
@@ -318,7 +521,13 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         }
         return b
     }
-    
+
+    /**
+     * The Function is completeSegmentByteCount
+     *
+     * @return Type of Int64
+     * @since 0.32.5
+     */
     public func completeSegmentByteCount(): Int64 {
         var result = size
         if (result ==0) {
@@ -331,10 +540,22 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         return result
     }
 
+    /**
+     * The Function is readInt8
+     *
+     * @return Type of Int8
+     * @since 0.32.5
+     */
     public override func readInt8(): Int8 {
         return Int8(readByte())
     }
 
+    /**
+     * The Function is readInt16
+     *
+     * @return Type of Int16
+     * @since 0.32.5
+     */
     public override func readInt16(): Int16 {
         if (this.size < 2) {
             throw IllegalArgumentException(" size < 2: ${size}")
@@ -361,10 +582,22 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         return Int16(s)
     }
 
+    /**
+     * The Function is readInt16Le
+     *
+     * @return Type of Int16
+     * @since 0.32.5
+     */
     public override func readInt16Le(): Int16 {
         return Util.reverseBytesInt16(readInt16())
     }
 
+    /**
+     * The Function is readInt32
+     *
+     * @return Type of Int32
+     * @since 0.32.5
+     */
     public override func readInt32(): Int32 {
         if (this.size < 4) {
             throw IllegalArgumentException(" size < 4: ${size}")
@@ -398,10 +631,22 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         return Int32(s)
     }
 
+    /**
+     * The Function is readInt32Le
+     *
+     * @return Type of Int32
+     * @since 0.32.5
+     */
     public override func readInt32Le(): Int32 {
         return Util.reverseBytesInt32(readInt32())
     }
 
+    /**
+     * The Function is readInt64
+     *
+     * @return Type of Int64
+     * @since 0.32.5
+     */
     public override func readInt64(): Int64 {
         if (this.size < 8) {
             throw IllegalArgumentException(" size < 8: ${size}")
@@ -441,10 +686,22 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         return Int64(s)
     }
 
+    /**
+     * The Function is readInt64Le
+     *
+     * @return Type of Int64
+     * @since 0.32.5
+     */
     public override func readInt64Le(): Int64 {
         return Util.reverseBytesInt64(readInt64())
     }
 
+    /**
+     * The Function is readDecimalInt64
+     *
+     * @return Type of Int64
+     * @since 0.32.5
+     */
     public override func readDecimalInt64(): Int64 {
         if (this.size == 0) { throw IllegalStateException(" size == 0") }
         var value = 0
@@ -495,6 +752,12 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         }
     }
 
+    /**
+     * The Function is readHexadecimalUInt64
+     *
+     * @return Type of Int64
+     * @since 0.32.5
+     */
     public override func readHexadecimalUInt64(): Int64 {
         if (this.size == 0) {
             throw IllegalStateException("size == 0")
@@ -545,14 +808,34 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         return value
     }
 
+    /**
+     * The Function is readByteString
+     *
+     * @return Type of ByteString
+     * @since 0.32.5
+     */
     public override func readByteString(): ByteString {
         ByteString(readByteArray())
     }
 
+    /**
+     * The Function is readByteString
+     *
+     * @param byteCount of Int64
+     *
+     * @return Type of ByteString
+     * @since 0.32.5
+     */
     public override func readByteString(byteCount: Int64): ByteString {
         ByteString(readByteArray(byteCount))
     }
 
+    /**
+     * The Function is readByteArray
+     *
+     * @return Type of Array<Byte>
+     * @since 0.32.5
+     */
     public override func readByteArray(): Array<Byte> {
         try {
             return readByteArray(this.size)
@@ -561,6 +844,14 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         }
     }
 
+    /**
+     * The Function is readByteArray
+     *
+     * @param byteCount of Int64
+     *
+     * @return Type of Array<Byte>
+     * @since 0.32.5
+     */
     public override func readByteArray(byteCount: Int64): Array<Byte> {
         Util.checkOffsetAndCount(size, 0, byteCount) 
         if (byteCount > Int64(Int32.Max)) {
@@ -571,10 +862,26 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         return result
     }
 
+    /**
+     * The Function is read
+     *
+     * @param sink of Array<Byte>
+     *
+     * @return Type of Int64
+     * @since 0.32.5
+     */
     public override func read(sink: Array<Byte>): Int64 {
         return read(sink, 0, sink.size)
     }
 
+    /**
+     * The Function is read
+     *
+     * @param sink of ByteBuffer
+     *
+     * @return Type of Int64
+     * @since 0.32.5
+     */
     public override func read(sink: ByteBuffer): Int64 {
         let s = this.head.getOrThrow()
         let toCopy = min(sink.remaining(), s.limit - s.pos)
@@ -588,6 +895,16 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         return toCopy
     }
 
+    /**
+     * The Function is read
+     *
+     * @param sink of Array<Byte>
+     * @param offset of Int64
+     * @param byteCount of Int64
+     *
+     * @return Type of Int64
+     * @since 0.32.5
+     */
     public override func read(sink: Array<Byte>, offset: Int64, byteCount: Int64): Int64 {
         Util.checkOffsetAndCount(sink.size, offset, byteCount)
         match (this.head) {
@@ -609,6 +926,15 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         }
     }
 
+    /**
+     * The Function is read
+     *
+     * @param sink of Buffer
+     * @param byteCount of Int64
+     *
+     * @return Type of Int64
+     * @since 0.32.5
+     */
     // @override Source
     public override func read(sink: Buffer, byteCount: Int64): Int64 {
         if (byteCount < 0) {
@@ -625,6 +951,14 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         return byteCount
     }
 
+    /**
+     * The Function is readFully
+     *
+     * @param sink of Array<Byte>
+     *
+     * @return Type of Unit
+     * @since 0.32.5
+     */
     public override func readFully(sink: Array<Byte>): Unit {
         var offset = 0
         while (offset < sink.size) {
@@ -636,6 +970,15 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         }
     }
 
+    /**
+     * The Function is readFully
+     *
+     * @param sink of Buffer
+     * @param byteCount of Int64
+     *
+     * @return Type of Unit
+     * @since 0.32.5
+     */
     public override func readFully(sink: Buffer, byteCount: Int64): Unit {
         if (size < byteCount) {
             sink.write(this, size)
@@ -644,6 +987,14 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         sink.write(this, byteCount)
     } 
 
+    /**
+     * The Function is readAll
+     *
+     * @param sink of Sink
+     *
+     * @return Type of Int64
+     * @since 0.32.5
+     */
     public override func readAll(sink: Sink): Int64 {
         let byteCount = size
         if (byteCount < 0) {
@@ -652,6 +1003,12 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         return byteCount
     }
 
+    /**
+     * The Function is readUtf8
+     *
+     * @return Type of ?String
+     * @since 0.32.5
+     */
     public override func readUtf8(): ?String {
         try {
             return readString(size)
@@ -660,10 +1017,24 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         }
     }
 
+    /**
+     * The Function is readUtf8
+     *
+     * @param byteCount of Int64
+     *
+     * @return Type of ?String
+     * @since 0.32.5
+     */
     public override func readUtf8(byteCount: Int64): ?String {
         return readString(byteCount)  // TODO: readString(byteCount, Util.UTF_8)
     }
 
+    /**
+     * The Function is readString
+     *
+     * @return Type of ?String
+     * @since 0.32.5
+     */
     public override func readString(): ?String {  // TODO: readString(Charset charset)
         try {
             return readString(size)
@@ -672,6 +1043,14 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         }
     }
 
+    /**
+     * The Function is readString
+     *
+     * @param byteCount of Int64
+     *
+     * @return Type of ?String
+     * @since 0.32.5
+     */
     public override func readString(byteCount: Int64) : ?String {  // TODO:  readString(long byteCount, Charset charset) 
         Util.checkOffsetAndCount(this.size, 0, byteCount)
         if (byteCount > Int64(Int32.Max)) {
@@ -695,6 +1074,12 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
     }
 
 
+    /**
+     * The Function is readUtf8Line
+     *
+     * @return Type of ?String
+     * @since 0.32.5
+     */
     public override func readUtf8Line(): ?String {
         let newline = indexOf(let_LF)
         if (newline == -1 && size != 0) {
@@ -717,10 +1102,24 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         }
     }
 
+    /**
+     * The Function is readUtf8LineStrict
+     *
+     * @return Type of ?String
+     * @since 0.32.5
+     */
     public override func readUtf8LineStrict(): ?String {
         return readUtf8LineStrict(Int64.Max)
     }
 
+    /**
+     * The Function is readUtf8LineStrict
+     *
+     * @param limit of Int64
+     *
+     * @return Type of ?String
+     * @since 0.32.5
+     */
     public override func readUtf8LineStrict(limit: Int64): ?String {
         if (limit < 0) {
             throw IllegalArgumentException("limit < 0: ${limit}")
@@ -744,6 +1143,12 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         throw EOFException("\\n not found: limit= ${math.min(size, limit)} content= ${data.readByteString().hex()} …") 
     }
 
+    /**
+     * The Function is readUtf8CodePoint
+     *
+     * @return Type of Int64
+     * @since 0.32.5
+     */
     public override func readUtf8CodePoint(): Int64 {
         if (size == 0) { throw EOFException() }
         var b0 = UInt8(getInt8(0))
@@ -790,14 +1195,41 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         }
     }
 
+    /**
+     * The Function is indexOf
+     *
+     * @param value of Int8
+     *
+     * @return Type of Int64
+     * @since 0.32.5
+     */
     public override func indexOf(value: Int8): Int64 {
         return indexOf(value, 0, Int64.Max)
     }
 
+    /**
+     * The Function is indexOf
+     *
+     * @param value of Int8
+     * @param fromIndex of Int64
+     *
+     * @return Type of Int64
+     * @since 0.32.5
+     */
     public override func indexOf(value: Int8, fromIndex: Int64): Int64 {
         return indexOf(value, fromIndex, Int64.Max)
     }
 
+    /**
+     * The Function is indexOf
+     *
+     * @param value of Int8
+     * @param fromIndex of Int64
+     * @param toIndex of Int64
+     *
+     * @return Type of Int64
+     * @since 0.32.5
+     */
     public override func indexOf(value: Int8, fromIndex: Int64, toIndex: Int64): Int64 {
         if (fromIndex < 0 || toIndex < fromIndex) {
             throw IllegalArgumentException("fromIndex < 0")
@@ -849,10 +1281,27 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         return -1
     }
 
+    /**
+     * The Function is indexOf
+     *
+     * @param bytes of ByteString
+     *
+     * @return Type of Int64
+     * @since 0.32.5
+     */
     public override func indexOf(bytes: ByteString): Int64 {
         return indexOf(bytes, 0)
     }
 
+    /**
+     * The Function is indexOf
+     *
+     * @param bytes of ByteString
+     * @param fromIndex of Int64
+     *
+     * @return Type of Int64
+     * @since 0.32.5
+     */
     public override func indexOf(bytes: ByteString, fromIndex: Int64): Int64 {
         if (bytes.size == 0) {
             throw IllegalArgumentException("bytes is empty")
@@ -899,10 +1348,27 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         return -1
     }
 
+    /**
+     * The Function is indexOfElement
+     *
+     * @param targetBytes of ByteString
+     *
+     * @return Type of Int64
+     * @since 0.32.5
+     */
     public override func indexOfElement(targetBytes: ByteString): Int64 {
         return indexOfElement(targetBytes, 0)
     }
 
+    /**
+     * The Function is indexOfElement
+     *
+     * @param targetBytes of ByteString
+     * @param fromIndex of Int64
+     *
+     * @return Type of Int64
+     * @since 0.32.5
+     */
     public override func indexOfElement(targetBytes: ByteString, fromIndex: Int64): Int64 {
         if (fromIndex < 0) {
             throw IllegalArgumentException("fromIndex < 0")
@@ -954,10 +1420,30 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         return -1
     }
 
+    /**
+     * The Function is rangeEquals
+     *
+     * @param offset of Int64
+     * @param bytes of ByteString
+     *
+     * @return Type of Bool
+     * @since 0.32.5
+     */
     public override func rangeEquals(offset: Int64, bytes: ByteString): Bool {
         return rangeEquals(offset, bytes, 0, bytes.size)
     }
 
+    /**
+     * The Function is rangeEquals
+     *
+     * @param offset of Int64
+     * @param bytes of ByteString
+     * @param bytesOffset of Int64
+     * @param byteCount of Int64
+     *
+     * @return Type of Bool
+     * @since 0.32.5
+     */
     public override func rangeEquals(offset: Int64, bytes: ByteString, bytesOffset: Int64, byteCount: Int64): Bool {
         if (offset < 0
             || bytesOffset < 0
@@ -992,10 +1478,22 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         return true
     }
 
+    /**
+     * The Function is emitCompleteSegments
+     *
+     * @return Type of BufferedSink
+     * @since 0.32.5
+     */
     public override func emitCompleteSegments(): BufferedSink {
         return this
     }
 
+    /**
+     * The Function is clear
+     *
+     * @return Type of Unit
+     * @since 0.32.5
+     */
     public func clear(): Unit {
         try {
             this.skip(size)
@@ -1004,6 +1502,14 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         }
     }
 
+    /**
+     * The Function is skip
+     *
+     * @param byteCount of Int64
+     *
+     * @return Type of Unit
+     * @since 0.32.5
+     */
     public override func skip(byteCount: Int64): Unit {
         var byteCount = byteCount
         while (byteCount > 0) {
@@ -1022,20 +1528,50 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         }
     }
 
+    /**
+     * The Function is peek
+     *
+     * @return Type of BufferedSource
+     * @since 0.32.5
+     */
     public override func peek(): BufferedSource {
         return Okio.buffer(PeekSource(this))
     }
 
+    /**
+     * The Function is close
+     *
+     * @return Type of Unit
+     * @since 0.32.5
+     */
     public override func close(): Unit {}
 
+    /**
+     * The Function is timeout
+     *
+     * @return Type of Timeout
+     * @since 0.32.5
+     */
     public override func timeout(): Timeout {
         return Timeout.NONE
     }
-    
+
+    /**
+     * The Function is isClosed
+     *
+     * @return Type of Bool
+     * @since 0.32.5
+     */
     public override func isClosed(): Bool {
         throw Exception("isClosed not support.")
     }
 
+    /**
+     * The Function is hashCode
+     *
+     * @return Type of Int64
+     * @since 0.32.5
+     */
     @overflowWrapping
     public override func hashCode(): Int64 {
         match (this.head) {
@@ -1054,6 +1590,16 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         }
     }
 
+    /**
+     * The Function is copyTo
+     *
+     * @param out of Buffer
+     * @param offset of Int64
+     * @param byteCount of Int64
+     *
+     * @return Type of Buffer
+     * @since 0.32.5
+     */
     public func copyTo(out: Buffer, offset: Int64, byteCount: Int64): Buffer {
         println("offset=${offset}, byteCount=${byteCount}")
         Util.checkOffsetAndCount(size, offset, byteCount)
@@ -1091,6 +1637,15 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
     }
 
 
+    /**
+     * The Function is write
+     *
+     * @param source of Buffer
+     * @param byteCount of Int64
+     *
+     * @return Type of Unit
+     * @since 0.32.5
+     */
     public override func write(source: Buffer, byteCount: Int64): Unit {
         if (source == this) {
             throw IllegalArgumentException("source == this")
@@ -1141,6 +1696,14 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         }
     }
 
+    /**
+     * The Function is ==
+     *
+     * @param that of Buffer
+     *
+     * @return Type of Bool
+     * @since 0.32.5
+     */
     public operator func == (that: Buffer): Bool {
         match ((that.head, this.head)) {
             case (Some(n), Some(m)) => 
@@ -1156,10 +1719,26 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         return refEq(this, that)
     }
 
+    /**
+     * The Function is !=
+     *
+     * @param that of Buffer
+     *
+     * @return Type of Bool
+     * @since 0.32.5
+     */
     public operator func != (that: Buffer): Bool {
         return !refEq(this, that)
     }
 
+    /**
+     * The Function is getInt8
+     *
+     * @param pos of Int64
+     *
+     * @return Type of Int8
+     * @since 0.32.5
+     */
     @overflowWrapping
     public func getInt8(pos: Int64): Int8 {
         var pos = pos
@@ -1188,6 +1767,12 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         return 1
     }
 
+    /**
+     * The Function is toString
+     *
+     * @return Type of String
+     * @since 0.32.5
+     */
     public override func toString():String {
         let sb = StringBuilder()
         sb.append("[size=${this.size}] ")
@@ -1204,6 +1789,12 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         return sb.toString()
     }
 
+    /**
+     * The Function is buffer
+     *
+     * @return Type of Buffer
+     * @since 0.32.5
+     */
     public override func buffer(): Buffer {
         return this
     }

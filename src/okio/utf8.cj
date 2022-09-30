@@ -1,11 +1,42 @@
+/*
+ * Copyright (c) Cangjie Library Team 2022-2022. All rights resvered.
+ */
+
+/**
+ * @file
+ * The file declars the Utf8 class.
+ */
 package okio
 
+/**
+ * The class is Utf8
+ * @author liyanqing14
+ * @since 0.32.5
+ */
 public class Utf8 {
 
+    /**
+     * The Function is size
+     *
+     * @param str of String
+     *
+     * @return Type of Int64
+     * @since 0.32.5
+     */
     public static func size(str: String): Int64 {
         size(str, 0, str.size)
     }
 
+    /**
+     * The Function is size
+     *
+     * @param str of String
+     * @param beginIndex of Int64
+     * @param endIndex of Int64
+     *
+     * @return Type of Int64
+     * @since 0.32.5
+     */
     public static func size(str: String, beginIndex: Int64, endIndex: Int64): Int64 {
         if (beginIndex < 0) {
             throw IllegalArgumentException ("beginIndex < 0: ${beginIndex}.")

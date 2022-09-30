@@ -1,3 +1,11 @@
+/*
+ * Copyright (c) Cangjie Library Team 2022-2022. All rights resvered.
+ */
+
+/**
+ * @file
+ * The file declars the PeekSource class.
+ */
 
 package okio
 
@@ -20,6 +28,15 @@ class PeekSource <: Source {
         }
     }
 
+    /**
+     * The Function is read
+     *
+     * @param sink of Buffer
+     * @param byteCount of Int64
+     *
+     * @return Type of Int64
+     * @since 0.32.5
+     */
     public func read(sink: Buffer, byteCount: Int64): Int64 {
         if (byteCount < 0) {
             throw IllegalArgumentException("byteCount < 0: ${byteCount}")
@@ -45,13 +62,31 @@ class PeekSource <: Source {
         return toCopy
 
     }
+    /**
+     * The Function is close
+     *
+     * @return Type of Unit
+     * @since 0.32.5
+     */
     public func close(): Unit {
         this.closed = true
     }
+    /**
+     * The Function is timeout
+     *
+     * @return Type of Timeout
+     * @since 0.32.5
+     */
     public func timeout(): Timeout {
         return Timeout()  // TODO
     }
 
+    /**
+     * The Function is isClosed
+     *
+     * @return Type of Bool
+     * @since 0.32.5
+     */
     public func isClosed(): Bool {
         return this.closed
     }

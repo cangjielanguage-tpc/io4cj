@@ -1,27 +1,72 @@
+/*
+ * Copyright (c) Cangjie Library Team 2022-2022. All rights resvered.
+ */
+
+/**
+ * @file
+ * The file declars the Okio class.
+ */
 package okio
 from std import socket.Socket
 from net import tls.TlsSocket
 from std import io.File
 
+/**
+ * The class is Okio
+ * @author liyanqing14
+ * @since 0.32.5
+ */
 public class Okio {
 
     // Do not expose the constructor to call static functions.
     init (){}
 
+    /**
+     * The Function is buffer
+     *
+     * @param source of Source
+     *
+     * @return Type of BufferedSource
+     * @since 0.32.5
+     */
     public static func buffer(source: Source): BufferedSource {
         return RealBufferedSource(source)
     }
 
+    /**
+     * The Function is buffer
+     *
+     * @param sink of Sink
+     *
+     * @return Type of BufferedSink
+     * @since 0.32.5
+     */
     public static func buffer(sink: Sink): BufferedSink {
         return RealBufferedSink(sink)
     }
 
+    /**
+     * The Function is sink
+     *
+     * @param socket of Socket
+     *
+     * @return Type of Sink
+     * @since 0.32.5
+     */
     public static func sink(socket: Socket): Sink {
         let timeout = timeout(socket)
         let sink = sink(SocketBuffer(socket), timeout)
         return timeout.sink(sink)
     }
 
+    /**
+     * The Function is sink
+     *
+     * @param socket of TlsSocket
+     *
+     * @return Type of Sink
+     * @since 0.32.5
+     */
     public static func sink(socket: TlsSocket): Sink {
         let timeout = timeout(socket)
         let sink = sink(SocketBuffer(socket), timeout)
@@ -29,22 +74,54 @@ public class Okio {
     }
 
     // TODO: Later, I need to customize a file object to call parameters. There are many file object parameters in cangjie, which is very troublesome
+    /**
+     * The Function is sink
+     *
+     * @param file of File
+     *
+     * @return Type of Sink
+     * @since 0.32.5
+     */
     public static func sink(file: File): Sink {
         return sink(file, Timeout())
     }
 
+    /**
+     * The Function is source
+     *
+     * @param socket of Socket
+     *
+     * @return Type of Source
+     * @since 0.32.5
+     */
     public static func source(socket: Socket): Source {
         let timeout = timeout(socket)
         let source = source(SocketBuffer(socket), timeout)
         return timeout.source(source)
     }
 
+    /**
+     * The Function is source
+     *
+     * @param socket of TlsSocket
+     *
+     * @return Type of Source
+     * @since 0.32.5
+     */
     public static func source(socket: TlsSocket): Source {
         let timeout = timeout(socket)
         let source = source(SocketBuffer(socket), timeout)
         return timeout.source(source)
     }
 
+    /**
+     * The Function is source
+     *
+     * @param file of File
+     *
+     * @return Type of Source
+     * @since 0.32.5
+     */
     public static func source(file: File): Source {
         return source(file, Timeout())
     }
@@ -149,8 +226,23 @@ class AnonymousSource <: Source {
     var funRead: ?(Buffer, Int64)-> Int64 = None
     var funTimeout: ?()-> Timeout = None
 
+    /**
+     * The Function is close
+     *
+     * @return Type of Unit
+     * @since 0.32.5
+     */
     public override func close(): Unit { }
 
+    /**
+     * The Function is read
+     *
+     * @param sink of Buffer
+     * @param byteCount of Int64
+     *
+     * @return Type of Int64
+     * @since 0.32.5
+     */
     public override func read(sink: Buffer, byteCount: Int64): Int64 {
         match (this.funRead) {
             case None => -1
@@ -158,10 +250,22 @@ class AnonymousSource <: Source {
         }
     }
 
+    /**
+     * The Function is timeout
+     *
+     * @return Type of Timeout
+     * @since 0.32.5
+     */
     public override func timeout(): Timeout {
         return this.funTimeout.getOrThrow()()
     }
 
+    /**
+     * The Function is isClosed
+     *
+     * @return Type of Bool
+     * @since 0.32.5
+     */
     public override func isClosed(): Bool {false}
 }
 
@@ -171,8 +275,20 @@ class AnonymousSink <: Sink {
     var funFlush: ?()-> Unit = None
     var funTimeout: ?()-> Timeout = None
 
+    /**
+     * The Function is close
+     *
+     * @return Type of Unit
+     * @since 0.32.5
+     */
     public override func close(): Unit {}
 
+    /**
+     * The Function is flush
+     *
+     * @return Type of Unit
+     * @since 0.32.5
+     */
     public override func flush(): Unit {
         match (this.funFlush) {
             case None => ()
@@ -180,10 +296,25 @@ class AnonymousSink <: Sink {
         }
     }
 
+    /**
+     * The Function is timeout
+     *
+     * @return Type of Timeout
+     * @since 0.32.5
+     */
     public override func timeout(): Timeout {
         return this.funTimeout.getOrThrow()()
     }
 
+    /**
+     * The Function is write
+     *
+     * @param source of Buffer
+     * @param byteCount of Int64
+     *
+     * @return Type of Unit
+     * @since 0.32.5
+     */
     public override func write(source: Buffer, byteCount: Int64): Unit {
         match (this.funWrite) {
             case None => ()
@@ -191,5 +322,11 @@ class AnonymousSink <: Sink {
         }
     }
 
+    /**
+     * The Function is isClosed
+     *
+     * @return Type of Bool
+     * @since 0.32.5
+     */
     public override func isClosed(): Bool {false}
 }
