@@ -702,7 +702,7 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         } else if (newline == -1 && size == 0) {
             return None
         }
-        return readUtf8Line(newline);
+        return readUtf8Line(newline)
     }
 
     func readUtf8Line(newLine: Int64): ?String {
@@ -1160,6 +1160,7 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         return !refEq(this, that)
     }
 
+    @overflowWrapping
     public func getInt8(pos: Int64): Int8 {
         var pos = pos
         Util.checkOffsetAndCount(size, pos, 1)
