@@ -997,7 +997,7 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
      */
     public override func readAll(sink: Sink): Int64 {
         let byteCount = size
-        if (byteCount < 0) {
+        if (byteCount > 0) {
             sink.write(this, byteCount)
         }
         return byteCount
