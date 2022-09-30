@@ -6,7 +6,7 @@
 <img alt="" src="https://img.shields.io/badge/release-v0.0.1-brightgreen" style="display: inline-block;" />
 <img alt="" src="https://img.shields.io/badge/build-pass-brightgreen" style="display: inline-block;" />
 <img alt="" src="https://img.shields.io/badge/cjc-v0.32.5-brightgreen" style="display: inline-block;" />
-<img alt="" src="https://img.shields.io/badge/cjcov-80.7%25-brightgreen" style="display: inline-block;" />
+<img alt="" src="https://img.shields.io/badge/cjcov-83.8%25-brightgreen" style="display: inline-block;" />
 <img alt="" src="https://img.shields.io/badge/project-open-brightgreen" style="display: inline-block;" />
 </p>
 
@@ -71,7 +71,7 @@ Okio是OkHttp的低层IO库，Okio是对仓颉io库的补充，使访问、存�
     └── UT
 ```
 
-- `doc`是库的设计文档、提案、库的使用文档
+- `doc`是库的设计文档、提案、库的使用文档 、LLT 覆盖率报告(1. okio 中存在包内可见的私有实现类, 成员函数调用之间都是包内可见函数, 外部LLT测试用例调用不到 2. okio中开启spawn时 LLT测试用例覆盖不到.  导致覆盖率未达到90%. )
 - `src`是库源码目录
 - `test`是存放测试用例，包括HLT用例、LLT 用例和UT用例
 
