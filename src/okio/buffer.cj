@@ -1063,7 +1063,7 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         if (s.pos + byteCount > s.limit) {
             return String.fromUtf8(readByteArray(byteCount))
         }
-        let result = String.fromUtf8(s.data, start: s.pos, length: byteCount)
+        let result = String.fromUtf8(s.data[s.pos..s.pos+byteCount])
         s.pos += byteCount
         this.mysize -= byteCount
         if (s.pos == s.limit) {
@@ -1781,6 +1781,21 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
                 case None => break
                 case Some(v) =>
                     sb.append(v.data[v.pos..v.limit])
+                    println("0---------------------------------------")
+                    println(v.data[v.pos..v.limit])
+                    println(v.limit)
+                    println(v.pos)
+                    println(v.next.getOrThrow().data[v.pos..50])
+                    println(v.next.getOrThrow().limit)
+                    println(v.next.getOrThrow().pos)
+                    let a = v.next.getOrThrow()
+                    let b = v.next.getOrThrow().next.getOrThrow()
+                    if (v == a) { println("相同")
+                    } else{println("不相同")}
+                    if (a == b) { println("相同")
+                    } else{println("不相同")}
+
+                    println(v.next.getOrThrow().next.getOrThrow().data[0..50])
                     break
                     temp = v.next
             }

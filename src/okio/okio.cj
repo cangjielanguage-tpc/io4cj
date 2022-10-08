@@ -9,7 +9,7 @@
 package okio
 from std import socket.Socket
 from net import tls.TlsSocket
-from std import io.File
+from std import fs.*
 
 /**
  * The class is Okio

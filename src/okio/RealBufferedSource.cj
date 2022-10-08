@@ -406,7 +406,10 @@ class RealBufferedSource <: BufferedSource {
 
     /**
      * The Function is readUtf8CodePoint
-     *
+     * If the first byte starts with 0, it must be a single byte encoding (that is, a single single byte symbol);
+     * If the first byte starts with 110, it must be a double byte encoding (that is, a double symbol sequence consisting of two single byte symbols);
+     * If the first byte starts with 1110, it must be a three byte code (that is, a three byte code sequence consisting of three single byte code elements);
+     * If the first byte starts with 1111, it must be a four byte code (that is, a three byte code sequence consisting of three single byte code elements);
      * @return Type of Int64
      * @since 0.32.5
      */

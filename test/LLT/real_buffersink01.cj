@@ -5,6 +5,7 @@
 from okio import okio.*
 from std import os.posix.*
 from std import io.*
+from std import fs.*
 
 let a = "abcdefghijklmn "
 let b = "中国 "
@@ -13,7 +14,7 @@ let c = "1234"
 main () {
     let path: String = "${getcwd()}/test.txt"
 
-    var file = File(path, Read, Open)
+    var file = File(path, Open(true, false))
 
     var reals = Okio.buffer(Okio.sink(file))
     reals.write(ByteString(Array<Byte>()))

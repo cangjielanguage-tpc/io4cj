@@ -5,6 +5,7 @@
 from okio import okio.*
 from std import os.posix.*
 from std import io.*
+from std import fs.*
 from std import time.*
 
 main () {
@@ -34,7 +35,7 @@ main () {
     let str7 = str.size
     let str8 = str.toByteArray()
     let str9 = str.write("./a.txt")
-    let fs = File("./a.txt",Read,Open)
+    let fs = File("./a.txt",Open(true, false))
     try {
         let str10 = str.write(fs)
     } catch(e: Exception) {
