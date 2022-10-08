@@ -5,6 +5,7 @@
 from okio import okio.*
 from std import os.posix.*
 from std import io.*
+from std import fs.*
 from std import time.*
 from okio import nio.ByteBuffer
 
@@ -52,7 +53,7 @@ main () {
     } catch(e: Exception) {
         println("case pass")
     }
-    let file = File("./a.txt", Read, Open)
+    let file = File("./a.txt", Open(true, false))
     let bufferedSource = Okio.source(file)
     var ess: String = ""
     try {

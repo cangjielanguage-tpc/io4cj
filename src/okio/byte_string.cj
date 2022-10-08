@@ -214,7 +214,7 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
      * @since 0.32.5
      */
     public static func read(path: String): ByteString {
-        return read(File(path, Read, Open))
+        return read(File(path, Open(true, false)))
     }
 
     /**
@@ -334,8 +334,9 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
      * @return Type of Unit
      * @since 0.32.5
      */
-    public func write (outPath: String, mode!: OpenMode = Append): Unit {
-        write(File(outPath, Write, mode))
+    public func write (outPath: String): Unit {
+        write(File(outPath, OpenOption.CreateOrAppend))
+        // write(File(outPath, Write, mode))
     }
 
     /**

@@ -5,6 +5,7 @@
 from okio import okio.*
 from std import os.posix.*
 from std import io.*
+from std import fs.*
 from std import time.*
 from std import socket.*
 from net import tls.*
@@ -24,14 +25,14 @@ main () {
     let str2 = Okio.source(server)
     str2.isClosed()
     let path: String = "${getcwd()}/test.txt"
-    var file = File(path, Write, ForceCreate)
+    var file = File(path, CreateOrAppend)
     Okio.buffer(Okio.sink(file))
         .writeUtf8("${a}\n")
         .writeUtf8("${b}\n")
         .writeUtf8(c)
         .close()
-    file = File(path, Read, Open)
-    file = File(path, Read, Open)
+    file = File(path, Open(true,false))
+    file = File(path, Open(true,false))
     let bufferedSource = Okio.buffer(Okio.source(file))
     
     bufferedSource.close()

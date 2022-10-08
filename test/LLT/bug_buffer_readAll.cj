@@ -4,6 +4,7 @@
 from okio import okio.*
 from std import os.posix.*
 from std import io.*
+from std import fs.*
 
 main () {
     let arrb:Array<Byte> = [6,5,4,3,2,16,7,100,9]
@@ -11,7 +12,7 @@ main () {
     a_buffer.write(arrb)
 
     let path: String = "./okio_readAll_057.txt"
-    var file = File(path, ReadWrite, OpenOrCreate)
+    var file = File(path, CreateOrAppend)
     let sink: Sink = Okio.sink(file)
     if (a_buffer.size != 9) {
         return 1
@@ -23,7 +24,7 @@ main () {
         return 1
     }
 
-    var file1 = File(path, Read, Open) 
+    var file1 = File(path, Open(true,false)) 
     if (file1.readToEnd().size != 9) {
         return 1
     }

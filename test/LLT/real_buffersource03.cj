@@ -5,11 +5,12 @@
 from okio import okio.*
 from std import os.posix.*
 from std import io.*
+from std import fs.*
 
 
 main () {
     let path: String = "${getcwd()}/test.txt"
-    var file = File(path, Read, Open)
+    var file = File(path, Open(true, false))
     var real0s = Okio.buffer(Okio.source(file))
     let str2 = real0s.indexOf(ByteString(Array<Byte>(5, item: 1)))
     let str3 = real0s.indexOf(ByteString(Array<Byte>(5, item: 1)),1)

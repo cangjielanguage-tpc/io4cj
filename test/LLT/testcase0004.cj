@@ -4,6 +4,7 @@
 from okio import okio.*
 from std import os.posix.*
 from std import io.*
+from std import fs.*
 
 let a = "abcdefghijklmn "
 let b = "中国 "
@@ -12,7 +13,7 @@ let c = "1234"
 main () {
     let path: String = "${getcwd()}/test.txt"
 
-    var file = File(path, Write, ForceCreate)
+    var file = File(path, CreateOrAppend)
     
     Okio.buffer(Okio.sink(file))
         .writeUtf8("${a}\n")
@@ -20,7 +21,7 @@ main () {
         .writeUtf8(c)
         .close()
 
-    file = File(path, Read, Open)
+    file = File(path, Open(true,false))
     let bufferedSource = Okio.buffer(Okio.source(file))
     if (bufferedSource.readUtf8Line() != a) {
         return 1
