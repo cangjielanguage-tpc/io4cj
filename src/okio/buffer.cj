@@ -1772,31 +1772,17 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
      * @return Type of String
      * @since 0.32.5
      */
-    public override func toString():String {
-        let sb = StringBuilder()
+    public override func toString(): String {
+        let sb: StringBuilder = StringBuilder()
         sb.append("[size=${this.size}] ")
-        var temp = this.head
-        while (true) {
+        var temp: ?Segment = this.head
+        var count: Int64 = 0
+        while (count < this.size) {
             match (temp) {
                 case None => break
                 case Some(v) =>
                     sb.append(v.data[v.pos..v.limit])
-                    println("0---------------------------------------")
-                    println(v.data[v.pos..v.limit])
-                    println(v.limit)
-                    println(v.pos)
-                    println(v.next.getOrThrow().data[v.pos..50])
-                    println(v.next.getOrThrow().limit)
-                    println(v.next.getOrThrow().pos)
-                    let a = v.next.getOrThrow()
-                    let b = v.next.getOrThrow().next.getOrThrow()
-                    if (v == a) { println("相同")
-                    } else{println("不相同")}
-                    if (a == b) { println("相同")
-                    } else{println("不相同")}
-
-                    println(v.next.getOrThrow().next.getOrThrow().data[0..50])
-                    break
+                    count += v.limit - v.pos
                     temp = v.next
             }
         }
