@@ -1777,15 +1777,22 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         sb.append("[size=${this.size}] ")
         var temp: ?Segment = this.head
         var count: Int64 = 0
+        var headComma: Bool = true
+        sb.append('[')
         while (count < this.size) {
-            match (temp) {
-                case None => break
-                case Some(v) =>
-                    sb.append(v.data[v.pos..v.limit])
-                    count += v.limit - v.pos
-                    temp = v.next
+            let v = temp.getOrThrow()
+            for (i in v.pos..v.limit) {
+                if (headComma) {
+                    headComma = false
+                } else {
+                    sb.append(", ")
+                }
+                sb.append(v.data[i])
             }
+            count += v.limit - v.pos
+            temp = v.next
         }
+        sb.append(']')
         return sb.toString()
     }
 
