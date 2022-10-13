@@ -131,6 +131,19 @@ public abstract class ByteBuffer <: Buffer & ToString & Hashable & Equatable<Buf
      */
     public func put(index: Int64, b: UInt8): Buffer
 
+    public func putLong(value: Int64): ByteBuffer
+    public func putInt(value: Int32): ByteBuffer
+    public func putShort(value: Int16): ByteBuffer
+    public func putUInt64(value: UInt64): ByteBuffer
+    public func putUInt32(value: UInt32): ByteBuffer
+    public func putUInt16(value: UInt16): ByteBuffer
+
+    public func getLong(): Int64
+    public func getInt(): Int32
+    public func getShort(): Int16
+    public func getUInt64(): UInt64
+    public func getUInt32(): UInt32
+    public func getUInt16(): UInt16
     /**
      * The Function is get
      *
