@@ -8,9 +8,7 @@ from std import time.*
 
 main () {
     var str = ByteString(Array<Byte>())
-    str.of(Array<Byte>())
     var arr: Array<Byte> = Array<Byte>(1024, {i => UInt8(i % 256)})
-    str.of(arr,0,10)
     let str1 = str.UTF8()
     let str2 = ByteString.encodeUtf8("ssfas")
     let str3 = str.UTF8()

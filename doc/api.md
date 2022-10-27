@@ -541,25 +541,31 @@ public class Buffer <: Object & BufferedSource & BufferedSink & Equatable<Buffer
 }
 ```
 
-ByteString 类 (下个迭代转测)
+ByteString 类
 
 不可变的字节序列。
 ```cangjie
 public open class ByteString <: Object & Hashable & ToString & Equatable<ByteString> {
     /*
+     * 构造一个ByteString。
+     * 参数 Array<Byte> - Array<Byte> 数据源
+     */
+    public init (data: Array<Byte>)
+    /*
      * 返回包含数据字节克隆的新字节字符串。
      * 参数 Array<Byte> - Array<Byte>
      * 返回值 ByteString - ByteString
      */
-    public func of (data: Array<Byte>): ByteString
+    public static func of (data: Array<Byte>): ByteString
 
     /*
      * 返回一个新的字节字符串，该字符串包含从偏移量开始的数据字节计数字节的副本。
+     * 参数 Array<Byte> - 字节数据源
      * 参数 Int64 - offset 偏移量
      * 参数 Int64 - byteCount 字节长度
      * 返回值 ByteString - 返回新的byteString
      */
-    public func of(target: Array<Byte>, offset: Int64, byteCount: Int64): ByteString
+    public static func of(target: Array<Byte>, offset: Int64, byteCount: Int64): ByteString
 
     /*
      * 返回包含UTF-8字节的新字节字符串。
@@ -569,9 +575,8 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
     public static func encodeUtf8(s: String): ByteString
 
     /*
-     *
-     * 参数 Int64 - 索引
-     * 返回值 Int8 - 返回的字节
+     * 通过将字节解码为UTF-8来构造新字符串
+     * 返回值 String - 返回的新字符串
      */
     public func UTF8(): String
 
@@ -602,7 +607,7 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
     public static func decodeHex(hex: String): ByteString
 
     /*
-     * 从中读取count字节并返回结果。如果input要读取的字节数少于count个。抛出EOFException
+     * 从一个输入流中中读取byteCount字节并返回结果。如果input要读取的字节数少于byteCount个。抛出EOFException
      * 参数 InputStream - input
      * 参数 Int64 - byteCount 字节数
      * 返回值 ByteString - ByteString
@@ -610,26 +615,27 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
     public static func read(input: InputStream, byteCount: Int64): ByteString
 
     /*
+     * 从一个输入流中读取返回ByteString
      * 相当于read(input, input.length)
      * 返回值 ByteString - ByteString
      */
     public static func read(input: InputStream): ByteString
 
     /*
-     * 从中读取count字节并返回结果。如果文件路径的input要读取的字节数少于count个。抛出EOFException
+     * 从path路径文件读取返回ByteString
      * 参数 String - 文件路径
      * 返回值 ByteString - ByteString
      */
     public static func read(path: String): ByteString
 
     /*
-     * 返回与此字节字符串相等的字节字符串，但将字节“a”到“Z”替换为“a”到“Z”中的相应字节。如果“A”到“Z”中不包含字节，则返回此字节字符串。
+     * 返回与此字节字符串相等的字节字符串，但将字节“A”到“Z”替换为“a”到“z”中的相应字节。
      * 返回值 ByteString - ByteString
      */
     public func toAsciiLowercase (): ByteString
 
     /*
-     * 返回与此字节字符串相等的字节字符串，但将字节“a”到“z”替换为“a”到“z”中的相应字节。如果“a”到“z”中不包含字节，则返回此字节字符串。
+     * 返回与此字节字符串相等的字节字符串，但将字节“a”到“z”替换为“A”到“Z”中的相应字节。
      * 返回值 ByteString - ByteString
      */
     public func toAsciiUppercase (): ByteString
@@ -667,64 +673,61 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
     public func toByteArray (): Array<Byte>
 
     /*
-     *
+     * 把ByteString中数据写入到outpath的文件中
      * 参数 Int64 - 索引
-     * 返回值 Int8 - 返回的字节
      */
-    public func write (outPath: String, mode!: OpenMode = Append): Unit
+    public func write (outPath: String): Unit
 
     /*
-     *
+     * 把ByteString中数据写入到out中
      * 参数 Int64 - 索引
-     * 返回值 Int8 - 返回的字节
      */
     public func write (out: OutputStream): Unit
 
     /*
-     *
+     * 把ByteString中数据写入到okio.Buffer中
      * 参数 Int64 - 索引
-     * 返回值 Int8 - 返回的字节
      */
-    public func write (buffer: Buffer)
+    public func write (buffer: okio.Buffer): Unit
 
     /*
-     *
+     * 如果自身ByteString的[offset..offset+byteCount）(左闭右开)中的字节等于其他ByteString的[otherOffset..otherOffset+byteCount）中的字节，则返回true。如果任一范围超出界限，则返回false。
      * 参数 Int64 - 索引
-     * 返回值 Int8 - 返回的字节
+     * 返回值 Bool - bool值
      */
     public func rangeEquals(offset: Int64, other: ByteString, otherOffset: Int64, byteCount: Int64): Bool
 
     /*
-     *
+     * 如果自身ByteString的内部数组[offset..offset+byteCount）(左闭右开)中的字节等于其他ByteString的[otherOffset..otherOffset+byteCount）中的字节，则返回true。如果任一范围超出界限，则返回false。
      * 参数 Int64 - 索引
-     * 返回值 Int8 - 返回的字节
+     * 返回值 Bool - bool值
      */
     public func rangeEquals(offset: Int64, other: Array<Byte>, otherOffset: Int64, byteCount: Int64): Bool
 
     /*
      * 判断原字符串是否以 prefix 为前缀开始
-     * 参数 prefix - 被判断的前缀字符串，当 prefix 长度为 0 时，返回 true
+     * 参数 prefix - 被判断的前缀，当 prefix 长度为 0 时，返回 true
      * 返回值 Bool - 如果字符串 prefix 是原字符串的前缀，返回 true，否则返回 false
      */
     public func startsWith(prefix: ByteString): Bool
 
     /*
      * 判断原字符串是否以 prefix 为前缀开始
-     * 参数 prefix - 被判断的前缀字符串，当 prefix 长度为 0 时，返回 true
+     * 参数 prefix - 被判断的前缀，当 prefix 长度为 0 时，返回 true
      * 返回值 Bool - 如果字符串 prefix 是原字符串的前缀，返回 true，否则返回 false
      */
     public func startsWith(prefix: Array<Byte>): Bool
 
     /*
      * 判断原字符串是否以 suffix 为后缀结尾
-     * 参数 suffix - 被判断的后缀字符串，当 suffix 长度为 0 时，返回 true
+     * 参数 suffix - 被判断的后缀，当 suffix 长度为 0 时，返回 true
      * 返回值 Bool - 如果字符串 suffix 是原字符串的后缀，返回 true，否则返回 false
      */
     public func endsWith (suffix: ByteString):Bool
 
     /*
      * 判断原字符串是否以 suffix 为后缀结尾
-     * 参数 suffix - 被判断的后缀字符串，当 suffix 长度为 0 时，返回 true
+     * 参数 suffix - 被判断的后缀，当 suffix 长度为 0 时，返回 true
      * 返回值 Bool - 如果字符串 suffix 是原字符串的后缀，返回 true，否则返回 false
      */
     public func endsWith (suffix: Array<Byte>) :Bool
@@ -790,7 +793,7 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
     public func lastIndexOf(other: Array<Byte>, fromIndex: Int64): Int64
 
     /*
-     * 判断与 o 是否是同一个ByteString对象
+     * 判断自身的内部数组与 o 的内部数组进行比较, 如果都相同则返回true, 否则返回false.
      * 参数 o - 被比较的对象
      * 返回值 Bool - bool
      */
