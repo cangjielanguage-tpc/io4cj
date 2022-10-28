@@ -53,7 +53,7 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
      * @return Type of ByteString
      * @since 0.32.5
      */
-    public func of (data: Array<Byte>): ByteString {
+    public static func of (data: Array<Byte>): ByteString {
         return ByteString(data.clone())
     }
 
@@ -67,7 +67,7 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
      * @return Type of ByteString
      * @since 0.32.5
      */
-    public func of(target: Array<Byte>, offset: Int64, byteCount: Int64): ByteString {
+    public static func of(target: Array<Byte>, offset: Int64, byteCount: Int64): ByteString {
         let bytes: Array<Byte> = Array<Byte>(byteCount, item: 0)
         var i = 0
         while (i < byteCount) {
@@ -279,7 +279,7 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
         }
         let subLen = endIndex - beginIndex
         if (subLen < 0 ) {
-            throw IllegalArgumentException("endIndex < beginIndex")
+            throw IllegalArgumentException("endIndex : ${endIndex} < beginIndex : ${beginIndex}")
         }
         if (beginIndex == 0 && endIndex == this.data.size) {
             return this
@@ -488,7 +488,7 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
      * @since 0.32.5
      */
     public func indexOf(other: Array<Byte>, fromIndex: Int64): Int64 {
-        for (i in max(fromIndex, 0)..data.size-other.size where Util.arrayRangeEquals(this.data, i, other, 0, other.size)) {
+        for (i in max(fromIndex, 0)..=data.size-other.size where Util.arrayRangeEquals(this.data, i, other, 0, other.size)) {
             return i
         }
         return -1
@@ -556,7 +556,7 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
      * @since 0.32.5
      */
     public operator func == (that: ByteString): Bool {
-        return refEq(this, that)
+        return this.equals(that)
     }
 
     /**
@@ -580,7 +580,16 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
      * @since 0.32.5
      */
     public func equals (o: ByteString): Bool {
-        return this == o
+        if (refEq(this, o)) {
+            return true
+        }
+        if (o.size != this.size) {
+            return false
+        }
+        for (index in 0..this.size where this.data[index] != o.data[index]) {
+            return false
+        }
+        return true
     }
 
     /**

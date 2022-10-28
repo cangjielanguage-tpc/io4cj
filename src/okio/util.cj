@@ -110,11 +110,13 @@ class Util {
      * @return Type of Int64
      * @since 0.32.5
      */
+    @overflowWrapping
     public static func hashCode(a: Array<Byte>): Int64 {
-        var result = 1
+        var result: Int32 = 1
         for (i in a) {
-            result = result * 31 + Int64(i)
+            result = result * 31 + Int32(Int8(i))
+            println(result)
         }
-        return result
+        return Int64(result)
     }
 }
