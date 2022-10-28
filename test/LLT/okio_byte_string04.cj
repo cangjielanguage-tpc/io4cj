@@ -30,7 +30,7 @@ main () {
     if (str == ByteString(Array<Byte>())) {
         return 1
     }
-    if (!(str != ByteString(Array<Byte>(5, item: 0)))) {
+    if (str != ByteString(Array<Byte>(5, item: 0))) {
         return 2
     }
     if (str.equals(ByteString(Array<Byte>()))) {

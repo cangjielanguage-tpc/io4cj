@@ -115,7 +115,6 @@ class Util {
         var result: Int32 = 1
         for (i in a) {
             result = result * 31 + Int32(Int8(i))
-            println(result)
         }
         return Int64(result)
     }
