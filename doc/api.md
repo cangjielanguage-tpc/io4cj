@@ -657,6 +657,7 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
 
     /*
      * 返回位置处的字节。
+     * 参数 Int64 - 索引位置, 如果索引小于0 或者 超出了byteString的大小, 会抛 IndexOutOfBoundsException 异常.
      * 返回值 Byte - 返回的字节
      */
     public func getByte (pos: Int64): Byte
@@ -674,19 +675,19 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
 
     /*
      * 把ByteString中数据写入到outpath的文件中
-     * 参数 Int64 - 索引
+     * 参数 String - 文件路径
      */
     public func write (outPath: String): Unit
 
     /*
      * 把ByteString中数据写入到out中
-     * 参数 Int64 - 索引
+     * 参数 OutputStream - 输出流
      */
     public func write (out: OutputStream): Unit
 
     /*
      * 把ByteString中数据写入到okio.Buffer中
-     * 参数 Int64 - 索引
+     * 参数 okio.Buffer - buffer缓存
      */
     public func write (buffer: okio.Buffer): Unit
 
