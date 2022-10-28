@@ -568,7 +568,7 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
      * @since 0.32.5
      */
     public operator func != (that: ByteString): Bool {
-        return !refEq(this, that)
+        return !(this == that)
     }
 
     /**
