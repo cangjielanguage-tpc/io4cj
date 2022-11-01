@@ -257,7 +257,7 @@ public open class HeapByteBuffer <: ByteBuffer & ToString {
     }
 }
 
-public class CreateSameBufferException <: IllegalArgumentException {
+public class CreateSameBufferException <: Exception {
     /**
      * The Function is init constructor
      *
