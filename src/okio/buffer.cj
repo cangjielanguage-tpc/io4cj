@@ -1061,9 +1061,9 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         }
         let s = this.head.getOrThrow()
         if (s.pos + byteCount > s.limit) {
-            return String.fromUtf8(readByteArray(byteCount))
+            return unsafe {String.fromUtf8Unchecked(readByteArray(byteCount))}
         }
-        let result = String.fromUtf8(s.data[s.pos..s.pos+byteCount])
+        let result = unsafe {String.fromUtf8Unchecked(s.data[s.pos..s.pos+byteCount])}
         s.pos += byteCount
         this.mysize -= byteCount
         if (s.pos == s.limit) {
