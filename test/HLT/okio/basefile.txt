@@ -1,0 +1,12 @@
+###########################################################
+// bufferIns.request(1)
+let mybuffer = Buffer()
+realData = mybuffer.writeUtf8("come on 得喂 【小高童鞋 && \"hello\"").toString()
+funcData = cla_1.parseData_utf8_1(realData,3,length:2)
+@Assert(funcData[0],205)
+@Assert(funcData[1],"34")
+var sourceIns_2:Source = mybuffer
+data = sourceIns_2.read(buffer_1,2).toString()   //sink为非空Buffer
+funcData = cla_1.parseData_utf8_1(data,1,length:1)
+@Assert(funcData[0],1)
+@Assert(data,"2")hellohellohellohellohello
