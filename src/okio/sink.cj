@@ -50,3 +50,4 @@ public interface Sink <: Resource & ToString {
     func write(source: Buffer, byteCount: Int64): Unit
 }
 
+
