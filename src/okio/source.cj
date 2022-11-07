@@ -15,7 +15,7 @@ from std import time.*
  * @author liyanqing14
  * @since 0.32.5
  */
-public interface Source <: Resource {
+public interface Source <: Resource & ToString {
     /*
      * The Function is close
      *

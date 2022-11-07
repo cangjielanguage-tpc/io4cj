@@ -16,7 +16,7 @@ from std import time.*
  * @author liyanqing14
  * @since 0.32.5
  */
-public interface Sink <: Resource {
+public interface Sink <: Resource & ToString {
     /*
      * The Function is close
      *

@@ -118,4 +118,12 @@ class Util {
         }
         return Int64(result)
     }
+
+    public static func sneakyRethrow(t: Exception) {
+        Util.sneakyRethrow2(t)
+    }
+
+    private static func sneakyRethrow2(t: Exception): Exception {
+        throw t
+    }
 }

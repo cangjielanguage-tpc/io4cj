@@ -9,7 +9,7 @@
 
 package okio
 
-class PeekSource <: Source {
+class PeekSource <: Source & ToString{
 
     var closed: Bool = false
     var pos: Int64 = 0
@@ -89,5 +89,15 @@ class PeekSource <: Source {
      */
     public func isClosed(): Bool {
         return this.closed
+    }
+
+    /**
+     * The Function is toString
+     *
+     * @return Type of String
+     * @since 0.32.5
+     */
+    public override func toString(): String{
+        return this.toString()
     }
 }
