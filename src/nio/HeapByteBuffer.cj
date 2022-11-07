@@ -255,6 +255,133 @@ public open class HeapByteBuffer <: ByteBuffer & ToString {
         discardMark()
         return this
     }
+    
+    /**
+     * The Function is putLong
+     *
+     * @param value of Int64
+     *
+     * @return Type of ByteBuffer
+     * @since 0.33.3
+     */
+    @overflowWrapping
+    public override func putLong(value: Int64): ByteBuffer {
+        this.putUInt64(UInt64(value))
+    }
+
+    /**
+     * The Function is putInt
+     *
+     * @param value of Int32
+     *
+     * @return Type of ByteBuffer
+     * @since 0.33.3
+     */
+    @overflowWrapping
+    public override func putInt(value: Int32): ByteBuffer {
+        this.putUInt32(UInt32(value))
+    }
+
+    /**
+     * The Function is putShort
+     *
+     * @param value of Int16
+     *
+     * @return Type of ByteBuffer
+     * @since 0.33.3
+     */
+    @overflowWrapping
+    public override func putShort(value: Int16): ByteBuffer {
+        this.putUInt16(UInt16(value))
+    }
+    
+    /**
+     * The Function is getLong
+     *
+     * @return Type of Int64
+     * @since 0.33.3
+     */
+    @overflowWrapping
+    public override func getLong(): Int64 {
+        return Int64(this.getUInt64())
+    }
+
+    /**
+     * The Function is getInt
+     *
+     * @return Type of Int32
+     * @since 0.33.3
+     */
+    @overflowWrapping
+    public override func getInt(): Int32 {
+        return Int32(this.getUInt32())
+    }
+
+    /**
+     * The Function is getShort
+     *
+     * @return Type of Int16
+     * @since 0.33.3
+     */
+    @overflowWrapping
+    public override func getShort(): Int16 {
+        return Int16(this.getUInt16())
+    }
+
+    @overflowWrapping
+    public func putUInt64(value: UInt64): ByteBuffer {
+        this.put(UInt8(value & 0xff))
+        this.put(UInt8((value >> 8) & 0xff))
+        this.put(UInt8((value >> 16) & 0xff))
+        this.put(UInt8((value >> 24) & 0xff))
+        this.put(UInt8((value >> 32) & 0xff))
+        this.put(UInt8((value >> 40) & 0xff))
+        this.put(UInt8((value >> 48) & 0xff))
+        this.put(UInt8((value >> 56) & 0xff))
+        return this
+    }
+
+    @overflowWrapping
+    public func putUInt32(value: UInt32): ByteBuffer {
+        this.put(UInt8(value & 0xff))
+        this.put(UInt8((value >> 8) & 0xff))
+        this.put(UInt8((value >> 16) & 0xff))
+        this.put(UInt8((value >> 24) & 0xff))
+        return this
+    }
+
+    @overflowWrapping
+    public func putUInt16(value: UInt16): ByteBuffer {
+        this.put(UInt8(value & 0xff))
+        this.put(UInt8((value >> 8) & 0xff))
+        return this
+    }
+
+    @overflowWrapping
+    public func getUInt64(): UInt64 {
+        return UInt64(this.get()) << 56 
+            | UInt64(this.get()) << 48
+            | UInt64(this.get()) << 40
+            | UInt64(this.get()) << 32
+            | UInt64(this.get()) << 24
+            | UInt64(this.get()) << 16
+            | UInt64(this.get()) << 8
+            | UInt64(this.get())
+    }
+
+    @overflowWrapping
+    public func getUInt32(): UInt32 {
+        return UInt32(this.get()) << 24
+            | UInt32(this.get()) << 16
+            | UInt32(this.get()) << 8
+            | UInt32(this.get())
+    }
+
+    @overflowWrapping
+    public func getUInt16(): UInt16 {
+        return UInt16(this.get()) << 8
+            | UInt16(this.get())
+    }
 }
 
 public class CreateSameBufferException <: Exception {
