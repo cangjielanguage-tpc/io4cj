@@ -119,9 +119,27 @@ class Util {
         return Int64(result)
     }
 
+    /**
+     * The Function is sneakyRethrow
+     *
+     * @param t of Exception
+     *
+     * @return Type of Exception
+     * @since 0.32.5
+     */
+
     public static func sneakyRethrow(t: Exception) {
         Util.sneakyRethrow2(t)
     }
+
+    /**
+     * The Function is sneakyRethrow2
+     *
+     * @param t of Exception
+     *
+     * @return Type of Exception
+     * @since 0.32.5
+     */
 
     private static func sneakyRethrow2(t: Exception): Exception {
         throw t
