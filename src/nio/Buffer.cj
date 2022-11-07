@@ -8,9 +8,6 @@
  */
 package nio
 
-
-
-
 /**
  * The class is Buffer inherited from Object & ToString
  * @author liyanqing14
