@@ -214,6 +214,7 @@ class AnonymousTimeout <: Timeout {
     public init() {
         super()
     }
+    
     /**
      * The Function is timeout
      *
@@ -225,17 +226,7 @@ class AnonymousTimeout <: Timeout {
     public override func timeout(timeout: Int64): Timeout {
         return this
     }
-    /**
-     * The Function is deadlineNanoTime
-     *
-     * @param deadLineNanoTime of Int64
-     *
-     * @return Type of Timeout
-     * @since 0.32.5
-     */
-    public override func deadlineNanoTime(deadLineNanoTime: Int64): Timeout {
-        return this
-    }
+
     /**
      * The Function is throwIfReached
      *
