@@ -24,7 +24,7 @@ public abstract class ForwardingSink <: Sink {
      * @since 0.33.3
      */
     public init(delegate: Sink) {
-    //if (delegate == null ) throw IllegalArgumentException("delegate == null");
+ 
     this.delegate = delegate
     }
 
