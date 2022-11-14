@@ -74,7 +74,7 @@ public abstract class ByteBuffer <: Buffer & ToString & Hashable & Equatable<Buf
      * @return Type of Buffer
      * @since 0.32.5
      */
-    public func slice(): Buffer
+    public func slice(): ByteBuffer
 
     /**
      * The Function is duplicate
@@ -353,7 +353,9 @@ public abstract class ByteBuffer <: Buffer & ToString & Hashable & Equatable<Buf
      */
     public open func toString(): String {
         let sb = StringBuilder()
-        sb.append("ByteBuffer: [pos=")
+        sb.append("ByteBuffer: [offset=")
+        sb.append(this.offset)
+        sb.append(" pos=")
         sb.append(position())
         sb.append(" lim=")
         sb.append(limit())
