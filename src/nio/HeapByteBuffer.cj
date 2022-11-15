@@ -330,30 +330,30 @@ public open class HeapByteBuffer <: ByteBuffer & ToString {
 
     @overflowWrapping
     public func putUInt64(value: UInt64): ByteBuffer {
-        this.put(UInt8(value & 0xff))
-        this.put(UInt8((value >> 8) & 0xff))
-        this.put(UInt8((value >> 16) & 0xff))
-        this.put(UInt8((value >> 24) & 0xff))
-        this.put(UInt8((value >> 32) & 0xff))
-        this.put(UInt8((value >> 40) & 0xff))
-        this.put(UInt8((value >> 48) & 0xff))
         this.put(UInt8((value >> 56) & 0xff))
+        this.put(UInt8((value >> 48) & 0xff))
+        this.put(UInt8((value >> 40) & 0xff))
+        this.put(UInt8((value >> 32) & 0xff))
+        this.put(UInt8((value >> 24) & 0xff))
+        this.put(UInt8((value >> 16) & 0xff))
+        this.put(UInt8((value >> 8) & 0xff))
+        this.put(UInt8(value & 0xff))
         return this
     }
 
     @overflowWrapping
     public func putUInt32(value: UInt32): ByteBuffer {
-        this.put(UInt8(value & 0xff))
-        this.put(UInt8((value >> 8) & 0xff))
-        this.put(UInt8((value >> 16) & 0xff))
         this.put(UInt8((value >> 24) & 0xff))
+        this.put(UInt8((value >> 16) & 0xff))
+        this.put(UInt8((value >> 8) & 0xff))
+        this.put(UInt8(value & 0xff))
         return this
     }
 
     @overflowWrapping
     public func putUInt16(value: UInt16): ByteBuffer {
-        this.put(UInt8(value & 0xff))
         this.put(UInt8((value >> 8) & 0xff))
+        this.put(UInt8(value & 0xff))
         return this
     }
 

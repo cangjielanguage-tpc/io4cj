@@ -88,10 +88,10 @@ public abstract class Buffer <: Object & ToString {
         if (newPosition > lim || newPosition < 0) {
             throw IllegalArgumentException("newPosition")
         }
-        pos = newPosition
         if (mar > pos) {
             mar = -1
         }
+        pos = newPosition
         return this
     }
 
@@ -201,7 +201,12 @@ public abstract class Buffer <: Object & ToString {
      * @since 0.32.5
      */
     public func remaining(): Int64 {
-        return lim - pos
+        let rem = lim - pos
+        return if (rem > 0) {
+            rem
+        } else {
+            0
+        }
     }
 
 
