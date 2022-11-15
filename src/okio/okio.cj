@@ -267,6 +267,16 @@ class AnonymousSource <: Source {
      * @since 0.32.5
      */
     public override func isClosed(): Bool {false}
+
+    /**
+     * The Function is toString
+     *
+     * @return Type of String
+     * @since 0.32.5
+     */
+    public override func toString(): String{
+        return this.toString()
+    }
 }
 
 
@@ -329,4 +339,14 @@ class AnonymousSink <: Sink {
      * @since 0.32.5
      */
     public override func isClosed(): Bool {false}
+
+     /**
+     * The Function is toString
+     *
+     * @return Type of String
+     * @since 0.32.5
+     */
+    public override func toString(): String{
+        return this.toString()
+    }
 }
