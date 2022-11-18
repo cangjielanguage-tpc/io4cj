@@ -15,7 +15,7 @@ main () {
 
     let ft: ForwardingTimeout = ForwardingTimeout(str)
     let ft2 = ft.setDelegate(str)
-    let ft1 = ft.getDelegate()
+    let ft1 = ft.delegate()
     let ft4 = ft.timeout(1)
     let ft5 = ft.timeoutNanos()
     let ft6 = ft.hasDeadline()

@@ -22,7 +22,7 @@ from std import time.*
      * let member delegate type is Timeout
      * @since 0.33.3
      */
-    private var delegate: Timeout = Timeout()
+    private var assignment: Timeout = Timeout()
 
      /**
      * The Function is ForwardingTimeout
@@ -31,11 +31,11 @@ from std import time.*
      *
      * @since 0.33.3
      */
-    public init(delegate: Timeout){
-        if (delegate.timeoutNanos() == 0) {
+    public init(assignment: Timeout){
+        if (assignment.timeoutNanos() == 0) {
             throw IllegalArgumentException("delegate == null");
-            }
-        this.delegate = delegate
+        }
+        this.assignment = assignment
     }
 
      /**
@@ -44,8 +44,8 @@ from std import time.*
      * @return Type of Timeout
      * @since 0.33.3
      */
-    public func getDelegate():Timeout{
-        return delegate
+    public func delegate():Timeout{
+        return assignment
     }
 
     /**
@@ -56,11 +56,11 @@ from std import time.*
      * @return Type of ForwardingTimeout
      * @since 0.33.3
      */
-    public func  setDelegate(delegate: Timeout):ForwardingTimeout{
-        if (delegate.timeoutNanos() == 0) {
+    public func  setDelegate(assignment: Timeout):ForwardingTimeout{
+        if (assignment.timeoutNanos() == 0) {
             throw IllegalArgumentException("delegate == none")
-            }
-        this.delegate = delegate
+        }
+        this.assignment = assignment
     return this    
     }
 
@@ -73,7 +73,7 @@ from std import time.*
      * @since 0.33.3
      */
     public override func timeout(timeout: Int64):Timeout { //unit: TimeUnit 
-        let thi =  delegate.timeout(timeout)
+        let thi =  assignment.timeout(timeout)
         return thi
     }
 
@@ -84,7 +84,7 @@ from std import time.*
      * @since 0.33.3
      */
     public override func timeoutNanos(): Int64{
-        return delegate.timeoutNanos()
+        return assignment.timeoutNanos()
     }
 
     /**
@@ -94,7 +94,7 @@ from std import time.*
      * @since 0.33.3
      */
     public override func hasDeadline():Bool{
-        return delegate.hasDeadline()
+        return assignment.hasDeadline()
     }
 
     /**
@@ -104,7 +104,7 @@ from std import time.*
      * @since 0.33.3
      */
     public override func deadlineNanoTime():Int64 {
-    return delegate.deadlineNanoTime();
+    return assignment.deadlineNanoTime();
     }
 
     /**
@@ -116,7 +116,7 @@ from std import time.*
      * @since 0.33.3
      */
     public override func deadlineNanoTime(deadlineNanoTime: Int64):Timeout {
-    return delegate.deadlineNanoTime(deadlineNanoTime);
+    return assignment.deadlineNanoTime(deadlineNanoTime);
     }
 
     /**
@@ -126,7 +126,7 @@ from std import time.*
      * @since 0.33.3
      */
     public override func clearTimeout(): Timeout {
-    return delegate.clearTimeout();
+    return assignment.clearTimeout();
     }
 
     /**
@@ -136,7 +136,7 @@ from std import time.*
      * @since 0.33.3
      */
     public override func clearDeadline(): Timeout {
-    return delegate.clearDeadline();
+    return assignment.clearDeadline();
     }
 
     /**
@@ -145,6 +145,6 @@ from std import time.*
      * @since 0.33.3
      */
     public override func throwIfReached(){
-    delegate.throwIfReached();
+    assignment.throwIfReached();
     }
  }

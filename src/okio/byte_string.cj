@@ -620,5 +620,3 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
     }
 
 }
-
-
