@@ -29,7 +29,7 @@ public class GzipSink <: Sink {
         this.deflater = Deflater(-1 , true)
         this.sink = Okio.buffer(sink)
         this.deflaterSink = DeflaterSink(this.sink, deflater)
-        writeHeader()
+        //writeHeader()
     }
 
     /**
@@ -86,7 +86,7 @@ public class GzipSink <: Sink {
         var thrown: ?Exception = None
         try {
             deflaterSink.finishDeflate()
-            writeFooter()
+            //writeFooter()
         } catch (e: Exception) {
             thrown = e
         }
@@ -125,32 +125,7 @@ public class GzipSink <: Sink {
     private func getDeflater(): Deflater{
         return deflater
     }
-
-    /**
-     * The Function is writeHeader
-     *
-     * @since 0.34.3
-     */
-    private func writeHeader(){
-        let buffer: Buffer = this.sink.buffer()
-        buffer.writeInt64(0x1f8b)
-        buffer.writeInt8(0x08)
-        buffer.writeInt8(0x00)
-        buffer.writeInt32(0x00)
-        buffer.writeInt8(0x00)
-        buffer.writeInt8(0x00)
-    }
-
-    /**
-     * The Function is writeFooter
-     *
-     * @since 0.34.3
-     */
-    private func writeFooter(){
-        sink.writeInt32Le(crc.getValue())
-        sink.writeInt32Le(DeflaterSink.bytesRead)
-    }
-
+    
     /**
      * The Function is updateCrc
      *

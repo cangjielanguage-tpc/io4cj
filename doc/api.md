@@ -2095,7 +2095,7 @@ public abstract class ByteBuffer <: Buffer & ToString & Hashable & Equatable<Buf
 
 
 
-ForwardingSink 抽象类
+### ForwardingSink 抽象类
 
 实现Sink接口，多出获取Sink对象的方法
 
@@ -2138,7 +2138,7 @@ public abstract class ForwardingSink <: Sink {
 }
 ```
 
-ForwardingSource 抽象类
+### ForwardingSource 抽象类
 
 实现Source接口，多出获取Sink对象的方法
 
@@ -2178,39 +2178,47 @@ public abstract class ForwardingSource <: Source{
 }
 ```
 
-ForwardingTimeout 类
+### ForwardingTimeout 类
 
 继承了Timeout类
 
 ```cangjie
  public class ForwardingTimeout <: Timeout {
+
+    /*
+     * 构造一个ForwardingTimeout。
+     */
+    public init(assignment: Timeout)
  	/*
      * 获取Timeout对象。
      */
     public func delegate(): Timeout
     
     /*
-     * 给Timeout赋值。
+     * 给Timeout对象赋值。
+     * 参数Timeout 超时对象对象。
      */
     public func  setDelegate(assignment: Timeout):ForwardingTimeout
     
     /*
      * 获取超时时间。
+     * 参数 Int64 - 计数器
      */
     public override func timeout(timeout: Int64):Timeout
     
     /*
-     * 获取超时时间纳秒值。
+     * 返回超时时间纳秒值。
      */
     public override func timeoutNanos(): Int64
     
     /*
-     * 是否有截止日期。
+     * 返回是否有截止日期。
+     * 返回值 Bool - 如果是 true，否则返回 false
      */
     public override func hasDeadline():Bool
     
     /*
-     * 截止日期纳秒值。
+     * 返回截止日期纳秒值。
      */
     public override func deadlineNanoTime():Int64
 
@@ -2238,12 +2246,18 @@ ForwardingTimeout 类
 }
 ```
 
-GzipSink 类
+### GzipSink 类
 
-实现了Sink接口，
+实现了Sink接口
 
 ```cangjie
-public class GzipSink的 <: Sink {
+public class GzipSink <: Sink {
+
+    /*
+     * 构造一个GzipSink。
+     * 参数：sink
+     */
+    public init(sink: Sink)
     /*
      * GzipSink的压缩功能，参数byteCount需要大于零。
      */
@@ -2253,21 +2267,6 @@ public class GzipSink的 <: Sink {
      * 将所有缓冲字节推送到SInk的目标中, 并释放此Sink持有的资源。写入已关闭的Sink是错误的。多次关闭Sink是安全的。
      */
     public override func close(): Unit
-
-    /*
-     * 返回此Deflater的超时对象。
-     */
-    private func getDeflater(): Deflater
-    
-    /*
-     * 写文件标头。
-     */
-    private func writeHeader()
-    
-    /*
-     * 写文件页脚。
-     */
-    private func writeHeader()
     
     /*
      * 根据给定数据修改CRC值
@@ -2276,7 +2275,7 @@ public class GzipSink的 <: Sink {
 }
 ```
 
-DeflaterSink
+### DeflaterSink
 
 实现了Sink接口，封装了具体的压缩方法
 
@@ -2284,8 +2283,14 @@ DeflaterSink
 public class DeflaterSink <: Sink {
 
     /*
-     * 获取closed值
+     * 构造一个DeflaterSink。
      */
+    public init(sink: Sink , deflater: Deflater)
+
+    /*
+    * 判断资源是否关闭
+    * 返回值 Bool - 如果已经关闭返回 true，否则返回 false
+    */
     public func isClosed(): Bool
 
     /*
@@ -2301,12 +2306,19 @@ public class DeflaterSink <: Sink {
 }
 ```
 
-GzipSource 类
+### GzipSource 类
 
 实现了Source接口，
 
 ```cangjie
+
+
 public class GzipSource <: Source {
+
+    /*
+     * 构造一个GzipSource。
+     */
+    public init(source:Source)
     /*
      * GzipSource的压缩功能，参数byteCount需要大于零。
      */
@@ -2315,7 +2327,7 @@ public class GzipSource <: Source {
 }
 ```
 
-InflaterSource
+### InflaterSource
 
 实现了Source接口，封装了具体的解压缩方法
 
@@ -2323,8 +2335,15 @@ InflaterSource
 public class InflaterSource <: Source {
 
     /*
-     * 获取closed值
+     * 构造一个InflaterSource。
+     * 参数Source 数据源
+     * 参数Inflater 
      */
+    public init(source: Source , inflater: Inflater)
+    /*
+    * 判断资源是否关闭
+    * 返回值 Bool - 如果已经关闭返回 true，否则返回 false
+    */
     public func isClosed(): Bool
 
     /*
@@ -2335,6 +2354,7 @@ public class InflaterSource <: Source {
     
      /*
      * Buffer对象是否完成解压缩
+     * 返回值 Bool - 如果完成解压缩 true，否则返回 false
      */
    public func refill(): Bool 
     
