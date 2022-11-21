@@ -5,7 +5,13 @@
   "description": "io library for okhttp ecosystem",
   "version": "1.0.0",
   "requires": {},
-  "package_requires": {},
+  "package_requires": {
+    "cryptocj/cryptocj_md5cj": "./ci_lib/cryptocj/md5cj.cjo",
+    "cryptocj/cryptocj_sha1cj": "./ci_lib/cryptocj/sha1cj.cjo",
+    "cryptocj/cryptocj_sha256cj": "./ci_lib/cryptocj/sha256cj.cjo",
+    "cryptocj/cryptocj_sha512cj": "./ci_lib/cryptocj/sha512cj.cjo",
+    "cryptocj/cryptocj_hmaccj": "./ci_lib/cryptocj/hmaccj.cjo"
+  },
   "foreign_requires": {},
   "output_type": "dynamic",
   "command_option": "-O2"
