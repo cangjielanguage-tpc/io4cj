@@ -23,6 +23,8 @@ public class HashingSink <: ForwardingSink {
     private static var result: String = String(Array<Char>())
     private static var key: Array<UInt8> = Array<UInt8>()
     private var hasHmac: Bool = true
+    private var source: Buffer = Buffer()
+    private var sink: Sink
 
 
     /**
@@ -45,7 +47,7 @@ public class HashingSink <: ForwardingSink {
      * @return Type of HashingSink
      * @since 0.34.3
      */
-    public static func sha1(sink: Sink,source: Buffer , byteCount: Int64): HashingSink {
+    public static func sha1(sink: Sink): HashingSink {
         return HashingSink(sink , "SHA-1")
     }
 
@@ -82,12 +84,12 @@ public class HashingSink <: ForwardingSink {
      * @return Type of HashingSink
      * @since 0.34.3
      */
-    public static func hmacSha1(sink: Sink , key: ByteString): HashingSink {
+    public static func hmacSha1(sink: Sink , key: String): HashingSink {
         if(key.size <= 0) {
         throw Exception("The key cannot be empty.")
         }
         HashingSink.algorithmArray = Array<UInt8>(20,item: 0)
-        HashingSink.key = key.toByteArray()
+        HashingSink.key = key.toUtf8Array()
         HashingSink.result = String(Array<Char>(41, item: '0'))
         return HashingSink(sink)
     }
@@ -101,13 +103,13 @@ public class HashingSink <: ForwardingSink {
      * @return Type of HashingSink
      * @since 0.34.3
      */
-    public static func hmacSha256(sink: Sink , key: ByteString):HashingSink {
+    public static func hmacSha256(sink: Sink , key: String):HashingSink {
         HashingSink(sink)
         if(key.size <= 0) {
         throw Exception("The key cannot be empty.")
         }
         HashingSink.algorithmArray = Array<UInt8>(32,item: 0)
-        HashingSink.key = key.toByteArray()
+        HashingSink.key = key.toUtf8Array()
         HashingSink.result = String(Array<Char>(65, item: '0'))
         return HashingSink(sink)
     }
@@ -121,13 +123,13 @@ public class HashingSink <: ForwardingSink {
      * @return Type of HashingSink
      * @since 0.34.3
      */
-    public static func hmacSha512(sink: Sink , key: ByteString): HashingSink {
+    public static func hmacSha512(sink: Sink , key: String): HashingSink {
         HashingSink(sink)
         if(key.size <= 0) {
         throw Exception("The key cannot be empty.")
         }
         HashingSink.algorithmArray = Array<UInt8>(64,item: 0)
-        HashingSink.key = key.toByteArray()
+        HashingSink.key = key.toUtf8Array()
         HashingSink.result = String(Array<Char>(129, item: '0'))
         return HashingSink(sink)
     }
@@ -139,6 +141,7 @@ public class HashingSink <: ForwardingSink {
      */
     private init(sink: Sink , algorithm: String){
         super(sink)
+        this.sink = sink
         HashingSink.algorithmArray = Array<UInt8>(getLength(algorithm),item: 0)
     }
 
@@ -149,6 +152,7 @@ public class HashingSink <: ForwardingSink {
      */
     private init(sink: Sink){
         super(sink)
+        this.sink = sink
     }
 
     /**
@@ -173,9 +177,11 @@ public class HashingSink <: ForwardingSink {
      * @since 0.34.3
      */
     public func writeMD5(source: Buffer , byteCount: Int64){
+        source.copyTo(this.source,0, byteCount)
         let sourceString: String = source.readUtf8Line().getOrThrow()
         md5(sourceString , algorithmArray)
         HashingSink.result = md5HexToString(algorithmArray)
+        write(this.source, byteCount)
     }
 
     /**
@@ -187,9 +193,11 @@ public class HashingSink <: ForwardingSink {
      * @since 0.34.3
      */
     public func writeSHA1(source: Buffer , byteCount: Int64){
+        source.copyTo(this.source,0, byteCount)
         let sourceString: String = source.readUtf8Line().getOrThrow()        
         sha1(sourceString , algorithmArray)
         HashingSink.result = toHexString(algorithmArray)
+        write(this.source, byteCount)
     }
 
     /**
@@ -201,9 +209,11 @@ public class HashingSink <: ForwardingSink {
      * @since 0.34.3
      */
     public func writeSHA256(source: Buffer , byteCount: Int64){
+        source.copyTo(this.source,0, byteCount)
         let sourceString: String = source.readUtf8Line().getOrThrow()  
         sha256(sourceString , algorithmArray)
         HashingSink.result = toHexString(algorithmArray)
+        write(this.source, byteCount)
     }
 
     /**
@@ -215,9 +225,11 @@ public class HashingSink <: ForwardingSink {
      * @since 0.34.3
      */
     public func writeSHA512(source: Buffer , byteCount: Int64){
+        source.copyTo(this.source,0, byteCount)
         let sourceString: String = source.readUtf8Line().getOrThrow()
         sha512(sourceString , algorithmArray)
         HashingSink.result = toHexString(algorithmArray)
+        write(this.source, byteCount)
     }
 
     /**
@@ -229,11 +241,14 @@ public class HashingSink <: ForwardingSink {
      * @since 0.34.3
      */
     public func writehmacSha1(source: Buffer , byteCount: Int64){
+        source.copyTo(this.source,0, byteCount)
         var algorithm: AlgorithmType = AlgorithmType.SHA1
         var sourceArray: Array<UInt8> = Array<UInt8>()
-        source.read(sourceArray)
+        let sourceString: String = source.readString().getOrThrow()
+        sourceArray = sourceString.toUtf8Array()
         hmac(algorithm , key , sourceArray , algorithmArray)
         HashingSink.result = toHexString(algorithmArray)
+        write(this.source, byteCount)
     }
 
     /**
@@ -245,12 +260,14 @@ public class HashingSink <: ForwardingSink {
      * @since 0.34.3
      */
     public func writehmacSha256(source: Buffer , byteCount: Int64){
+        source.copyTo(this.source,0, byteCount)
         var algorithm: AlgorithmType = AlgorithmType.SHA256
         var sourceArray: Array<UInt8> = Array<UInt8>()
-        source.read(sourceArray)
+        let sourceString: String = source.readString().getOrThrow()
+        sourceArray = sourceString.toUtf8Array()
         hmac(algorithm , key , sourceArray , algorithmArray)
         HashingSink.result = toHexString(algorithmArray)
-        write(source, byteCount)
+        write(this.source, byteCount)
     }
 
     /**
@@ -262,12 +279,14 @@ public class HashingSink <: ForwardingSink {
      * @since 0.34.3
      */
     public func writehmacSha512(source: Buffer , byteCount: Int64){
+        source.copyTo(this.source,0, byteCount)
         var algorithm: AlgorithmType = AlgorithmType.SHA512
         var sourceArray: Array<UInt8> = Array<UInt8>()
-        source.read(sourceArray)
+        let sourceString: String = source.readString().getOrThrow()
+        sourceArray = sourceString.toUtf8Array()
         hmac(algorithm , key , sourceArray , algorithmArray)
         HashingSink.result = toHexString(algorithmArray)
-        write(source, byteCount)
+        write(this.source, byteCount)
     }
     
     /**
@@ -287,7 +306,7 @@ public class HashingSink <: ForwardingSink {
      * @since 0.34.3
      */
     public override func isClosed(): Bool {
-        return isClosed()
+        return sink.isClosed()
     } 
 
     /**

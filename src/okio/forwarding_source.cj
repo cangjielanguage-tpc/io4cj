@@ -1,0 +1,86 @@
+/*
+ * Copyright (c) Cangjie Library Team 2022-2022. All rights resvered.
+ */
+
+/**
+ * @file
+ * The file declars the ForwardingSource class.
+ */
+package okio
+
+from std import time.*
+from std import io.*
+
+
+public abstract class ForwardingSource <: Source{
+
+    /**
+     * let member source type is Source
+     * @since 0.33.3
+     */
+    private var source: Source
+
+    /**
+     * The Function is init constructor
+     *
+     * @param source of Source
+     * @since 0.33.3
+     */
+    public init(source: Source){
+        //if (delegate == null) throw new IllegalArgumentException("delegate == null");
+        this.source = source;
+    }
+
+    /**
+     * The Function is getDelegate
+     *
+     * @return Type of Source
+     * @since 0.33.3
+     */
+    public func delegate(): Source{
+        return source
+    }
+
+    /**
+     * The Function is read
+     *
+     * @param sink of Buffer
+     * @param byteCount of Int64
+     *
+     * @return Type of Int64
+     * @since 0.33.3
+     */
+    public override open func read(sink: Buffer,byteCount:Int64): Int64{
+        return source.read(sink,byteCount)
+    }
+
+    /**
+     * The Function is timeout
+     *
+     * @return Type of Timeout
+     * @since 0.33.3
+     */
+    public override func timeout(): Timeout{
+        return source.timeout()
+    }
+
+    /**
+     * The Function is close
+     *
+     * @return Type of Unit
+     * @since 0.33.3
+     */
+    public override func close(): Unit {
+        source.close()
+    }
+
+    /**
+     * The Function is toString
+     *
+     * @return Type of String
+     * @since 0.33.3
+     */
+    public override func toString(): String{
+        return "Source" + "(" + source.toString() + ")"
+    }
+}
