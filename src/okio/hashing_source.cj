@@ -30,7 +30,6 @@ public class HashingSource <: ForwardingSource {
      * The Function is md5
      * 
      * @param source of Source
-     * 
      * @return Type of HashingSource
      * @since 0.34.3
      */
@@ -38,14 +37,36 @@ public class HashingSource <: ForwardingSource {
         return HashingSource(source,"MD5")
     }
 
+    /**
+     * The Function is sha1
+     * 
+     * @param source of Source
+     * @return Type of HashingSource
+     * @since 0.34.3
+     */
     public static func sha1(source: Source): HashingSource{
         return HashingSource(source, "SHA-1")
     }
     
+    /**
+     * The Function is sha256
+     * 
+     * @param source of Source
+     * @return Type of HashingSource
+     * @since 0.34.3
+     */
     public static func sha256(source: Source): HashingSource{
         return HashingSource(source, "SHA-256")
     }
 
+    /**
+     * The Function is hmacSha1
+     * 
+     * @param source of Source
+     * @param key of String
+     * @return Type of HashingSource
+     * @since 0.34.3
+     */
     public static func hmacSha1(source: Source,key: String):HashingSource{
         if(key.size <= 0) {
         throw Exception("The key cannot be empty.")
@@ -56,6 +77,14 @@ public class HashingSource <: ForwardingSource {
         return HashingSource(source)
     }
 
+    /**
+     * The Function is hmacSha256
+     * 
+     * @param source of Source
+     * @param key of String
+     * @return Type of HashingSource
+     * @since 0.34.3
+     */
     public static func hmacSha256(source:Source,key:String):HashingSource{
         if(key.size <= 0) {
         throw Exception("The key cannot be empty.")
@@ -66,42 +95,84 @@ public class HashingSource <: ForwardingSource {
         return HashingSource(source)
     }
 
+    /**
+     * The Function is init constructor
+     *
+     * @since 0.34.3
+     */
     private init(source: Source,algorithm: String){
         super(source)
         this.source = source
         HashingSource.algorithmArray = Array<UInt8>(getLength(algorithm),item: 0)
     }
 
-    private init(source: Source){
+    /**
+     * The Function is init constructor
+     *
+     * @since 0.34.3
+     */
+    private init(source: Source) {
         super(source);
         this.source = source
     }
 
+    /**
+     * The Function is read
+     * 
+     * @param sink of Buffer
+     * @param byteCount of Int64
+     * @return Type of Int64
+     * @since 0.34.3
+     */
     public override func read(sink: Buffer,byteCount: Int64):Int64{
         let readResult: Int64 = super.read(sink , byteCount)
         this.sink = sink
         return readResult
     }
 
-    public func readMD5() {
+    /**
+     * The Function is readMD5
+     * 
+     * @return Type of Unit
+     * @since 0.34.3
+     */
+    public func readMD5(): Unit {
         let sinkString: String = sink.readUtf8Line().getOrThrow()
         md5(sinkString , algorithmArray)
         HashingSource.result = md5HexToString(algorithmArray)
     }
 
-    public func readSHA1() {
+    /**
+     * The Function is readSHA1
+     * 
+     * @return Type of Unit
+     * @since 0.34.3
+     */
+    public func readSHA1(): Unit {
         let sinkString: String = sink.readUtf8Line().getOrThrow()        
         sha1(sinkString , algorithmArray)
         HashingSource.result = toHexString(algorithmArray)
     }
 
-    public func readSHA256() {
+    /**
+     * The Function is readSHA256
+     * 
+     * @return Type of Unit
+     * @since 0.34.3
+     */
+    public func readSHA256(): Unit {
         let sinkString: String = sink.readUtf8Line().getOrThrow()  
         sha256(sinkString , algorithmArray)
         HashingSource.result = toHexString(algorithmArray)
     }
 
-    public func readhmacSha1() {
+    /**
+     * The Function is readhmacSha1
+     * 
+     * @return Type of Unit
+     * @since 0.34.3
+     */
+    public func readhmacSha1(): Unit {
         var algorithm: AlgorithmType = AlgorithmType.SHA1
         var sinkArray: Array<UInt8> = Array<UInt8>()
         let sinkString: String = sink.readString().getOrThrow()
@@ -110,7 +181,13 @@ public class HashingSource <: ForwardingSource {
         HashingSource.result = toHexString(algorithmArray)
     }
 
-    public func readhmacSha256() {
+    /**
+     * The Function is readhmacSha256
+     * 
+     * @return Type of Unit
+     * @since 0.34.3
+     */
+    public func readhmacSha256(): Unit {
         var algorithm: AlgorithmType = AlgorithmType.SHA256
         var sinkArray: Array<UInt8> = Array<UInt8>()
         let sinkString: String = sink.readString().getOrThrow()

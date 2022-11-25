@@ -33,7 +33,7 @@ from std import time.*
      */
     public init(assignment: Timeout){
         if (assignment.timeoutNanos() == 0) {
-            throw IllegalArgumentException("delegate == null");
+            throw IllegalArgumentException("delegate == none");
         }
         this.assignment = assignment
     }
