@@ -60,7 +60,6 @@ public class GzipSink <: Sink {
      * @since 0.34.3
      */
     public override func flush(): Unit {
-        sink.flush()
     }
 
     /**
