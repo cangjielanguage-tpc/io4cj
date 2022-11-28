@@ -187,7 +187,7 @@ class PipeSink <: Sink {
     /**
      * The Function is isClosed
      *
-     *@return Type of Bool
+     * @return Type of Bool
      * @since 0.33.3
      */
     public override func isClosed(): Bool {

@@ -14,12 +14,12 @@ from compress import zlib.*
 public class DeflaterSink {
 
     private var sink: BufferedSink
+    private var sinks: Sink
     private var deflater: Deflater
     private var closed: Bool = true
-    public static var bytesRead: Int64 = 0
     private var bufferSink: Buffer = Buffer()
     private var byteCountSink: Int64 = 0
-    public var datas: Buffer = Buffer()
+
     /**
      * The Function is init constructor
      *
@@ -27,21 +27,7 @@ public class DeflaterSink {
      */
     public init(sink: Sink , deflater: Deflater){
         this.sink = Okio.buffer(sink)
-        this.deflater = deflater
-        getDeflaterSink(Okio.buffer(sink),deflater)
-    }
-
-    /**
-     * The Function is getDeflaterSink
-     *
-     * @param sink of BufferedSink
-     * @param deflater of Deflater
-     *
-     * @return Type of Unit
-     * @since 0.34.3
-     */
-    func getDeflaterSink(sink: BufferedSink , deflater: Deflater):Unit {
-        this.sink = sink
+        this.sinks = sink
         this.deflater = deflater
     }
 
@@ -64,11 +50,10 @@ public class DeflaterSink {
      * @return Type of Unit
      * @since 0.34.3
      */
-    public func write(source: Buffer , byteCount: Int64): Buffer{
-        let str = deflate(source , byteCount)
+    public func write(source: Buffer , byteCount: Int64){
+        deflate(source , byteCount)
         this.bufferSink = source
         this.byteCountSink = byteCount 
-        return str
     }
 
     /**
@@ -80,10 +65,11 @@ public class DeflaterSink {
      * @return Type of Unit
      * @since 0.34.3
      */
-    private func deflate (source: Buffer , byteCount: Int64):Buffer {
+    private func deflate (source: Buffer , byteCount: Int64): Unit {
         let buffer: Buffer = sink.buffer()
         
             let byteSink: Array<Byte> = Array<Byte>(byteCount, item: 0)
+            let gzipBuffer: Array<Byte> = Array<Byte>(byteCount, item: 0)
             var result = source.read(byteSink)
 
             var file:File = File("./temporarily.txt" , OpenOption. CreateOrTruncate(true))
@@ -92,33 +78,17 @@ public class DeflaterSink {
             var compressInputStream: CompressInputStream = CompressInputStream(file , wrap: DeflateFormat)
 
         while(true){
-            // 在当前sink中申请一个位于segment链表尾部的segment，用来存放压缩后的数据
-            let s: Segment = buffer.writableSegment(1)
-            // 调用Deflater类的压缩方法执行实际的压缩操作，压缩后的数据存放在s.data中
-
-            let deflated: Int64 = compressInputStream.read(s.data.slice(0, byteCount))
-
-            datas.write(s.data)
-            //println(sink.toString())
-
-            bytesRead +=deflated
-            if (deflated > 0) {
-                // 有数据被压缩了
-                s.limit = s.limit + deflated
-                var bufferSize: Int64 = buffer.size + deflated
-                sink.emitCompleteSegments()
-            }else if (deflater.needsInput()) {
-                // 没有数据被压缩，同时也不存在需要压缩的数据，则释放申请的segment
-                if (s.pos == s.limit) {
-                    buffer.head = s.pop()
-                    SegmentPool.recycle(s)
-                }
-                return datas
+            
+            let deflated: Int64 = compressInputStream.read(gzipBuffer)
+            buffer.write(gzipBuffer)
+            sinks.write(buffer,buffer.size)
+            if(deflated <= 0) {
+                break
             }
+
         }
         compressInputStream.close()
         file.close()
-        return datas
     }
 
     /**
@@ -129,7 +99,6 @@ public class DeflaterSink {
      */
     func finishDeflate():Unit {
         deflater.finishs()
-        write(bufferSink , byteCountSink)
     }
 
 }
@@ -162,7 +131,7 @@ public class Deflater {
      * @return Type of Bool
      * @since 0.34.3
      */
-    public func needsInput(): Bool {
+    func needsInput(): Bool {
         let input: ?ByteBuffer = this.input
         return match (input) {
             case None => inputLim == inputPos
@@ -176,7 +145,7 @@ public class Deflater {
      * @return Type of Unit
      * @since 0.34.3
      */
-    public func finishs():Unit {
+    func finishs():Unit {
         finish = true
     }
 

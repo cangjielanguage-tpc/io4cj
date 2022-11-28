@@ -9,7 +9,7 @@
 
 package okio
 
-public class PushableTimeout <: Timeout {
+class PushableTimeout <: Timeout {
 
     private var ptime: Timeout = Timeout()
     private var phasDeadline: Bool = true

@@ -13,12 +13,12 @@ main () {
     data.writeUtf8(testString)
     let buffer: Buffer = Buffer()
     let gs: GzipSink = GzipSink(buffer) 
-    let str1 = gs.write(data,data.size)
+    gs.write(data,data.size)
+    gs.close()
     let result: Buffer = Buffer()
-    let str = gs.deflaterSink.datas
-    let gsr: GzipSource = GzipSource(str)
-    gsr.read(result , 0x7fffffff)
-    
+    let gsr: GzipSource = GzipSource(buffer)
+    gsr.read(result , buffer.size)
+
     return 0
 }
 

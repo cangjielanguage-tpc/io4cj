@@ -178,8 +178,8 @@ public class HashingSink <: ForwardingSink {
      */
     public func writeMD5(source: Buffer , byteCount: Int64){
         source.copyTo(this.source,0, byteCount)
-        let sourceString: String = source.readUtf8Line().getOrThrow()
-        md5(sourceString , algorithmArray)
+        let sourceArray: Array<UInt8> = source.readByteArray()
+        md5(sourceArray , algorithmArray)
         HashingSink.result = md5HexToString(algorithmArray)
         write(this.source, byteCount)
     }
@@ -194,8 +194,8 @@ public class HashingSink <: ForwardingSink {
      */
     public func writeSHA1(source: Buffer , byteCount: Int64){
         source.copyTo(this.source,0, byteCount)
-        let sourceString: String = source.readUtf8Line().getOrThrow()        
-        sha1(sourceString , algorithmArray)
+        let sourceArray: Array<UInt8> = source.readByteArray()       
+        sha1(sourceArray , algorithmArray)
         HashingSink.result = toHexString(algorithmArray)
         write(this.source, byteCount)
     }
@@ -210,8 +210,8 @@ public class HashingSink <: ForwardingSink {
      */
     public func writeSHA256(source: Buffer , byteCount: Int64){
         source.copyTo(this.source,0, byteCount)
-        let sourceString: String = source.readUtf8Line().getOrThrow()  
-        sha256(sourceString , algorithmArray)
+        let sourceArray: Array<UInt8> = source.readByteArray()  
+        sha256(sourceArray , algorithmArray)
         HashingSink.result = toHexString(algorithmArray)
         write(this.source, byteCount)
     }
@@ -226,8 +226,8 @@ public class HashingSink <: ForwardingSink {
      */
     public func writeSHA512(source: Buffer , byteCount: Int64){
         source.copyTo(this.source,0, byteCount)
-        let sourceString: String = source.readUtf8Line().getOrThrow()
-        sha512(sourceString , algorithmArray)
+        let sourceArray: Array<UInt8> = source.readByteArray()
+        sha512(sourceArray , algorithmArray)
         HashingSink.result = toHexString(algorithmArray)
         write(this.source, byteCount)
     }

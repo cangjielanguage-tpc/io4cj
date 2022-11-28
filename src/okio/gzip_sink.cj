@@ -17,7 +17,7 @@ public class GzipSink <: Sink {
     private var sink: BufferedSink
     private var deflater: Deflater
     public var deflaterSink: DeflaterSink
-    public var closed: Bool = true
+    public var closed: Bool = false
     private var crc: CRC32 = CRC32()
 
     /**
@@ -48,7 +48,7 @@ public class GzipSink <: Sink {
         if (byteCount == 0){
             return
         }
-        updateCrc(source, byteCount)        
+        updateCrc(source, byteCount)
         deflaterSink.write(source, byteCount)
 
     }
@@ -60,7 +60,6 @@ public class GzipSink <: Sink {
      * @since 0.34.3
      */
     public override func flush(): Unit {
-        //deflaterSink.flush()
     }
 
     /**
@@ -86,7 +85,7 @@ public class GzipSink <: Sink {
         var thrown: ?Exception = None
         try {
             deflaterSink.finishDeflate()
-            //writeFooter()
+
         } catch (e: Exception) {
             thrown = e
         }
@@ -115,15 +114,6 @@ public class GzipSink <: Sink {
             case Some(v) => Util.sneakyRethrow(thrown.getOrThrow())
         }
         
-    }
-
-    /**
-     * The Function is getDeflater
-     *
-     * @since 0.34.3
-     */
-    private func getDeflater(): Deflater{
-        return deflater
     }
     
     /**
@@ -179,16 +169,6 @@ public class CRC32 {
      * @since 0.34.3
      */
     private var crc: Int64 = 0
-
-    /**
-     * The Function is getValue
-     *
-     * @return Type of Int64
-     * @since 0.34.3
-     */
-    public func getValue(): Int64{
-        return crc & 0xffffffff
-    }
 
     /**
      * The Function is update
