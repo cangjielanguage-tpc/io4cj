@@ -13,16 +13,13 @@ main () {
     data.writeUtf8(testString)
     let buffer: Buffer = Buffer()
     let gs: GzipSink = GzipSink(buffer) 
-    //println(data.toString())
     let str1 = gs.write(data,data.size)
     let str3 = gs.timeout()
-    //let str3 = gs.getDeflater()
     
     gs.close()
     gs.flush()
     gs.isClosed()
     gs.toString()
-
     let c: CRC32 = CRC32()
     c.reset()
     

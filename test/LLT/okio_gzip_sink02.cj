@@ -14,16 +14,23 @@ main () {
     let buffer: Buffer = Buffer()
     let gs: GzipSink = GzipSink(buffer)
     var es:String = ""
+    var es2:String = ""
+    gs.closed = true
     try{
-    let str1 = gs.write(data,-1)
-    }catch(e: Exception){
-        es = e.toString()
+
+        try{
+        let str1 = gs.write(data,-1)
+        }catch(e: Exception){
+            es2 = e.toString()
+        }
+    }catch(e1: ZlibException){
+        es = e1.toString()
     }
-    if (es != "IllegalArgumentException: byteCount < 0: -1") {
-        return 1
+    if (es2 != "IllegalArgumentException: byteCount < 0: -1") {
+        return 2
     }
+
     let str3 = gs.timeout()
-    //let str3 = gs.getDeflater()
     gs.close()
     gs.flush()
     

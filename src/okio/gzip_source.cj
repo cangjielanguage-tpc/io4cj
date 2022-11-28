@@ -38,7 +38,7 @@ public class GzipSource <: Source {
     public init(source:Source){
         this.inflater = Inflater()
         this.source = Okio.buffer(source)
-        this.inflaterSource = InflaterSource(this.source,inflater)
+        this.inflaterSource = InflaterSource(source,inflater)
     }
 
     /**
@@ -58,24 +58,21 @@ public class GzipSource <: Source {
             return 0
         }
         if(section == SECTION_HEADER){
-            //consumeHeader()
             section = SECTION_BODY
         }
         if(section == SECTION_BODY){
             let offest: Int64 = sink.size
             let result: Int64 = inflaterSource.read(sink , byteCount)
             if(result != -1){
-                //updateCrc(sink,offest,result)
+
                 return result
             }
             section = SECTION_TRAILER
         }
         if(section == SECTION_TRAILER){
-            //consumeTrailer()
+
             let section = SECTION_DONE
-            /* if(!source.exhausted()){
-                throw Exception("gzip finished without exhausting source")
-            } */
+           
         }
         return -1
     }

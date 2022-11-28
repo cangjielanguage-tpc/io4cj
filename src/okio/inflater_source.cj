@@ -13,7 +13,8 @@ from compress import zlib.*
 
 public class InflaterSource <: Source {
 
-    private var source: BufferedSource
+    //private var source: BufferedSource
+    private var source: Source
     private var inflater: Inflater
     private var bufferBytesHeldByInflater: Int64 = 0
     private var closed: Bool = false
@@ -24,21 +25,6 @@ public class InflaterSource <: Source {
      * @since 0.34.3
      */
     public init(source: Source , inflater: Inflater) {
-        this.source = Okio.buffer(source)
-        this.inflater = inflater
-        getInflaterSource(Okio.buffer(source) , inflater)
-    }
-
-    /**
-     * The Function is getInflaterSource
-     *
-     * @param source of BufferedSource
-     * @param inflater of Inflater
-     *
-     * @return Type of Unit
-     * @since 0.34.3
-     */
-    func getInflaterSource(source: BufferedSource , inflater: Inflater):Unit {
         this.source = source
         this.inflater = inflater
     }
@@ -53,6 +39,7 @@ public class InflaterSource <: Source {
      * @since 0.34.3
      */
     public func read(sink: Buffer , byteCount: Int64): Int64 {
+        let buffer: Buffer = Buffer()
         if (byteCount < 0) {
             throw IllegalArgumentException("byteCount < 0: ${byteCount}")
         }
@@ -65,86 +52,29 @@ public class InflaterSource <: Source {
             var sourceArray: Array<UInt8> = Array<UInt8>(1024, item: 0)
             var tempBuf: Array<UInt8> = Array<UInt8>(1024, item: 0)
             var file: File = File("./temporar.txt" , OpenOption. CreateOrTruncate(true))
+            while(true){
+                var index = source.read(buffer,byteCount)
+                buffer.read(tempBuf)
+                file.write(tempBuf)
 
-            var decompressOutputStream: DecompressOutputStream = DecompressOutputStream(file, wrap: DeflateFormat)
+                if(index <= 0) {
+                    break
+                }
+            }
+            file.seek(SeekPosition.Begin(0))
+            var decompressInputStream: DecompressInputStream = DecompressInputStream(file, wrap: DeflateFormat)
 
         while(true){
-            let sourceEnd: Bool = refill()
-            source.read(tempBuf)
-            let s: Segment = sink.writableSegment(1)
-            //var toRead = math.min(byteCount, Segment.SIZE - s.limit)
-
-            
-            decompressOutputStream.write(tempBuf.slice(0, 1024).toArray())
-
-            var inflated = file.read(sourceArray)
-
-            /* if (inflated <= 0) {
+            var readNum = decompressInputStream.read(sourceArray)
+            if (readNum <= 0) {
                 return -1
-                } */
+                }
+            sink.write(sourceArray)
 
-            if (inflated > 0) {
-                s.limit += inflated
-
-                var sinkSize: Int64 = sink.size + inflated
-                return inflated
-            }
-            if (inflater.finished() || inflater.needsDictionary()) {
-                releaseInflatedBytes()
-                if (s.pos == s.limit) {
-            // We allocated a tail segment, but didn't end up needing it. Recycle!
-            sink.head = s.pop();
-            SegmentPool.recycle(s);
-          }
-          return -1;
-            }
-            if (sourceEnd) {
-                throw EOFException("source exhausted prematurely")
-            }
         }
-        //decom.flush()
-        decompressOutputStream.flush()
-        decompressOutputStream.close()
+        decompressInputStream.close()
         file.close()
         return 0
-    }
-
-    /**
-     * The Function is refill
-     *
-     * @return Type of Bool
-     * @since 0.34.3
-     */
-    public func refill(): Bool {
-        if (!inflater.needsInput()) {
-            return false
-        }
-        releaseInflatedBytes()
-        if (inflater.getRemaining() != 0) {
-            throw IllegalStateException("?")
-        }
-        if (source.exhausted()) {
-            return true
-        }
-        let s: Segment = source.getBuffer().head.getOrThrow()
-        bufferBytesHeldByInflater = s.limit - s.pos
-        inflater.setInput(s.data , s.pos , bufferBytesHeldByInflater)
-        return false
-    }
-
-    /**
-     * The Function is releaseInflatedBytes
-     *
-     * @return Type of Unit
-     * @since 0.34.3
-     */
-    private func releaseInflatedBytes():Unit {
-        if (bufferBytesHeldByInflater == 0) {
-            return
-        }
-        let released: Int64 = bufferBytesHeldByInflater - inflater.getRemaining()
-        bufferBytesHeldByInflater -= released
-        source.skip(released)
     }
 
     /**
@@ -214,7 +144,7 @@ public class Inflater {
      * @return Type of Bool
      * @since 0.34.3
      */
-    public func finished(): Bool {
+    func finished(): Bool {
         return finishe
     }
 
@@ -224,7 +154,7 @@ public class Inflater {
      * @return Type of Bool
      * @since 0.34.3
      */
-    public func needsDictionary(): Bool {
+    func needsDictionary(): Bool {
         return needDict
     }
 
@@ -234,7 +164,7 @@ public class Inflater {
      * @return Type of Bool
      * @since 0.34.3
      */
-    public func needsInput(): Bool {
+    func needsInput(): Bool {
         let input: ?ByteBuffer = this.input
         return match (input) {
             case None => inputLim == inputPos
@@ -248,7 +178,7 @@ public class Inflater {
      * @return Type of Int64
      * @since 0.34.3
      */
-    public func getRemaining(): Int64 {
+    func getRemaining(): Int64 {
         let input: ?ByteBuffer = this.input
         return match (input) {
             case None => inputLim - inputPos
@@ -266,7 +196,7 @@ public class Inflater {
      * @return Type of Unit
      * @since 0.34.3
      */
-    public func setInput(input: Array<Byte> , off: Int64 , len: Int64):Unit {
+    func setInput(input: Array<Byte> , off: Int64 , len: Int64):Unit {
         if (off < 0 || len < 0 || off > (input.size - len)) {
             throw ArrayIndexOutOfBoundsException()
         }

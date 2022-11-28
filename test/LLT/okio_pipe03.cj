@@ -19,6 +19,17 @@ main () {
         return 1
     }
 
+
+    let pi6: Pipe = Pipe(128)
+    let ps6: BufferedSink = Okio.buffer(pi6.sink())
+    ps6.writeUtf8("world")
+    ps6.close()
+    let bu6: Buffer = Buffer()
+    pi6.fold(bu6)
+    if("world" != bu6.readUtf8(5).getOrThrow()){
+        return 1
+    }
+
     return 0
 
 }

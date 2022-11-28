@@ -1625,7 +1625,670 @@ class RealBufferedSource <: BufferedSource {
 }
 ```
 
+
+
+### ForwardingTimeout 类
+
+继承了Timeout类
+
+```cangjie
+ public class ForwardingTimeout <: Timeout {
+
+    /*
+     * 构造一个ForwardingTimeout。
+     */
+    public init(assignment: Timeout)
+ 	/*
+     * 获取Timeout对象。
+     */
+    public func delegate(): Timeout
+    
+    /*
+     * 给Timeout对象赋值。
+     * 参数Timeout 超时对象对象。
+     */
+    public func  setDelegate(assignment: Timeout):ForwardingTimeout
+    
+    /*
+     * 获取Timeout对象，重写父类Timeout的timeout(timeout: Int64)方法。
+     * 参数 Int64 - 计数器
+     */
+    public override func timeout(timeout: Int64):Timeout
+    
+    /*
+     * 返回超时时间纳秒值，重写父类Timeout的timeoutNanos()方法。
+     */
+    public override func timeoutNanos(): Int64
+    
+    /*
+     * 返回是否有截止日期，重写父类Timeout的hasDeadline()方法。
+     * 返回值 Bool - 如果是 true，否则返回 false
+     */
+    public override func hasDeadline():Bool
+    
+    /*
+     * 返回截止日期纳秒值，重写父类Timeout的deadlineNanoTime()方法。
+     */
+    public override func deadlineNanoTime():Int64
+
+    /*
+     * 截止日期纳秒值，重写父类Timeout的deadlineNanoTime（deadlineNanoTime: Int64）方法。
+     * 参数 Int64 - 截至日期纳秒
+     * 返回值 Timeout。
+     */
+    public override func deadlineNanoTime(deadlineNanoTime: Int64):Timeout
+
+    /*
+     * 清理Timeout变量timeoutnanost，使timeoutnanost值变为零，重写父类clearTimeout()方法。
+     */
+    public override func clearTimeout(): Timeout
+    
+    /*
+     * 清理Timeout变量hasdeadline，使hasdeadline值变为false，重写父类clearDeadline()方法。
+     */
+    public override func clearDeadline(): Timeout
+    
+    /*
+     * 抛出预期，如果hasdeadline为true且deadlinenanotime小于等于当前时间则抛出异常，重写父类throwIfReached()方法。
+     */
+    public override func throwIfReached()
+}
+```
+
+### GzipSink 类
+
+实现了Sink接口
+
+```cangjie
+public class GzipSink <: Sink {
+
+    /*
+     * 构造一个GzipSink。
+     * 参数：sink： Sink接口
+     */
+    public init(sink: Sink)
+    /*
+     * GzipSink的压缩功能，参数byteCount需要大于零。
+     * 参数：source：Buffe让对象
+     */
+    public func write(source: Buffer,byteCount: Int64): Unit
+
+    /*
+     * 将所有缓冲字节推送到SInk的目标中, 并释放此Sink持有的资源。写入已关闭的Sink是错误的。多次关闭Sink是安全的。
+     */
+    public override func close(): Unit
+    /*
+     * 清理sink里面内容，重写父类sink的flush()方法。
+     * 参数：source：Buffe让对象
+     */
+    public override func flush(): Unit
+    /*
+     * 获取Timeout对象，重写父类sink的timeout()方法。
+     * 参数：source：Buffe让对象
+     */
+    public override func timeout(): Timeout
+    /*
+     *判断资源是否关闭
+    * 返回值 Bool - 如果已经关闭返回 true，否则返回 false
+     */
+    public override func isClosed(): Bool
+    
+}
+```
+
+### DeflaterSink
+
+实现了Sink接口，封装了具体的压缩方法
+
+```cangjie
+public class DeflaterSink <: Sink {
+
+    /*
+     * 构造一个DeflaterSink。
+     */
+    public init(sink: Sink , deflater: Deflater)
+
+    /*
+    * 判断资源是否关闭
+    * 返回值 Bool - 如果已经关闭返回 true，否则返回 false
+    */
+    public func isClosed(): Bool
+    
+    /*
+     * 判断是否需要输入数据
+     */
+    public func needsInput(): Bool
+    
+    /*
+     * 判断是否需要输入数据
+     */
+    public func end():Unit
+
+}
+```
+
+### GzipSource 类
+
+实现了Source接口，
+
+```cangjie
+
+public class GzipSource <: Source {
+
+    /*
+     * 构造一个GzipSource。
+     */
+    public init(source:Source)
+    /*
+     * GzipSource的解压功能，参数byteCount需要大于零。
+     */
+    public func read(sink: Buffer,byteCount: Int64): Int64
+    
+    /*
+     * 将所有缓冲字节推送到SInk的目标中, 并释放此Sink持有的资源。写入已关闭的Sink是错误的。多次关闭Sink是安全的。
+     */
+    public override func close(): Unit
+    /*
+     * 获取Timeout对象，重写父类Source的timeout()方法。
+     * 参数：source：Buffe让对象
+     */
+    public override func timeout(): Timeout
+    /*
+     *判断资源是否关闭
+    * 返回值 Bool - 如果已经关闭返回 true，否则返回 false
+     */
+    public override func isClosed(): Bool
+    /*
+     * 获取String类型，重写toString()方法。
+     */
+    public override func toString():String
+
+}
+```
+
+### InflaterSource
+
+实现了Source接口，封装了具体的解压缩方法
+
+```cangjie
+public class InflaterSource <: Source {
+
+    /*
+     * 构造一个InflaterSource。
+     * 参数Source 数据源
+     * 参数Inflater 
+     */
+    public init(source: Source , inflater: Inflater)
+    /*
+    * 判断资源是否关闭
+    * 返回值 Bool - 如果已经关闭返回 true，否则返回 false
+    */
+    public func isClosed(): Bool
+
+    /*
+     * 将buffer中的数据压缩到Segment对象中，并保存到BufferedSink对象中
+     *返回解压缩后的字节数
+     */
+    public func read(sink: Buffer , byteCount: Int64): Int64
+    
+     /*
+     * Buffer对象是否完成解压缩
+     * 返回值 Bool - 如果完成解压缩 true，否则返回 false
+     */
+   public func refill(): Bool 
+    
+    /*
+     * 从此源读取并丢弃byteCount字节
+     */
+    private func releaseInflatedBytes():Unit
+
+}
+```
+
+### ForwardingSink 抽象类
+
+实现Sink接口，多出获取Sink对象的方法
+
+```cangjie
+public abstract class ForwardingSink <: Sink {
+	
+	/*
+     * 获取Sink对象。
+     */
+    public func delegate(): Sink
+
+	/*
+     * 从Source中删除byteCount字节并将其附加到此Sink中。
+     * 参数 Buffer - okio的Buffer对象, source的实现类
+     * 参数 Int64 - 计数器
+     */
+    public override open func write(source: Buffer,byteCount: Int64): Unit
+    
+    /*
+     * 将所有缓冲字节推送到SInk的目标中。
+     */
+    public override func flush(): Unit
+    
+    /*
+     * 返回此接收器的超时对象
+     * 返回值 Timeout - 超时对象
+     */
+    public override func timeout(): Timeout
+   
+    /*
+     * 将所有缓冲字节推送到SInk的目标中, 并释放此Sink持有的资源。写入已关闭的Sink是错误的。多次关闭Sink是安全的。
+     */
+    public override func close(): Unit
+    
+    /*
+     * 重写的toString方法
+     * 返回值 重写的toString格式数据
+     */
+    func timeout(): Timeout  (下个迭代转测)    
+}
+```
+
+### ForwardingSource 抽象类
+
+实现Source接口，多出获取Sink对象的方法
+
+```cangjie
+public abstract class ForwardingSource <: Source{
+
+	/*
+     * 获取Source对象。
+     */
+    public func delegate(): Source
+    
+    /*
+     * 从Source中删除至少1个字节，并将它们附加到Sink中。返回读取的字节数，如果此Source已用完，则返回-1。
+     * 参数 Buffer - okio的Buffer对象, Sink的实现类
+     * 参数 Int64 - 计数器
+     * 返回值 Int64 - 返回读取的字节数，如果此Source已用完，则返回-1。
+     */
+    public override open func read(sink: Buffer,byteCount:Int64): Int64
+    
+    /*
+     * 返回此Source的超时对象。
+     * 返回值 Timeout - 超时对象
+     */
+    public override func timeout(): Timeout(下个迭代转测)
+    
+    /*
+     * 关闭此源并释放此源持有的资源。读取封闭源是一个错误。多次关闭Source是安全的。
+     */
+    func close(): Unit (下个迭代转测)
+	
+	/*
+     * 重写的toString方法
+     * 返回值 重写的toString格式数据
+     */
+    func timeout(): Timeout  (下个迭代转测) 
+    
+}
+```
+
+### HashingSink
+
+继承了ForwardingSink抽象类，调用具体算法，返回响应的哈希值
+
+```cangjie
+public class HashingSink <: ForwardingSink {
+
+    /*
+     * 返回一个使用过时的MD5哈希算法生成128位哈希的接收器。
+     * 参数sink 接收器
+     */
+    public static func md5(sink: Sink): HashingSink
+    /*
+     * 返回一个使用过时的sha1哈希算法生成160位哈希的接收器。
+     * 参数sink 接收器
+     */
+    public static func sha1(sink: Sink): HashingSink
+
+    /*
+     * 返回一个使用过时的sha256哈希算法生成256位哈希的接收器。
+     * 参数sink 接收器
+     */
+    public static func sha256(sink: Sink): HashingSink
+    
+     /*
+     * 返回一个使用过时的sha512哈希算法生成512位哈希的接收器。
+     * 参数sink 接收器
+     */
+    public static func sha512(sink: Sink): HashingSink
+    
+    /*
+     * 返回一个使用SHA-1 HMAC算法生成160位哈希的接收器。
+     * 参数sink 接收器，key：字符串形式的秘钥
+     */
+    public static func hmacSha1(sink: Sink , key: String): HashingSink 
+    
+    /*
+     * 返回一个使用SHA-256 HMAC算法生成256位哈希的接收器。
+     * 参数sink 接收器，key：字符串形式的秘钥
+     */
+    public static func hmacSha256(sink: Sink , key: String): HashingSink 
+    
+    /*
+     * 返回一个使用SHA-512 HMAC算法生成512位哈希的接收器。
+     * 参数sink 接收器，key：字符串形式的秘钥 
+     */
+    public static func hmacSha512(sink: Sink , key: String): HashingSink 
+    
+    /*
+     * 将数据写入接收器中
+     * 参数source 有内容的Buffer对象，byteCount：Int64
+     */
+    public override func write(source: Buffer , byteCount: Int64)
+    
+    /*
+     * 调用MD5加密算法对数据加密，加密后的数据封装在字符串中；
+     * 调用write方法将数据写入接收器中
+     * 参数source 有内容的Buffer对象，byteCount：Int64
+     */
+    public func writeMD5(source: Buffer , byteCount: Int64)
+    
+    /*
+     * 调用SHA1加密算法对数据加密，加密后的数据封装在字符串中；
+     * 调用write方法将数据写入接收器中
+     * 参数source 有内容的Buffer对象，byteCount：Int64
+     */
+    public func writeSHA1(source: Buffer , byteCount: Int64)
+    
+    /*
+     * 调用SHA256加密算法对数据加密，加密后的数据封装在字符串中；
+     * 调用write方法将数据写入接收器中
+     * 参数source 有内容的Buffer对象，byteCount：Int64
+     */
+    public func writeSHA256(source: Buffer , byteCount: Int64)
+    
+    /*
+     * 调用SHA512加密算法对数据加密，加密后的数据封装在字符串中；
+     * 调用write方法将数据写入接收器中
+     * 参数source 有内容的Buffer对象，byteCount：Int64
+     */
+    public func writeSHA512(source: Buffer , byteCount: Int64)
+    
+    /*
+     * 调用hmacSha1加密算法对数据加密，加密后的数据封装在字符串中；
+     * 调用write方法将数据写入接收器中
+     * 参数source 有内容的Buffer对象，byteCount：Int64
+     */
+    public func writehmacSha1(source: Buffer , byteCount: Int64)
+    
+    /*
+     * 调用hmacSha256加密算法对数据加密，加密后的数据封装在字符串中；
+     * 调用write方法将数据写入接收器中
+     * 参数source 有内容的Buffer对象，byteCount：Int64
+     */
+    public func writehmacSha256(source: Buffer , byteCount: Int64)
+    
+     /*
+     * 调用hmacSha512加密算法对数据加密，加密后的数据封装在字符串中；
+     * 调用write方法将数据写入接收器中
+     * 参数source 有内容的Buffer对象，byteCount：Int64
+     */
+    public func writehmacSha512(source: Buffer , byteCount: Int64)
+    
+    /*
+     * 返回加密后的结果
+     * 
+     * 返回值：加密后的String数据
+     */
+    public func hash(): String
+    
+    /*
+     *判断资源是否关闭
+    * 返回值 Bool - 如果已经关闭返回 true，否则返回 false
+     *//*
+     * 返回加密后的结果
+     * 
+     * 返回值：加密后的String数据
+     */
+    public override func isClosed(): Bool 
+
+}
+示例：main () {
+	var source: Buffer = Buffer()
+    var sink: Buffer = Buffer()
+    let hashingSink: HashingSink = HashingSink.md5(sink)
+    source.writeUtf8("helloworld")
+    hashingSink.writeMD5(source, 10)
+    let a: String = hashingSink.hash()
+    if(a != "fc5e038d38a57032085441e7fe7010b0") {
+        return -1
+    }
+    return 0
+}
+输出结果：
+	0
+
+```
+
+### HashingSource
+
+继承了ForwardingSource抽象类，调用具体算法，返回响应的哈希值
+
+```cangjie
+public class HashingSource <: ForwardingSource {
+
+    /*
+     * 返回一个使用过时的MD5哈希算法生成128位哈希的接收器。
+     * 参数source 数据源
+     */
+    public static func md5(source:Source):HashingSource
+    /*
+     * 返回一个使用过时的sha1哈希算法生成160位哈希的接收器。
+     * 参数source 数据源
+     */
+    public static func sha1(source: Source): HashingSource
+
+    /*
+     * 返回一个使用过时的sha256哈希算法生成256位哈希的接收器。
+     * 参数source 数据源
+     */
+    public static func sha256(source: Source): HashingSource
+    
+    /*
+     * 返回一个使用SHA-1 HMAC算法生成160位哈希的接收器。
+     * 参数source 数据源，key：字符串形式的秘钥
+     */
+    public static func hmacSha1(source: Source,key: String):HashingSource 
+    
+    /*
+     * 返回一个使用SHA-256 HMAC算法生成256位哈希的接收器。
+     * 参数source 数据源，key：字符串形式的秘钥
+     */
+    public static func hmacSha256(source:Source,key:String):HashingSource
+    
+    /*
+     * 将数据读取到Buffer中
+     * 参数sink 空的的Buffer对象，byteCount：Int64
+     * 返回值： 返回读取的字节数
+     */
+    public override func read(sink: Buffer,byteCount: Int64):Int64
+    
+    /*
+     * 调用MD5加密算法对read方法读取的数据加密，加密后的数据封装在字符串中；
+     * 返回值：Unit
+     */
+    public func readMD5(): Unit 
+    
+    /*
+     * 调用SHA1加密算法对read方法读取的数据加密，加密后的数据封装在字符串中；
+     * 返回值：Unit
+     */
+    public func readSHA1(): Unit 
+    
+    /*
+     * 调用SHA256加密算法对read方法读取的数据加密，加密后的数据封装在字符串中；
+     * 返回值：Unit
+     */
+    public func readSHA256(): Unit 
+    
+    /*
+     * 调用readhmacSha1加密算法对read方法读取的数据加密，加密后的数据封装在字符串中；
+     * 返回值：Unit
+     */
+    public func readhmacSha1(): Unit
+    
+    /*
+     * 调用readhmacSha256加密算法对read方法读取的数据加密，加密后的数据封装在字符串中；
+     * 返回值：Unit
+     */
+    public func readhmacSha256(): Unit
+    
+    /*
+     * 返回加密后的结果
+     * 
+     * 返回值：加密后的String数据
+     */
+    public func hash(): String
+    
+    /*
+     *判断资源是否关闭
+    * 返回值 Bool - 如果已经关闭返回 true，否则返回 false
+     */
+    public override func isClosed(): Bool 
+
+}
+示例：main () {
+	var source: Buffer = Buffer()
+    var sink: Buffer = Buffer()
+    let hashingSource: HashingSource = HashingSource.md5(source)
+    source.writeUtf8("helloworld")
+    let result: Int64 = hashingSource.read(sink, 0x7fffffffffffffff)
+    hashingSource.readMD5()
+    let a: String = hashingSource.hash()
+    if(result != 10){
+        return 2
+    }
+    if(a != "fc5e038d38a57032085441e7fe7010b0") {
+        return 1
+    }
+     return 0
+}
+输出结果：
+	0
+```
+
+### Pipe 类
+
+okio管道类，使用一个缓冲区来解耦源和接收器。该缓冲区具有用户指定的大小。当生产线程的运行速度超过消费线程时，缓冲区会被填满，并最终写入接收器，直到消费线程赶上。对称地，如果消费者超出了它的生产者读块，直到有数据可读。
+
+```cangjie
+public class Pipe {
+
+    /*
+     * 构造一个Pipe
+     * 参数：用户制定的缓冲区大小
+     */
+     public init(bufferSize: Int64)
+ 	/*
+     * 获取source对象。
+     */
+    public func source(): Source 
+    
+    /*
+     * 获取sink对象。
+     */
+    public func sink(): Sink
+    
+    /*
+     * 将此管道的任何缓冲内容写入 sink，然后用 sink替换此管道的源。
+     * 参数 sink 接收器
+     */
+    public func fold(sink: Sink) 
+ }
+ 
+class PipeSink <: Sink {
+    /*
+     * 将Buffer中的数据写入sink
+     * 参数：source,Buffer中的数据，byteCount: Int64
+     * 返回值：Unit
+     */
+    public override func write(source: Buffer , byteCount: Int64): Unit
+    
+    /*
+     * 将所有缓冲字节推送到SInk的目标中。
+     * 
+     */
+    public override func flush()
+    
+    /*
+     * 将所有缓冲字节推送到SInk的目标中, 并释放此Sink持有的资源。写入已关闭的Sink是错误的。多次关闭Sink是安全的。
+     */
+     public override func close() 
+
+    /*
+     * 返回Timeout对象
+     */
+   public override func timeout(): Timeout
+    /*
+     *判断资源是否关闭
+     * 返回值 Bool - 如果已经关闭返回 true，否则返回 false
+     */
+   public override func isClosed(): Bool
+   
+   /*
+     * 返回toString方法
+     */
+   public override func toString():String
+}
+
+class PipeSource <: Source {
+
+	/*
+     * 将sink中的数据写入Buffer中
+     * 参数：source,空的Buffer对象，byteCount: Int64
+     * 返回值：读取的字节数
+     */
+	public override func read(sink: Buffer , byteCount: Int64): Int64 
+	
+	/*
+     * 关闭此源并释放此源持有的资源。读取封闭源是一个错误。多次关闭Source是安全的。
+     */
+	public override func close()
+	
+	/*
+     * 返回Timeout对象
+     */
+	public override func timeout(): Timeout
+	
+	/*
+     *判断资源是否关闭
+     * 返回值 Bool - 如果已经关闭返回 true，否则返回 false
+     */
+   public override func isClosed(): Bool
+   
+   /*
+     * 返回toString方法
+     */
+   public override func toString():String
+}
+示例：main () {
+	let pi: Pipe = Pipe(100)
+    let bu: Buffer = Buffer()
+    let abcString: String = "abc"
+    let abc: Array<UInt8> = abcString.toUtf8Array()
+    pi.sink().write(bu.write(abc),3)
+    pi.sink().flush()
+    let pipeSource: BufferedSource = Okio.buffer(pi.source())
+    if("abc" != pipeSource.readUtf8(3).getOrThrow()) {
+        return 1
+    }
+     return 0
+}
+输出结果：
+	0
+	
+```
+
+### 
+
 ## nio 组件
+
 ### abstract class Buffer
 
     缓冲区(Buffer)就是在内存中预留指定大小的存储空间用来对输入/输出(I/O)的数据作临时存储，这部分预留的内存空间就叫做缓冲区：
@@ -2094,275 +2757,4 @@ public abstract class ByteBuffer <: Buffer & ToString & Hashable & Equatable<Buf
 ```
 
 
-
-### ForwardingSink 抽象类
-
-实现Sink接口，多出获取Sink对象的方法
-
-```cangjie
-public abstract class ForwardingSink <: Sink {
-	
-	/*
-     * 获取Sink对象。
-     */
-    public func delegate(): Sink
-
-	/*
-     * 从Source中删除byteCount字节并将其附加到此Sink中。
-     * 参数 Buffer - okio的Buffer对象, source的实现类
-     * 参数 Int64 - 计数器
-     */
-    public override open func write(source: Buffer,byteCount: Int64): Unit
-    
-    /*
-     * 将所有缓冲字节推送到SInk的目标中。
-     */
-    public override func flush(): Unit
-    
-    /*
-     * 返回此接收器的超时对象
-     * 返回值 Timeout - 超时对象
-     */
-    public override func timeout(): Timeout
-   
-    /*
-     * 将所有缓冲字节推送到SInk的目标中, 并释放此Sink持有的资源。写入已关闭的Sink是错误的。多次关闭Sink是安全的。
-     */
-    public override func close(): Unit
-    
-    /*
-     * 重写的toString方法
-     * 返回值 重写的toString格式数据
-     */
-    func timeout(): Timeout  (下个迭代转测)    
-}
-```
-
-### ForwardingSource 抽象类
-
-实现Source接口，多出获取Sink对象的方法
-
-```cangjie
-public abstract class ForwardingSource <: Source{
-
-	/*
-     * 获取Source对象。
-     */
-    public func delegate(): Source
-    
-    /*
-     * 从Source中删除至少1个字节，并将它们附加到Sink中。返回读取的字节数，如果此Source已用完，则返回-1。
-     * 参数 Buffer - okio的Buffer对象, Sink的实现类
-     * 参数 Int64 - 计数器
-     * 返回值 Int64 - 返回读取的字节数，如果此Source已用完，则返回-1。
-     */
-    public override open func read(sink: Buffer,byteCount:Int64): Int64
-    
-    /*
-     * 返回此Source的超时对象。
-     * 返回值 Timeout - 超时对象
-     */
-    public override func timeout(): Timeout(下个迭代转测)
-    
-    /*
-     * 关闭此源并释放此源持有的资源。读取封闭源是一个错误。多次关闭Source是安全的。
-     */
-    func close(): Unit (下个迭代转测)
-	
-	/*
-     * 重写的toString方法
-     * 返回值 重写的toString格式数据
-     */
-    func timeout(): Timeout  (下个迭代转测) 
-    
-}
-```
-
-### ForwardingTimeout 类
-
-继承了Timeout类
-
-```cangjie
- public class ForwardingTimeout <: Timeout {
-
-    /*
-     * 构造一个ForwardingTimeout。
-     */
-    public init(assignment: Timeout)
- 	/*
-     * 获取Timeout对象。
-     */
-    public func delegate(): Timeout
-    
-    /*
-     * 给Timeout对象赋值。
-     * 参数Timeout 超时对象对象。
-     */
-    public func  setDelegate(assignment: Timeout):ForwardingTimeout
-    
-    /*
-     * 获取超时时间。
-     * 参数 Int64 - 计数器
-     */
-    public override func timeout(timeout: Int64):Timeout
-    
-    /*
-     * 返回超时时间纳秒值。
-     */
-    public override func timeoutNanos(): Int64
-    
-    /*
-     * 返回是否有截止日期。
-     * 返回值 Bool - 如果是 true，否则返回 false
-     */
-    public override func hasDeadline():Bool
-    
-    /*
-     * 返回截止日期纳秒值。
-     */
-    public override func deadlineNanoTime():Int64
-
-    /*
-     * 截止日期纳秒值。
-     * 参数 Int64 - 截至日期纳秒
-     * 返回值 Timeout。
-     */
-    public override func deadlineNanoTime(deadlineNanoTime: Int64):Timeout
-
-    /*
-     * 清理Timeout
-     */
-    public override func clearTimeout(): Timeout
-    
-    /*
-     * 清理Deadline
-     */
-    public override func clearTimeout(): Timeout
-    
-    /*
-     * 抛出预期
-     */
-    public override func throwIfReached()
-}
-```
-
-### GzipSink 类
-
-实现了Sink接口
-
-```cangjie
-public class GzipSink <: Sink {
-
-    /*
-     * 构造一个GzipSink。
-     * 参数：sink
-     */
-    public init(sink: Sink)
-    /*
-     * GzipSink的压缩功能，参数byteCount需要大于零。
-     */
-    public func write(source: Buffer,byteCount: Int64): Unit
-
-    /*
-     * 将所有缓冲字节推送到SInk的目标中, 并释放此Sink持有的资源。写入已关闭的Sink是错误的。多次关闭Sink是安全的。
-     */
-    public override func close(): Unit
-    
-    /*
-     * 根据给定数据修改CRC值
-     */
-    private func updateCrc(buffer: Buffer,byteCount: Int64): Unit
-}
-```
-
-### DeflaterSink
-
-实现了Sink接口，封装了具体的压缩方法
-
-```cangjie
-public class DeflaterSink <: Sink {
-
-    /*
-     * 构造一个DeflaterSink。
-     */
-    public init(sink: Sink , deflater: Deflater)
-
-    /*
-    * 判断资源是否关闭
-    * 返回值 Bool - 如果已经关闭返回 true，否则返回 false
-    */
-    public func isClosed(): Bool
-
-    /*
-     * 将buffer中的数据压缩到Segment对象中，并保存到BufferedSink对象中
-     */
-    private func deflate (source: Buffer , byteCount: Int64):Unit
-    
-    /*
-     * 判断是否需要输入数据
-     */
-    public func needsInput(): Bool
-
-}
-```
-
-### GzipSource 类
-
-实现了Source接口，
-
-```cangjie
-
-
-public class GzipSource <: Source {
-
-    /*
-     * 构造一个GzipSource。
-     */
-    public init(source:Source)
-    /*
-     * GzipSource的压缩功能，参数byteCount需要大于零。
-     */
-    public func read(sink: Buffer,byteCount: Int64): Int64
-
-}
-```
-
-### InflaterSource
-
-实现了Source接口，封装了具体的解压缩方法
-
-```cangjie
-public class InflaterSource <: Source {
-
-    /*
-     * 构造一个InflaterSource。
-     * 参数Source 数据源
-     * 参数Inflater 
-     */
-    public init(source: Source , inflater: Inflater)
-    /*
-    * 判断资源是否关闭
-    * 返回值 Bool - 如果已经关闭返回 true，否则返回 false
-    */
-    public func isClosed(): Bool
-
-    /*
-     * 将buffer中的数据压缩到Segment对象中，并保存到BufferedSink对象中
-     *返回解压缩后的字节数
-     */
-    public func read(sink: Buffer , byteCount: Int64): Int64
-    
-     /*
-     * Buffer对象是否完成解压缩
-     * 返回值 Bool - 如果完成解压缩 true，否则返回 false
-     */
-   public func refill(): Bool 
-    
-    /*
-     * 从此源读取并丢弃byteCount字节
-     */
-    private func releaseInflatedBytes():Unit
-
-}
-```
 

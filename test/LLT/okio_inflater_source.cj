@@ -14,9 +14,7 @@ main () {
 
     let inflater: Inflater = Inflater()
     inflater.end()
-    inflater.needsDictionary()
     let inflaterSource: InflaterSource = InflaterSource(data,inflater)
-    inflaterSource.isClosed()
     inflaterSource.toString()
     inflaterSource.timeout()
     return 0

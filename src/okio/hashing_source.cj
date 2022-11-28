@@ -137,8 +137,8 @@ public class HashingSource <: ForwardingSource {
      * @since 0.34.3
      */
     public func readMD5(): Unit {
-        let sinkString: String = sink.readUtf8Line().getOrThrow()
-        md5(sinkString , algorithmArray)
+        let sinkArray: Array<UInt8> = sink.readByteArray()
+        md5(sinkArray , algorithmArray)
         HashingSource.result = md5HexToString(algorithmArray)
     }
 
@@ -149,8 +149,8 @@ public class HashingSource <: ForwardingSource {
      * @since 0.34.3
      */
     public func readSHA1(): Unit {
-        let sinkString: String = sink.readUtf8Line().getOrThrow()        
-        sha1(sinkString , algorithmArray)
+        let sinkArray: Array<UInt8> = sink.readByteArray()        
+        sha1(sinkArray , algorithmArray)
         HashingSource.result = toHexString(algorithmArray)
     }
 
@@ -161,8 +161,8 @@ public class HashingSource <: ForwardingSource {
      * @since 0.34.3
      */
     public func readSHA256(): Unit {
-        let sinkString: String = sink.readUtf8Line().getOrThrow()  
-        sha256(sinkString , algorithmArray)
+        let sinkArray: Array<UInt8> = sink.readByteArray()  
+        sha256(sinkArray , algorithmArray)
         HashingSource.result = toHexString(algorithmArray)
     }
 

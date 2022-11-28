@@ -27,7 +27,6 @@ public abstract class ForwardingSource <: Source{
      * @since 0.33.3
      */
     public init(source: Source){
-        //if (delegate == null) throw new IllegalArgumentException("delegate == null");
         this.source = source;
     }
 

@@ -14,7 +14,7 @@ main () {
     let gs: GzipSink = GzipSink(buffer) 
     let str1 = gs.write(data,data.size)
     let str3 = gs.timeout()
-    gs.closed = false
+    
     var es: String = ""
     try{
     gs.close()
@@ -22,5 +22,4 @@ main () {
         es = e.toString()
     }
 
-    //gs.flush()
 }

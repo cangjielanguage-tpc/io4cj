@@ -13,11 +13,13 @@ main () {
     data.writeUtf8(testString)
     let buffer: Buffer = Buffer()
     let gs: GzipSink = GzipSink(buffer) 
-    let str1 = gs.write(data,data.size)
+    gs.write(data,data.size)
     let result: Buffer = Buffer()
-
-    let str = gs.deflaterSink.datas
-    let inflated: Buffer = gunzip(str);
+    gs.close()
+    let inflated: Buffer = gunzip(buffer)
+    if("Test whether gzipsink can be compressed" != inflated.readUtf8().getOrThrow()) {
+        
+    }
     return 0
 }
 
