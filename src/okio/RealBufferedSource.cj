@@ -205,14 +205,20 @@ class RealBufferedSource <: BufferedSource {
      * @since 0.32.5
      */
     public override func readFully(sink: Array<Byte>): Unit {
-        var offset = 0
-        while (offset < sink.size) {
-            let read = read(sink, offset, sink.size - offset)
-            if (read == -1) {
-                throw EOFException()
+        try {
+            this.require(sink.size)
+        } catch (e: EOFException) {
+            var offset = 0
+            while (0 < sink.size) {
+                let read = this.buf.read(sink, offset, this.buf.size)
+                if (read == -1) {
+                    throw Exception()
+                }
+                offset += read
             }
-            offset += read
+            throw e
         }
+        this.buf.readFully(sink)
     }
 
     /**

@@ -53,7 +53,11 @@ public abstract class ByteBuffer <: Buffer & ToString & Hashable & Equatable<Buf
      * @since 0.32.5
      */
     public static func wrap(array: Array<UInt8>, offset: Int64, length: Int64): ByteBuffer {
-        return HeapByteBuffer(array, offset, length)
+        try{
+            return HeapByteBuffer(array,offset,length)
+        } catch (e: IllegalArgumentException) {
+            throw IndexOutOfBoundsException()
+        }
     }
 
     /**
@@ -82,7 +86,7 @@ public abstract class ByteBuffer <: Buffer & ToString & Hashable & Equatable<Buf
      * @return Type of Buffer
      * @since 0.32.5
      */
-    public func duplicate(): Buffer
+    public func duplicate(): ByteBuffer
 
     /**
      * The Function is asReadOnlyBuffer
@@ -90,7 +94,7 @@ public abstract class ByteBuffer <: Buffer & ToString & Hashable & Equatable<Buf
      * @return Type of Buffer
      * @since 0.32.5
      */
-    public func asReadOnlyBuffer(): Buffer
+    public func asReadOnlyBuffer(): ByteBuffer
 
     /**
      * The Function is get
@@ -108,7 +112,7 @@ public abstract class ByteBuffer <: Buffer & ToString & Hashable & Equatable<Buf
      * @return Type of Buffer
      * @since 0.32.5
      */
-    public func put(b: UInt8): Buffer
+    public func put(b: UInt8): ByteBuffer
 
     /**
      * The Function is get
@@ -129,7 +133,7 @@ public abstract class ByteBuffer <: Buffer & ToString & Hashable & Equatable<Buf
      * @return Type of Buffer
      * @since 0.32.5
      */
-    public func put(index: Int64, b: UInt8): Buffer
+    public func put(index: Int64, b: UInt8): ByteBuffer
 
     public func putLong(value: Int64): ByteBuffer
     public func putInt(value: Int32): ByteBuffer
@@ -154,7 +158,7 @@ public abstract class ByteBuffer <: Buffer & ToString & Hashable & Equatable<Buf
      * @return Type of Buffer
      * @since 0.32.5
      */
-    public open func get(dst: Array<UInt8>, offset: Int64, length: Int64) : Buffer {
+    public open func get(dst: Array<UInt8>, offset: Int64, length: Int64) : ByteBuffer {
         checkBounds(offset, length, dst.size)
         if (length > super.remaining()) {
             throw Exception("length > super.remaining()")
@@ -174,7 +178,7 @@ public abstract class ByteBuffer <: Buffer & ToString & Hashable & Equatable<Buf
      * @return Type of Buffer
      * @since 0.32.5
      */
-    public open func get(dst: Array<UInt8>): Buffer {
+    public open func get(dst: Array<UInt8>): ByteBuffer {
         return get(dst, 0, dst.size)
     }
 
@@ -213,7 +217,7 @@ public abstract class ByteBuffer <: Buffer & ToString & Hashable & Equatable<Buf
      * @return Type of Buffer
      * @since 0.32.5
      */
-    public open func put(src: Array<UInt8>, offset:Int64, length: Int64): Buffer {
+    public open func put(src: Array<UInt8>, offset:Int64, length: Int64): ByteBuffer {
         checkBounds(offset, length, src.size)
         if (length > super.remaining()) {
             throw Exception("length > super.remaining()")
@@ -233,7 +237,7 @@ public abstract class ByteBuffer <: Buffer & ToString & Hashable & Equatable<Buf
      * @return Type of Buffer
      * @since 0.32.5
      */
-    public open func put(src: Array<UInt8>): Buffer {
+    public open func put(src: Array<UInt8>): ByteBuffer {
         return this.put(src, 0, src.size)
     }
 
@@ -276,7 +280,7 @@ public abstract class ByteBuffer <: Buffer & ToString & Hashable & Equatable<Buf
      * @return Type of Buffer
      * @since 0.32.5
      */
-    public override func position(newPosition: Int64): Buffer {
+    public override func position(newPosition: Int64): ByteBuffer {
         super.position(newPosition)
         return this
     }
@@ -289,7 +293,7 @@ public abstract class ByteBuffer <: Buffer & ToString & Hashable & Equatable<Buf
      * @return Type of Buffer
      * @since 0.32.5
      */
-    public override func limit(newLimit: Int64): Buffer {
+    public override func limit(newLimit: Int64): ByteBuffer {
         super.limit(newLimit)
         return this
     }
@@ -300,8 +304,9 @@ public abstract class ByteBuffer <: Buffer & ToString & Hashable & Equatable<Buf
      * @return Type of Buffer
      * @since 0.32.5
      */
-    public override func reset(): Buffer {
+    public override func reset(): ByteBuffer {
         super.reset()
+        return this
     }
 
 
@@ -321,7 +326,7 @@ public abstract class ByteBuffer <: Buffer & ToString & Hashable & Equatable<Buf
      * @return Type of Buffer
      * @since 0.32.5
      */
-    public override func flip(): Buffer {
+    public override func flip(): ByteBuffer {
         super.flip()
         return this
     }
@@ -332,7 +337,7 @@ public abstract class ByteBuffer <: Buffer & ToString & Hashable & Equatable<Buf
      * @return Type of Buffer
      * @since 0.32.5
      */
-    public override func rewind(): Buffer {
+    public override func rewind(): ByteBuffer {
         super.rewind()
         return this
     }

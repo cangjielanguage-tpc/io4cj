@@ -84,7 +84,7 @@ public open class HeapByteBuffer <: ByteBuffer & ToString {
      * @return Type of ByteBuffer
      * @since 0.32.5
      */
-    public override func asReadOnlyBuffer():ByteBuffer {
+    public override func asReadOnlyBuffer(): ByteBuffer {
         return HeapByteBuffer(hb, this.markValue(), this.position(), this.limit(), this.capacity(), offset)
     }
 
