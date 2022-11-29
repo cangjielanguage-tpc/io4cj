@@ -101,7 +101,8 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
     /** Constructs a new {@code String} by decoding the bytes as {@code UTF-8}. */
     public func UTF8(): String {
         if (utf8 == "") {
-            return unsafe {String.fromUtf8Unchecked(this.data)}
+            this.utf8 = unsafe {String.fromUtf8Unchecked(this.data)}
+            return this.utf8
         }
         return utf8
     }
