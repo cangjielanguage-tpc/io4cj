@@ -16,7 +16,7 @@ public class DeflaterSink {
     private var sink: BufferedSink
     private var sinks: Sink
     private var deflater: Deflater
-    private var closed: Bool = true
+    private var closed: Bool = false
     private var bufferSink: Buffer = Buffer()
     private var byteCountSink: Int64 = 0
 
@@ -38,7 +38,7 @@ public class DeflaterSink {
      * @since 0.34.3
      */
     public func isClosed(): Bool{
-        return closed
+        this.closed
     }
 
     /**

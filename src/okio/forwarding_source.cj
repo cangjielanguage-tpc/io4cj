@@ -12,13 +12,14 @@ from std import time.*
 from std import io.*
 
 
-public abstract class ForwardingSource <: Source{
+public open /* abstract */ class ForwardingSource <: Source{
 
     /**
      * let member source type is Source
      * @since 0.33.3
      */
     private var source: Source
+    private var closed: Bool = false
 
     /**
      * The Function is init constructor
@@ -71,6 +72,16 @@ public abstract class ForwardingSource <: Source{
      */
     public override func close(): Unit {
         source.close()
+    }
+
+    /**
+     * The Function is isClosed
+     *
+     * @return Type of Unit
+     * @since 0.33.3
+     */
+    public open override func isClosed(): Bool{
+        this.closed
     }
 
     /**

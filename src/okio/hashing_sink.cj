@@ -22,7 +22,7 @@ public class HashingSink <: ForwardingSink {
     private static var algorithmArray: Array<UInt8> = Array<UInt8>()
     private static var result: String = String(Array<Char>())
     private static var key: Array<UInt8> = Array<UInt8>()
-    private var hasHmac: Bool = true
+    private var closed: Bool = false
     private var source: Buffer = Buffer()
     private var sink: Sink
 
@@ -306,7 +306,7 @@ public class HashingSink <: ForwardingSink {
      * @since 0.34.3
      */
     public override func isClosed(): Bool {
-        return sink.isClosed()
+        this.closed
     } 
 
     /**

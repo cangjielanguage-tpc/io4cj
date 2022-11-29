@@ -26,7 +26,6 @@ public class GzipSource <: Source {
 
     private var section: Int8 = SECTION_HEADER
     private var source: BufferedSource
-    private var inflater: Inflater
     private var inflaterSource: InflaterSource
     private var crc: CRC32 = CRC32()
 
@@ -36,9 +35,8 @@ public class GzipSource <: Source {
      * @since 0.34.3
      */
     public init(source:Source){
-        this.inflater = Inflater()
         this.source = Okio.buffer(source)
-        this.inflaterSource = InflaterSource(source,inflater)
+        this.inflaterSource = InflaterSource(source)
     }
 
     /**

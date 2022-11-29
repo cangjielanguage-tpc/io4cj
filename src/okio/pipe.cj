@@ -54,7 +54,6 @@ public class Pipe {
                 closed = sinkClosed
                 foldbuffer = Buffer()
                 foldbuffer.write(buffer,buffer.size)
-                //buffer.notifyAll()
             }
             var success: Bool = false
             try {
@@ -69,7 +68,6 @@ public class Pipe {
                 if (!success) {
                     synchronized(monitor){
                         sourceClosed = true
-                        //buffer.notifyAll()
                     }
                 }
             }
@@ -106,7 +104,6 @@ class PipeSink <: Sink {
             let bytesToWrite: Int64 = math.min(bufferSpaceAvailable, byteCount)
             buffer.write(source , bytesToWrite)
             byteCount -= bytesToWrite
-            //buffer.notifyAll() 
 
             }
         }
@@ -165,7 +162,6 @@ class PipeSink <: Sink {
                     throw IOException("source is closed")
                 }
                     sinkClosed = true
-                    //buffer.notifyAll()
             }
         }
         match (sink) {
@@ -223,7 +219,6 @@ class PipeSource <: Source {
             }
 
             let result: Int64 = buffer.read(sink , byteCount)
-            //buffer.notifyAll()
             return result
         }
     }
@@ -231,7 +226,6 @@ class PipeSource <: Source {
     public override func close(){
         synchronized(monitor){
             sourceClosed = true
-            //buffer.notifyAll()
         }
     }
 

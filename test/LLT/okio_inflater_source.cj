@@ -11,11 +11,9 @@ main () {
     let data: Buffer = Buffer()
     let testString: String = "Test whether gzipsink can be compressed"
     data.writeUtf8(testString)
-
-    let inflater: Inflater = Inflater()
-    inflater.end()
-    let inflaterSource: InflaterSource = InflaterSource(data,inflater)
+    let inflaterSource: InflaterSource = InflaterSource(data)
     inflaterSource.toString()
+    inflaterSource.isClosed()
     inflaterSource.timeout()
     return 0
 }

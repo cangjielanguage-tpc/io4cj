@@ -9,15 +9,16 @@
 
 package okio
 
-public abstract class ForwardingSink <: Sink {
+public  open/* abstract */ class ForwardingSink <: Sink {
     
     /**
      * let member delegate type is Sink
      * @since 0.33.3
      */
     private var sink: Sink
+    private var closed: Bool = false
     
-   /**
+    /**
      * The Function is init constructor
      *
      * @param delegate of Sink
@@ -79,6 +80,16 @@ public abstract class ForwardingSink <: Sink {
      */
     public override func close(): Unit {
         sink.close()
+    }
+
+    /**
+     * The Function is isClosed
+     *
+     * @return Type of Unit
+     * @since 0.33.3
+     */
+    public open override func isClosed(): Bool{
+        this.closed
     }
 
     /**
