@@ -29,7 +29,7 @@ public class GzipSink <: Sink {
         this.deflater = Deflater(-1 , true)
         this.sink = Okio.buffer(sink)
         this.deflaterSink = DeflaterSink(this.sink, deflater)
-        //writeHeader()
+
     }
 
     /**

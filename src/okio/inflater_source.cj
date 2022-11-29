@@ -69,7 +69,7 @@ public class InflaterSource <: Source {
             if (readNum <= 0) {
                 return -1
                 }
-            sink.write(sourceArray)
+            sink.write(sourceArray.slice(0,readNum).toArray())
 
         }
         decompressInputStream.close()

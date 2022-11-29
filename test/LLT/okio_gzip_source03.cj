@@ -17,8 +17,9 @@ main () {
     let result: Buffer = Buffer()
     gs.close()
     let inflated: Buffer = gunzip(buffer)
-    if("Test whether gzipsink can be compressed" != inflated.readUtf8().getOrThrow()) {
-        
+    var a: String = inflated.readUtf8().getOrThrow()
+    if("Test whether gzipsink can be compressed" != a.toString()) {
+        return 1
     }
     return 0
 }
