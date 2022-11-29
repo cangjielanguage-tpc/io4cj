@@ -27,7 +27,6 @@ public class GzipSource <: Source {
     private var section: Int8 = SECTION_HEADER
     private var source: BufferedSource
     private var inflaterSource: InflaterSource
-    private var crc: CRC32 = CRC32()
 
     /**
      * The Function is init constructor

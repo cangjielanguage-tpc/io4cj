@@ -22,7 +22,7 @@ public class InflaterSource <: Source {
      *
      * @since 0.34.3
      */
-    public init(source: Source/*  , inflater: Inflater */) {
+    public init(source: Source) {
         this.source = source
         //this.inflater = inflater
     }
