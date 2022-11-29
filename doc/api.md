@@ -1832,11 +1832,6 @@ public class InflaterSource <: Source {
     public func read(sink: Buffer , byteCount: Int64): Int64
     
     /*
-     * 从此源读取并丢弃byteCount字节
-     */
-    private func releaseInflatedBytes():Unit
-    
-    /*
      * 获取Timeout对象，重写父类Source的timeout()方法。
      * 参数：source：Buffe让对象
      */
