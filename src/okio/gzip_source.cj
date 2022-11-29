@@ -112,5 +112,6 @@ public class GzipSource <: Source {
      */
     public override func toString():String{
         return source.toString()
-    }  
+    } 
+     
 }
