@@ -284,12 +284,12 @@ pre
           </tr>
           <tr>
             <td class="headerName">Date:</td>
-            <td class="headerValue">2022-11-24 17:18:26</td>
+            <td class="headerValue">2022-11-29 16:16:21</td>
             <td></td>
             <td class="headerName">Lines:</td>
-            <td class="headerTableEntry">103</td>
+            <td class="headerTableEntry">105</td>
             <td class="headerTableEntry">109</td>
-            <td class="headerTableEntry" style="background-color:LightGreen">94.5 %</td>
+            <td class="headerTableEntry" style="background-color:LightGreen">96.3 %</td>
           </tr>
           <tr>
             <td class="headerName">Legend:</td>
@@ -468,7 +468,7 @@ pre
 <td align="right" class="lineno"><pre>25</pre></td>
 <td align="right" class="linebranch"></td>
 <td align="center" class="linecount coveredLine"><pre>Y</pre></td>
-<td align="left" class="src coveredLine"><pre>    private var hasHmac: Bool = true</pre></td>
+<td align="left" class="src coveredLine"><pre>    private var closed: Bool = false</pre></td>
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>26</pre></td>
@@ -847,7 +847,7 @@ pre
 <td align="right" class="linebranch"><details class="linebranchDetails">
 <summary class="linebranchSummary">1/2</summary>
 <div class="linebranchContents">
-<div class="notTakenBranch">&cross; Branch 0 not taken.</div><div class="takenBranch">&check; Branch 1 taken 2 times.</div>
+<div class="notTakenBranch">&cross; Branch 0 not taken.</div><div class="takenBranch">&check; Branch 1 taken 1 times.</div>
 </div>
 </details>
 </td>
@@ -973,7 +973,7 @@ pre
 <td align="right" class="linebranch"><details class="linebranchDetails">
 <summary class="linebranchSummary">1/2</summary>
 <div class="linebranchContents">
-<div class="notTakenBranch">&cross; Branch 0 not taken.</div><div class="takenBranch">&check; Branch 1 taken 2 times.</div>
+<div class="notTakenBranch">&cross; Branch 0 not taken.</div><div class="takenBranch">&check; Branch 1 taken 1 times.</div>
 </div>
 </details>
 </td>
@@ -1099,7 +1099,7 @@ pre
 <td align="right" class="linebranch"><details class="linebranchDetails">
 <summary class="linebranchSummary">1/2</summary>
 <div class="linebranchContents">
-<div class="notTakenBranch">&cross; Branch 0 not taken.</div><div class="takenBranch">&check; Branch 1 taken 2 times.</div>
+<div class="notTakenBranch">&cross; Branch 0 not taken.</div><div class="takenBranch">&check; Branch 1 taken 1 times.</div>
 </div>
 </details>
 </td>
@@ -1422,13 +1422,13 @@ pre
 <td align="right" class="lineno"><pre>181</pre></td>
 <td align="right" class="linebranch"></td>
 <td align="center" class="linecount coveredLine"><pre>Y</pre></td>
-<td align="left" class="src coveredLine"><pre>        let sourceString: String = source.readUtf8Line().getOrThrow()</pre></td>
+<td align="left" class="src coveredLine"><pre>        let sourceArray: Array&lt;UInt8&gt; = source.readByteArray()</pre></td>
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>182</pre></td>
 <td align="right" class="linebranch"></td>
 <td align="center" class="linecount coveredLine"><pre>Y</pre></td>
-<td align="left" class="src coveredLine"><pre>        md5(sourceString , algorithmArray)</pre></td>
+<td align="left" class="src coveredLine"><pre>        md5(sourceArray , algorithmArray)</pre></td>
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>183</pre></td>
@@ -1518,13 +1518,13 @@ pre
 <td align="right" class="lineno"><pre>197</pre></td>
 <td align="right" class="linebranch"></td>
 <td align="center" class="linecount coveredLine"><pre>Y</pre></td>
-<td align="left" class="src coveredLine"><pre>        let sourceString: String = source.readUtf8Line().getOrThrow()</pre></td>
+<td align="left" class="src coveredLine"><pre>        let sourceArray: Array&lt;UInt8&gt; = source.readByteArray()</pre></td>
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>198</pre></td>
 <td align="right" class="linebranch"></td>
 <td align="center" class="linecount coveredLine"><pre>Y</pre></td>
-<td align="left" class="src coveredLine"><pre>        sha1(sourceString , algorithmArray)</pre></td>
+<td align="left" class="src coveredLine"><pre>        sha1(sourceArray , algorithmArray)</pre></td>
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>199</pre></td>
@@ -1614,13 +1614,13 @@ pre
 <td align="right" class="lineno"><pre>213</pre></td>
 <td align="right" class="linebranch"></td>
 <td align="center" class="linecount coveredLine"><pre>Y</pre></td>
-<td align="left" class="src coveredLine"><pre>        let sourceString: String = source.readUtf8Line().getOrThrow()</pre></td>
+<td align="left" class="src coveredLine"><pre>        let sourceArray: Array&lt;UInt8&gt; = source.readByteArray()</pre></td>
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>214</pre></td>
 <td align="right" class="linebranch"></td>
 <td align="center" class="linecount coveredLine"><pre>Y</pre></td>
-<td align="left" class="src coveredLine"><pre>        sha256(sourceString , algorithmArray)</pre></td>
+<td align="left" class="src coveredLine"><pre>        sha256(sourceArray , algorithmArray)</pre></td>
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>215</pre></td>
@@ -1710,13 +1710,13 @@ pre
 <td align="right" class="lineno"><pre>229</pre></td>
 <td align="right" class="linebranch"></td>
 <td align="center" class="linecount coveredLine"><pre>Y</pre></td>
-<td align="left" class="src coveredLine"><pre>        let sourceString: String = source.readUtf8Line().getOrThrow()</pre></td>
+<td align="left" class="src coveredLine"><pre>        let sourceArray: Array&lt;UInt8&gt; = source.readByteArray()</pre></td>
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>230</pre></td>
 <td align="right" class="linebranch"></td>
 <td align="center" class="linecount coveredLine"><pre>Y</pre></td>
-<td align="left" class="src coveredLine"><pre>        sha512(sourceString , algorithmArray)</pre></td>
+<td align="left" class="src coveredLine"><pre>        sha512(sourceArray , algorithmArray)</pre></td>
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>231</pre></td>
@@ -2183,14 +2183,14 @@ pre
 <tr>
 <td align="right" class="lineno"><pre>308</pre></td>
 <td align="right" class="linebranch"></td>
-<td align="center" class="linecount uncoveredLine"><pre>N</pre></td>
-<td align="left" class="src uncoveredLine"><pre>    public override func isClosed(): Bool {</pre></td>
+<td align="center" class="linecount coveredLine"><pre>Y</pre></td>
+<td align="left" class="src coveredLine"><pre>    public override func isClosed(): Bool {</pre></td>
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>309</pre></td>
 <td align="right" class="linebranch"></td>
-<td align="center" class="linecount uncoveredLine"><pre>N</pre></td>
-<td align="left" class="src uncoveredLine"><pre>        return sink.isClosed()</pre></td>
+<td align="center" class="linecount coveredLine"><pre>Y</pre></td>
+<td align="left" class="src coveredLine"><pre>        this.closed</pre></td>
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>310</pre></td>
@@ -2263,7 +2263,7 @@ pre
 <td align="right" class="linebranch"><details class="linebranchDetails">
 <summary class="linebranchSummary">2/2</summary>
 <div class="linebranchContents">
-<div class="takenBranch">&check; Branch 0 taken 2 times.</div><div class="takenBranch">&check; Branch 1 taken 6 times.</div>
+<div class="takenBranch">&check; Branch 0 taken 1 times.</div><div class="takenBranch">&check; Branch 1 taken 3 times.</div>
 </div>
 </details>
 </td>
@@ -2275,7 +2275,7 @@ pre
 <td align="right" class="linebranch"><details class="linebranchDetails">
 <summary class="linebranchSummary">2/2</summary>
 <div class="linebranchContents">
-<div class="takenBranch">&check; Branch 0 taken 2 times.</div><div class="takenBranch">&check; Branch 1 taken 4 times.</div>
+<div class="takenBranch">&check; Branch 0 taken 1 times.</div><div class="takenBranch">&check; Branch 1 taken 2 times.</div>
 </div>
 </details>
 </td>
@@ -2287,7 +2287,7 @@ pre
 <td align="right" class="linebranch"><details class="linebranchDetails">
 <summary class="linebranchSummary">2/2</summary>
 <div class="linebranchContents">
-<div class="takenBranch">&check; Branch 0 taken 2 times.</div><div class="takenBranch">&check; Branch 1 taken 2 times.</div>
+<div class="takenBranch">&check; Branch 0 taken 1 times.</div><div class="takenBranch">&check; Branch 1 taken 1 times.</div>
 </div>
 </details>
 </td>
@@ -2299,7 +2299,7 @@ pre
 <td align="right" class="linebranch"><details class="linebranchDetails">
 <summary class="linebranchSummary">1/2</summary>
 <div class="linebranchContents">
-<div class="notTakenBranch">&cross; Branch 0 not taken.</div><div class="takenBranch">&check; Branch 1 taken 2 times.</div>
+<div class="notTakenBranch">&cross; Branch 0 not taken.</div><div class="takenBranch">&check; Branch 1 taken 1 times.</div>
 </div>
 </details>
 </td>

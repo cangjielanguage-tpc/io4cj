@@ -18,7 +18,7 @@ public class GzipSink <: Sink {
     private var deflater: Deflater
     public var deflaterSink: DeflaterSink
     public var closed: Bool = false
-    private var crc: CRC32 = CRC32()
+    private var crc: Int64 = 0
 
     /**
      * The Function is init constructor
@@ -29,7 +29,7 @@ public class GzipSink <: Sink {
         this.deflater = Deflater(-1 , true)
         this.sink = Okio.buffer(sink)
         this.deflaterSink = DeflaterSink(this.sink, deflater)
-        //writeHeader()
+
     }
 
     /**
@@ -131,7 +131,7 @@ public class GzipSink <: Sink {
             var byteCount:Int64 = byteCount
         while(byteCount > 0){
             var segmentLength: Int64 = math.min(byteCount, head.limit - head.pos)
-            crc.update(head.data , head.pos , segmentLength)
+            update(head.data , head.pos , segmentLength)
             head = head.next.getOrThrow()
             byteCount -=  segmentLength
         }
@@ -156,19 +156,6 @@ public class GzipSink <: Sink {
     public override func toString():String{
         return sink.toString()
     }
- }
-
-/**
- * @file
- * The file declars the CRC32 class.
- */
-public class CRC32 {
-
-    /**
-     * let member crc type is Int64
-     * @since 0.34.3
-     */
-    private var crc: Int64 = 0
 
     /**
      * The Function is update
@@ -180,7 +167,7 @@ public class CRC32 {
      * @return Type of Unit
      * @since 0.34.3
      */
-    public func update(b: Array<Byte> , off: Int64 , len: Int64):Unit{
+    func update(b: Array<Byte> , off: Int64 , len: Int64):Unit {
         if (off < 0 || len < 0 || off > b.size - len) {
             throw ArrayIndexOutOfBoundsException()
         }
@@ -198,7 +185,7 @@ public class CRC32 {
      * @return Type of Unit
      * @since 0.34.3
      */
-    public static func updateBytes(crc: Int64 , b: Array<Byte> , off: Int64 , len: Int64):Unit {
+    func updateBytes(crc: Int64 , b: Array<Byte> , off: Int64 , len: Int64):Unit {
         updateBytesCheck(b , off , len)
 
     }
@@ -213,7 +200,7 @@ public class CRC32 {
      * @return Type of Unit
      * @since 0.34.3
      */
-    private static func updateBytesCheck(b: Array<Byte> , off: Int64 , len: Int64):Unit {
+    func updateBytesCheck(b: Array<Byte> , off: Int64 , len: Int64):Unit {
         if (len <= 0) {
             return
         }
@@ -227,15 +214,5 @@ public class CRC32 {
         if (endIndex < 0 || endIndex >= b.size) {
             throw ArrayIndexOutOfBoundsException()
         }
-    }
-
-    /**
-     * The Function is reset
-     *
-     * @return Type of Unit
-     * @since 0.34.3
-     */
-    public func reset():Unit {
-        crc = 0;
     }
  }

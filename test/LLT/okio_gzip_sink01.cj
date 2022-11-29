@@ -20,7 +20,5 @@ main () {
     gs.flush()
     gs.isClosed()
     gs.toString()
-    let c: CRC32 = CRC32()
-    c.reset()
-    
+    return 0
 }

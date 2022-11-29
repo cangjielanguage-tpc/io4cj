@@ -284,7 +284,7 @@ pre
           </tr>
           <tr>
             <td class="headerName">Date:</td>
-            <td class="headerValue">2022-11-24 17:18:27</td>
+            <td class="headerValue">2022-11-29 16:16:21</td>
             <td></td>
             <td class="headerName">Lines:</td>
             <td class="headerTableEntry">68</td>
@@ -468,7 +468,7 @@ pre
 <td align="right" class="lineno"><pre>25</pre></td>
 <td align="right" class="linebranch"></td>
 <td align="center" class="linecount coveredLine"><pre>Y</pre></td>
-<td align="left" class="src coveredLine"><pre>    private var hasHmac: Bool = true</pre></td>
+<td align="left" class="src coveredLine"><pre>    private var closed: Bool = false</pre></td>
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>26</pre></td>
@@ -745,7 +745,7 @@ pre
 <td align="right" class="linebranch"><details class="linebranchDetails">
 <summary class="linebranchSummary">1/2</summary>
 <div class="linebranchContents">
-<div class="notTakenBranch">&cross; Branch 0 not taken.</div><div class="takenBranch">&check; Branch 1 taken 2 times.</div>
+<div class="notTakenBranch">&cross; Branch 0 not taken.</div><div class="takenBranch">&check; Branch 1 taken 1 times.</div>
 </div>
 </details>
 </td>
@@ -859,7 +859,7 @@ pre
 <td align="right" class="linebranch"><details class="linebranchDetails">
 <summary class="linebranchSummary">1/2</summary>
 <div class="linebranchContents">
-<div class="notTakenBranch">&cross; Branch 0 not taken.</div><div class="takenBranch">&check; Branch 1 taken 2 times.</div>
+<div class="notTakenBranch">&cross; Branch 0 not taken.</div><div class="takenBranch">&check; Branch 1 taken 1 times.</div>
 </div>
 </details>
 </td>
@@ -1170,13 +1170,13 @@ pre
 <td align="right" class="lineno"><pre>140</pre></td>
 <td align="right" class="linebranch"></td>
 <td align="center" class="linecount coveredLine"><pre>Y</pre></td>
-<td align="left" class="src coveredLine"><pre>        let sinkString: String = sink.readUtf8Line().getOrThrow()</pre></td>
+<td align="left" class="src coveredLine"><pre>        let sinkArray: Array&lt;UInt8&gt; = sink.readByteArray()</pre></td>
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>141</pre></td>
 <td align="right" class="linebranch"></td>
 <td align="center" class="linecount coveredLine"><pre>Y</pre></td>
-<td align="left" class="src coveredLine"><pre>        md5(sinkString , algorithmArray)</pre></td>
+<td align="left" class="src coveredLine"><pre>        md5(sinkArray , algorithmArray)</pre></td>
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>142</pre></td>
@@ -1242,13 +1242,13 @@ pre
 <td align="right" class="lineno"><pre>152</pre></td>
 <td align="right" class="linebranch"></td>
 <td align="center" class="linecount coveredLine"><pre>Y</pre></td>
-<td align="left" class="src coveredLine"><pre>        let sinkString: String = sink.readUtf8Line().getOrThrow()</pre></td>
+<td align="left" class="src coveredLine"><pre>        let sinkArray: Array&lt;UInt8&gt; = sink.readByteArray()</pre></td>
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>153</pre></td>
 <td align="right" class="linebranch"></td>
 <td align="center" class="linecount coveredLine"><pre>Y</pre></td>
-<td align="left" class="src coveredLine"><pre>        sha1(sinkString , algorithmArray)</pre></td>
+<td align="left" class="src coveredLine"><pre>        sha1(sinkArray , algorithmArray)</pre></td>
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>154</pre></td>
@@ -1314,13 +1314,13 @@ pre
 <td align="right" class="lineno"><pre>164</pre></td>
 <td align="right" class="linebranch"></td>
 <td align="center" class="linecount coveredLine"><pre>Y</pre></td>
-<td align="left" class="src coveredLine"><pre>        let sinkString: String = sink.readUtf8Line().getOrThrow()</pre></td>
+<td align="left" class="src coveredLine"><pre>        let sinkArray: Array&lt;UInt8&gt; = sink.readByteArray()</pre></td>
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>165</pre></td>
 <td align="right" class="linebranch"></td>
 <td align="center" class="linecount coveredLine"><pre>Y</pre></td>
-<td align="left" class="src coveredLine"><pre>        sha256(sinkString , algorithmArray)</pre></td>
+<td align="left" class="src coveredLine"><pre>        sha256(sinkArray , algorithmArray)</pre></td>
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>166</pre></td>
@@ -1603,7 +1603,7 @@ pre
 <td align="right" class="linebranch"><details class="linebranchDetails">
 <summary class="linebranchSummary">2/2</summary>
 <div class="linebranchContents">
-<div class="takenBranch">&check; Branch 0 taken 2 times.</div><div class="takenBranch">&check; Branch 1 taken 4 times.</div>
+<div class="takenBranch">&check; Branch 0 taken 1 times.</div><div class="takenBranch">&check; Branch 1 taken 2 times.</div>
 </div>
 </details>
 </td>
@@ -1615,7 +1615,7 @@ pre
 <td align="right" class="linebranch"><details class="linebranchDetails">
 <summary class="linebranchSummary">2/2</summary>
 <div class="linebranchContents">
-<div class="takenBranch">&check; Branch 0 taken 2 times.</div><div class="takenBranch">&check; Branch 1 taken 2 times.</div>
+<div class="takenBranch">&check; Branch 0 taken 1 times.</div><div class="takenBranch">&check; Branch 1 taken 1 times.</div>
 </div>
 </details>
 </td>
@@ -1627,7 +1627,7 @@ pre
 <td align="right" class="linebranch"><details class="linebranchDetails">
 <summary class="linebranchSummary">1/2</summary>
 <div class="linebranchContents">
-<div class="notTakenBranch">&cross; Branch 0 not taken.</div><div class="takenBranch">&check; Branch 1 taken 2 times.</div>
+<div class="notTakenBranch">&cross; Branch 0 not taken.</div><div class="takenBranch">&check; Branch 1 taken 1 times.</div>
 </div>
 </details>
 </td>
@@ -1710,7 +1710,7 @@ pre
 <td align="right" class="lineno"><pre>227</pre></td>
 <td align="right" class="linebranch"></td>
 <td align="center" class="linecount uncoveredLine"><pre>N</pre></td>
-<td align="left" class="src uncoveredLine"><pre>        return source.isClosed()</pre></td>
+<td align="left" class="src uncoveredLine"><pre>        this.closed</pre></td>
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>228</pre></td>

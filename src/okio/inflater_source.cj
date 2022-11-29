@@ -13,9 +13,7 @@ from compress import zlib.*
 
 public class InflaterSource <: Source {
 
-    //private var source: BufferedSource
     private var source: Source
-    private var inflater: Inflater
     private var bufferBytesHeldByInflater: Int64 = 0
     private var closed: Bool = false
 
@@ -24,9 +22,9 @@ public class InflaterSource <: Source {
      *
      * @since 0.34.3
      */
-    public init(source: Source , inflater: Inflater) {
+    public init(source: Source) {
         this.source = source
-        this.inflater = inflater
+        //this.inflater = inflater
     }
 
     /**
@@ -69,7 +67,7 @@ public class InflaterSource <: Source {
             if (readNum <= 0) {
                 return -1
                 }
-            sink.write(sourceArray)
+            sink.write(sourceArray.slice(0,readNum).toArray())
 
         }
         decompressInputStream.close()
@@ -95,10 +93,10 @@ public class InflaterSource <: Source {
      */
     public override func close():Unit {
         if (closed) {
-            inflater.end()
+            return
+        }
             closed = true
             source.close()
-        }
     }
     
     /**
@@ -108,7 +106,7 @@ public class InflaterSource <: Source {
      * @since 0.34.3
      */
     public override func isClosed(): Bool {
-        return source.isClosed()
+        this.closed
     } 
 
     /**
@@ -121,97 +119,4 @@ public class InflaterSource <: Source {
         return source.toString()
     }
 
-}
-/**
- * @file
- * The file declars the Inflater class.
- */
-public class Inflater {
-
-    private var input: ByteBuffer = ByteBuffer.allocate(0)
-    private var inputArray: Array<Byte> = []
-    private var inputPos: Int64 = 0
-    private var inputLim: Int64 = 0
-    private var finishe: Bool = true
-    private var needDict: Bool = true
-    private var bytesRead: Int64 = 0
-    private var inputConsumed: Int64 = 0
-    private var outputConsumed: Int64 = 0
-    
-    /**
-     * The Function is finished
-     *
-     * @return Type of Bool
-     * @since 0.34.3
-     */
-    func finished(): Bool {
-        return finishe
-    }
-
-    /**
-     * The Function is needsDictionary
-     *
-     * @return Type of Bool
-     * @since 0.34.3
-     */
-    func needsDictionary(): Bool {
-        return needDict
-    }
-
-    /**
-     * The Function is needsInput
-     *
-     * @return Type of Bool
-     * @since 0.34.3
-     */
-    func needsInput(): Bool {
-        let input: ?ByteBuffer = this.input
-        return match (input) {
-            case None => inputLim == inputPos
-            case Some(v) => ! input.getOrThrow().hasRemaining()
-        }
-    }
-
-    /**
-     * The Function is getRemaining
-     *
-     * @return Type of Int64
-     * @since 0.34.3
-     */
-    func getRemaining(): Int64 {
-        let input: ?ByteBuffer = this.input
-        return match (input) {
-            case None => inputLim - inputPos
-            case Some(v) => input.getOrThrow().remaining()
-        }
-    }
-
-    /**
-     * The Function is setInput
-     *
-     * @param input of Array<Byte>
-     * @param off of Int64
-     * @param len of Int64
-     *
-     * @return Type of Unit
-     * @since 0.34.3
-     */
-    func setInput(input: Array<Byte> , off: Int64 , len: Int64):Unit {
-        if (off < 0 || len < 0 || off > (input.size - len)) {
-            throw ArrayIndexOutOfBoundsException()
-        }
-        this.inputArray = input
-        this.inputPos = off
-        this.inputLim = off + len
-    }
-
-    /**
-     * The Function is end
-     *
-     * @return Type of Unit
-     * @since 0.34.3
-     */
-    public func end():Unit {
-        input = ByteBuffer.allocate(0)
-    }
 }

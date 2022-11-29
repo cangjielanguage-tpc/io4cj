@@ -22,7 +22,7 @@ public class HashingSource <: ForwardingSource {
     private static var algorithmArray: Array<UInt8> = Array<UInt8>()
     private static var result: String = String(Array<Char>())
     private static var key: Array<UInt8> = Array<UInt8>()
-    private var hasHmac: Bool = true
+    private var closed: Bool = false
     private var sink: Buffer = Buffer()
     private var source: Source
     
@@ -224,7 +224,7 @@ public class HashingSource <: ForwardingSource {
      * @since 0.34.3
      */
     public override func isClosed(): Bool {
-        return source.isClosed()
+        this.closed
     } 
 
 }

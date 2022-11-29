@@ -1733,6 +1733,11 @@ public class GzipSink <: Sink {
      */
     public override func isClosed(): Bool
     
+    /*
+     * 获取String类型，重写toString()方法。
+     */
+    public override func toString():String
+    
 }
 ```
 
@@ -1753,11 +1758,6 @@ public class DeflaterSink <: Sink {
     * 返回值 Bool - 如果已经关闭返回 true，否则返回 false
     */
     public func isClosed(): Bool
-    
-    /*
-     * 判断是否需要输入数据
-     */
-    public func needsInput(): Bool
     
     /*
      * 判断是否需要输入数据
@@ -1818,7 +1818,7 @@ public class InflaterSource <: Source {
      * 参数Source 数据源
      * 参数Inflater 
      */
-    public init(source: Source , inflater: Inflater)
+    public init(source: Source)
     /*
     * 判断资源是否关闭
     * 返回值 Bool - 如果已经关闭返回 true，否则返回 false
@@ -1831,26 +1831,31 @@ public class InflaterSource <: Source {
      */
     public func read(sink: Buffer , byteCount: Int64): Int64
     
-     /*
-     * Buffer对象是否完成解压缩
-     * 返回值 Bool - 如果完成解压缩 true，否则返回 false
+    /*
+     * 获取Timeout对象，重写父类Source的timeout()方法。
+     * 参数：source：Buffe让对象
      */
-   public func refill(): Bool 
+    public override func timeout(): Timeout
     
     /*
-     * 从此源读取并丢弃byteCount字节
+     * 将所有缓冲字节推送到SInk的目标中, 并释放此Sink持有的资源。写入已关闭的Sink是错误的。多次关闭Sink是安全的。
      */
-    private func releaseInflatedBytes():Unit
+    public override func close(): Unit
+    
+    /*
+     * 获取String类型，重写toString()方法。
+     */
+    public override func toString():String
 
 }
 ```
 
-### ForwardingSink 抽象类
+### ForwardingSink 类
 
 实现Sink接口，多出获取Sink对象的方法
 
 ```cangjie
-public abstract class ForwardingSink <: Sink {
+public open class ForwardingSink <: Sink {
 	
 	/*
      * 获取Sink对象。
@@ -1884,16 +1889,22 @@ public abstract class ForwardingSink <: Sink {
      * 重写的toString方法
      * 返回值 重写的toString格式数据
      */
-    func timeout(): Timeout  (下个迭代转测)    
+    func timeout(): Timeout  
+    
+    /*
+    * 判断资源是否关闭
+    * 返回值 Bool - 如果已经关闭返回 true，否则返回 false
+    */
+    public open func isClosed(): Bool
 }
 ```
 
-### ForwardingSource 抽象类
+### ForwardingSource 类
 
 实现Source接口，多出获取Sink对象的方法
 
 ```cangjie
-public abstract class ForwardingSource <: Source{
+public open class ForwardingSource <: Source{
 
 	/*
      * 获取Source对象。
@@ -1912,18 +1923,24 @@ public abstract class ForwardingSource <: Source{
      * 返回此Source的超时对象。
      * 返回值 Timeout - 超时对象
      */
-    public override func timeout(): Timeout(下个迭代转测)
+    public override func timeout(): Timeout
     
     /*
      * 关闭此源并释放此源持有的资源。读取封闭源是一个错误。多次关闭Source是安全的。
      */
-    func close(): Unit (下个迭代转测)
+    func close(): Unit 
 	
 	/*
      * 重写的toString方法
      * 返回值 重写的toString格式数据
      */
-    func timeout(): Timeout  (下个迭代转测) 
+    func timeout(): Timeout  
+    
+    /*
+    * 判断资源是否关闭
+    * 返回值 Bool - 如果已经关闭返回 true，否则返回 false
+    */
+    public open func isClosed(): Bool
     
 }
 ```

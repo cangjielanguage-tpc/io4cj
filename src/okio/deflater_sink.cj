@@ -16,7 +16,7 @@ public class DeflaterSink {
     private var sink: BufferedSink
     private var sinks: Sink
     private var deflater: Deflater
-    private var closed: Bool = true
+    private var closed: Bool = false
     private var bufferSink: Buffer = Buffer()
     private var byteCountSink: Int64 = 0
 
@@ -38,7 +38,7 @@ public class DeflaterSink {
      * @since 0.34.3
      */
     public func isClosed(): Bool{
-        return closed
+        this.closed
     }
 
     /**
@@ -53,7 +53,8 @@ public class DeflaterSink {
     public func write(source: Buffer , byteCount: Int64){
         deflate(source , byteCount)
         this.bufferSink = source
-        this.byteCountSink = byteCount 
+        this.byteCountSink = byteCount
+        finishDeflate() 
     }
 
     /**
@@ -114,7 +115,14 @@ public class Deflater {
     private var inputPos: Int64 = 0
     private var inputLim: Int64 = 0
     private var finish: Bool = true
-    private var level: Int64
+    private var level: Int64 = 0
+
+    /**
+     * The Function is init constructor
+     *
+     * @since 0.34.3
+     */
+     public init(){}
 
     /**
      * The Function is init constructor
@@ -147,6 +155,7 @@ public class Deflater {
      */
     func finishs():Unit {
         finish = true
+        needsInput()
     }
 
     /**
