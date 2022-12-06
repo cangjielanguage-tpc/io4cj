@@ -7,7 +7,7 @@ from okio import okio.*
 @Test
 public class okio_readString_018{
 
-    let arrb:Array<Byte> = [1,2]
+    let arrb:Array<Byte> = [1,2,1,2,1,21,2,1,2,1,2]
     let a_buffer = Buffer()
 
     public override func beforeAll(): Unit {
