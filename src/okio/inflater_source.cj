@@ -51,7 +51,7 @@ public class InflaterSource <: Source {
             var tempBuf: Array<UInt8> = Array<UInt8>(1024, item: 0)
             var file: File = File("./temporar.txt" , OpenOption. CreateOrTruncate(true))
             while(true){
-                var index = source.read(buffer,byteCount)
+                var index = source.read(buffer,1024)
                 buffer.read(tempBuf)
                 file.write(tempBuf)
 
@@ -67,7 +67,9 @@ public class InflaterSource <: Source {
             if (readNum <= 0) {
                 return -1
                 }
-            sink.write(sourceArray.slice(0,readNum).toArray())
+            let mins = math.min(readNum,byteCount)
+            let sourceData= String.fromUtf8(sourceArray).substring(0,readNum).slice(0,mins)
+            sink.write(ByteString.of(sourceData.toUtf8Array()))
 
         }
         decompressInputStream.close()

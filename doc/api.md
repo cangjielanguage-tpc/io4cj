@@ -1758,11 +1758,6 @@ public class DeflaterSink <: Sink {
     * 返回值 Bool - 如果已经关闭返回 true，否则返回 false
     */
     public func isClosed(): Bool
-    
-    /*
-     * 判断是否需要输入数据
-     */
-    public func end():Unit
 
 }
 ```
