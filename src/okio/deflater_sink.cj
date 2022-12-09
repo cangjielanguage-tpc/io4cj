@@ -158,13 +158,4 @@ public class Deflater {
         needsInput()
     }
 
-    /**
-     * The Function is end
-     *
-     * @return Type of Unit
-     * @since 0.34.3
-     */
-    func end():Unit {
-        input = ByteBuffer.allocate(0)
-    }
 }

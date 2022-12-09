@@ -108,7 +108,8 @@ public class InflaterSource <: Source {
      * @since 0.34.3
      */
     public override func isClosed(): Bool {
-        this.closed
+        this.closed = true
+        return closed
     } 
 
     /**
