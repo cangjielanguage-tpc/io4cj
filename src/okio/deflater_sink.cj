@@ -81,11 +81,11 @@ public class DeflaterSink {
         while(true){
             
             let deflated: Int64 = compressInputStream.read(gzipBuffer)
-            buffer.write(gzipBuffer)
-            sinks.write(buffer,buffer.size)
             if(deflated <= 0) {
                 break
             }
+            buffer.write(gzipBuffer.slice(0, deflated).toArray())
+            sinks.write(buffer,buffer.size)
 
         }
         compressInputStream.close()
@@ -158,13 +158,4 @@ public class Deflater {
         needsInput()
     }
 
-    /**
-     * The Function is end
-     *
-     * @return Type of Unit
-     * @since 0.34.3
-     */
-    public func end():Unit {
-        input = ByteBuffer.allocate(0)
-    }
 }

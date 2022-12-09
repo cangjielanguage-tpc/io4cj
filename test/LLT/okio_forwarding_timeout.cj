@@ -42,11 +42,7 @@ main () {
     }
     if(es != "IllegalArgumentException: timeout < 0: -1"){
         return 1
-    }
-    if(es2 != "IllegalArgumentException: delegate == none"){
-        return 2
-    }
-    
+    }   
     return 0
 
 

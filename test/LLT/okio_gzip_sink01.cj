@@ -15,10 +15,10 @@ main () {
     let gs: GzipSink = GzipSink(buffer) 
     let str1 = gs.write(data,data.size)
     let str3 = gs.timeout()
-    
-    gs.close()
     gs.flush()
+    gs.close()
     gs.isClosed()
+    println(gs.toString())
     gs.toString()
     return 0
 }

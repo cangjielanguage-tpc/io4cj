@@ -32,9 +32,6 @@ from std import time.*
      * @since 0.33.3
      */
     public init(assignment: Timeout){
-        if (assignment.timeoutNanos() == 0) {
-            throw IllegalArgumentException("delegate == none");
-        }
         this.assignment = assignment
     }
 
@@ -57,9 +54,6 @@ from std import time.*
      * @since 0.33.3
      */
     public func  setDelegate(assignment: Timeout):ForwardingTimeout{
-        if (assignment.timeoutNanos() == 0) {
-            throw IllegalArgumentException("delegate == none")
-        }
         this.assignment = assignment
     return this    
     }

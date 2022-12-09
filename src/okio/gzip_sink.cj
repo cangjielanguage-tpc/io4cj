@@ -60,6 +60,7 @@ public class GzipSink <: Sink {
      * @since 0.34.3
      */
     public override func flush(): Unit {
+        sink.flush()
     }
 
     /**
@@ -88,15 +89,6 @@ public class GzipSink <: Sink {
 
         } catch (e: Exception) {
             thrown = e
-        }
-
-        try {
-            deflater.end();
-        } catch (e: Exception) {
-            match (thrown) {
-                    case None => thrown = e
-                    case Some(v) => () 
-                }           
         }
 
         try {
