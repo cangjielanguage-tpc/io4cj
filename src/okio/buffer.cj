@@ -1408,7 +1408,7 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
             let targetByteArray = targetBytes.internalArray()
             while (offset < size) {
                 for (pos in s.pos + fromIndex - offset..s.limit) {
-                    for (t in targetByteArray where s.data[pos] == t) {
+                    for (t in 0..targetByteArray.size where s.data[pos] == targetByteArray[t]) {
                         return pos - s.pos + offset
                     }
                 }

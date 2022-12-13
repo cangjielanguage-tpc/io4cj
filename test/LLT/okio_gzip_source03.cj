@@ -9,7 +9,7 @@ from std import fs.*
 
 main () {
     let data: Buffer = Buffer()
-    let testString: String = "Test whether gzipsink can be compressed"
+    let testString: String = "你好仓颉Test whether gzipsink can be compressed"
     data.writeUtf8(testString)
     let buffer: Buffer = Buffer()
     let gs: GzipSink = GzipSink(buffer) 
@@ -19,8 +19,10 @@ main () {
     gs.toString()
     gs.timeout()
     let inflated: Buffer = gunzip(buffer)
+    println(inflated)
     var a: String = inflated.readUtf8().getOrThrow()
-    if("Test whether gzipsink can be compressed" != a) {
+    println(a)
+    if("你好仓颉Test whether gzipsink can be compressed" != a) {
         return 1
     }
     return 0

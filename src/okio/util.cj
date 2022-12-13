@@ -113,8 +113,8 @@ class Util {
     @overflowWrapping
     public static func hashCode(a: Array<Byte>): Int64 {
         var result: Int32 = 1
-        for (i in a) {
-            result = result * 31 + Int32(Int8(i))
+        for (i in 0..a.size) {
+            result = result * 31 + Int32(Int8(a[i]))
         }
         return Int64(result)
     }

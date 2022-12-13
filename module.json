@@ -14,5 +14,5 @@
 	},
 	"foreign_requires": {},
 	"output_type": "dynamic",
-	"command_option": "-O2 --diagnostic-format=noColor"
+	"command_option": "-O2"
 }
