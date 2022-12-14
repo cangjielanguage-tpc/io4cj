@@ -2053,10 +2053,6 @@ public class HashingSink <: ForwardingSink {
     /*
      *判断资源是否关闭
     * 返回值 Bool - 如果已经关闭返回 true，否则返回 false
-     *//*
-     * 返回加密后的结果
-     * 
-     * 返回值：加密后的String数据
      */
     public override func isClosed(): Bool 
 
@@ -2214,71 +2210,6 @@ public class Pipe {
     public func fold(sink: Sink) 
  }
  
-class PipeSink <: Sink {
-    /*
-     * 将Buffer中的数据写入sink
-     * 参数：source,Buffer中的数据，byteCount: Int64
-     * 返回值：Unit
-     */
-    public override func write(source: Buffer , byteCount: Int64): Unit
-    
-    /*
-     * 将所有缓冲字节推送到SInk的目标中。
-     * 
-     */
-    public override func flush()
-    
-    /*
-     * 将所有缓冲字节推送到SInk的目标中, 并释放此Sink持有的资源。写入已关闭的Sink是错误的。多次关闭Sink是安全的。
-     */
-     public override func close() 
-
-    /*
-     * 返回Timeout对象
-     */
-   public override func timeout(): Timeout
-    /*
-     *判断资源是否关闭
-     * 返回值 Bool - 如果已经关闭返回 true，否则返回 false
-     */
-   public override func isClosed(): Bool
-   
-   /*
-     * 返回toString方法
-     */
-   public override func toString():String
-}
-
-class PipeSource <: Source {
-
-	/*
-     * 将sink中的数据写入Buffer中
-     * 参数：source,空的Buffer对象，byteCount: Int64
-     * 返回值：读取的字节数
-     */
-	public override func read(sink: Buffer , byteCount: Int64): Int64 
-	
-	/*
-     * 关闭此源并释放此源持有的资源。读取封闭源是一个错误。多次关闭Source是安全的。
-     */
-	public override func close()
-	
-	/*
-     * 返回Timeout对象
-     */
-	public override func timeout(): Timeout
-	
-	/*
-     *判断资源是否关闭
-     * 返回值 Bool - 如果已经关闭返回 true，否则返回 false
-     */
-   public override func isClosed(): Bool
-   
-   /*
-     * 返回toString方法
-     */
-   public override func toString():String
-}
 示例：main () {
 	let pi: Pipe = Pipe(100)
     let bu: Buffer = Buffer()

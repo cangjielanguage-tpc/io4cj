@@ -144,10 +144,10 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
     public func hex(): String {
         let chars: Array<Char> = Array<Char>(this.data.size * 2, item: ' ')
         var c = 0
-        for (d in this.data) {
-            chars[c] = HEX_DIGITS[Int64((d >> 4) & 0x0f)]
+        for (d in 0..this.data.size) {
+            chars[c] = HEX_DIGITS[Int64((data[d] >> 4) & 0x0f)]
             c++
-            chars[c] = HEX_DIGITS[Int64(d & 0x0f)]
+            chars[c] = HEX_DIGITS[Int64(data[d] & 0x0f)]
             c++
         }
         return String(chars)
