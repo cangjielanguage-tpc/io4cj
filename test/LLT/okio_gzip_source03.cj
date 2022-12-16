@@ -19,9 +19,7 @@ main () {
     gs.toString()
     gs.timeout()
     let inflated: Buffer = gunzip(buffer)
-    println(inflated)
     var a: String = inflated.readUtf8().getOrThrow()
-    println(a)
     if("你好仓颉Test whether gzipsink can be compressed" != a) {
         return 1
     }

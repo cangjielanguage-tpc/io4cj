@@ -17,6 +17,7 @@ main () {
     buf.put(12)
     buf.put(12)
     buf.put(12)
+    buf.put(buf)
     println(buf.hashCode())
     buf.put(12)
     println(buf.hashCode())

@@ -587,8 +587,10 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
         if (o.size != this.size) {
             return false
         }
-        for (index in 0..this.size where this.data[index] != o.data[index]) {
+        for (index in 0..this.size) {
+            if(this.data[index] != o.data[index]){
             return false
+            }
         }
         return true
     }

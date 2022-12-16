@@ -1764,6 +1764,12 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
             }
         }
         return 1
+        /* var top: Int64 = 0
+        var mid: Int64
+        while(top <= size) {
+            mid = (size + top) / 2
+            if()
+        } */
     }
 
     /**

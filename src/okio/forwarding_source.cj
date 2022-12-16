@@ -12,7 +12,7 @@ from std import time.*
 from std import io.*
 
 
-public open /* abstract */ class ForwardingSource <: Source{
+public abstract class ForwardingSource <: Source{
 
     /**
      * let member source type is Source
