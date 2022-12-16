@@ -6,4 +6,5 @@ build/
 ci_lib
 ci_test
 bin
+cryptocj
 module-resolve.json
