@@ -117,10 +117,9 @@ public class GzipSink <: Sink {
      * @return Type of Unit
      * @since 0.34.3
      */
-    private func updateCrc(buffer: Buffer,byteCount: Int64): Unit{
-        
-            var head: Segment = buffer.head.getOrThrow()
-            var byteCount:Int64 = byteCount
+    private func updateCrc(buffer: Buffer, bytecount: Int64): Unit{
+        var head: Segment = buffer.head.getOrThrow()
+        var byteCount = bytecount
         while(byteCount > 0){
             var segmentLength: Int64 = math.min(byteCount, head.limit - head.pos)
             update(head.data , head.pos , segmentLength)

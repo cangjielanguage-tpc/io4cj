@@ -99,8 +99,8 @@ class RealBufferedSink <: BufferedSink {
      * @return Type of BufferedSink
      * @since 0.32.5
      */
-    public override func write(source: Source, byteCount: Int64): BufferedSink {
-        var byteCount = byteCount
+    public override func write(source: Source, bytecount: Int64): BufferedSink {
+        var byteCount = bytecount
         while (byteCount > 0) {
             let read = source.read(this.buf, byteCount)
             if (read == -1) {

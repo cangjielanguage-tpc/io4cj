@@ -360,6 +360,8 @@ public abstract class ByteBuffer <: Buffer & ToString & Hashable & Equatable<Buf
         let sb = StringBuilder()
         sb.append("ByteBuffer: [offset=")
         sb.append(this.offset)
+        sb.append(" mark=")
+        sb.append(this.mar)
         sb.append(" pos=")
         sb.append(position())
         sb.append(" lim=")
@@ -380,12 +382,12 @@ public abstract class ByteBuffer <: Buffer & ToString & Hashable & Equatable<Buf
      */
     @overflowWrapping
     public open func hashCode(): Int64 {
-        var h = 1
+        var h: Int32 = 1
         var p = position()
-        for (i in limit()-1..p:-1) {
-            h = 31 * h + Int64(get(i))
+        for (i in limit()-1..=p:-1) {
+            h = 31 * h + Int32(get(i))
         }
-        return h
+        return Int64(h)
     }
 
     /**

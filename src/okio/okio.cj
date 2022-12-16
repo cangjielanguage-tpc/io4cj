@@ -163,9 +163,9 @@ public class Okio {
     }
 
     private static func sink (out: OutputStream, timeout: Timeout) : Sink {
-        func subWrite(source: Buffer, byteCount: Int64): Unit {
-            Util.checkOffsetAndCount(source.size, 0, byteCount)
-            var byteCount = byteCount
+        func subWrite(source: Buffer, bytecount: Int64): Unit {
+            Util.checkOffsetAndCount(source.size, 0, bytecount)
+            var byteCount = bytecount
             while (byteCount > 0) {
                 timeout.throwIfReached()
                 var head = source.head.getOrThrow()

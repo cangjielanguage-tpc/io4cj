@@ -119,13 +119,13 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
      */
     public override func write(source: Array<Byte>, offset: Int64, byteCount: Int64): Buffer {
         Util.checkOffsetAndCount(source.size, offset, byteCount)
-        var offset = offset
-        var limit = offset + byteCount
-        while (offset < limit) {
+        var offs = offset
+        var limit = offs + byteCount
+        while (offs < limit) {
             let tail = writableSegment(1)
-            let toCopy = math.min(limit - offset, Segment.SIZE - tail.limit)
-            nio.ArrayCopy(source, offset, tail.data, tail.limit, toCopy)
-            offset += toCopy
+            let toCopy = math.min(limit - offs, Segment.SIZE - tail.limit)
+            nio.ArrayCopy(source, offs, tail.data, tail.limit, toCopy)
+            offs += toCopy
             tail.limit += toCopy
         }
         mysize += byteCount
@@ -160,13 +160,13 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
      * @since 0.32.5
      */
     public override func write(source: Source, byteCount: Int64): BufferedSink {
-        var byteCount = byteCount
-        while (byteCount > 0) {
-            let read = source.read(this, byteCount)
+        var bytecount = byteCount
+        while (bytecount > 0) {
+            let read = source.read(this, bytecount)
             if (read == -1) {
                 throw EOFException()
             }
-            byteCount -= read
+            bytecount -= read
         }
         return this
     }
@@ -943,12 +943,12 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         if (size == 0) {
             return -1
         }
-        var byteCount = byteCount
-        if (byteCount > size) {
-            byteCount = size
+        var bytecount = byteCount
+        if (bytecount > size) {
+            bytecount = size
         }
-        sink.write(this, byteCount)
-        return byteCount
+        sink.write(this, bytecount)
+        return bytecount
     }
 
     /**
@@ -1230,12 +1230,12 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
      * @return Type of Int64
      * @since 0.32.5
      */
-    public override func indexOf(value: Int8, fromIndex: Int64, toIndex: Int64): Int64 {
-        if (fromIndex < 0 || toIndex < fromIndex) {
-            throw IllegalArgumentException("fromIndex: ${fromIndex} is greater than toIndex: ${fromIndex} or less than 0")
+    public override func indexOf(value: Int8, fromindex: Int64, toindex: Int64): Int64 {
+        if (fromindex < 0 || toindex < fromindex) {
+            throw IllegalArgumentException("fromIndex: ${fromindex} is greater than toIndex: ${fromindex} or less than 0")
         }
-        var fromIndex = fromIndex
-        var toIndex = toIndex
+        var fromIndex = fromindex
+        var toIndex = toindex
         let b = UInt8(value)
         if (toIndex > size) {
             toIndex = size
@@ -1302,14 +1302,14 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
      * @return Type of Int64
      * @since 0.32.5
      */
-    public override func indexOf(bytes: ByteString, fromIndex: Int64): Int64 {
+    public override func indexOf(bytes: ByteString, fromindex: Int64): Int64 {
         if (bytes.size == 0) {
             throw IllegalArgumentException("bytes is empty")
         }
-        if (fromIndex < 0) {
+        if (fromindex < 0) {
             throw IllegalArgumentException("fromIndex < 0")
         }
-        var fromIndex = fromIndex
+        var fromIndex = fromindex
         var s: ?Segment = None
         var offset = -1
         match (this.head) {
@@ -1369,11 +1369,11 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
      * @return Type of Int64
      * @since 0.32.5
      */
-    public override func indexOfElement(targetBytes: ByteString, fromIndex: Int64): Int64 {
-        if (fromIndex < 0) {
+    public override func indexOfElement(targetBytes: ByteString, fromindex: Int64): Int64 {
+        if (fromindex < 0) {
             throw IllegalArgumentException("fromIndex < 0")
         }
-        var fromIndex = fromIndex
+        var fromIndex = fromindex
         var offset = 0
         var s: Segment = match (this.head) {
             case None => return -1
@@ -1458,9 +1458,9 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         return true
     }
 
-    private func rangeEquals(segment: Segment, segmentPos: Int64, bytes: ByteString, bytesOffset:Int64, bytesLimit: Int64): Bool {
-        var segment = segment
-        var segmentPos = segmentPos
+    private func rangeEquals(segments: Segment, segmentpos: Int64, bytes: ByteString, bytesOffset:Int64, bytesLimit: Int64): Bool {
+        var segment = segments
+        var segmentPos = segmentpos
         var segmentLimit = segment.limit
         var data = segment.data
         for (i in bytesOffset..bytesLimit) {
@@ -1510,8 +1510,8 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
      * @return Type of Unit
      * @since 0.32.5
      */
-    public override func skip(byteCount: Int64): Unit {
-        var byteCount = byteCount
+    public override func skip(bytecount: Int64): Unit {
+        var byteCount = bytecount
         while (byteCount > 0) {
             let s = match(this.head) {
                 case Some(v) => v
@@ -1600,10 +1600,10 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
      * @return Type of Buffer
      * @since 0.32.5
      */
-    public func copyTo(out: Buffer, offset: Int64, byteCount: Int64): Buffer {
-        Util.checkOffsetAndCount(size, offset, byteCount)
-        var offset = offset
-        var byteCount = byteCount
+    public func copyTo(out: Buffer, offsets: Int64, byteCounts: Int64): Buffer {
+        Util.checkOffsetAndCount(size, offsets, byteCounts)
+        var offset = offsets
+        var byteCount = byteCounts
         if (byteCount == 0 ) {
             return this
         }
@@ -1645,13 +1645,13 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
      * @return Type of Unit
      * @since 0.32.5
      */
-    public override func write(source: Buffer, byteCount: Int64): Unit {
+    public override func write(source: Buffer, bytecount: Int64): Unit {
         if (source == this) {
             throw IllegalArgumentException("source == this")
         }
 
-        Util.checkOffsetAndCount(source.size, 0, byteCount)
-        var byteCount = byteCount
+        Util.checkOffsetAndCount(source.size, 0, bytecount)
+        var byteCount = bytecount
         while (byteCount > 0) {
             if (byteCount < (source.head.getOrThrow().limit - source.head.getOrThrow().pos)) {
                 let tail: ?Segment = match (head) {
@@ -1739,8 +1739,8 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
      * @since 0.32.5
      */
     @overflowWrapping
-    public func getInt8(pos: Int64): Int8 {
-        var pos = pos
+    public func getInt8(p: Int64): Int8 {
+        var pos = p
         Util.checkOffsetAndCount(size, pos, 1)
         if (size - pos > pos) {
             var s = this.head.getOrThrow()
