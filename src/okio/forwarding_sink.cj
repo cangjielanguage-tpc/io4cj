@@ -9,7 +9,7 @@
 
 package okio
 
-public  open/* abstract */ class ForwardingSink <: Sink {
+public abstract class ForwardingSink <: Sink {
     
     /**
      * let member delegate type is Sink

@@ -1,5 +1,4 @@
-// EXEC: cjc %import-path %L %l %f
-// EXEC: ./main
+
 
 from okio import okio.*
 from std import os.posix.*

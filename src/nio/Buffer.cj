@@ -268,6 +268,12 @@ public abstract class Buffer <: Object & ToString {
      */
     public func array(): Array<UInt8>
 
+    /**
+     * The Function is nextGetIndex
+     *
+     * @return Type of Int64
+     * @since 0.32.5
+     */
     func nextGetIndex(): Int64 {
         if (pos >= lim){
             throw Exception()
@@ -277,6 +283,14 @@ public abstract class Buffer <: Object & ToString {
         return temp
     }
 
+    /**
+     * The Function is nextGetIndex
+     *
+     * @param nb of Int64
+     *
+     * @return Type of Int64
+     * @since 0.32.5
+     */
     func nextGetIndex(nb: Int64): Int64 {     
         if (lim - pos < nb){
             throw Exception()
@@ -286,7 +300,12 @@ public abstract class Buffer <: Object & ToString {
         return p
     }
 
-    
+    /**
+     * The Function is nextPutIndex
+     *
+     * @return Type of Int64
+     * @since 0.32.5
+     */
     func nextPutIndex(): Int64 {
         if (pos >= lim){
             throw Exception()
@@ -295,6 +314,14 @@ public abstract class Buffer <: Object & ToString {
         return pos
     }
 
+    /**
+     * The Function is nextPutIndex
+     *
+     * @param nb of Int64
+     *
+     * @return Type of Int64
+     * @since 0.32.5
+     */
     func nextPutIndex(nb: Int64): Int64 {     
         if (lim - pos < nb){
             throw Exception()
@@ -304,7 +331,14 @@ public abstract class Buffer <: Object & ToString {
         return p
     }
 
-    
+    /**
+     * The Function is checkIndex
+     *
+     * @param i of Int64
+     *
+     * @return Type of Int64
+     * @since 0.32.5
+     */
     func checkIndex(i: Int64): Int64 {        
         if ((i < 0) || (i >= lim)){
             throw IndexOutOfBoundsException()
@@ -312,6 +346,15 @@ public abstract class Buffer <: Object & ToString {
         return i
     }
 
+    /**
+     * The Function is checkIndex
+     *
+     * @param i of Int64
+     * @param nb of Int64
+     *
+     * @return Type of Int64
+     * @since 0.32.5
+     */
     func checkIndex(i: Int64, nb: Int64): Int64 {
         if ((i < 0) || (nb > lim - i)){
             throw IndexOutOfBoundsException()
@@ -319,10 +362,21 @@ public abstract class Buffer <: Object & ToString {
         return i
     }
 
+    /**
+     * The Function is markValue
+     *
+     * @return Type of Int64
+     * @since 0.32.5
+     */
     func markValue(): Int64 {   
         return mar
     }
 
+    /**
+     * The Function is truncate
+     *
+     * @since 0.32.5
+     */
     func truncate() {   
         mar = -1
         pos = 0
@@ -330,10 +384,24 @@ public abstract class Buffer <: Object & ToString {
         capa = 0
     }
 
+    /**
+     * The Function is discardMark
+     *
+     * @since 0.32.5
+     */
     func discardMark() {
         mar = -1
     }
 
+    /**
+     * The Function is checkBounds
+     *
+     * @param off of Int64
+     * @param len of Int64
+     * @param size of Int64
+     *
+     * @since 0.32.5
+     */
     func checkBounds(off: Int64, len: Int64, size: Int64) {
         if ((off | len | (off + len) | (size - (off + len))) < 0){
             throw IndexOutOfBoundsException()
