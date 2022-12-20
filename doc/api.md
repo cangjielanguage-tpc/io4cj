@@ -1727,11 +1727,6 @@ public class GzipSink <: Sink {
      * 参数：source：Buffe让对象
      */
     public override func timeout(): Timeout
-    /*
-     *判断资源是否关闭
-    * 返回值 Bool - 如果已经关闭返回 true，否则返回 false
-     */
-    public override func isClosed(): Bool
     
     /*
      * 获取String类型，重写toString()方法。
@@ -1752,12 +1747,6 @@ public class DeflaterSink <: Sink {
      * 构造一个DeflaterSink。
      */
     public init(sink: Sink , deflater: Deflater)
-
-    /*
-    * 判断资源是否关闭
-    * 返回值 Bool - 如果已经关闭返回 true，否则返回 false
-    */
-    public func isClosed(): Bool
 
 }
 ```
@@ -1788,11 +1777,7 @@ public class GzipSource <: Source {
      * 参数：source：Buffe让对象
      */
     public override func timeout(): Timeout
-    /*
-     *判断资源是否关闭
-    * 返回值 Bool - 如果已经关闭返回 true，否则返回 false
-     */
-    public override func isClosed(): Bool
+    
     /*
      * 获取String类型，重写toString()方法。
      */
@@ -1814,11 +1799,6 @@ public class InflaterSource <: Source {
      * 参数Inflater 
      */
     public init(source: Source)
-    /*
-    * 判断资源是否关闭
-    * 返回值 Bool - 如果已经关闭返回 true，否则返回 false
-    */
-    public func isClosed(): Bool
 
     /*
      * 将buffer中的数据压缩到Segment对象中，并保存到BufferedSink对象中
@@ -1885,12 +1865,6 @@ public open class ForwardingSink <: Sink {
      * 返回值 重写的toString格式数据
      */
     func timeout(): Timeout  
-    
-    /*
-    * 判断资源是否关闭
-    * 返回值 Bool - 如果已经关闭返回 true，否则返回 false
-    */
-    public open func isClosed(): Bool
 }
 ```
 
@@ -1930,12 +1904,6 @@ public open class ForwardingSource <: Source{
      * 返回值 重写的toString格式数据
      */
     func timeout(): Timeout  
-    
-    /*
-    * 判断资源是否关闭
-    * 返回值 Bool - 如果已经关闭返回 true，否则返回 false
-    */
-    public open func isClosed(): Bool
     
 }
 ```
@@ -2049,12 +2017,6 @@ public class HashingSink <: ForwardingSink {
      * 返回值：加密后的String数据
      */
     public func hash(): String
-    
-    /*
-     *判断资源是否关闭
-    * 返回值 Bool - 如果已经关闭返回 true，否则返回 false
-     */
-    public override func isClosed(): Bool 
 
 }
 示例：main () {
@@ -2153,12 +2115,6 @@ public class HashingSource <: ForwardingSource {
      * 返回值：加密后的String数据
      */
     public func hash(): String
-    
-    /*
-     *判断资源是否关闭
-    * 返回值 Bool - 如果已经关闭返回 true，否则返回 false
-     */
-    public override func isClosed(): Bool 
 
 }
 示例：main () {

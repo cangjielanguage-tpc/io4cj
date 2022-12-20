@@ -17,7 +17,11 @@ main () {
     buf.put(12)
     buf.put(12)
     buf.put(12)
+    try{
     buf.put(buf)
+    }catch(e: Exception) {  
+        println(e.toString())
+    }
     println(buf.hashCode())
     buf.put(12)
     println(buf.hashCode())
