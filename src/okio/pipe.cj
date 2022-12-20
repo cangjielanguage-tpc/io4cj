@@ -80,8 +80,8 @@ class PipeSink <: Sink {
 
     let ptimeout: PushableTimeout = PushableTimeout()
 
-    public override func write(source: Buffer , byteCount: Int64): Unit {
-        var byteCount: Int64 = byteCount
+    public override func write(source: Buffer , bytecount: Int64): Unit {
+        var byteCount: Int64 = bytecount
         var sink: ?Sink = Option.None
         synchronized(monitor){
             if (sinkClosed) {

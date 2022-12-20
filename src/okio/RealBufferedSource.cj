@@ -549,11 +549,11 @@ class RealBufferedSource <: BufferedSource {
      * @return Type of Unit
      * @since 0.32.5
      */
-    public override func skip (byteCount: Int64): Unit {
+    public override func skip (bytecount: Int64): Unit {
         if (closed) {
             throw IllegalStateException("closed")
         }
-        var byteCount = byteCount
+        var byteCount = bytecount
         while (byteCount > 0) {
             if (this.buf.size == 0 && source.read(this.buf, Segment.SIZE) == -1) {
                 throw EOFException()
@@ -599,8 +599,8 @@ class RealBufferedSource <: BufferedSource {
      * @return Type of Int64
      * @since 0.32.5
      */
-    public override func indexOf (b: Int8, fromIndex: Int64, toIndex: Int64): Int64 {
-        var fromIndex = fromIndex
+    public override func indexOf (b: Int8, fromindex: Int64, toIndex: Int64): Int64 {
+        var fromIndex = fromindex
         if (closed) {
             throw IllegalStateException("closed")
         }
@@ -642,8 +642,8 @@ class RealBufferedSource <: BufferedSource {
      * @return Type of Int64
      * @since 0.32.5
      */
-    public override func indexOf (bytes: ByteString, fromIndex: Int64): Int64 {
-        var fromIndex = fromIndex
+    public override func indexOf (bytes: ByteString, fromindex: Int64): Int64 {
+        var fromIndex = fromindex
         if (closed) {
             throw IllegalStateException("closed")
         }
@@ -682,8 +682,8 @@ class RealBufferedSource <: BufferedSource {
      * @return Type of Int64
      * @since 0.32.5
      */
-    public override func indexOfElement (targetBytes: ByteString, fromIndex: Int64): Int64 {
-        var fromIndex = fromIndex
+    public override func indexOfElement (targetBytes: ByteString, fromindex: Int64): Int64 {
+        var fromIndex = fromindex
         if (closed) {
             throw IllegalStateException("closed")
         }

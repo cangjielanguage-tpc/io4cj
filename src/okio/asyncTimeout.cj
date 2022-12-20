@@ -153,7 +153,6 @@ public open class AsyncTimeout <: Timeout & Equatable<AsyncTimeout> {
     public func sink(sink: Sink): Sink {
         func subWrite(source: Buffer, byteCount: Int64): Unit {
             Util.checkOffsetAndCount(source.size, 0, byteCount)
-            var byteCount = byteCount
             while (byteCount >0) {
                 var toWrite = 0
                 var s = source.head.getOrThrow()
@@ -216,10 +215,10 @@ public open class AsyncTimeout <: Timeout & Equatable<AsyncTimeout> {
         func subTimeout(): Timeout {
             return this
         }
-        let source = AnonymousSource()
-        source.funRead = subRead
-        source.funTimeout = subTimeout
-        return source
+        let sourceOther = AnonymousSource()
+        sourceOther.funRead = subRead
+        sourceOther.funTimeout = subTimeout
+        return sourceOther
     }
 
     func exit(e: Exception): Exception {
