@@ -8,9 +8,6 @@
  */
 package okio
 
-from std import time.*
-from std import sync.*
-
 /**
  * The class is Timeout inherited from Object
  * @author liyanqing14

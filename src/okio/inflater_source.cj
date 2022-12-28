@@ -9,8 +9,6 @@
 
 package okio
 
-from compress import zlib.*
-
 public class InflaterSource <: Source {
 
     private var source: Source

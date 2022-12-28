@@ -10,12 +10,8 @@ package okio
 
 from std import collection.*
 from std import format.*
-from std import sync.*
-from std import io.*
-from std import math.*
 from encoding import hex.*
 from encoding import base64.*
-//from crypto import enc.*
 import nio.*
 
 /**

@@ -8,8 +8,6 @@
  */
 package okio
 
-from std import sync.*
-
 /**
  * The class is SegmentPool
  * @author liyanqing14

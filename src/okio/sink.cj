@@ -8,8 +8,6 @@
  */
 
 package okio
-from std import io.*
-from std import time.*
 
 /**
  * The interface is Sink inherited from Resource

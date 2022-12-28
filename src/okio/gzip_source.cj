@@ -9,9 +9,6 @@
 
 package okio
 
-from std import time.*
-from compress import zlib.*
-
 public class GzipSource <: Source {
 
     private static var FHCRC: Int8 = 1
