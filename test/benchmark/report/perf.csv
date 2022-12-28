@@ -1,6 +1,0 @@
-class,case_name,status,case_time_elapsed(ns),case_time_per_op(ns/op)
-TestSuite_okio_getByte_035.okio_getByte_035,okio_getByte_035_1, PASSED ,4433.0,
-TestSuite_okio_getByte_035.okio_getByte_035,okio_getByte_035_10, PASSED ,442.0,44
-TestSuite_okio_getByte_035.okio_getByte_035,okio_getByte_035_100, PASSED ,1358.0,13
-TestSuite_okio_getByte_035.okio_getByte_035,okio_getByte_035_1000, PASSED ,11002.0,11
-TestSuite_okio_getByte_035.okio_getByte_035,okio_getByte_035_10000, PASSED ,106278.0,10
