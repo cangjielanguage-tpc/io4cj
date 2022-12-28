@@ -8,15 +8,6 @@
  */
 package okio
 
-from std import time.*
-from std import io.*
-from std import core.*
-from  cryptocj import md5cj.*
-from  cryptocj import sha1cj.*
-from  cryptocj import sha256cj.*
-from  cryptocj import sha512cj.*
-from  cryptocj import hmaccj.*
-
 public class HashingSource <: ForwardingSource {
 
     private static var algorithmArray: Array<UInt8> = Array<UInt8>()

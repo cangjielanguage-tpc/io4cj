@@ -19,10 +19,7 @@ package nio
  * @since 0.32.5
  */
 public func ArrayCopy(src: Array<Byte>, srcPos: Int64, dest: Array<Byte>, destPos: Int64, length: Int64) {
-    let diff = srcPos - destPos
-    for (i in srcPos..srcPos + length) {
-        dest[i - diff] = src[i]
-    }
+    src.copyTo(dest, srcPos, destPos, length)
 }
 
 /**

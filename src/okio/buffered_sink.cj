@@ -9,8 +9,6 @@
 
 package okio
 
-from std import time.*
-
 /**
  * The interface is BufferedSink inherited from Sink & ToString
  * @author liyanqing14

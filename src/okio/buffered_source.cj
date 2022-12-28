@@ -9,7 +9,6 @@
 
 package okio
 from std import io.*
-from std import time.*
 
 /**
  * The interface is BufferedSource inherited from Source & ToString

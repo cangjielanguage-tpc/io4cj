@@ -9,8 +9,6 @@
 
 package okio
 
-from std import time.*
-
 /**
  * The interface is ForwardingTimeout inherited from Timeout
  * @author liyanqing14

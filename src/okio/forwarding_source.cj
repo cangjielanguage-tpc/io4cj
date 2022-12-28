@@ -8,10 +8,6 @@
  */
 package okio
 
-from std import time.*
-from std import io.*
-
-
 public abstract class ForwardingSource <: Source{
 
     /**

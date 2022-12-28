@@ -8,8 +8,6 @@
  */
 package okio
 
-from std import time.*
-from std import io.*
 from std import core.*
 from  cryptocj import md5cj.*
 from  cryptocj import sha1cj.*

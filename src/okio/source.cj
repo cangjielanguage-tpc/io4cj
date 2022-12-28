@@ -7,8 +7,6 @@
  * The file declars the Source interface.
  */
 package okio
-from std import io.*
-from std import time.*
 
 /**
  * The interface is Source inherited from Resource

@@ -9,9 +9,6 @@
 
 package okio
 
-from std import time.*
-from compress import zlib.*
-
 public class GzipSink <: Sink {
 
     private var sink: BufferedSink
