@@ -23,7 +23,7 @@ public class Pipe {
     
     public init(bufferSize: Int64) {
         if (bufferSize < 1) {
-            throw IllegalArgumentException("maxBufferSize < 1: ${maxBufferSize}")
+            throw IllegalArgumentException("maxBufferSize < 1: ${bufferSize}")
         }
 
         maxBufferSize = bufferSize

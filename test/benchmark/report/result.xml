@@ -1,0 +1,10 @@
+<?xml version="1.0" ?>
+<testsuites errors="0" failures="0" skipped="0" tests="5">
+    <testsuite errors="0" failures="0" name="TestSuite_okio_getByte_035.okio_getByte_035" skipped="0" tests="5" time="0.00012699399999999998">
+        <testcase class_name="TestSuite_okio_getByte_035.okio_getByte_035" name="okio_getByte_035_1" time="4.433e-06"/>
+        <testcase class_name="TestSuite_okio_getByte_035.okio_getByte_035" name="okio_getByte_035_10" time="4.42e-07"/>
+        <testcase class_name="TestSuite_okio_getByte_035.okio_getByte_035" name="okio_getByte_035_100" time="1.358e-06"/>
+        <testcase class_name="TestSuite_okio_getByte_035.okio_getByte_035" name="okio_getByte_035_1000" time="1.1002e-05"/>
+        <testcase class_name="TestSuite_okio_getByte_035.okio_getByte_035" name="okio_getByte_035_10000" time="0.00010627800000000001"/>
+    </testsuite>
+</testsuites>

@@ -6,18 +6,22 @@ from okio import nio.*
 
 main () {
     let buf = ByteBuffer.allocate(32)
-    buf.put(12)
-    buf.put(12)
-    buf.put(12)
-    buf.put(12)
-    buf.put(12)
-    buf.put(12)
-    buf.put(12)
-    buf.put(12)
-    buf.put(12)
-    buf.put(12)
-    buf.put(12)
+    try{
     buf.put(buf)
+    }catch(e: Exception) {  
+        println(e.toString())
+    }
+    buf.put(12)
+    buf.put(12)
+    buf.put(12)
+    buf.put(12)
+    buf.put(12)
+    buf.put(12)
+    buf.put(12)
+    buf.put(12)
+    buf.put(12)
+    buf.put(12)
+    buf.put(12)
     println(buf.hashCode())
     buf.put(12)
     println(buf.hashCode())
