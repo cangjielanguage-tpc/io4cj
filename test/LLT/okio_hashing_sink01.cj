@@ -15,6 +15,7 @@ main () {
     source.writeUtf8("helloworld")
     hashingSink.writeMD5(source, 10)
     let a: String = hashingSink.hash()
+    println(a)
     if(a != "fc5e038d38a57032085441e7fe7010b0") {
         return -1
     }
