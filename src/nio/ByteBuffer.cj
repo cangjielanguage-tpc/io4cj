@@ -192,20 +192,31 @@ public abstract class ByteBuffer <: Buffer & ToString & Hashable & Equatable<Buf
      */
     public open func put(src: ByteBuffer) : ByteBuffer {
         if (src == this) {
-            throw Exception() // createSameBufferException
+            throw createSameBufferException() // createSameBufferException
         }
         if (this.isReadOnly()) {
             throw Exception() // ReadOnlyBufferException
         }
         let n = src.remaining()
         if (n > remaining()) {
-            throw Exception() // BufferOverflowException
+            throw BufferOverflowException() // BufferOverflowException
         }
         for (i in 0..n) {
             this.put(src.get())
         }
         return this
     } 
+
+    /**
+     * The Function is createSameBufferException
+     *
+     *
+     * @return Type of IllegalArgumentException
+     * @since 0.32.5
+     */
+    open func createSameBufferException(): IllegalArgumentException {
+        throw IllegalArgumentException("The source buffer is this buffer")
+    }
 
     /**
      * The Function is put

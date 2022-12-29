@@ -1830,7 +1830,7 @@ public class InflaterSource <: Source {
 实现Sink接口，多出获取Sink对象的方法
 
 ```cangjie
-public open class ForwardingSink <: Sink {
+public abstract class ForwardingSink <: Sink {
 	
 	/*
      * 获取Sink对象。
@@ -1873,7 +1873,7 @@ public open class ForwardingSink <: Sink {
 实现Source接口，多出获取Sink对象的方法
 
 ```cangjie
-public open class ForwardingSource <: Source{
+public abstract class ForwardingSource <: Source{
 
 	/*
      * 获取Source对象。
@@ -2160,7 +2160,7 @@ public class Pipe {
     public func sink(): Sink
     
     /*
-     * 将此管道的任何缓冲内容写入 sink，然后用 sink替换此管道的源。
+     * 将管道的缓冲内容写入 sink接收器，然后用 sink接收器替换此管道的源，如果管道关闭抛出异常。
      * 参数 sink 接收器
      */
     public func fold(sink: Sink) 

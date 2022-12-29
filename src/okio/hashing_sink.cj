@@ -177,7 +177,8 @@ public class HashingSink <: ForwardingSink {
     public func writeMD5(source: Buffer , byteCount: Int64){
         source.copyTo(this.source,0, byteCount)
         let sourceArray: Array<UInt8> = source.readByteArray()
-        md5(sourceArray , algorithmArray)
+        let sourceData= String.fromUtf8(sourceArray).substring(0,byteCount).toUtf8Array()
+        md5(sourceData , algorithmArray)
         HashingSink.result = md5HexToString(algorithmArray)
         write(this.source, byteCount)
     }
@@ -192,8 +193,9 @@ public class HashingSink <: ForwardingSink {
      */
     public func writeSHA1(source: Buffer , byteCount: Int64){
         source.copyTo(this.source,0, byteCount)
-        let sourceArray: Array<UInt8> = source.readByteArray()       
-        sha1(sourceArray , algorithmArray)
+        let sourceArray: Array<UInt8> = source.readByteArray()
+        let sourceData= String.fromUtf8(sourceArray).substring(0,byteCount).toUtf8Array()       
+        sha1(sourceData , algorithmArray)
         HashingSink.result = toHexString(algorithmArray)
         write(this.source, byteCount)
     }
@@ -208,8 +210,9 @@ public class HashingSink <: ForwardingSink {
      */
     public func writeSHA256(source: Buffer , byteCount: Int64){
         source.copyTo(this.source,0, byteCount)
-        let sourceArray: Array<UInt8> = source.readByteArray()  
-        sha256(sourceArray , algorithmArray)
+        let sourceArray: Array<UInt8> = source.readByteArray() 
+        let sourceData= String.fromUtf8(sourceArray).substring(0,byteCount).toUtf8Array() 
+        sha256(sourceData , algorithmArray)
         HashingSink.result = toHexString(algorithmArray)
         write(this.source, byteCount)
     }
@@ -225,7 +228,8 @@ public class HashingSink <: ForwardingSink {
     public func writeSHA512(source: Buffer , byteCount: Int64){
         source.copyTo(this.source,0, byteCount)
         let sourceArray: Array<UInt8> = source.readByteArray()
-        sha512(sourceArray , algorithmArray)
+        let sourceData= String.fromUtf8(sourceArray).substring(0,byteCount).toUtf8Array() 
+        sha512(sourceData , algorithmArray)
         HashingSink.result = toHexString(algorithmArray)
         write(this.source, byteCount)
     }
@@ -242,7 +246,8 @@ public class HashingSink <: ForwardingSink {
         source.copyTo(this.source,0, byteCount)
         var algorithm: AlgorithmType = AlgorithmType.SHA1
         var sourceArray: Array<UInt8> = Array<UInt8>()
-        let sourceString: String = source.readString().getOrThrow()
+        let sourceString: String = source.readString().getOrThrow().substring(0,byteCount)
+        //let sourceData= String.fromUtf8(sourceArray).substring(0,byteCount).toUtf8Array() 
         sourceArray = sourceString.toUtf8Array()
         hmac(algorithm , key , sourceArray , algorithmArray)
         HashingSink.result = toHexString(algorithmArray)
@@ -261,7 +266,7 @@ public class HashingSink <: ForwardingSink {
         source.copyTo(this.source,0, byteCount)
         var algorithm: AlgorithmType = AlgorithmType.SHA256
         var sourceArray: Array<UInt8> = Array<UInt8>()
-        let sourceString: String = source.readString().getOrThrow()
+        let sourceString: String = source.readString().getOrThrow().substring(0,byteCount)
         sourceArray = sourceString.toUtf8Array()
         hmac(algorithm , key , sourceArray , algorithmArray)
         HashingSink.result = toHexString(algorithmArray)
@@ -280,7 +285,7 @@ public class HashingSink <: ForwardingSink {
         source.copyTo(this.source,0, byteCount)
         var algorithm: AlgorithmType = AlgorithmType.SHA512
         var sourceArray: Array<UInt8> = Array<UInt8>()
-        let sourceString: String = source.readString().getOrThrow()
+        let sourceString: String = source.readString().getOrThrow().substring(0,byteCount)
         sourceArray = sourceString.toUtf8Array()
         hmac(algorithm , key , sourceArray , algorithmArray)
         HashingSink.result = toHexString(algorithmArray)

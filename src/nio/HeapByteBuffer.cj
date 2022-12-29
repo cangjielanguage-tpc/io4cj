@@ -216,11 +216,12 @@ public open class HeapByteBuffer <: ByteBuffer & ToString {
      * @since 0.32.5
      */
     public override func put(src: ByteBuffer): ByteBuffer {
+        println("------------>0001")
         if (src.isDirect()) {
             throw Exception("not supported.")
         } else if (src is HeapByteBuffer) {
             if (src == this) {
-                throw CreateSameBufferException()
+                throw createSameBufferException()
             }
             let sb: HeapByteBuffer = match ((src as HeapByteBuffer)) {
                 case None => throw NoneValueException()
@@ -228,7 +229,7 @@ public open class HeapByteBuffer <: ByteBuffer & ToString {
             }
             let n = sb.remaining()
             if (n > remaining()) {
-                throw Exception() // BufferOverflowException
+                throw BufferOverflowException() // BufferOverflowException
             }
             ArrayCopy(sb.hb, sb.ix(sb.position()), hb, ix(position()), n)
             sb.position(sb.position() + n )
@@ -379,17 +380,26 @@ public open class HeapByteBuffer <: ByteBuffer & ToString {
         return UInt16(this.get()) << 8
             | UInt16(this.get())
     }
+
+    /**
+     * The Function is createSameBufferException
+     *
+     *
+     * @return Type of IllegalArgumentException
+     * @since 0.32.5
+     */
+     func createSameBufferException(): IllegalArgumentException {
+        throw IllegalArgumentException("The source buffer is this buffer")
+    }
 }
 
-public class CreateSameBufferException <: Exception {
+public class BufferOverflowException <: Exception {
     /**
      * The Function is init constructor
      *
      * @since 0.32.5
      */
-    public init(){
-        super("CreateSameBufferException: \n")
+    public init() { 
+        super("BufferOverflowException: \n")
     }
 }
-
-
