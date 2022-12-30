@@ -18,6 +18,8 @@ main () {
     var server = Socket(TCP, "127.0.0.1", 100)
     let str11 = Okio.sink(server)
     let str5 = str11.isClosed()
+    //let str6 = str11.toString()
+    let str7 = str11.flush()
     if(str5) {
         return 1
     }

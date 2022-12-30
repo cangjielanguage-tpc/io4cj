@@ -29,6 +29,12 @@ main () {
     } catch(e: Exception) {
         println("case pass")
     }
+
+    try {
+        let strr7 = str.readUtf8LineStrict(-1)
+    } catch(e: Exception) {
+        println("case pass")
+    }
     try {
         let str8 = str.readUtf8CodePoint()
     } catch(e: Exception) {
@@ -36,6 +42,10 @@ main () {
     }
     let str9 = str.indexOf(1)
     let str10 = str.indexOf(0,1)
+    try{
+        let strr10 = str.indexOf(0,-1)
+    }catch(e: Exception){}
+
     let str11 = str.indexOf(ByteString(Array<Byte>(5, item: 1)))
     try {
         let str111 = str.indexOf(ByteString(Array<Byte>()))
@@ -48,8 +58,14 @@ main () {
         println("case pass")
     }
     let str12 = str.indexOf(ByteString(Array<Byte>(5, item: 1)),1)
+    try{
+        let strr12 = str.indexOf(ByteString(Array<Byte>(5, item: 1)),-1)
+    }catch(e: Exception){}
     let str13 = str.indexOfElement(ByteString(Array<Byte>(5, item: 1)))
     let str14 = str.indexOfElement(ByteString(Array<Byte>(5, item: 1)),1)
+    try{
+        let strr14 = str.indexOfElement(ByteString(Array<Byte>(5, item: 1)),-1)
+    }catch(e: Exception){}
     let str15 = str.rangeEquals(1,ByteString(Array<Byte>(5, item: 1)))
     let str16 = str.rangeEquals(1,ByteString(Array<Byte>(5, item: 1)),1,1)
     let str17 = str.emitCompleteSegments()
@@ -73,6 +89,9 @@ main () {
     var strrs = Buffer()
     let str28 = strrs.writeInt16(20)
     let str26 = str.write(strrs,1)
+    try{
+        let strr26 = str.write(str,1)
+    }catch(e: Exception){}
     let str27 = str.clear()
     let str29 = strrs.getInt8(0)
     try {

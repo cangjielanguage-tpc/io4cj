@@ -20,6 +20,14 @@ main () {
     var server = Socket(TCP, "127.0.0.1", 100)
     let strse = Okio.sink(server)
     let str6 = sers.sink(strse)
+    let string1 = "123"
+    let bu1 = Buffer()
+    bu1.writeUtf8(string1)
+    let str09 = sers.sink(bu1)
+    let string2 = "123"
+    let bu2 = Buffer()
+    bu2.writeUtf8(string2)
+    let str08 = sers.source(bu2)
     let str7 = sers.exit()
     try {
         let str8 = sers.awaitTimeout()
