@@ -27,5 +27,8 @@ main () {
     if (ess != "IllegalArgumentException: Unexpected hex string: ssfas") {
         return 1
     }
+    var arr112: Array<Byte> = Array<Byte>(1024, {i => UInt8(i % 256)})
+    let str112 = ByteString.of(arr112)
+    let str113 = ByteString.of(arr112,0,arr112.size)
     return 0
 }

@@ -26,6 +26,17 @@ main () {
     }catch(e1: ZlibException){
         es = e1.toString()
     }
+
+    let data1: Buffer = Buffer()
+    let testString1: String = ""
+    data1.writeUtf8(testString1)
+     try{
+        try{
+        let str2 = gs.write(data1,0)
+        }catch(e2: Exception){
+        }
+    }catch(e3: ZlibException){
+    }
     if (es2 != "IllegalArgumentException: byteCount < 0: -1") {
         return 2
     }
