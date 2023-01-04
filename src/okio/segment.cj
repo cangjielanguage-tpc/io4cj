@@ -8,7 +8,7 @@
  */
 package okio
 
-
+let NULL = unsafe{ zeroValue<Byte>() }
 /**
  * The class is Segment inherited from Object & Equatable<Segment>
  * @author liyanqing14
@@ -31,7 +31,7 @@ public class Segment <: Object & Equatable<Segment> {
      * @since 0.32.5
      */
     public init() {
-        this.data = Array<UInt8>(SIZE, item: 0)
+        this.data = Array<UInt8>(SIZE, item: NULL)
         this.pos = 0
         this.limit = 0
         this.shared = false

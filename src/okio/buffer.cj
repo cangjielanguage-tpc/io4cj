@@ -473,7 +473,7 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
      * @since 0.32.5
      */
     public override func exhausted(): Bool {
-        return size == 0
+        return mysize == 0
     }
 
     /**
@@ -529,7 +529,7 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
      * @since 0.32.5
      */
     public func completeSegmentByteCount(): Int64 {
-        var result = size
+        var result = mysize
         if (result ==0) {
             return 0
         }
@@ -558,7 +558,7 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
      */
     public override func readInt16(): Int16 {
         if (this.size < 2) {
-            throw IllegalArgumentException(" size < 2: ${size}")
+            throw IllegalArgumentException(" size < 2: ${mysize}")
         }
         let segment = this.head.getOrThrow()
         var pos = segment.pos
@@ -600,7 +600,7 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
      */
     public override func readInt32(): Int32 {
         if (this.size < 4) {
-            throw IllegalArgumentException(" size < 4: ${size}")
+            throw IllegalArgumentException(" size < 4: ${mysize}")
         }
         let segment = this.head.getOrThrow()
         var pos = segment.pos
@@ -649,7 +649,7 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
      */
     public override func readInt64(): Int64 {
         if (this.size < 8) {
-            throw IllegalArgumentException(" size < 8: ${size}")
+            throw IllegalArgumentException(" size < 8: ${mysize}")
         }
         let segment = this.head.getOrThrow()
         var pos = segment.pos
@@ -944,8 +944,8 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
             return -1
         }
         var bytecount = byteCount
-        if (bytecount > size) {
-            bytecount = size
+        if (bytecount > mysize) {
+            bytecount = mysize
         }
         sink.write(this, bytecount)
         return bytecount
@@ -981,7 +981,7 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
      */
     public override func readFully(sink: Buffer, byteCount: Int64): Unit {
         if (size < byteCount) {
-            sink.write(this, size)
+            sink.write(this, mysize)
             throw EOFException()
         }
         sink.write(this, byteCount)
@@ -996,7 +996,7 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
      * @since 0.32.5
      */
     public override func readAll(sink: Sink): Int64 {
-        let byteCount = size
+        let byteCount = mysize
         if (byteCount > 0) {
             sink.write(this, byteCount)
         }
@@ -1082,9 +1082,9 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
      */
     public override func readUtf8Line(): ?String {
         let newline = indexOf(let_LF)
-        if (newline == -1 && size != 0) {
+        if (newline == -1 && mysize != 0) {
             return readUtf8(size)
-        } else if (newline == -1 && size == 0) {
+        } else if (newline == -1 && mysize == 0) {
             return None
         }
         return readUtf8Line(newline)
@@ -1133,13 +1133,13 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         if (newLine != -1) {
             return readUtf8Line(newLine)
         }
-        if (scanLength < size 
+        if (scanLength < mysize 
             && getInt8(scanLength - 1) == let_CR
             && getInt8(scanLength) == let_LF) {
             return readUtf8Line(scanLength)
         }
         let data = Buffer()
-        copyTo(data, 0, math.min(32, size))
+        copyTo(data, 0, math.min(32, mysize))
         throw EOFException("\\n not found: limit= ${math.min(size, limit)} content= ${data.readByteString().hex()} …") 
     }
 
@@ -1237,8 +1237,8 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         var fromIndex = fromindex
         var toIndex = toindex
         let b = UInt8(value)
-        if (toIndex > size) {
-            toIndex = size
+        if (toIndex > mysize) {
+            toIndex = mysize
         }
         if (fromIndex == toIndex) {
             return -1
@@ -1250,7 +1250,7 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
             case Some(v) => s = this.head
         }
         if (size - fromIndex < fromIndex) {
-            offset = size
+            offset = mysize
             while (offset > fromIndex) {
                 s = s.getOrThrow().prev.getOrThrow()
                 offset -= (s.getOrThrow().limit - s.getOrThrow().pos)
@@ -1317,7 +1317,7 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
             case Some(v) => s = this.head
         }
         if (size - fromIndex < fromIndex) {
-            offset = size
+            offset = mysize
             while (offset > fromIndex) {
                 s = s.getOrThrow().prev.getOrThrow()
                 offset -= (s.getOrThrow().limit - s.getOrThrow().pos)
@@ -1334,7 +1334,7 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
 
         let b0 = bytes.getByte(0)
         var bytesSize = bytes.size
-        var resultLimit = size - bytesSize + 1
+        var resultLimit = mysize - bytesSize + 1
         while (offset < resultLimit) {
             let data = s.getOrThrow().data
             let segmentLimit = math.min(s.getOrThrow().limit, s.getOrThrow().pos + resultLimit - offset)
@@ -1380,7 +1380,7 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
             case Some(v) => v
         }
         if (size - fromIndex < fromIndex) {
-            offset = size
+            offset = mysize
             while (offset > fromIndex) {
                 s = s.prev.getOrThrow()
                 offset -= (s.limit - s.pos)
@@ -1396,7 +1396,7 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         if (targetBytes.size == 2) {
             var b0 = targetBytes.getByte(0)
             var b1 = targetBytes.getByte(1)
-            while (offset < size) {
+            while (offset < mysize) {
                 for (pos in s.pos + fromIndex - offset..s.limit where s.data[pos] == b0 || s.data[pos] == b1) {
                     return pos - s.pos + offset
                 }
@@ -1406,7 +1406,7 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
             }
         } else {
             let targetByteArray = targetBytes.internalArray()
-            while (offset < size) {
+            while (offset < mysize) {
                 for (pos in s.pos + fromIndex - offset..s.limit) {
                     for (t in 0..targetByteArray.size where s.data[pos] == targetByteArray[t]) {
                         return pos - s.pos + offset
@@ -1448,7 +1448,7 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         if (offset < 0
             || bytesOffset < 0
             || byteCount < 0
-            || size - offset < byteCount
+            || mysize - offset < byteCount
             || bytes.size - bytesOffset < byteCount) {
             return false
         }
@@ -1753,7 +1753,7 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
                 s = s.next.getOrThrow()
             }
         } else {
-            pos -= size
+            pos -= mysize
             var s = this.head.getOrThrow()
             while (true) {
                 pos += s.limit - s.pos

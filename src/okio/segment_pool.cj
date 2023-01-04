@@ -26,24 +26,31 @@ public class SegmentPool {
     static func take(): Segment {
         synchronized (mutex) {
             match(next) {
-                case None => ()
                 case Some(result) => 
                     next = result.next
                     result.next = None
                     byteCount -= Segment.SIZE
                     return result
+                case None => ()
             }
         }
         return Segment()
     }
 
     static func recycle(segment: Segment) {
-        match((segment.next, segment.prev)) {
-            case (None, None) => ()
+        match(segment.prev) {
+            case None => ()
             case _ => throw IllegalArgumentException()
         }
+        match(segment.next) {
+            case None => ()
+            case _ => throw IllegalArgumentException()
+        }
+        if (segment.shared) {
+            return
+        }
         synchronized (mutex) {
-            if (segment.shared || byteCount + Segment.SIZE > MAX_SIZE) {
+            if (byteCount + Segment.SIZE > MAX_SIZE) {
                 return
             }
             byteCount += Segment.SIZE
@@ -53,5 +60,5 @@ public class SegmentPool {
             next = Some(segment)
         }
     }
-    
 }
+

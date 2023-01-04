@@ -216,7 +216,6 @@ public open class HeapByteBuffer <: ByteBuffer & ToString {
      * @since 0.32.5
      */
     public override func put(src: ByteBuffer): ByteBuffer {
-        println("------------>0001")
         if (src.isDirect()) {
             throw Exception("not supported.")
         } else if (src is HeapByteBuffer) {

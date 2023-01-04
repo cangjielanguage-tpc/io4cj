@@ -103,26 +103,6 @@ class Util {
     }
 
     /**
-     * The Function is hashCode
-     *
-     * @param a of Array<Byte>
-     *
-     * @return Type of Int64
-     * @since 0.32.5
-     */
-    @overflowWrapping
-    public static func hashCode(a: Array<Byte>): Int64 {
-        var result: Int32 = 1
-        //var result: Int64 = 1
-        for (i in 0..a.size) {
-            result = result * 31 + Int32(Int8(a[i]))
-            //result = result * 31 + Int64(a[i])
-        }
-        return Int64(result)
-        //return result
-    }
-
-    /**
      * The Function is sneakyRethrow
      *
      * @param t of Exception
