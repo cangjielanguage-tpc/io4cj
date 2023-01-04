@@ -14,6 +14,7 @@ from encoding import hex.*
 from encoding import base64.*
 import nio.*
 
+let MAP: Array<UInt8> = [65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 43, 47]
 /**
  * The class is ByteString inherited from Object & Hashable & ToString & Equatable<ByteString>
  * @author liyanqing14
@@ -29,7 +30,7 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
 
     protected var hashcode: Int64 = 0
     
-    protected var utf8: String = ""
+    protected var utf8: ?String = None
 
     /**
      * The Function is init constructor
@@ -96,11 +97,13 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
      */
     /** Constructs a new {@code String} by decoding the bytes as {@code UTF-8}. */
     public func UTF8(): String {
-        if (utf8 == "") {
-            this.utf8 = unsafe {String.fromUtf8Unchecked(this.data)}
-            return this.utf8
+        match (this.utf8) {
+            case Some(v) => return v
+            case None => 
+                let result = unsafe {String.fromUtf8Unchecked(this.data)}
+                this.utf8 = result
+                return result
         }
-        return utf8
     }
 
 
@@ -111,9 +114,48 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
      * @since 0.32.5
      */
     public func base64 (): String {
-        return toBase64String(this.data)
+        return encode(this.data, MAP)
     }
 
+    @overflowWrapping
+    protected func encode(input: Array<Byte>, map: Array<Byte>): String {
+        let length = (input.size + 2) / 3 * 4
+        let out = Array<Byte>(length, item: NULL)
+        var index = 0
+        var end = input.size - input.size % 3
+        for (i in 0..end:3) {
+            out[index] = map[(Int64(input[i]) & 255) >> 2]
+            index++
+            out[index] = map[(Int64(input[i]) & 3) << 4 | (Int64(input[i + 1]) & 255) >> 4]
+            index++
+            out[index] = map[(Int64(input[i + 1]) & 15) << 2 | (Int64(input[i + 2]) & 255) >> 6]
+            index++
+            out[index] = map[Int64(input[i + 2]) & 63]
+            index++
+        }
+        match (Int64(input.size % 3)) {
+            case 1 => 
+                out[index] = map[(Int64(input[end]) & 255) >> 2]
+                index++
+                out[index] = map[(Int64(input[end]) & 3) << 4]
+                index++
+                out[index] = 61
+                index++
+                out[index] = 61
+                index++
+            case 2 => 
+                out[index] = map[(Int64(input[end]) & 255) >> 2]
+                index++
+                out[index] = map[(Int64(input[end]) & 3) << 4 | (Int64(input[end + 1]) & 255) >> 4]
+                index++
+                out[index] = map[(Int64(input[end + 1]) & 15) << 2]
+                index++
+                out[index] = 61
+                index++
+            case _ => ()
+        }
+        return unsafe {String.fromUtf8Unchecked(out)}
+    }
 
     /**
      * The Function is decodeBase64
@@ -130,6 +172,68 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
         }
     }
 
+    @overflowWrapping
+    protected static func deode(input: String): ?Array<Byte> {
+        var limit = input.size
+        while (limit > 0) {
+            let c = input.charAt(limit - 1)
+            if (c != '=' && c != '\n' && c != '\r' && c != ' ' && c != '\t') {
+                break
+            }
+            limit--
+        }
+        let out = Array<Byte>(limit * 6 / 8, item: 0)
+        var outCount = 0
+        var inCount = 0
+        var word = 0
+        for (pos in 0..limit) {
+            let c = input.charAt(pos)
+            var bits = 0
+            if (c >= 'A' && c <= 'Z') {
+                bits = Int64(UInt32(c)) - 65
+            } else if (c >= 'a' && c <= 'z') {
+                bits = Int64(UInt32(c)) - 71
+            } else if (c >= '0' && c <= '9') {
+                bits = Int64(UInt32(c)) + 4
+            } else if (c == '+' || c == '-') {
+                bits = 62
+            } else if (c == '/' || c == '_') {
+                bits = 63
+            } else if (c == '\n' || c == '\r' || c == ' ' || c == '\t') {
+                continue
+            } else {
+                return None
+            }
+            word = (word << 6) | Int64(Int8(bits))
+            inCount++;
+            if (inCount % 4 == 0) {
+                out[outCount] = UInt8(word >> 16)
+                outCount++
+                out[outCount] = UInt8(word >> 8)
+                outCount++
+                out[outCount] = UInt8(word)
+                outCount++
+            }
+        }
+        let lastWordChars = inCount % 4
+        if (lastWordChars == 1) {
+            return None
+        } else if (lastWordChars == 2) {
+            word = word << 12
+            out[outCount] = UInt8(word >> 16)
+            outCount++
+        } else if (lastWordChars == 3) {
+            word = word << 6;
+            out[outCount] = UInt8(word >> 16)
+            outCount++
+            out[outCount] = UInt8(word >> 8)
+            outCount++
+        }
+        if (outCount == out.size){
+            return out
+        }
+        return out[0..outCount]
+    }
 
     /**
      * The Function is hex
@@ -162,7 +266,7 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
         if (hex.size % 2 != 0) {
             throw IllegalArgumentException("Unexpected hex string: ${hex}")
         }
-        return ByteString(fromHexString(hex).getOrThrow().clone())
+        return ByteString(fromHexString(hex).getOrThrow())
     }
 
     /**
@@ -597,8 +701,18 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
      * @return Type of Int64
      * @since 0.32.5
      */
+    @overflowWrapping
     public func hashCode (): Int64 {
-        return Util.hashCode(this.data)
+        return if (this.hashcode != 0) {
+            this.hashcode
+        } else {
+            var result: Int32 = 1
+            for (i in 0..this.data.size) {
+                result = result * 31 + Int32(Int8(this.data[i]))
+            }
+            this.hashcode = Int64(result)
+            this.hashcode
+        }
     }
 
     /**
