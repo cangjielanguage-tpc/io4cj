@@ -21,22 +21,15 @@ main () {
     let str11 = str.substring(1)
     try {
         let str7 = ByteString.read(srr,10)
+        return 1
     } catch(e: Exception) {
         println("case pass")
     }
     try {
         let str6 = ByteString.read(ByteArrayStream(),-1)
+        return 1
     } catch(e: Exception) {
         println("case pass")
-    }
-    var ess: String = ""
-    try {
-        let str5 = ByteString.decodeHex("")
-    } catch(e: Exception) {
-        ess = e.toString()
-    }
-    if (ess != "NoneValueException") {
-        return 1
     }
     return 0
 }

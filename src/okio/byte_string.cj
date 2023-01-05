@@ -15,6 +15,8 @@ from encoding import base64.*
 import nio.*
 
 let MAP: Array<UInt8> = [65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 43, 47]
+let NULL_CHAR = unsafe{ zeroValue<Char>() }
+
 /**
  * The class is ByteString inherited from Object & Hashable & ToString & Equatable<ByteString>
  * @author liyanqing14
@@ -166,14 +168,14 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
      * @since 0.32.5
      */
     public static func decodeBase64 (base64: String): ?ByteString {
-        match (fromBase64String(base64)) {
+        match (decode(base64)) {
             case Some(arr) => return ByteString(arr)
             case None =>  return None
         }
     }
 
     @overflowWrapping
-    protected static func deode(input: String): ?Array<Byte> {
+    protected static func decode(input: String): ?Array<Byte> {
         var limit = input.size
         while (limit > 0) {
             let c = input.charAt(limit - 1)
@@ -242,7 +244,7 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
      * @since 0.32.5
      */
     public func hex(): String {
-        let chars: Array<Char> = Array<Char>(this.data.size * 2, item: ' ')
+        let chars: Array<Char> = Array<Char>(this.data.size * 2, item: NULL_CHAR)
         var c = 0
         for (d in 0..this.data.size) {
             chars[c] = HEX_DIGITS[Int64((data[d] >> 4) & 0x0f)]
@@ -255,18 +257,38 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
 
 
     /**
-     * The Function is decodeHex
+     * The Function is decodeHexdecodeHex
      *
      * @param hex of String
      *
      * @return Type of ByteString
      * @since 0.32.5
      */
+    @overflowWrapping
     public static func decodeHex(hex: String): ByteString {
         if (hex.size % 2 != 0) {
             throw IllegalArgumentException("Unexpected hex string: ${hex}")
         }
-        return ByteString(fromHexString(hex).getOrThrow())
+        let result = Array<Byte>(hex.size / 2, item: NULL)
+        for (i in 0..result.size) {
+            let d1 = decodeHexDigit(hex.charAt(i * 2)) << 4
+            let d2 = decodeHexDigit(hex.charAt(i * 2 + 1))
+            result[i] = UInt8((d1 << 4) + d2)
+        }
+        return of(result)
+    }
+
+    protected static func decodeHexDigit(c: Char): UInt32 {
+        if (c >= '0' && c <= '9') {
+            return UInt32(c) - UInt32('0')
+        }
+        if (c >= 'a' && c <= 'f') {
+            return UInt32(c) - UInt32('a') + 10
+        }
+        if (c >= 'A' && c <= 'F') {
+            return UInt32(c) - UInt32('A') + 10
+        }
+        throw IllegalArgumentException("Unexpected hex digit: ${c}")
     }
 
     /**
