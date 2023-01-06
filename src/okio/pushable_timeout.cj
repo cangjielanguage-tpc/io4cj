@@ -4,7 +4,7 @@
 
 /**
  * @file
- * The file declars the PeekSource class.
+ * The file declars the PushableTimeout class.
  */
 
 package okio

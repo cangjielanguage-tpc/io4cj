@@ -4,7 +4,7 @@
 
 /**
  * @file
- * The file declars the PeekSource class.
+ * The file declars the Pipe class.
  */
 
 package okio
@@ -187,7 +187,7 @@ class PipeSink <: Sink {
      * @since 0.33.3
      */
     public override func isClosed(): Bool {
-        return foldedSink.getOrThrow().isClosed()
+        return sinkClosed
     } 
 
     /**
@@ -240,7 +240,7 @@ class PipeSource <: Source {
      * @since 0.33.3
      */
     public override func isClosed(): Bool {
-        return isClosed()
+        return sourceClosed
     } 
 
     /**
@@ -250,6 +250,6 @@ class PipeSource <: Source {
      * @since 0.33.3
      */
     public override func toString():String{
-        return toString()
+        return foldedSink.getOrThrow().toString()
     }
 }
