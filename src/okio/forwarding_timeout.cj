@@ -136,7 +136,7 @@ package okio
      *
      * @since 0.33.3
      */
-    public override func throwIfReached(){
+    public override func throwIfReached(): Unit{
     assignment.throwIfReached();
     }
  }

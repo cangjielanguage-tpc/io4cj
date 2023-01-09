@@ -63,7 +63,7 @@ public open class AsyncTimeout <: Timeout & Equatable<AsyncTimeout> {
                     this.watchdog()
                 case _ => ()
             }
-            let now = Time.now().unixNano()
+            let now = Time.now().nanosecond()
             if (timeoutNanos != 0 && hasDeadline) {
                 node.timeoutAt = math.min(timeoutNanos, node.deadlineNanoTime() - now)
             } else if (timeoutNanos != 0) {
@@ -299,18 +299,18 @@ public open class AsyncTimeout <: Timeout & Equatable<AsyncTimeout> {
         let node = head
         match (node) {
             case None => 
-                let startNanos = Time.now().unixNano()
+                let start = Time.now()
                 monitor.wait(timeout: IDLE_TIMEOUT_MILLIS)
                 if (match (head.getOrThrow().next) {
                     case None => true
                     case _ => false
-                } && Time.now().unixNano() - startNanos >= Int64(IDLE_TIMEOUT_MILLIS)) {
+                } && Time.since(start).nanoseconds() >= Int64(IDLE_TIMEOUT_MILLIS)) {
                     return head
                 } else {
                     return None
                 }
             case Some(v) =>
-                var waitNanos = node.getOrThrow().remainingNanos(Time.now().unixNano())
+                var waitNanos = node.getOrThrow().remainingNanos(Time.now().nanosecond())
                 if (waitNanos > 0) {
                     let waitMillis = waitNanos / 1000000
                     waitNanos = waitNanos - (waitMillis * 1000000)
