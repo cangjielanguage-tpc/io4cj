@@ -16,17 +16,13 @@ import nio.*
 
 let MAP: Array<UInt8> = [65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 43, 47]
 let NULL_CHAR = unsafe{ zeroValue<Char>() }
-
+let HEX_DIGITS: Array<Byte> = b"0123456789abcdef"
 /**
  * The class is ByteString inherited from Object & Hashable & ToString & Equatable<ByteString>
  * @author liyanqing14
  * @since 0.32.5
  */
 public open class ByteString <: Object & Hashable & ToString & Equatable<ByteString> {
-    
-    protected static let HEX_DIGITS: Array<Char> = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f']
-
-    // public static let EMPTY: ByteString = ByteString()
     
     let data: Array<Byte>
 
@@ -42,6 +38,11 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
      */
     public init (data: Array<Byte>){
         this.data = data
+    }
+
+    init (data: String){
+        this.utf8 = data
+        this.data = data.toUtf8Array()
     }
 
     /**
@@ -86,9 +87,7 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
      */
     // Returns a new byte string containing the {@code UTF-8} bytes of {@code s}. */
     public static func encodeUtf8(s: String): ByteString {
-        let byteString = ByteString(s.toUtf8Array())
-        byteString.utf8 = s
-        return byteString
+        return ByteString(s)
     }
 
     /**
@@ -244,7 +243,7 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
      * @since 0.32.5
      */
     public func hex(): String {
-        let chars: Array<Char> = Array<Char>(this.data.size * 2, item: NULL_CHAR)
+        let chars: Array<Byte> = Array<Byte>(this.data.size * 2, item: NULL)
         var c = 0
         for (d in 0..this.data.size) {
             chars[c] = HEX_DIGITS[Int64((data[d] >> 4) & 0x0f)]
@@ -252,7 +251,7 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
             chars[c] = HEX_DIGITS[Int64(data[d] & 0x0f)]
             c++
         }
-        return String(chars)
+        return String.fromUtf8(chars)
     }
 
 
@@ -275,7 +274,7 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
             let d2 = decodeHexDigit(hex.charAt(i * 2 + 1))
             result[i] = UInt8((d1 << 4) + d2)
         }
-        return of(result)
+        return ByteString(result)
     }
 
     protected static func decodeHexDigit(c: Char): UInt32 {
@@ -709,10 +708,8 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
         if (o.size != this.size) {
             return false
         }
-        for (index in 0..this.size) {
-            if(this.data[index] != o.data[index]){
+        for (index in 0..this.size where this.data[index] != o.data[index]) {
             return false
-            }
         }
         return true
     }
@@ -753,5 +750,5 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
                             .replace("\r", "\\r")
         return "[text=${safeText}]"
     }
-
 }
+
