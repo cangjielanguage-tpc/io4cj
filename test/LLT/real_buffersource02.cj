@@ -105,5 +105,18 @@ main () {
     if (es != "IllegalArgumentException: byteCount <0: -1") {
         return 1
     }
+
+    let sink1: Sink = Buffer()
+    let bu1: Buffer = Buffer()
+    let ss1: String = "test readAll"
+    bu1.writeUtf8(ss1)
+    sink1.write(bu1 , 12)
+    let str51 = real0s.readAll(sink1)
+    try{
+    let str52 = real0s.read(Array<Byte>(5, item: 1) , 0 ,10)
+    }
+    catch(e: Exception){}
+    let str53 = real0s.read(Array<Byte>(5, item: 1) , 0 ,5)
+    let str54 = real0s.skip (0)
     return 0
 }

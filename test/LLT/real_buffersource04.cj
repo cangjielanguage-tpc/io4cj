@@ -3,6 +3,7 @@
 // EXEC: ./main
 
 from okio import okio.*
+from okio import nio.ByteBuffer
 from std import os.posix.*
 from std import io.*
 from std import fs.*
@@ -19,9 +20,23 @@ main () {
     } catch(e: Exception) {
         es = e.toString()
     }
+
+    try {
+    let str3 = real0s.read(ByteBuffer.allocate(0))
+    } catch(e: Exception) {
+    }
     real0s.readHexadecimalUInt64()
     if (es.contains("NumberFormatException")) {
         return 0
     }
+    let sink: Sink = Buffer()
+    let str4 = real0s.readAll(sink)
+
+    let sink1: Sink = Buffer()
+    let bu1: Buffer = Buffer()
+    let ss: String = "test readAll"
+    bu1.writeUtf8(ss)
+    sink1.write(bu1 , 12)
+    let str5 = real0s.readAll(sink1)
     return 1
 }

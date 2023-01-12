@@ -26,7 +26,6 @@ public class GzipSink <: Sink {
         this.deflater = Deflater(-1 , true)
         this.sink = Okio.buffer(sink)
         this.deflaterSink = DeflaterSink(this.sink, deflater)
-
     }
 
     /**
@@ -47,7 +46,6 @@ public class GzipSink <: Sink {
         }
         updateCrc(source, byteCount)
         deflaterSink.write(source, byteCount)
-
     }
 
     /**
@@ -79,15 +77,12 @@ public class GzipSink <: Sink {
         if(this.closed){
             return
         }
-
         var thrown: ?Exception = None
         try {
             deflaterSink.finishDeflate()
-
         } catch (e: Exception) {
             thrown = e
         }
-
         try {
             this.sink.close()
         } catch (e: Exception) {
@@ -95,14 +90,12 @@ public class GzipSink <: Sink {
                     case None => thrown = e
                     case Some(v) => () 
                 }
-            
         }
         closed = true
         match (thrown) {
             case None => ()
             case Some(v) => Util.sneakyRethrow(thrown.getOrThrow())
         }
-        
     }
     
     /**

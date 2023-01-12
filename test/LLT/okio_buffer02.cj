@@ -114,5 +114,33 @@ main () {
     if(str == strrs){
         return 3
     }
+    strrs.writeUtf8( "" , 0 , 0 )
+    try{
+    strrs.readInt32()
+    }catch(e: Exception){
+        println("case pass")
+    }
+    try{
+    strrs.readDecimalInt64()
+    }catch(e: Exception){
+        println("case pass")
+    }
+    try{
+    strrs.readHexadecimalUInt64()
+    }catch(e: Exception){
+        println("case pass")
+    }
+    try{
+    strrs.readByteString(1)
+    }catch(e: Exception){
+        println("case pass")
+    }
+    try{
+    strrs.readUtf8CodePoint()
+    }catch(e: Exception){
+        println("case pass")
+    }
+    strrs.indexOfElement(ByteString(Array<Byte>(5, item: 1)) , 0)
+    let str51 = str.rangeEquals(1,ByteString(Array<Byte>(5, item: 1)),1,0)
     return 0
 }
