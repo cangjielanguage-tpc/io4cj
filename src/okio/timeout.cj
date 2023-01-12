@@ -139,7 +139,7 @@ public open class Timeout <: Object {
      * @since 0.32.5
      */
     public open func throwIfReached() {
-        if (this.hasdeadline && this.deadlinenanotime - Time.now().unixNano() <= 0) {
+        if (this.hasdeadline && this.deadlinenanotime - Time.now().nanosecond() <= 0) {
             throw InterruptedException("deadline reached");
         }
     }
@@ -159,7 +159,7 @@ public open class Timeout <: Object {
                 return
             }
 
-            var start: Int64 = Time.now().unixNano()
+            var start: Int64 = Time.now().nanosecond()
             let waitNanos: Int64 = if (hasDeadline && timeoutNanos != 0) {
                 let deadlineNanos = deadlineNanoTime() - start
                 math.min(deadlineNanos, timeoutNanos)
@@ -182,7 +182,7 @@ public open class Timeout <: Object {
                     waitMillis++
                 }
                 monitor.wait(timeout: UInt64(waitMillis))
-                elapsedNanos = Time.now().unixNano() - start
+                elapsedNanos = Time.now().nanosecond() - start
             }
 
             if (elapsedNanos >= waitNanos) {
@@ -238,6 +238,8 @@ class AnonymousTimeout <: Timeout {
      *
      * @since 0.32.5
      */
-    public override func throwIfReached() {}
+    public override func throwIfReached() {
+        return ()
+    }
 }
 
