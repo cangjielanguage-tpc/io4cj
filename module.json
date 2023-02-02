@@ -1,5 +1,5 @@
 {
-	"cjc_version": "0.35.6",
+	"cjc_version": "0.36.4",
 	"organization": "kool",
 	"name": "okio",
 	"description": "io library for okhttp ecosystem",

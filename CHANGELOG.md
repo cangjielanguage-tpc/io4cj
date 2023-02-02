@@ -42,4 +42,14 @@ _2022-12-30_
 - 【修复】 DeflaterSink中public func write(source: Buffer,byteCount: Int64): Unit压缩后解压功能和标准库不一致
 - 【修复】 GzipSource类中， public func read(sink: Buffer,byteCount: Int64): Int64为解压功能，误写为压缩
 
+## v0.0.4
+
+_2022-1-30_
+
+
+- 【性能】：优化decodeHex函数
+- 【优化】: 优化 byteString类 hex函数
+- 【缺陷】BufferedSource 中readUtf8()接口返回值类型?String 实际逻辑不存在返回none的情况
+- 【缺陷】RealBufferedSource类 readFully接口 当sink长度>buffer长度 抛出Exception 建议改成EOFException
+
 

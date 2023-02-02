@@ -5,7 +5,7 @@
 <p align="center">
 <img alt="" src="https://img.shields.io/badge/release-v0.0.2-brightgreen" style="display: inline-block;" />
 <img alt="" src="https://img.shields.io/badge/build-pass-brightgreen" style="display: inline-block;" />
-<img alt="" src="https://img.shields.io/badge/cjc-v0.35.6-brightgreen" style="display: inline-block;" />
+<img alt="" src="https://img.shields.io/badge/cjc-v0.36.4-brightgreen" style="display: inline-block;" />
 <img alt="" src="https://img.shields.io/badge/cjcov-85.1%25-brightgreen" style="display: inline-block;" />
 <img alt="" src="https://img.shields.io/badge/project-open-brightgreen" style="display: inline-block;" />
 </p>
@@ -79,7 +79,7 @@ Okio是OkHttp的低层IO库，Okio是对仓颉io库的补充，使访问、存�
 
 主要是核心类和成员函数说明，详情见 [API](./doc/api.md)
 
-## <img alt="" src="./doc/assets/readme-icon-compile.png" style="display: inline-block;" width=3%/>编译执行
+## <img alt="" src="./doc/assets/readme-icon-compile.png" style="display: inline-block;" width=3%/>使用说明
 
 ### 编译
 
@@ -98,7 +98,7 @@ export LD_LIBRARY_PATH=$okio_home_lib:$LD_LIBRARY_PATH
 cjc --import-path $okio_home_lib/.. -L $okio_home_lib -l okio_nio -l okio_okio $1 -o a.out -g
 time ./a.out
 ```
-#### 文件读写示例
+## 功能示例
 ```cangjie
 from std import io.*
 from std import time.*

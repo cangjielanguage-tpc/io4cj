@@ -48,7 +48,7 @@ main () {
     bs.writeUtf8("hello")
     pi33.fold(bs)
     try{
-        bu33.readUtf8().getOrThrow()
+        bu33.readUtf8()
     }catch(e: Exception){
     }
 
