@@ -164,9 +164,9 @@ public class HashingSource <: ForwardingSource {
      * @since 0.34.3
      */
     public func readhmacSha1(): Unit {
-        var algorithm: AlgorithmType = AlgorithmType.SHA1
+        var algorithm: AlgorithmType = AlgorithmType.Sha1
         var sinkArray: Array<UInt8> = Array<UInt8>()
-        let sinkString: String = sink.readString().getOrThrow()
+        let sinkString: String = sink.readString()
         sinkArray = sinkString.toUtf8Array()
         hmac(algorithm , key , sinkArray , algorithmArray)
         HashingSource.result = toHexString(algorithmArray)
@@ -179,9 +179,9 @@ public class HashingSource <: ForwardingSource {
      * @since 0.34.3
      */
     public func readhmacSha256(): Unit {
-        var algorithm: AlgorithmType = AlgorithmType.SHA256
+        var algorithm: AlgorithmType = AlgorithmType.Sha256
         var sinkArray: Array<UInt8> = Array<UInt8>()
-        let sinkString: String = sink.readString().getOrThrow()
+        let sinkString: String = sink.readString()
         sinkArray = sinkString.toUtf8Array()
         hmac(algorithm , key , sinkArray , algorithmArray)
         HashingSource.result = toHexString(algorithmArray)

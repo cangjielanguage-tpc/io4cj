@@ -206,7 +206,7 @@ public interface BufferedSource <: Source & ToString {
      * @return Type of ?String
      * @since 0.32.5
      */
-    func readUtf8(): ?String
+    func readUtf8(): String
     /*
      * The Function is readUtf8
      *
@@ -215,14 +215,14 @@ public interface BufferedSource <: Source & ToString {
      * @return Type of ?String
      * @since 0.32.5
      */
-    func readUtf8(byteCount: Int64): ?String
+    func readUtf8(byteCount: Int64): String
     /*
      * The Function is readString
      *
      * @return Type of ?String
      * @since 0.32.5
      */
-    func readString(): ?String
+    func readString(): String
     /*
      * The Function is readString
      *
@@ -231,7 +231,7 @@ public interface BufferedSource <: Source & ToString {
      * @return Type of ?String
      * @since 0.32.5
      */
-    func readString(byteCount: Int64): ?String
+    func readString(byteCount: Int64): String
     /*
      * The Function is readUtf8Line
      *

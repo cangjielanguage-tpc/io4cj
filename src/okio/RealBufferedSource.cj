@@ -209,7 +209,7 @@ class RealBufferedSource <: BufferedSource {
             this.require(sink.size)
         } catch (e: EOFException) {
             var offset = 0
-            while (0 < sink.size) {
+            while (this.buf.size > 0) {
                 let read = this.buf.read(sink, offset, this.buf.size)
                 if (read == -1) {
                     throw Exception()
@@ -310,7 +310,7 @@ class RealBufferedSource <: BufferedSource {
      * @return Type of ?String
      * @since 0.32.5
      */
-    public override func readUtf8 (): ?String {
+    public override func readUtf8 (): String {
         this.buf.writeAll(source)
         return this.buf.readUtf8()
     }
@@ -323,7 +323,7 @@ class RealBufferedSource <: BufferedSource {
      * @return Type of ?String
      * @since 0.32.5
      */
-    public override func readUtf8 (byteCount: Int64): ?String {
+    public override func readUtf8 (byteCount: Int64): String {
         require(byteCount)
         return this.buf.readUtf8(byteCount)
     }
@@ -334,7 +334,7 @@ class RealBufferedSource <: BufferedSource {
      * @return Type of ?String
      * @since 0.32.5
      */
-    public override func readString (): ?String {
+    public override func readString (): String {
         this.buf.writeAll(source)
         return this.buf.readString()
     }
@@ -347,7 +347,7 @@ class RealBufferedSource <: BufferedSource {
      * @return Type of ?String
      * @since 0.32.5
      */
-    public override func readString(byteCount: Int64): ?String {
+    public override func readString(byteCount: Int64): String {
         require(byteCount)
         return this.buf.readString(byteCount)
     }

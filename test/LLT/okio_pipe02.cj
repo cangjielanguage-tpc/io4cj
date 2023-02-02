@@ -15,7 +15,7 @@ main () {
     pipeSink.emit()
 
     let pipeSource: BufferedSource = Okio.buffer(pi.source())
-    if("hello" != pipeSource.readUtf8(5).getOrThrow()) {
+    if("hello" != pipeSource.readUtf8(5)) {
         return 1
     }
 
@@ -25,7 +25,7 @@ main () {
     pipeSink.writeUtf8("world")
 
     pipeSink.emit()
-    if("world" != fsBuffer.readUtf8(5).getOrThrow()) {
+    if("world" != fsBuffer.readUtf8(5)) {
         return 1
     }
 

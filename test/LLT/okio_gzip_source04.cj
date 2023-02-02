@@ -15,7 +15,7 @@ main () {
     let sou: InflaterSource = InflaterSource(bu)
     var sou1 = sou.read(infla , 1)
     sou.close()
-    var a: String = infla.readUtf8().getOrThrow()
+    var a: String = infla.readUtf8()
 
     if("T" != a.toString()) {
         return 1

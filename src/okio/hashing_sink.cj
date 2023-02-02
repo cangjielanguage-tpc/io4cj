@@ -244,9 +244,9 @@ public class HashingSink <: ForwardingSink {
      */
     public func writehmacSha1(source: Buffer , byteCount: Int64){
         source.copyTo(this.source,0, byteCount)
-        var algorithm: AlgorithmType = AlgorithmType.SHA1
+        var algorithm: AlgorithmType = AlgorithmType.Sha1
         var sourceArray: Array<UInt8> = Array<UInt8>()
-        let sourceString: String = source.readString().getOrThrow().substring(0,byteCount)
+        let sourceString: String = source.readString().substring(0,byteCount)
         //let sourceData= String.fromUtf8(sourceArray).substring(0,byteCount).toUtf8Array() 
         sourceArray = sourceString.toUtf8Array()
         hmac(algorithm , key , sourceArray , algorithmArray)
@@ -264,9 +264,9 @@ public class HashingSink <: ForwardingSink {
      */
     public func writehmacSha256(source: Buffer , byteCount: Int64){
         source.copyTo(this.source,0, byteCount)
-        var algorithm: AlgorithmType = AlgorithmType.SHA256
+        var algorithm: AlgorithmType = AlgorithmType.Sha256
         var sourceArray: Array<UInt8> = Array<UInt8>()
-        let sourceString: String = source.readString().getOrThrow().substring(0,byteCount)
+        let sourceString: String = source.readString().substring(0,byteCount)
         sourceArray = sourceString.toUtf8Array()
         hmac(algorithm , key , sourceArray , algorithmArray)
         HashingSink.result = toHexString(algorithmArray)
@@ -283,9 +283,9 @@ public class HashingSink <: ForwardingSink {
      */
     public func writehmacSha512(source: Buffer , byteCount: Int64){
         source.copyTo(this.source,0, byteCount)
-        var algorithm: AlgorithmType = AlgorithmType.SHA512
+        var algorithm: AlgorithmType = AlgorithmType.Sha512
         var sourceArray: Array<UInt8> = Array<UInt8>()
-        let sourceString: String = source.readString().getOrThrow().substring(0,byteCount)
+        let sourceString: String = source.readString().substring(0,byteCount)
         sourceArray = sourceString.toUtf8Array()
         hmac(algorithm , key , sourceArray , algorithmArray)
         HashingSink.result = toHexString(algorithmArray)

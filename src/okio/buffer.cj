@@ -1009,7 +1009,7 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
      * @return Type of ?String
      * @since 0.32.5
      */
-    public override func readUtf8(): ?String {
+    public override func readUtf8(): String {
         try {
             return readString(mysize)
         } catch (e: EOFException) {
@@ -1025,7 +1025,7 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
      * @return Type of ?String
      * @since 0.32.5
      */
-    public override func readUtf8(byteCount: Int64): ?String {
+    public override func readUtf8(byteCount: Int64): String {
         return readString(byteCount)  // TODO: readString(byteCount, Util.UTF_8)
     }
 
@@ -1035,7 +1035,7 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
      * @return Type of ?String
      * @since 0.32.5
      */
-    public override func readString(): ?String {  // TODO: readString(Charset charset)
+    public override func readString(): String {  // TODO: readString(Charset charset)
         try {
             return readString(mysize)
         } catch (e: EOFException) {
@@ -1051,7 +1051,7 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
      * @return Type of ?String
      * @since 0.32.5
      */
-    public override func readString(byteCount: Int64) : ?String {  // TODO:  readString(long byteCount, Charset charset) 
+    public override func readString(byteCount: Int64) : String {  // TODO:  readString(long byteCount, Charset charset) 
         Util.checkOffsetAndCount(this.mysize, 0, byteCount)
         if (byteCount > Int64(Int32.Max)) {
             throw IllegalArgumentException("byteCount > Integer.MAX_VALUE: ${byteCount}")

@@ -15,7 +15,7 @@ main () {
     pi.sink().write(bu.write(abc),3)
     pi.sink().flush()
     let pipeSource: BufferedSource = Okio.buffer(pi.source())
-    if("abc" != pipeSource.readUtf8(3).getOrThrow()) {
+    if("abc" != pipeSource.readUtf8(3)) {
         return 1
     }
 
@@ -26,7 +26,7 @@ main () {
     ps6.close()
     let bu6: Buffer = Buffer()
     pi6.fold(bu6)
-    if("world" != bu6.readUtf8(5).getOrThrow()){
+    if("world" != bu6.readUtf8(5)){
         return 1
     }
 

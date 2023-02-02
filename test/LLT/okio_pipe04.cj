@@ -15,7 +15,7 @@ main () {
 
     let bu: Buffer = Buffer()
     pi.fold(bu)
-    if("hello" != bu.readUtf8(5).getOrThrow()){
+    if("hello" != bu.readUtf8(5)){
         return 1
     }
 
