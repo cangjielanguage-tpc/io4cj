@@ -115,6 +115,11 @@ main () {
         return 3
     }
     strrs.writeUtf8( "" , 0 , 0 )
+     try{
+    strrs.writeUtf8("" , 2044 , 0)
+    }catch(e: Exception){
+        println("--------------")
+    }
     try{
     strrs.readInt32()
     }catch(e: Exception){
