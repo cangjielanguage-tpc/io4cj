@@ -1859,12 +1859,6 @@ public abstract class ForwardingSink <: Sink {
      * 将所有缓冲字节推送到SInk的目标中, 并释放此Sink持有的资源。写入已关闭的Sink是错误的。多次关闭Sink是安全的。
      */
     public override func close(): Unit
-    
-    /*
-     * 重写的toString方法
-     * 返回值 重写的toString格式数据
-     */
-    func timeout(): Timeout  
 }
 ```
 
@@ -1897,14 +1891,7 @@ public abstract class ForwardingSource <: Source{
     /*
      * 关闭此源并释放此源持有的资源。读取封闭源是一个错误。多次关闭Source是安全的。
      */
-    func close(): Unit 
-	
-	/*
-     * 重写的toString方法
-     * 返回值 重写的toString格式数据
-     */
-    func timeout(): Timeout  
-    
+    func close(): Unit   
 }
 ```
 
