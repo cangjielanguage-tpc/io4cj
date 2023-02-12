@@ -94,7 +94,7 @@ class PipeSink <: Sink {
                     break
                 }
             if (sourceClosed) {
-                throw IOException("source is closed")
+                throw Exception("source is closed")
             }
             let bufferSpaceAvailable: Int64 = maxBufferSize - buffer.size
             if (bufferSpaceAvailable == 0) {
@@ -135,7 +135,7 @@ class PipeSink <: Sink {
                 case Some(v) => 
                     sink = foldedSink
                     case None => if (sourceClosed && buffer.size > 0) {
-                    throw IOException("source is closed")
+                    throw Exception("source is closed")
                     }
             }
         }
@@ -159,7 +159,7 @@ class PipeSink <: Sink {
                 sink = foldedSink
             } else {
                 if (sourceClosed && buffer.size > 0) {
-                    throw IOException("source is closed")
+                    throw Exception("source is closed")
                 }
                     sinkClosed = true
             }
