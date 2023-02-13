@@ -272,7 +272,7 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
         for (i in 0..result.size) {
             let d1 = decodeHexDigit(hex.charAt(i * 2)) << 4
             let d2 = decodeHexDigit(hex.charAt(i * 2 + 1))
-            result[i] = UInt8((d1 << 4) + d2)
+            result[i] = UInt8(d1 + d2)
         }
         return ByteString(result)
     }

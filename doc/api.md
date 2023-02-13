@@ -374,30 +374,30 @@ public interface BufferedSource <: Source & ToString {
     func readAll(sink: Sink): Int64
 
     /*
-     * 删除其中的所有字节，将其解码为UTF-8，并返回字符串。如果此源为空，则返回None
-     * 返回值 ?String - Option<String>
+     * 删除其中的所有字节，将其解码为UTF-8，并返回字符串。如果此源为空，则返回空字符串
+     * 返回值 String - String
      */
-    func readUtf8(): ?String
+    func readUtf8(): String
 
     /*
-     * 删除其中的byteCount长度的字节，将其解码为UTF-8，并返回字符串。如果此源为空，则返回None
+     * 删除其中的byteCount长度的字节，将其解码为UTF-8，并返回字符串。如果此源为空，则返回空字符串
      * 参数 Int64 - byteCount
-     * 返回值 ?String - Option<String>
+     * 返回值 String - String
      */
-    func readUtf8(byteCount: Int64): ?String
+    func readUtf8(byteCount: Int64): String
 
     /*
      * 删除其中的所有字节，将其解码为默认UTF-8，并返回字符串
-     * 返回值 ?String - Option<String>
+     * 返回值 String - String
      */
-    func readString(): ?String
+    func readString(): String
 
     /*
      * 删除其中的byteCount长度的字节，将其解码为默认UTF-8，并返回字符串
      * 参数 Int64 - byteCount
-     * 返回值 ?String - Option<String>
+     * 返回值 String - String
      */
-    readString(byteCount: Int64): ?String
+    readString(byteCount: Int64): String
 
     /*
      * 删除并返回最多但不包括下一个换行符的字符。换行符为“\n”或“\r\n”；这些字符不包含在结果中。
@@ -422,7 +422,7 @@ public interface BufferedSource <: Source & ToString {
      * 删除并返回单个UTF-8代码点，根据需要读取1到4个字节。
      * 返回值 Int64 - 返回字节数
      */
-    func readUtf8CodePoint(): Int64 （下个迭代转测）
+    func readUtf8CodePoint(): Int64
 
     /*
      * 相当于indexOf(value，0)。
@@ -453,7 +453,7 @@ public interface BufferedSource <: Source & ToString {
      * 参数 ByteString - bytes
      * 返回值 Int64 - 索引位置
      */
-    func indexOf(bytes: ByteString): Int64 （下个迭代转测）
+    func indexOf(bytes: ByteString): Int64
 
     /*
      * 返回缓冲区中fromIndex处或之后字节的第一个匹配项的索引。这会根据需要扩展缓冲区，直到找到字节。这会将无限数量的字节读入缓冲区。如果流在找到请求的字节之前耗尽，则返回-1。
@@ -461,14 +461,14 @@ public interface BufferedSource <: Source & ToString {
      * 参数 Int64 - fromIndex
      * 返回值 Int64 - 索引位置
      */
-    func indexOf(bytes: ByteString, fromIndex: Int64): Int64  （下个迭代转测）
+    func indexOf(bytes: ByteString, fromIndex: Int64): Int64
 
     /*
      * 相当于indexOfElement(targetBytes, 0)
      * 参数 ByteString - targetBytes
      * 返回值 Int64 - 索引位置
      */
-    func indexOfElement(targetBytes: ByteString): Int64  （下个迭代转测）
+    func indexOfElement(targetBytes: ByteString): Int64
 
     /*
      * 返回此缓冲区中位于fromIndex处或之后的第一个索引，该索引包含targetBytes中的任何字节。这会根据需要扩展缓冲区，直到找到目标字节。这会将无限数量的字节读入缓冲区。如果流在找到请求的字节之前耗尽，则返回-1。
@@ -476,7 +476,7 @@ public interface BufferedSource <: Source & ToString {
      * 参数 Int64 - fromIndex
      * 返回值 Int64 - 索引位置
      */
-    func indexOfElement(targetBytes: ByteString, fromIndex: Int64): Int64  （下个迭代转测）
+    func indexOfElement(targetBytes: ByteString, fromIndex: Int64): Int64
 
     /*
      * 如果此源中偏移量处的字节等于字节，则返回true。这会根据需要扩展缓冲区，直到一个字节不匹配，所有字节都匹配，或者如果流在足够的字节确定匹配之前耗尽。
@@ -484,7 +484,7 @@ public interface BufferedSource <: Source & ToString {
      * 参数 ByteString - bytes
      * 返回值 Bool - Bool
      */
-    func rangeEquals(offset: Int64, bytes: ByteString): Bool  （下个迭代转测）
+    func rangeEquals(offset: Int64, bytes: ByteString): Bool
 
     /*
      * 如果此源中偏移量处的byteCount字节等于bytesOffset处的字节，则返回true。这会根据需要扩展缓冲区，直到一个字节不匹配，所有字节都匹配，或者如果流在足够的字节确定匹配之前耗尽。
@@ -494,7 +494,7 @@ public interface BufferedSource <: Source & ToString {
      * 参数 Int64 - byteCount
      * 返回值 Bool - Bool
      */
-    func rangeEquals(offset: Int64, bytes: ByteString, bytesOffset: Int64, byteCount: Int64): Bool  （下个迭代转测）
+    func rangeEquals(offset: Int64, bytes: ByteString, bytesOffset: Int64, byteCount: Int64): Bool
 
     /*
      * 从此源读取并丢弃byteCount字节。如果源在请求的字节被跳过之前耗尽, 抛出EOFException.
@@ -712,29 +712,29 @@ public class Buffer <: Object & BufferedSource & BufferedSink & Equatable<Buffer
 
     /*
      * 删除其中的所有字节，将其解码为UTF-8，并返回字符串。如果此源为空，则返回None
-     * 返回值 ?String - Option<String>
+     * 返回值 String - String
      */
-    func readUtf8(): ?String
+    func readUtf8(): String
 
     /*
-     * 删除其中的byteCount长度的字节，将其解码为UTF-8，并返回字符串。如果此源为空，则返回None
+     * 删除其中的byteCount长度的字节，将其解码为UTF-8，并返回字符串。如果此源为空，则返回空字符串
      * 参数 Int64 - byteCount
-     * 返回值 ?String - Option<String>
+     * 返回值 String - String
      */
-    func readUtf8(byteCount: Int64): ?String
+    func readUtf8(byteCount: Int64): String
 
     /*
      * 删除其中的所有字节，将其解码为默认UTF-8，并返回字符串
-     * 返回值 ?String - Option<String>
+     * 返回值 String - String
      */
-    func readString(): ?String
+    func readString(): String
 
     /*
      * 删除其中的byteCount长度的字节，将其解码为默认UTF-8，并返回字符串
      * 参数 Int64 - byteCount
-     * 返回值 ?String - Option<String>
+     * 返回值 String - String
      */
-    readString(byteCount: Int64): ?String
+    readString(byteCount: Int64): String
 
     /*
      * 删除并返回最多但不包括下一个换行符的字符。换行符为“\n”或“\r\n”；这些字符不包含在结果中。
@@ -759,7 +759,7 @@ public class Buffer <: Object & BufferedSource & BufferedSink & Equatable<Buffer
      * 删除并返回单个UTF-8代码点，根据需要读取1到4个字节。
      * 返回值 Int64 - 返回字节数
      */
-    func readUtf8CodePoint(): Int64 （下个迭代转测）
+    func readUtf8CodePoint(): Int64
 
     /*
      * 相当于indexOf(value，0)。
@@ -790,7 +790,7 @@ public class Buffer <: Object & BufferedSource & BufferedSink & Equatable<Buffer
      * 参数 ByteString - bytes
      * 返回值 Int64 - 索引位置
      */
-    func indexOf(bytes: ByteString): Int64 （下个迭代转测）
+    func indexOf(bytes: ByteString): Int64
 
     /*
      * 返回缓冲区中fromIndex处或之后字节的第一个匹配项的索引。这会根据需要扩展缓冲区，直到找到字节。这会将无限数量的字节读入缓冲区。如果流在找到请求的字节之前耗尽，则返回-1。
@@ -798,14 +798,14 @@ public class Buffer <: Object & BufferedSource & BufferedSink & Equatable<Buffer
      * 参数 Int64 - fromIndex
      * 返回值 Int64 - 索引位置
      */
-    func indexOf(bytes: ByteString, fromIndex: Int64): Int64  （下个迭代转测）
+    func indexOf(bytes: ByteString, fromIndex: Int64): Int64
 
     /*
      * 相当于indexOfElement(targetBytes, 0)
      * 参数 ByteString - targetBytes
      * 返回值 Int64 - 索引位置
      */
-    func indexOfElement(targetBytes: ByteString): Int64  （下个迭代转测）
+    func indexOfElement(targetBytes: ByteString): Int64
 
     /*
      * 返回此缓冲区中位于fromIndex处或之后的第一个索引，该索引包含targetBytes中的任何字节。这会根据需要扩展缓冲区，直到找到目标字节。这会将无限数量的字节读入缓冲区。如果流在找到请求的字节之前耗尽，则返回-1。
@@ -813,7 +813,7 @@ public class Buffer <: Object & BufferedSource & BufferedSink & Equatable<Buffer
      * 参数 Int64 - fromIndex
      * 返回值 Int64 - 索引位置
      */
-    func indexOfElement(targetBytes: ByteString, fromIndex: Int64): Int64  （下个迭代转测）
+    func indexOfElement(targetBytes: ByteString, fromIndex: Int64): Int64
 
     /*
      * 如果此源中偏移量处的字节等于字节，则返回true。这会根据需要扩展缓冲区，直到一个字节不匹配，所有字节都匹配，或者如果流在足够的字节确定匹配之前耗尽。
@@ -821,7 +821,7 @@ public class Buffer <: Object & BufferedSource & BufferedSink & Equatable<Buffer
      * 参数 ByteString - bytes
      * 返回值 Bool - Bool
      */
-    func rangeEquals(offset: Int64, bytes: ByteString): Bool  （下个迭代转测）
+    func rangeEquals(offset: Int64, bytes: ByteString): Bool
 
     /*
      * 如果此源中偏移量处的byteCount字节等于bytesOffset处的字节，则返回true。这会根据需要扩展缓冲区，直到一个字节不匹配，所有字节都匹配，或者如果流在足够的字节确定匹配之前耗尽。
@@ -831,7 +831,7 @@ public class Buffer <: Object & BufferedSource & BufferedSink & Equatable<Buffer
      * 参数 Int64 - byteCount
      * 返回值 Bool - Bool
      */
-    func rangeEquals(offset: Int64, bytes: ByteString, bytesOffset: Int64, byteCount: Int64): Bool  （下个迭代转测）
+    func rangeEquals(offset: Int64, bytes: ByteString, bytesOffset: Int64, byteCount: Int64): Bool
 
     /*
      * 从此源读取并丢弃byteCount字节。如果源在请求的字节被跳过之前耗尽, 抛出EOFException.
@@ -1489,30 +1489,30 @@ class RealBufferedSource <: BufferedSource {
     func readAll(sink: Sink): Int64
 
     /*
-     * 删除其中的所有字节，将其解码为UTF-8，并返回字符串。如果此源为空，则返回None
-     * 返回值 ?String - Option<String>
+     * 删除其中的所有字节，将其解码为UTF-8，并返回字符串。如果此源为空，则返回空字符串
+     * 返回值 String - String
      */
-    func readUtf8(): ?String
+    func readUtf8(): String
 
     /*
-     * 删除其中的byteCount长度的字节，将其解码为UTF-8，并返回字符串。如果此源为空，则返回None
+     * 删除其中的byteCount长度的字节，将其解码为UTF-8，并返回字符串。如果此源为空，则返回空字符串
      * 参数 Int64 - byteCount
-     * 返回值 ?String - Option<String>
+     * 返回值 String - String
      */
-    func readUtf8(byteCount: Int64): ?String
+    func readUtf8(byteCount: Int64): String
 
     /*
      * 删除其中的所有字节，将其解码为默认UTF-8，并返回字符串
-     * 返回值 ?String - Option<String>
+     * 返回值 String - String
      */
-    func readString(): ?String
+    func readString(): String
 
     /*
      * 删除其中的byteCount长度的字节，将其解码为默认UTF-8，并返回字符串
      * 参数 Int64 - byteCount
-     * 返回值 ?String - Option<String>
+     * 返回值 String - String
      */
-    readString(byteCount: Int64): ?String
+    readString(byteCount: Int64): String
 
     /*
      * 删除并返回最多但不包括下一个换行符的字符。换行符为“\n”或“\r\n”；这些字符不包含在结果中。
@@ -1537,7 +1537,7 @@ class RealBufferedSource <: BufferedSource {
      * 删除并返回单个UTF-8代码点，根据需要读取1到4个字节。
      * 返回值 Int64 - 返回字节数
      */
-    func readUtf8CodePoint(): Int64 （下个迭代转测）
+    func readUtf8CodePoint(): Int64
 
     /*
      * 相当于indexOf(value，0)。
@@ -1568,7 +1568,7 @@ class RealBufferedSource <: BufferedSource {
      * 参数 ByteString - bytes
      * 返回值 Int64 - 索引位置
      */
-    func indexOf(bytes: ByteString): Int64 （下个迭代转测）
+    func indexOf(bytes: ByteString): Int64
 
     /*
      * 返回缓冲区中fromIndex处或之后字节的第一个匹配项的索引。这会根据需要扩展缓冲区，直到找到字节。这会将无限数量的字节读入缓冲区。如果流在找到请求的字节之前耗尽，则返回-1。
@@ -1576,14 +1576,14 @@ class RealBufferedSource <: BufferedSource {
      * 参数 Int64 - fromIndex
      * 返回值 Int64 - 索引位置
      */
-    func indexOf(bytes: ByteString, fromIndex: Int64): Int64  （下个迭代转测）
+    func indexOf(bytes: ByteString, fromIndex: Int64): Int64
 
     /*
      * 相当于indexOfElement(targetBytes, 0)
      * 参数 ByteString - targetBytes
      * 返回值 Int64 - 索引位置
      */
-    func indexOfElement(targetBytes: ByteString): Int64  （下个迭代转测）
+    func indexOfElement(targetBytes: ByteString): Int64
 
     /*
      * 返回此缓冲区中位于fromIndex处或之后的第一个索引，该索引包含targetBytes中的任何字节。这会根据需要扩展缓冲区，直到找到目标字节。这会将无限数量的字节读入缓冲区。如果流在找到请求的字节之前耗尽，则返回-1。
@@ -1591,7 +1591,7 @@ class RealBufferedSource <: BufferedSource {
      * 参数 Int64 - fromIndex
      * 返回值 Int64 - 索引位置
      */
-    func indexOfElement(targetBytes: ByteString, fromIndex: Int64): Int64  （下个迭代转测）
+    func indexOfElement(targetBytes: ByteString, fromIndex: Int64): Int64
 
     /*
      * 如果此源中偏移量处的字节等于字节，则返回true。这会根据需要扩展缓冲区，直到一个字节不匹配，所有字节都匹配，或者如果流在足够的字节确定匹配之前耗尽。
@@ -1599,7 +1599,7 @@ class RealBufferedSource <: BufferedSource {
      * 参数 ByteString - bytes
      * 返回值 Bool - Bool
      */
-    func rangeEquals(offset: Int64, bytes: ByteString): Bool  （下个迭代转测）
+    func rangeEquals(offset: Int64, bytes: ByteString): Bool
 
     /*
      * 如果此源中偏移量处的byteCount字节等于bytesOffset处的字节，则返回true。这会根据需要扩展缓冲区，直到一个字节不匹配，所有字节都匹配，或者如果流在足够的字节确定匹配之前耗尽。
@@ -1609,7 +1609,7 @@ class RealBufferedSource <: BufferedSource {
      * 参数 Int64 - byteCount
      * 返回值 Bool - Bool
      */
-    func rangeEquals(offset: Int64, bytes: ByteString, bytesOffset: Int64, byteCount: Int64): Bool  （下个迭代转测）
+    func rangeEquals(offset: Int64, bytes: ByteString, bytesOffset: Int64, byteCount: Int64): Bool
 
     /*
      * 从此源读取并丢弃byteCount字节。如果源在请求的字节被跳过之前耗尽, 抛出EOFException.
@@ -1621,7 +1621,7 @@ class RealBufferedSource <: BufferedSource {
      * 返回一个新的BufferedSource，它可以从该BufferedResource读取数据，而不使用它。一旦下次读取或关闭此源，返回的源将变为无效。例如，我们可以使用peek（）向前看并多次读取相同的数据。
      * 返回值 BufferedSource - 新的BufferedSource
      */
-    func peek(): BufferedSource  (930版本不支持新的BufferedSource直接打印输出 只能使用read方法读取)
+    func peek(): BufferedSource 
 }
 ```
 
@@ -2161,7 +2161,7 @@ public class Pipe {
     pi.sink().write(bu.write(abc),3)
     pi.sink().flush()
     let pipeSource: BufferedSource = Okio.buffer(pi.source())
-    if("abc" != pipeSource.readUtf8(3).getOrThrow()) {
+    if("abc" != pipeSource.readUtf8(3)) {
         return 1
     }
      return 0
