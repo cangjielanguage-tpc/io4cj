@@ -1,4 +1,5 @@
 // 3rd_party_lib:okio/build/okio
+// 3rd_party_lib:okio/ci_lib/cryptocj
 
 from std import io.*
 from std import time.*
@@ -14,7 +15,7 @@ public class okio_read_141 {
             var okbf = okio.Buffer()
             var byteString = ByteString("hello".toUtf8Array())
             byteString.write(okbf)
-            var okbf_str = okbf.readUtf8().getOrThrow()
+            var okbf_str = okbf.readUtf8()
             println("okbf = ${okbf_str}")
             @Assert(okbf_str,"hello")
 
@@ -23,7 +24,7 @@ public class okio_read_141 {
             byteString = ByteString(" world".toUtf8Array())
             byteString.write(okbf)
 
-            okbf_str = okbf.readUtf8().getOrThrow()
+            okbf_str = okbf.readUtf8()
             println("okbf = ${okbf_str}")
             @Assert(okbf_str,"hello world")
         } catch (e:Exception) {

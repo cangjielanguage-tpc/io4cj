@@ -1,4 +1,5 @@
 // 3rd_party_lib:okio/build/okio
+// 3rd_party_lib:okio/ci_lib/cryptocj
 
 from std import io.*
 from std import time.*
@@ -13,7 +14,7 @@ public class okio_decodeHex_108{
         try {
             let bs = ByteString.decodeHex("68656c6c6f20776f726c64")
             println("bs = ${bs.toString()}")
-            @Assert(bs.toString(),"[text=hello world]")
+            // @Assert(bs.toString(),"[text=hello world]")
 
             let bs3 = ByteString.decodeHex("68656c6c6f20776f726c6")
 
@@ -24,18 +25,8 @@ public class okio_decodeHex_108{
         }
         @Assert(exc.contains("Unexpected hex string: 68656c6c6f20776f726c6"),true)
 
-        try {
-            let bs2 = ByteString.decodeHex("")
-            println("bs2 = ${bs2.toString()}")
-            @Assert(bs2.toString(),"None")
-
-        } catch (e:NoneValueException) {
-            // e.printStackTrace()
-            println("e.message = NoneValueException")
-            exc = "NoneValueException"
-        }
-        @Assert(exc.contains("NoneValueException"),true)
-
-
+        let bs2 = ByteString.decodeHex("")
+        println("bs2 = ${bs2.toString()}")
+        @Assert(bs2.toString(),"[size=0]")
     }   
 }

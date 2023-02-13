@@ -1,4 +1,5 @@
 // 3rd_party_lib:okio/build/okio
+// 3rd_party_lib:okio/ci_lib/cryptocj
 
 from std import io.*
 from std import time.*
@@ -14,5 +15,15 @@ public class okio_indexOf_084{
         a_buffer.write(arrb)
         println(a_buffer.indexOf(6,0))
         @Assert(a_buffer.indexOf(6,0),0)
+    }
+    @TestCase
+    func okio_indexOf_084_2(): Unit {
+        let arrb:Array<Byte> = [6,5,4,3,5,16,5]
+        let a_buffer = Buffer()
+        a_buffer.write(arrb)
+        let source: Source = a_buffer
+        let bufferedSource: BufferedSource = Okio.buffer(source)
+        println(bufferedSource.indexOf(6,0))
+        @Assert(bufferedSource.indexOf(6,0),0)
     }
 }   

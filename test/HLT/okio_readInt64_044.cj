@@ -1,4 +1,5 @@
 // 3rd_party_lib:okio/build/okio
+// 3rd_party_lib:okio/ci_lib/cryptocj
 
 from std import io.*
 from std import time.*
@@ -20,5 +21,21 @@ public class okio_readInt64_044{
             exc = e.message
         }
         @Assert(exc," size < 8: 7")
+    }
+    @TestCase
+    func okio_readInt64_044_2(): Unit {
+        var exc = ""
+        try {
+            let arrb:Array<Byte> = [6,5,4,3,2,16,7]
+            let a_buffer = Buffer()
+            a_buffer.write(arrb)
+            let source: Source = a_buffer
+            let bufferedSource: BufferedSource = Okio.buffer(source)
+            println(bufferedSource.readInt64())
+        } catch (e:EOFException) {
+            println("EOFException")
+            exc = "EOFException"
+        }
+        @Assert(exc,"EOFException")
     }
 }

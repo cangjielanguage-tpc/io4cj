@@ -1,4 +1,5 @@
 // 3rd_party_lib:okio/build/okio
+// 3rd_party_lib:okio/ci_lib/cryptocj
 
 from std import io.*
 from std import time.*
@@ -12,20 +13,20 @@ public class okio_write_137{
     func okio_write_137(): Unit {
         var exc = ""
         try {
-            File.delete("../testData/okio_write_137.txt")
+            File.delete("../../testData/okio_write_137.txt")
         } catch (e:Exception){
             // println("e.message = ${e.message}")
         }
         var str = "world"
         try {
-            var file = File.create("../testData/okio_write_137.txt")
+            var file = File.create("../../testData/okio_write_137.txt")
             file.write("hello ".toUtf8Array())
             let arr:Array<Byte> = str.toUtf8Array()
             println(arr)
             let bs = ByteString(arr)
-            bs.write("../testData/okio_write_137.txt")
+            bs.write("../../testData/okio_write_137.txt")
 
-            var bytearry = File.readFrom("../testData/okio_write_137.txt")
+            var bytearry = File.readFrom("../../testData/okio_write_137.txt")
             str = String.fromUtf8(bytearry)
             
 
