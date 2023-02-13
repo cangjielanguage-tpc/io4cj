@@ -1,4 +1,5 @@
 // 3rd_party_lib:okio/build/okio
+// 3rd_party_lib:okio/ci_lib/cryptocj
 
 from std import io.*
 from std import time.*
@@ -24,6 +25,6 @@ public class okio_write_139{
             println("e.message = ${e.message}")
             exc = e.message 
         }
-        @Assert(exc.contains("Failed to open the file!"),true)
+        @Assert(exc.contains("does not exist"),true)
     }   
 }

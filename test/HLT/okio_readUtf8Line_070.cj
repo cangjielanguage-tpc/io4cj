@@ -1,4 +1,5 @@
 // 3rd_party_lib:okio/build/okio
+// 3rd_party_lib:okio/ci_lib/cryptocj
 
 from std import io.*
 from std import time.*
@@ -23,6 +24,20 @@ public class okio_readUtf8Line_070{
         @Assert(a_buffer.size,0)
         @Assert(a_buffer.toString(),"[size=0] []")
         @Assert(a_buffer.exhausted(),true)
+
+    }
+    @TestCase
+    func okio_readUtf8Line_070_2(): Unit {
+        let a_buffer = Buffer()
+        a_buffer.writeUtf8("华为\n")
+        let source: Source = a_buffer
+        let bufferedSource: BufferedSource = Okio.buffer(source)
+        @Assert(bufferedSource.readUtf8Line().getOrThrow(),"华为")
+        @Assert(bufferedSource.exhausted(),true)
+
+        a_buffer.writeUtf8("华为\r\n")
+        @Assert(bufferedSource.readUtf8Line().getOrThrow(),"华为")
+        @Assert(bufferedSource.exhausted(),true)
 
     }
 }

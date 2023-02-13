@@ -1,4 +1,5 @@
 // 3rd_party_lib:okio/build/okio
+// 3rd_party_lib:okio/ci_lib/cryptocj
 
 from std import io.*
 from std import time.*
@@ -21,5 +22,21 @@ public class okio_request_014{
             exc = "Exception"
         }
         @Assert(exc,"")
+    }
+    @TestCase
+    func okio_request_014_2(): Unit {
+        var exc = ""
+        try{
+            let a_buffer = Buffer()
+            let source: Source = a_buffer
+            let bufferedSource: BufferedSource = Okio.buffer(source)
+            println(bufferedSource.request(-1))
+            @Assert(bufferedSource.request(-1),true)  
+        } catch(e: Exception) {
+            // println(e.printStackTrace())
+            println(e.message)
+            exc = e.message
+        }
+        @Assert(exc,"byteCount <0: -1")
     }
 }

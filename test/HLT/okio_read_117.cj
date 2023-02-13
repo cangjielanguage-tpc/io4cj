@@ -1,4 +1,5 @@
 // 3rd_party_lib:okio/build/okio
+// 3rd_party_lib:okio/ci_lib/cryptocj
 
 from std import io.*
 from std import time.*
@@ -12,17 +13,17 @@ public class okio_read_117{
     func okio_read_117(): Unit {
         var exc = ""
         try {
-            File.delete("../testData/okio_read_117.txt")
+            File.delete("../../testData/okio_read_117.txt")
         } catch (e:Exception){
             // println("e.message = ${e.message}")
         }
         var bs : ByteString
         var bs2 : ByteString
         try {
-            bs = ByteString.read("../testData/okio_read_117.txt")
+            bs = ByteString.read("../../testData/okio_read_117.txt")
             println("bs = ${bs.toString()}")
 
-            bs2 = ByteString.read("../testData/okio_read_117_1.txt")
+            bs2 = ByteString.read("../../testData/okio_read_117_1.txt")
             println("bs2 = ${bs2.toString()}")
             
 

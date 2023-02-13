@@ -1,4 +1,5 @@
 // 3rd_party_lib:okio/build/okio
+// 3rd_party_lib:okio/ci_lib/cryptocj
 
 from std import io.*
 from std import time.*
@@ -17,5 +18,16 @@ public class okio_read_019{
         @Assert(a_buffer.size,0)
         println(a_buffer.exhausted())
         @Assert(a_buffer.exhausted(),true)
+    }
+    @TestCase
+    func okio_read_019_2(): Unit {
+        let arrb:Array<Byte> = [6,5,4,3,2,16,7]
+        let a_buffer = Buffer()
+        let arrb2 :Array<Byte> = Array<Byte>(0,item:0)
+        let source: Source = a_buffer
+        let bufferedSource: BufferedSource = Okio.buffer(source)
+        @Assert(bufferedSource.read(arrb2),Int64(-1))
+        println(bufferedSource.exhausted())
+        @Assert(bufferedSource.exhausted(),true)
     }
 }

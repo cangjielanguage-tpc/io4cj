@@ -1,4 +1,5 @@
 // 3rd_party_lib:okio/build/okio
+// 3rd_party_lib:okio/ci_lib/cryptocj
 
 from std import io.*
 from std import time.*
@@ -11,7 +12,7 @@ public class okio_read_118{
     func okio_read_118(): Unit {
         var exc = ""
         try {
-            let bs = ByteString.read("/home/xuman/cangjie/okio/test/HLT/aaa/testData3.txt")
+            let bs = ByteString.read("../aaa/testData3.txt")
             println("bs = ${bs.toString()}")
             @Assert(bs.toString(),"[size=0]")
 
@@ -20,6 +21,6 @@ public class okio_read_118{
             println("e.message = ${e.message}")
             exc = e.message 
         }
-        @Assert(exc.contains("The file does not exist!"),true)
+        @Assert(exc.contains("does not exist"),true)
     }   
 }

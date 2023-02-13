@@ -1,4 +1,5 @@
 // 3rd_party_lib:okio/build/okio
+// 3rd_party_lib:okio/ci_lib/cryptocj
 
 from std import io.*
 from std import time.*
@@ -9,16 +10,16 @@ public class okio_readUtf8_060{
 
     @TestCase
     func okio_readUtf8_060(): Unit {
-        var exc = ""
-        try {
-            let a_buffer = Buffer()
-            println(a_buffer)
-            println(a_buffer.readUtf8().getOrThrow())
-        } catch (e:NoneValueException) {
-            // e.printStackTrace()
-            println("e.message = ${e.message}")
-            exc="NoneValueException"
-        }
-        @Assert(exc.contains("NoneValueException"),true)
+        let a_buffer = Buffer()
+        println(a_buffer)
+        @Assert(a_buffer.readUtf8(), "")
+    }
+    @TestCase
+    func okio_readUtf8_060_2(): Unit {
+        let a_buffer = Buffer()
+        let source: Source = a_buffer
+        let bufferedSource: BufferedSource = Okio.buffer(source)
+        println(bufferedSource)
+        @Assert(bufferedSource.readUtf8(), "")
     }
 }
