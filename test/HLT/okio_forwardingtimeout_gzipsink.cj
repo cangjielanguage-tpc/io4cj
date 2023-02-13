@@ -7,7 +7,7 @@ from okio import okio.*
 @Test
 public class okio_ForwardingTimeout {
     @TestCase
-    func okio_Forwardingtimeout01(): Unit { //GzipSink 未验证close   GzipSource 
+    func okio_Forwardingtimeout01(): Unit { 
         let data: Buffer = Buffer()
         let testString: String = "It's a UNIX system! I know this!"
         data.writeUtf8(testString)
@@ -20,11 +20,11 @@ public class okio_ForwardingTimeout {
         @Assert(gs.toString(),"RealBufferedSink: [size=0] []")
         @Assert(gs.isClosed(),true)
         var inflated = gunzip(sink)
-        @Assert(testString,inflated.readUtf8().getOrThrow())
+        @Assert(testString,inflated.readUtf8())
     }
 
     @TestCase
-    func okio_Forwardingtimeout51(): Unit { //GzipSink    GzipSource 
+    func okio_Forwardingtimeout51(): Unit { 
         let data: Buffer = Buffer()
         let testString: String = "I"
         data.writeUtf8(testString)
@@ -37,11 +37,11 @@ public class okio_ForwardingTimeout {
         @Assert(gs.toString(),"RealBufferedSink: [size=0] []")
         @Assert(gs.isClosed(),true)
         var inflated = gunzip(sink)
-        @Assert(testString,inflated.readUtf8().getOrThrow())
+        @Assert(testString,inflated.readUtf8())
     }
 
     @TestCase
-    func okio_Forwardingtimeout52(): Unit { //GzipSink 未验证close   GzipSource 
+    func okio_Forwardingtimeout52(): Unit { 
         let data: Buffer = Buffer()
         let testString: String = "123456789"
         data.writeUtf8(testString)
@@ -54,11 +54,11 @@ public class okio_ForwardingTimeout {
         @Assert(gs.toString(),"RealBufferedSink: [size=0] []")
         @Assert(gs.isClosed(),true)
         var inflated = gunzip(sink)
-        @Assert(testString,inflated.readUtf8().getOrThrow())
+        @Assert(testString,inflated.readUtf8())
     }
 
     @TestCase
-    func okio_Forwardingtimeout53(): Unit { //GzipSink 未验证close   GzipSource 
+    func okio_Forwardingtimeout53(): Unit { 
         let data: Buffer = Buffer()
         let testString: String = "仓颉你好"
         data.writeUtf8(testString)
@@ -71,11 +71,11 @@ public class okio_ForwardingTimeout {
         @Assert(gs.toString(),"RealBufferedSink: [size=0] []")
         @Assert(gs.isClosed(),true)
         var inflated = gunzip(sink)
-        @Assert(testString,inflated.readUtf8().getOrThrow())
+        @Assert(testString,inflated.readUtf8())
     }
 
     @TestCase
-    func okio_Forwardingtimeout54(): Unit { //GzipSink 未验证close   GzipSource 
+    func okio_Forwardingtimeout54(): Unit { 
         let data: Buffer = Buffer()
         let testString: String = "仓颉你好cangjenihaoaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
         data.writeUtf8(testString)
@@ -88,11 +88,11 @@ public class okio_ForwardingTimeout {
         @Assert(gs.toString(),"RealBufferedSink: [size=0] []")
         @Assert(gs.isClosed(),true)
         var inflated = gunzip(sink)
-        @Assert(testString,inflated.readUtf8().getOrThrow())
+        @Assert(testString,inflated.readUtf8())
     }
 
     @TestCase
-    func okio_Forwardingtimeout55(): Unit { //GzipSink 未验证close   GzipSource 
+    func okio_Forwardingtimeout55(): Unit { 
         let data: Buffer = Buffer()
         let testString: String = "仓颉你好cangjenihaoaaaaaaaaaaaaaaaaaaaaaaaaaaaa12346789741852963"
         data.writeUtf8(testString)
@@ -105,11 +105,11 @@ public class okio_ForwardingTimeout {
         @Assert(gs.toString(),"RealBufferedSink: [size=0] []")
         @Assert(gs.isClosed(),true)
         var inflated = gunzip(sink)
-        @Assert(testString,inflated.readUtf8().getOrThrow())
+        @Assert(testString,inflated.readUtf8())
     }
 
     @TestCase
-    func okio_Forwardingtimeout56(): Unit { //GzipSink 未验证close   GzipSource 
+    func okio_Forwardingtimeout56(): Unit { 
         let data: Buffer = Buffer()
         let testString: String = 
             "仓颉你好cangjenihaoaaaaaaaaaaaaaaaaaaaaaaaaaaaa12346789741852963@#&*》》》》：、、、、、、、"
@@ -123,30 +123,26 @@ public class okio_ForwardingTimeout {
         @Assert(gs.toString(),"RealBufferedSink: [size=0] []")
         @Assert(gs.isClosed(),true)
         var inflated = gunzip(sink)
-        @Assert(testString,inflated.readUtf8().getOrThrow())
+        @Assert(testString,inflated.readUtf8())
     }
 
     @TestCase
-    func okio_Forwardingtimeout02(): Unit { //DeflaterSink
+    func okio_Forwardingtimeout02(): Unit { 
         let data: Buffer = Buffer()
         let original: String = "They're moving in herds. They do move in herds."
         data.writeUtf8(original)
         let sink: Buffer = Buffer()
         var deflater: Deflater = Deflater()
         var deflaterSink: DeflaterSink = DeflaterSink(sink, deflater)
-
-        //println(deflaterSink.end())
         println(sink.size)
         deflaterSink.write(data, data.size)
-
-        //deflaterSink.close()
         println(sink.size)
         var inflated = gunzip(sink)
-        @Assert(original,inflated.readUtf8().getOrThrow())
+        @Assert(original,inflated.readUtf8())
     }
 
     @TestCase
-    func okio_Forwardingtimeout21(): Unit { //DeflaterSink
+    func okio_Forwardingtimeout21(): Unit { 
         let data: Buffer = Buffer()
         let original: String = 
             "仓颉你好cangjenihaoaaaaaaaaaaaaaaaaaaaaaaaaaaaa12346789741852963@#&*》》》》：、、、、、、、"
@@ -154,19 +150,15 @@ public class okio_ForwardingTimeout {
         let sink: Buffer = Buffer()
         var deflater: Deflater = Deflater()
         var deflaterSink: DeflaterSink = DeflaterSink(sink, deflater)
-
-        //println(deflaterSink.end())
         println(sink.size)
         deflaterSink.write(data, data.size)
-
-        //deflaterSink.close()
         println(sink.size)
         var inflated = gunzip(sink)
-        @Assert(original,inflated.readUtf8().getOrThrow())
+        @Assert(original,inflated.readUtf8())
     }
 
     @TestCase
-    func okio_Forwardingtimeout03(): Unit { //InflaterSource   有问题
+    func okio_Forwardingtimeout03(): Unit { 
         let inflated: Buffer = Buffer()
         let aaa: Array<UInt8> = [243, 44, 81, 47, 86, 72, 84, 8, 245, 243, 140, 80, 40, 174, 44, 46, 73, 205, 85, 84,
         240, 84, 200, 206, 203, 47, 87, 40, 201, 200, 44, 86, 4, 0, 81, 47, 86, 72, 84, 8, 245, 243, 140, 80, 40, 174,
@@ -177,11 +169,11 @@ public class okio_ForwardingTimeout {
         let source: InflaterSource = InflaterSource(ssss)
         var source1 = source.read(inflated, 1)
         source.close()
-        @Assert(inflated.readUtf8().getOrThrow(),"I")
+        @Assert(inflated.readUtf8(),"I")
     }
 
     @TestCase
-    func okio_Forwardingtimeout04(): Unit { //GzipSink 未验证close   GzipSource   public override func timeout(): Timeout 有问题
+    func okio_Forwardingtimeout04(): Unit { 
         let data: Buffer = Buffer()
         let testString: String = "It's a UNIX system! I know this!"
         data.writeUtf8(testString)
@@ -196,7 +188,9 @@ public class okio_ForwardingTimeout {
         println(ft.timeoutNanos())
         println(ft.hasDeadline())
     }
+
 }
+
 
 public func gunzip(a: Buffer): Buffer {
     let result: Buffer = Buffer()
