@@ -52,8 +52,6 @@ main () {
     println(buf.asReadOnlyBuffer().toString())
     println(buf.slice(2,9).toString())
     println(buf.duplicate().toString())
-    println(buf.isDirect())
-    println(buf.isReadOnly())
     let buf2 = buf
     if (buf != buf) {
         return 1

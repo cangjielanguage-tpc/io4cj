@@ -229,14 +229,6 @@ public abstract class Buffer <: Object & ToString {
     public func arrayOffset(): Int64
 
     /**
-     * The Function is isDirect
-     *
-     * @return Type of Bool
-     * @since 0.32.5
-     */
-    public func isDirect(): Bool
-
-    /**
      * The Function is slice
      *
      * @return Type of Buffer
