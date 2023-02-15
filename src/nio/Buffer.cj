@@ -221,14 +221,6 @@ public abstract class Buffer <: Object & ToString {
     }
 
     /**
-     * The Function is isReadOnly
-     *
-     * @return Type of Bool
-     * @since 0.32.5
-     */
-    public func isReadOnly(): Bool
-
-    /**
      * The Function is arrayOffset
      *
      * @return Type of Int64

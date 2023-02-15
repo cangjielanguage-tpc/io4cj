@@ -93,7 +93,7 @@ public open class HeapByteBuffer <: ByteBuffer & ToString {
      * @return Type of Int64
      * @since 0.32.5
      */
-    public func ix(i: Int64): Int64 {
+    protected func ix(i: Int64): Int64 {
         return i + offset
     }
 
@@ -137,26 +137,6 @@ public open class HeapByteBuffer <: ByteBuffer & ToString {
         ArrayCopy(hb, ix(position()), dst, offset, length)
         position(position() + length)
         return this
-    }
-
-    /**
-     * The Function is isDirect
-     *
-     * @return Type of Bool
-     * @since 0.32.5
-     */
-    public override func isDirect(): Bool {
-        return false
-    }
-
-    /**
-     * The Function is isReadOnly
-     *
-     * @return Type of Bool
-     * @since 0.32.5
-     */
-    public override func isReadOnly() : Bool {
-        return false
     }
 
     /**

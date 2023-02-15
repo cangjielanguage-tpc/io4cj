@@ -194,9 +194,6 @@ public abstract class ByteBuffer <: Buffer & ToString & Hashable & Equatable<Buf
         if (src == this) {
             throw createSameBufferException() // createSameBufferException
         }
-        if (this.isReadOnly()) {
-            throw Exception() // ReadOnlyBufferException
-        }
         let n = src.remaining()
         if (n > remaining()) {
             throw BufferOverflowException() // BufferOverflowException
