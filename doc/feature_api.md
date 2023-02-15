@@ -100,7 +100,7 @@ public interface Source <: Resource {
     /*
      * 关闭此源并释放此源持有的资源。读取封闭源是一个错误。多次关闭Source是安全的。
      */
-    func close(): Unit 
+    public func close(): Unit 
 
     /*
      * 从Source中删除至少1个字节，并将它们附加到Sink中。返回读取的字节数，如果此Source已用完，则返回-1。
@@ -108,13 +108,13 @@ public interface Source <: Resource {
      * 参数 Int64 - 计数器
      * 返回值 Int64 - 返回读取的字节数，如果此Source已用完，则返回-1。
      */
-    func read(sink: Buffer, byteCount: Int64): Int64
+    public func read(sink: Buffer, byteCount: Int64): Int64
 
     /*
      * 返回此Source的超时对象。
      * 返回值 Timeout - 超时对象
      */
-    func timeout(): Timeout 
+    public func timeout(): Timeout 
 }
 ```
 
@@ -127,25 +127,25 @@ public interface Sink <: Resource {
     /*
      * 将所有缓冲字节推送到SInk的目标中, 并释放此Sink持有的资源。写入已关闭的Sink是错误的。多次关闭Sink是安全的。
      */
-    func close(): Unit   
+    public func close(): Unit   
 
     /*
      * 将所有缓冲字节推送到SInk的目标中。
      */
-    func flush(): Unit  
+    public func flush(): Unit  
 
     /*
      * 返回此接收器的超时对象
      * 返回值 Timeout - 超时对象
      */
-    func timeout(): Timeout  
+    public func timeout(): Timeout  
 
     /*
      * 从Source中删除byteCount字节并将其附加到此Sink中。
      * 参数 Buffer - okio的Buffer对象, source的实现类
      * 参数 Int64 - 计数器
      */
-    func write(source: Buffer, byteCount: Int64): Unit
+    public func write(source: Buffer, byteCount: Int64): Unit
 }
 ```
 
@@ -166,7 +166,7 @@ public interface BufferedSink <: Sink {
      * 参数 Buffer - okio的ByteString对象
      * 返回值 BufferedSink - BufferedSink
      */
-    func write(byteString: ByteString): BufferedSink  
+    public func write(byteString: ByteString): BufferedSink  
 
     /*
      * 向BufferedSink中写入一个source中包含bytecount个的字节序列
@@ -174,21 +174,21 @@ public interface BufferedSink <: Sink {
      * 参数 Int64 - 写入的计数器
      * 返回值 BufferedSink - BufferedSink
      */
-    func write(source: Source, byteCount: Int64): BufferedSink
+    public func write(source: Source, byteCount: Int64): BufferedSink
 
     /*
      * 向BufferedSink中写入一个完整source的字节序列
      * 参数 Buffer - 读取的source
      * 返回值 Int64 - Int64
      */
-    func writeAll(source: Source): Int64
+    public func writeAll(source: Source): Int64
 
     /*
      * 向BufferedSink中写入UTF-8编码的字符串.
      * 参数 String - 读取的String
      * 返回值 BufferedSink - BufferedSink
      */
-    func writeUtf8(string: String): BufferedSink
+    public func writeUtf8(string: String): BufferedSink
 
     /*
      * 向BufferedSink中写入UTF-8编码带有起始和结束范围的字符串.
@@ -197,75 +197,75 @@ public interface BufferedSink <: Sink {
      * 参数 Int64 - 结束索引
      * 返回值 BufferedSink - BufferedSink
      */
-    func writeUtf8(string: String, beginIndex: Int64, endIndex: Int64): BufferedSink
+    public func writeUtf8(string: String, beginIndex: Int64, endIndex: Int64): BufferedSink
 
     /*
      * 用UTF-8编码codePoint并将其写入此BufferedSink。
      * 参数 Int64 - UTF-8的数字表示形式
      * 返回值 BufferedSink - BufferedSink
      */
-    func writeUtf8CodePoint(codePoInt64: Int64): BufferedSink 
+    public func writeUtf8CodePoint(codePoInt64: Int64): BufferedSink 
 
     /*
      * 向BufferedSink中写入一个int8的字节
      * 参数 Int64 - 写入一个不超过int8.max的数字
      * 返回值 BufferedSink - BufferedSink
      */
-    func writeInt8(value: Int64): BufferedSink
+    public func writeInt8(value: Int64): BufferedSink
 
     /*
      * 向BufferedSink中写入一个大端int16的字节
      * 参数 Int64 - 写入一个不超过int16.max的数字
      * 返回值 BufferedSink - BufferedSink
      */
-    func writeInt16(value: Int64): BufferedSink
+    public func writeInt16(value: Int64): BufferedSink
 
     /*
      * 向BufferedSink中写入一个小端int16的字节
      * 参数 Int64 - 写入一个不超过int16.max的数字
      * 返回值 BufferedSink - BufferedSink
      */
-    func writeInt16Le(value: Int64): BufferedSink
+    public func writeInt16Le(value: Int64): BufferedSink
 
     /*
      * 向BufferedSink中写入一个大端int32的字节
      * 参数 Int64 - 写入一个不超过int32.max的数字
      * 返回值 BufferedSink - BufferedSink
      */
-    func writeInt32(value: Int64): BufferedSink
+    public func writeInt32(value: Int64): BufferedSink
 
     /*
      * 向BufferedSink中写入一个小端int32的字节
      * 参数 Int64 - 写入一个不超过int32.max的数字
      * 返回值 BufferedSink - BufferedSink
      */
-    func writeInt32Le(value: Int64): BufferedSink
+    public func writeInt32Le(value: Int64): BufferedSink
 
     /*
      * 向BufferedSink中写入一个大端int64的字节
      * 参数 Int64 - 写入一个不超过int64.max的数字
      * 返回值 BufferedSink - BufferedSink
      */
-    func writeInt64(value: Int64): BufferedSink
+    public func writeInt64(value: Int64): BufferedSink
 
     /*
      * 向BufferedSink中写入一个小端int64的字节
      * 参数 Int64 - 写入一个不超过int64.max的数字
      * 返回值 BufferedSink - BufferedSink
      */
-    func writeInt64Le(value: Int64): BufferedSink
+    public func writeInt64Le(value: Int64): BufferedSink
 
     /*
      * 将BufferedSink所有缓冲数据写入Sink中（如果存在）
      * 返回值 BufferedSink - BufferedSink
      */
-    func emit(): BufferedSink
+    public func emit(): BufferedSink
 
     /*
      * 将完整Segment数据写入Sink中（如果存在）
      * 返回值 BufferedSink - BufferedSink
      */
-    func emitCompleteSegments(): BufferedSink 
+    public func emitCompleteSegments(): BufferedSink 
 
 }
 ```
@@ -280,40 +280,40 @@ public interface BufferedSource <: Source & ToString {
      * 获取buffer类
      * 返回值 Buffer - Buffer类
      */
-    func getBuffer(): Buffer
+    public func getBuffer(): Buffer
 
     /*
      * 如果此源中没有更多字节，则返回true。这将阻塞，直到有字节要读取或源完全耗尽。
      * 返回值 Bool - bool
      */
-    func exhausted(): Bool
+    public func exhausted(): Bool
 
     /*
      * 当缓冲区至少包含byteCount字节时返回。如果Source在读取所需字节之前耗尽, 将抛出EOFException.
      * 参数 Int64 - byteCount 计数器
      */
-    func require(byteCount: Int64): Unit
+    public func require(byteCount: Int64): Unit
 
     /*
      * 当缓冲区至少包含byteCount字节时，返回true，并根据需要进行扩展。如果源在读取请求的字节之前耗尽，则返回false。
      * 参数 Int64 - byteCount 计数器
      * 返回值 Bool - Bool
      */
-    func request(byteCount: Int64): Bool
+    public func request(byteCount: Int64): Bool
 
     /*
      * 从Sink中复制到数组中。返回读取的字节数，如果此源已用完，则返回-1。
      * 参数 Array<Byte> - 读取的数组
      * 返回值 Int64 - 返回读取的长度
      */
-    func read(sink: Array<Byte>): Int64
+    public func read(sink: Array<Byte>): Int64
 
     /*
      * 将Sink中的字节序列读入给定的ByteBuffer。
      * 参数 ByteBuffer - 读取的byteBuffer
      * 返回值 Int64 - 读取的长度
      */
-    func read(sink: ByteBuffer): Int64  
+    public func read(sink: ByteBuffer): Int64  
 
     /*
      * 从Sink中带有起始索引和结束索引的子序列复制到数组中。返回读取的字节数，如果此源已用完，则返回-1。
@@ -322,153 +322,153 @@ public interface BufferedSource <: Source & ToString {
      * 参数 Int64 - byteCount 计数长度
      * 返回值 Int64 - 返回读取的字节数
      */
-    func read(sink: Array<Byte>, offset: Int64, byteCount: Int64): Int64
+    public func read(sink: Array<Byte>, offset: Int64, byteCount: Int64): Int64
 
     /*
      * 从这个source中删除一个字节并返回它。
      * 返回值 Int8 - 返回的字节
      */
-    func readInt8(): Int8
+    public func readInt8(): Int8
 
     /*
      * 从这个源中删除两个字节，并返回一个大端int16
      * 返回值 Int16 - 大端int16
      */
-    func readInt16(): Int16
+    public func readInt16(): Int16
 
     /*
      * 从这个源中删除两个字节，并返回一个小端int16
      * 返回值 Int16 - 小端int16
      */
-    func readInt16Le(): Int16
+    public func readInt16Le(): Int16
 
     /*
      * 从这个源中删除四个字节，并返回一个大端int32
      * 返回值 Int32 - 大端int32
      */
-    func readInt32(): Int32
+    public func readInt32(): Int32
 
     /*
      * 从这个源中删除四个字节，并返回一个小端int32
      * 返回值 Int32 - 小端int32
      */
-    func readInt32Le(): Int32
+    public func readInt32Le(): Int32
 
     /*
      * 从这个源中删除八个字节，并返回一个大端int64
      * 返回值 Int64 - 大端int64
      */
-    func readInt64(): Int64
+    public func readInt64(): Int64
 
     /*
      * 从这个源中删除八个字节，并返回一个小端int64
      * 返回值 Int64 - 小端int64
      */
-    func readInt64Le(): Int64
+    public func readInt64Le(): Int64
 
     /*
      * 从中删除所有字节并将其作为字节字符串返回
      * 返回值 ByteString - ByteString
      */
-    func readByteString(): ByteString  
+    public func readByteString(): ByteString  
 
     /*
      * 从中删除byteCount字节并将其作为字节字符串返回。
      * 参数 Int64 - byteCount
      * 返回值 ByteString - ByteString
      */
-    func readByteString(byteCount: Int64): ByteString 
+    public func readByteString(byteCount: Int64): ByteString 
 
     /*
      * 从中删除所有字节并将其作为字节数组返回
      * 返回值 Array<Byte> - 返回的字节数组
      */
-    func readByteArray(): Array<Byte>
+    public func readByteArray(): Array<Byte>
 
     /*
      * 从中删除byteCount字节并将其作为字节数组返回。
      * 参数 Int64 - byteCount
      * 返回值 Array<Byte> - 返回的字节数组
      */
-    func readByteArray(byteCount: Int64): Array<Byte>
+    public func readByteArray(byteCount: Int64): Array<Byte>
 
     /*
      * 从中精确删除BufferedSink长度的字节，并将其复制到数组中。如果无法读取请求的字节数，抛出EOFException。
      * 参数  Array<Byte> - 写入的字节数组
      */
-    func readFully(sink: Array<Byte>): Unit
+    public func readFully(sink: Array<Byte>): Unit
 
     /*
      * 从中精确删除byteCount长度的字节，并将其复制到数组中。如果无法读取请求的字节数，抛出EOFException。
      * 参数 Buffer - sink 写入的数据源
      * 参数 Int64 - byteCount 写入的长度
      */
-    func readFully(sink: Buffer, byteCount: Int64): Unit
+    public func readFully(sink: Buffer, byteCount: Int64): Unit
 
     /*
      * 从中删除所有字节并将它们附加到sink。返回写入接收器的总字节数，如果用完，则为0。
      * 参数 Sink - 写入的数据源
      * 返回值 Int64 - 返回字节数
      */
-    func readAll(sink: Sink): Int64
+    public func readAll(sink: Sink): Int64
 
     /*
      * 删除其中的所有字节，将其解码为UTF-8，并返回字符串。如果此源为空，则返回空字符串
      * 返回值 String - String
      */
-    func readUtf8(): String
+    public func readUtf8(): String
 
     /*
      * 删除其中的byteCount长度的字节，将其解码为UTF-8，并返回字符串。如果此源为空，则返回空字符串
      * 参数 Int64 - byteCount
      * 返回值 String - String
      */
-    func readUtf8(byteCount: Int64): String
+    public func readUtf8(byteCount: Int64): String
 
     /*
      * 删除其中的所有字节，将其解码为默认UTF-8，并返回字符串
      * 返回值 String - String
      */
-    func readString(): String
+    public func readString(): String
 
     /*
      * 删除其中的byteCount长度的字节，将其解码为默认UTF-8，并返回字符串
      * 参数 Int64 - byteCount
      * 返回值 String - String
      */
-    func readString(byteCount: Int64): String
+    public func readString(byteCount: Int64): String
 
     /*
      * 删除并返回最多但不包括下一个换行符的字符。换行符为“\n”或“\r\n”；这些字符不包含在结果中。
      * 返回值 ?String - Option<String>
      */
-    func readUtf8Line(): ?String
+    public func readUtf8Line(): ?String
 
     /*
      * 删除并返回最多但不包括下一个换行符的字符。换行符为“\n”或“\r\n”；这些字符不包含在结果中。
      * 返回值 ?String - Option<String>
      */
-    func readUtf8LineStrict(): ?String
+    public func readUtf8LineStrict(): ?String
 
     /*
      * 与readUtf8LineStrict（）类似，但这允许调用者指定允许的最长匹配。使用此选项可防止不包含“\n”或“\r\n”的流。返回的字符串最多只能包含UTF-8字节，扫描的最大字节数为limit+2。如果limit==0，则始终会引发EOFException，因为不会扫描任何字节。
      * 参数 Int64 - limit
      * 返回值 ?String - Option<String>
      */
-    func readUtf8LineStrict(limit: Int64): ?String
+    public func readUtf8LineStrict(limit: Int64): ?String
 
     /*
      * 删除并返回单个UTF-8代码点，根据需要读取1到4个字节。
      * 返回值 Int64 - 返回字节数
      */
-    func readUtf8CodePoint(): Int64
+    public func readUtf8CodePoint(): Int64
 
     /*
      * 相当于indexOf(value，0)。
      * 参数 Int8 - value
      * 返回值 Int64 - 索引位置
      */
-    func indexOf(value: Int8): Int64
+    public func indexOf(value: Int8): Int64
 
     /*
      * 返回缓冲区中fromIndex处或之后的第一个value的索引。这会根据需要扩展缓冲区，直到找到value。这会将无限数量的字节读入缓冲区。如果流在找到请求的字节之前耗尽，则返回-1。
@@ -476,7 +476,7 @@ public interface BufferedSource <: Source & ToString {
      * 参数 Int64 - fromIndex
      * 返回值 Int64 - 索引位置
      */
-    func indexOf(value: Int8, fromIndex: Int64): Int64
+    public func indexOf(value: Int8, fromIndex: Int64): Int64
 
     /*
      * 如果在fromIndex到toIndex的范围内找到value，则返回value的索引。如果找不到value，或者如果fromIndex==toIndex，则返回-1。
@@ -485,14 +485,14 @@ public interface BufferedSource <: Source & ToString {
      * 参数 Int64 - toIndex
      * 返回值 Int64 - 索引位置
      */
-    func indexOf(value: Int8, fromIndex: Int64, toIndex: Int64): Int64
+    public func indexOf(value: Int8, fromIndex: Int64, toIndex: Int64): Int64
 
     /*
      * 相当于indexOf(bytes，0)。
      * 参数 ByteString - bytes
      * 返回值 Int64 - 索引位置
      */
-    func indexOf(bytes: ByteString): Int64
+    public func indexOf(bytes: ByteString): Int64
 
     /*
      * 返回缓冲区中fromIndex处或之后字节的第一个匹配项的索引。这会根据需要扩展缓冲区，直到找到字节。这会将无限数量的字节读入缓冲区。如果流在找到请求的字节之前耗尽，则返回-1。
@@ -500,14 +500,14 @@ public interface BufferedSource <: Source & ToString {
      * 参数 Int64 - fromIndex
      * 返回值 Int64 - 索引位置
      */
-    func indexOf(bytes: ByteString, fromIndex: Int64): Int64
+    public func indexOf(bytes: ByteString, fromIndex: Int64): Int64
 
     /*
      * 相当于indexOfElement(targetBytes, 0)
      * 参数 ByteString - targetBytes
      * 返回值 Int64 - 索引位置
      */
-    func indexOfElement(targetBytes: ByteString): Int64
+    public func indexOfElement(targetBytes: ByteString): Int64
 
     /*
      * 返回此缓冲区中位于fromIndex处或之后的第一个索引，该索引包含targetBytes中的任何字节。这会根据需要扩展缓冲区，直到找到目标字节。这会将无限数量的字节读入缓冲区。如果流在找到请求的字节之前耗尽，则返回-1。
@@ -515,7 +515,7 @@ public interface BufferedSource <: Source & ToString {
      * 参数 Int64 - fromIndex
      * 返回值 Int64 - 索引位置
      */
-    func indexOfElement(targetBytes: ByteString, fromIndex: Int64): Int64
+    public func indexOfElement(targetBytes: ByteString, fromIndex: Int64): Int64
 
     /*
      * 如果此源中偏移量处的字节等于字节，则返回true。这会根据需要扩展缓冲区，直到一个字节不匹配，所有字节都匹配，或者如果流在足够的字节确定匹配之前耗尽。
@@ -523,7 +523,7 @@ public interface BufferedSource <: Source & ToString {
      * 参数 ByteString - bytes
      * 返回值 Bool - Bool
      */
-    func rangeEquals(offset: Int64, bytes: ByteString): Bool
+    public func rangeEquals(offset: Int64, bytes: ByteString): Bool
 
     /*
      * 如果此源中偏移量处的byteCount字节等于bytesOffset处的字节，则返回true。这会根据需要扩展缓冲区，直到一个字节不匹配，所有字节都匹配，或者如果流在足够的字节确定匹配之前耗尽。
@@ -533,19 +533,19 @@ public interface BufferedSource <: Source & ToString {
      * 参数 Int64 - byteCount
      * 返回值 Bool - Bool
      */
-    func rangeEquals(offset: Int64, bytes: ByteString, bytesOffset: Int64, byteCount: Int64): Bool
+    public func rangeEquals(offset: Int64, bytes: ByteString, bytesOffset: Int64, byteCount: Int64): Bool
 
     /*
      * 从此源读取并丢弃byteCount字节。如果源在请求的字节被跳过之前耗尽, 抛出EOFException.
      * 参数 byteCount - byteCount
      */
-    func skip(byteCount: Int64): Unit
+    public func skip(byteCount: Int64): Unit
 
     /*
      * 返回一个新的BufferedSource，它可以从该BufferedResource读取数据，而不使用它。一旦下次读取或关闭此源，返回的源将变为无效。例如，我们可以使用peek（）向前看并多次读取相同的数据。
      * 返回值 BufferedSource - 新的BufferedSource
      */
-    func peek(): BufferedSource 
+    public func peek(): BufferedSource 
 }
 ```
 
@@ -562,26 +562,26 @@ public class Buffer <: Object & BufferedSource & BufferedSink & Equatable<Buffer
     /*
      * 构造函数
      */
-    init() 
+    public init() 
 
     /*
      * 清理sink里面内容，重写父类sink的flush()方法
      * 参数：source：Buffe对象
      * 返回值 Unit
      */
-    func flush(): Unit 
+    public func flush(): Unit 
 
     /*
      * 从该源读取带符号的十进制形式的长字符串（即，以10为基数的字符串，可选前导“-”）。遇到非数字字符停止。
      * 返回值 Int64 - Int64
      */
-    func readDecimalInt64(): Int64
+    public func readDecimalInt64(): Int64
 
     /*
      * 以十六进制形式读取此源的长格式（即以16为基数的字符串）。遇到非十六进制字符停止。
      * 返回值 Int64 - Int64
      */
-    func readHexadecimalUInt64(): Int64
+    public func readHexadecimalUInt64(): Int64
 
     /*
      * 从Source中删除至少1个字节，并将它们附加到Sink中。返回读取的字节数，如果此Source已用完，则返回-1。
@@ -589,57 +589,57 @@ public class Buffer <: Object & BufferedSource & BufferedSink & Equatable<Buffer
      * 参数 Int64 - 计数器
      * 返回值 Int64 - 返回读取的字节数，如果此Source已用完，则返回-1。
      */
-    func read(sink: Buffer, byteCount: Int64): Int64
+    public func read(sink: Buffer, byteCount: Int64): Int64
 
     /*
      * 将所有缓冲字节推送到SInk的目标中, 并释放此Sink持有的资源。写入已关闭的Sink是错误的。多次关闭Sink是安全的。
      */
-    func close(): Unit 
+    public func close(): Unit 
 
     /*
      * 返回此接收器的超时对象
      * 返回值 Timeout - 超时对象
      */
-    func timeout(): Timeout
+    public func timeout(): Timeout
 
     /*
-	 * 判断资源是否关闭
+	 * 判断资源是否关闭 (Buffer缓冲对象, 没有关闭资源的操作, 调用时会抛异常)
 	 * 返回值 Bool - 如果已经关闭返回 true，否则返回 false
 	 */
-    func isClosed(): Bool
+    public func isClosed(): Bool
 
     /*
      * 返回此ByteBuffer的哈希值
      * 返回值 Int64 - Int64
      */
-    func hashCode(): Int64
+    public func hashCode(): Int64
 
     /*
      * 从Source中删除byteCount字节并将其附加到此Sink中。
      * 参数 Buffer - okio的Buffer对象, source的实现类
      * 参数 Int64 - 计数器
      */
-    func write(source: Buffer, bytecount: Int64): Unit
+    public func write(source: Buffer, bytecount: Int64): Unit
 
     /*
      * 判断buffer是否相等
      * 参数 Buffer - 另一个buffer对象
      * 返回值 Bool - 相等返回true， 反之返回false。
      */
-    func == (that: Buffer): Bool
+    public func == (that: Buffer): Bool
 
     /*
      * 判断buffer是否不相等
      * 参数 Buffer - 另一个buffer对象
      * 返回值 Bool - 相等返回false， 反之返回true。
      */
-    func != (that: Buffer): Bool
+    public func != (that: Buffer): Bool
 
     /*
      * 对象的toString函数
      * 返回值 String - 对象的字符串表示
      */
-    func toString(): String
+    public func toString(): String
 
     /*
      * 返回段中不可写的字节数。这是在不影响吞吐量的情况下可以立即刷新到基础接收器的字节数。
@@ -701,40 +701,40 @@ public class Buffer <: Object & BufferedSource & BufferedSink & Equatable<Buffer
      * 获取buffer类
      * 返回值 Buffer - Buffer类
      */
-    func getBuffer(): Buffer
+    public func getBuffer(): Buffer
 
     /*
      * 如果此源中没有更多字节，则返回true。这将阻塞，直到有字节要读取或源完全耗尽。
      * 返回值 Bool - bool
      */
-    func exhausted(): Bool
+    public func exhausted(): Bool
 
     /*
      * 当缓冲区至少包含byteCount字节时返回。如果Source在读取所需字节之前耗尽, 将抛出EOFException.
      * 参数 Int64 - byteCount 计数器
      */
-    func require(byteCount: Int64): Unit
+    public func require(byteCount: Int64): Unit
 
     /*
      * 当缓冲区至少包含byteCount字节时，返回true，并根据需要进行扩展。如果源在读取请求的字节之前耗尽，则返回false。
      * 参数 Int64 - byteCount 计数器
      * 返回值 Bool - Bool
      */
-    func request(byteCount: Int64): Bool
+    public func request(byteCount: Int64): Bool
 
     /*
      * 从Sink中复制到数组中。返回读取的字节数，如果此源已用完，则返回-1。
      * 参数 Array<Byte> - 读取的数组
      * 返回值 Int64 - 返回读取的长度
      */
-    func read(sink: Array<Byte>): Int64
+    public func read(sink: Array<Byte>): Int64
 
     /*
      * 将Sink中的字节序列读入给定的ByteBuffer。
      * 参数 ByteBuffer - 读取的byteBuffer
      * 返回值 Int64 - 读取的长度
      */
-    func read(sink: ByteBuffer): Int64  
+    public func read(sink: ByteBuffer): Int64  
 
     /*
      * 从Sink中带有起始索引和结束索引的子序列复制到数组中。返回读取的字节数，如果此源已用完，则返回-1。
@@ -743,153 +743,153 @@ public class Buffer <: Object & BufferedSource & BufferedSink & Equatable<Buffer
      * 参数 Int64 - byteCount 计数长度
      * 返回值 Int64 - 返回读取的字节数
      */
-    func read(sink: Array<Byte>, offset: Int64, byteCount: Int64): Int64
+    public func read(sink: Array<Byte>, offset: Int64, byteCount: Int64): Int64
 
     /*
      * 从这个source中删除一个字节并返回它。
      * 返回值 Int8 - 返回的字节
      */
-    func readInt8(): Int8
+    public func readInt8(): Int8
 
     /*
      * 从这个源中删除两个字节，并返回一个大端int16
      * 返回值 Int16 - 大端int16
      */
-    func readInt16(): Int16
+    public func readInt16(): Int16
 
     /*
      * 从这个源中删除两个字节，并返回一个小端int16
      * 返回值 Int16 - 小端int16
      */
-    func readInt16Le(): Int16
+    public func readInt16Le(): Int16
 
     /*
      * 从这个源中删除四个字节，并返回一个大端int32
      * 返回值 Int32 - 大端int32
      */
-    func readInt32(): Int32
+    public func readInt32(): Int32
 
     /*
      * 从这个源中删除四个字节，并返回一个小端int32
      * 返回值 Int32 - 小端int32
      */
-    func readInt32Le(): Int32
+    public func readInt32Le(): Int32
 
     /*
      * 从这个源中删除八个字节，并返回一个大端int64
      * 返回值 Int64 - 大端int64
      */
-    func readInt64(): Int64
+    public func readInt64(): Int64
 
     /*
      * 从这个源中删除八个字节，并返回一个小端int64
      * 返回值 Int64 - 小端int64
      */
-    func readInt64Le(): Int64
+    public func readInt64Le(): Int64
 
     /*
      * 从中删除所有字节并将其作为字节字符串返回
      * 返回值 ByteString - ByteString
      */
-    func readByteString(): ByteString  
+    public func readByteString(): ByteString  
 
     /*
      * 从中删除byteCount字节并将其作为字节字符串返回。
      * 参数 Int64 - byteCount
      * 返回值 ByteString - ByteString
      */
-    func readByteString(byteCount: Int64): ByteString 
+    public func readByteString(byteCount: Int64): ByteString 
 
     /*
      * 从中删除所有字节并将其作为字节数组返回
      * 返回值 Array<Byte> - 返回的字节数组
      */
-    func readByteArray(): Array<Byte>
+    public func readByteArray(): Array<Byte>
 
     /*
      * 从中删除byteCount字节并将其作为字节数组返回。
      * 参数 Int64 - byteCount
      * 返回值 Array<Byte> - 返回的字节数组
      */
-    func readByteArray(byteCount: Int64): Array<Byte>
+    public func readByteArray(byteCount: Int64): Array<Byte>
 
     /*
      * 从中精确删除BufferedSink长度的字节，并将其复制到数组中。如果无法读取请求的字节数，抛出EOFException。
      * 参数  Array<Byte> - 写入的字节数组
      */
-    func readFully(sink: Array<Byte>): Unit
+    public func readFully(sink: Array<Byte>): Unit
 
     /*
      * 从中精确删除byteCount长度的字节，并将其复制到数组中。如果无法读取请求的字节数，抛出EOFException。
      * 参数 Buffer - sink 写入的数据源
      * 参数 Int64 - byteCount 写入的长度
      */
-    func readFully(sink: Buffer, byteCount: Int64): Unit
+    public func readFully(sink: Buffer, byteCount: Int64): Unit
 
     /*
      * 从中删除所有字节并将它们附加到sink。返回写入接收器的总字节数，如果用完，则为0。
      * 参数 Sink - 写入的数据源
      * 返回值 Int64 - 返回字节数
      */
-    func readAll(sink: Sink): Int64
+    public func readAll(sink: Sink): Int64
 
     /*
      * 删除其中的所有字节，将其解码为UTF-8，并返回字符串。如果此源为空，则返回None
      * 返回值 String - String
      */
-    func readUtf8(): String
+    public func readUtf8(): String
 
     /*
      * 删除其中的byteCount长度的字节，将其解码为UTF-8，并返回字符串。如果此源为空，则返回空字符串
      * 参数 Int64 - byteCount
      * 返回值 String - String
      */
-    func readUtf8(byteCount: Int64): String
+    public func readUtf8(byteCount: Int64): String
 
     /*
      * 删除其中的所有字节，将其解码为默认UTF-8，并返回字符串
      * 返回值 String - String
      */
-    func readString(): String
+    public func readString(): String
 
     /*
      * 删除其中的byteCount长度的字节，将其解码为默认UTF-8，并返回字符串
      * 参数 Int64 - byteCount
      * 返回值 String - String
      */
-    func readString(byteCount: Int64): String
+    public func readString(byteCount: Int64): String
 
     /*
      * 删除并返回最多但不包括下一个换行符的字符。换行符为“\n”或“\r\n”；这些字符不包含在结果中。
      * 返回值 ?String - Option<String>
      */
-    func readUtf8Line(): ?String
+    public func readUtf8Line(): ?String
 
     /*
      * 删除并返回最多但不包括下一个换行符的字符。换行符为“\n”或“\r\n”；这些字符不包含在结果中。
      * 返回值 ?String - Option<String>
      */
-    func readUtf8LineStrict(): ?String
+    public func readUtf8LineStrict(): ?String
 
     /*
      * 与readUtf8LineStrict（）类似，但这允许调用者指定允许的最长匹配。使用此选项可防止不包含“\n”或“\r\n”的流。返回的字符串最多只能包含UTF-8字节，扫描的最大字节数为limit+2。如果limit==0，则始终会引发EOFException，因为不会扫描任何字节。
      * 参数 Int64 - limit
      * 返回值 ?String - Option<String>
      */
-    func readUtf8LineStrict(limit: Int64): ?String
+    public func readUtf8LineStrict(limit: Int64): ?String
 
     /*
      * 删除并返回单个UTF-8代码点，根据需要读取1到4个字节。
      * 返回值 Int64 - 返回字节数
      */
-    func readUtf8CodePoint(): Int64
+    public func readUtf8CodePoint(): Int64
 
     /*
      * 相当于indexOf(value，0)。
      * 参数 Int8 - value
      * 返回值 Int64 - 索引位置
      */
-    func indexOf(value: Int8): Int64
+    public func indexOf(value: Int8): Int64
 
     /*
      * 返回缓冲区中fromIndex处或之后的第一个value的索引。这会根据需要扩展缓冲区，直到找到value。这会将无限数量的字节读入缓冲区。如果流在找到请求的字节之前耗尽，则返回-1。
@@ -897,7 +897,7 @@ public class Buffer <: Object & BufferedSource & BufferedSink & Equatable<Buffer
      * 参数 Int64 - fromIndex
      * 返回值 Int64 - 索引位置
      */
-    func indexOf(value: Int8, fromIndex: Int64): Int64
+    public func indexOf(value: Int8, fromIndex: Int64): Int64
 
     /*
      * 如果在fromIndex到toIndex的范围内找到value，则返回value的索引。如果找不到value，或者如果fromIndex==toIndex，则返回-1。
@@ -906,14 +906,14 @@ public class Buffer <: Object & BufferedSource & BufferedSink & Equatable<Buffer
      * 参数 Int64 - toIndex
      * 返回值 Int64 - 索引位置
      */
-    func indexOf(value: Int8, fromIndex: Int64, toIndex: Int64): Int64
+    public func indexOf(value: Int8, fromIndex: Int64, toIndex: Int64): Int64
 
     /*
      * 相当于indexOf(bytes，0)。
      * 参数 ByteString - bytes
      * 返回值 Int64 - 索引位置
      */
-    func indexOf(bytes: ByteString): Int64
+    public func indexOf(bytes: ByteString): Int64
 
     /*
      * 返回缓冲区中fromIndex处或之后字节的第一个匹配项的索引。这会根据需要扩展缓冲区，直到找到字节。这会将无限数量的字节读入缓冲区。如果流在找到请求的字节之前耗尽，则返回-1。
@@ -921,14 +921,14 @@ public class Buffer <: Object & BufferedSource & BufferedSink & Equatable<Buffer
      * 参数 Int64 - fromIndex
      * 返回值 Int64 - 索引位置
      */
-    func indexOf(bytes: ByteString, fromIndex: Int64): Int64
+    public func indexOf(bytes: ByteString, fromIndex: Int64): Int64
 
     /*
      * 相当于indexOfElement(targetBytes, 0)
      * 参数 ByteString - targetBytes
      * 返回值 Int64 - 索引位置
      */
-    func indexOfElement(targetBytes: ByteString): Int64
+    public func indexOfElement(targetBytes: ByteString): Int64
 
     /*
      * 返回此缓冲区中位于fromIndex处或之后的第一个索引，该索引包含targetBytes中的任何字节。这会根据需要扩展缓冲区，直到找到目标字节。这会将无限数量的字节读入缓冲区。如果流在找到请求的字节之前耗尽，则返回-1。
@@ -936,7 +936,7 @@ public class Buffer <: Object & BufferedSource & BufferedSink & Equatable<Buffer
      * 参数 Int64 - fromIndex
      * 返回值 Int64 - 索引位置
      */
-    func indexOfElement(targetBytes: ByteString, fromIndex: Int64): Int64
+    public func indexOfElement(targetBytes: ByteString, fromIndex: Int64): Int64
 
     /*
      * 如果此源中偏移量处的字节等于字节，则返回true。这会根据需要扩展缓冲区，直到一个字节不匹配，所有字节都匹配，或者如果流在足够的字节确定匹配之前耗尽。
@@ -944,7 +944,7 @@ public class Buffer <: Object & BufferedSource & BufferedSink & Equatable<Buffer
      * 参数 ByteString - bytes
      * 返回值 Bool - Bool
      */
-    func rangeEquals(offset: Int64, bytes: ByteString): Bool
+    public func rangeEquals(offset: Int64, bytes: ByteString): Bool
 
     /*
      * 如果此源中偏移量处的byteCount字节等于bytesOffset处的字节，则返回true。这会根据需要扩展缓冲区，直到一个字节不匹配，所有字节都匹配，或者如果流在足够的字节确定匹配之前耗尽。
@@ -954,33 +954,33 @@ public class Buffer <: Object & BufferedSource & BufferedSink & Equatable<Buffer
      * 参数 Int64 - byteCount
      * 返回值 Bool - Bool
      */
-    func rangeEquals(offset: Int64, bytes: ByteString, bytesOffset: Int64, byteCount: Int64): Bool
+    public func rangeEquals(offset: Int64, bytes: ByteString, bytesOffset: Int64, byteCount: Int64): Bool
 
     /*
      * 从此源读取并丢弃byteCount字节。如果源在请求的字节被跳过之前耗尽, 抛出EOFException.
      * 参数 byteCount - byteCount
      */
-    func skip(byteCount: Int64): Unit
+    public func skip(byteCount: Int64): Unit
 
     /*
      * 返回一个新的BufferedSource，它可以从该BufferedResource读取数据，而不使用它。一旦下次读取或关闭此源，返回的源将变为无效。例如，我们可以使用peek（）向前看并多次读取相同的数据。
      * 返回值 BufferedSource - 新的BufferedSource
      */
-    func peek(): BufferedSource  (930版本不支持新的BufferedSource直接打印输出 只能使用read方法读取)
+    public func peek(): BufferedSource  (930版本不支持新的BufferedSource直接打印输出 只能使用read方法读取)
     
         
     /*
      * 获取此BufferedSink的缓冲对象
      * 返回值 Buffer - Buffer
      */
-    func buffer (): Buffer
+    public func buffer (): Buffer
 
     /*
      * 向BufferedSink中写入一个完整的ByteString所包含的字节序列
      * 参数 Buffer - okio的ByteString对象
      * 返回值 BufferedSink - BufferedSink
      */
-    func write(byteString: ByteString): BufferedSink  
+    public func write(byteString: ByteString): BufferedSink  
 
     /*
      * 向BufferedSink中写入一个source中包含bytecount个的字节序列
@@ -988,21 +988,21 @@ public class Buffer <: Object & BufferedSource & BufferedSink & Equatable<Buffer
      * 参数 Int64 - 写入的计数器
      * 返回值 BufferedSink - BufferedSink
      */
-    func write(source: Source, byteCount: Int64): BufferedSink
+    public func write(source: Source, byteCount: Int64): BufferedSink
 
     /*
      * 向BufferedSink中写入一个完整source的字节序列
      * 参数 Buffer - 读取的source
      * 返回值 Int64 - Int64
      */
-    func writeAll(source: Source): Int64
+    public func writeAll(source: Source): Int64
 
     /*
      * 向BufferedSink中写入UTF-8编码的字符串.
      * 参数 String - 读取的String
      * 返回值 BufferedSink - BufferedSink
      */
-    func writeUtf8(string: String): BufferedSink
+    public func writeUtf8(string: String): BufferedSink
 
     /*
      * 向BufferedSink中写入UTF-8编码带有起始和结束范围的字符串.
@@ -1011,75 +1011,75 @@ public class Buffer <: Object & BufferedSource & BufferedSink & Equatable<Buffer
      * 参数 Int64 - 结束索引
      * 返回值 BufferedSink - BufferedSink
      */
-    func writeUtf8(string: String, beginIndex: Int64, endIndex: Int64): BufferedSink
+    public func writeUtf8(string: String, beginIndex: Int64, endIndex: Int64): BufferedSink
 
     /*
      * 用UTF-8编码codePoint并将其写入此BufferedSink。
      * 参数 Int64 - UTF-8的数字表示形式
      * 返回值 BufferedSink - BufferedSink
      */
-    func writeUtf8CodePoint(codePoInt64: Int64): BufferedSink 
+    public func writeUtf8CodePoint(codePoInt64: Int64): BufferedSink 
 
     /*
      * 向BufferedSink中写入一个int8的字节
      * 参数 Int64 - 写入一个不超过int8.max的数字
      * 返回值 BufferedSink - BufferedSink
      */
-    func writeInt8(value: Int64): BufferedSink
+    public func writeInt8(value: Int64): BufferedSink
 
     /*
      * 向BufferedSink中写入一个大端int16的字节
      * 参数 Int64 - 写入一个不超过int16.max的数字
      * 返回值 BufferedSink - BufferedSink
      */
-    func writeInt16(value: Int64): BufferedSink
+    public func writeInt16(value: Int64): BufferedSink
 
     /*
      * 向BufferedSink中写入一个小端int16的字节
      * 参数 Int64 - 写入一个不超过int16.max的数字
      * 返回值 BufferedSink - BufferedSink
      */
-    func writeInt16Le(value: Int64): BufferedSink
+    public func writeInt16Le(value: Int64): BufferedSink
 
     /*
      * 向BufferedSink中写入一个大端int32的字节
      * 参数 Int64 - 写入一个不超过int32.max的数字
      * 返回值 BufferedSink - BufferedSink
      */
-    func writeInt32(value: Int64): BufferedSink
+    public func writeInt32(value: Int64): BufferedSink
 
     /*
      * 向BufferedSink中写入一个小端int32的字节
      * 参数 Int64 - 写入一个不超过int32.max的数字
      * 返回值 BufferedSink - BufferedSink
      */
-    func writeInt32Le(value: Int64): BufferedSink
+    public func writeInt32Le(value: Int64): BufferedSink
 
     /*
      * 向BufferedSink中写入一个大端int64的字节
      * 参数 Int64 - 写入一个不超过int64.max的数字
      * 返回值 BufferedSink - BufferedSink
      */
-    func writeInt64(value: Int64): BufferedSink
+    public func writeInt64(value: Int64): BufferedSink
 
     /*
      * 向BufferedSink中写入一个小端int64的字节
      * 参数 Int64 - 写入一个不超过int64.max的数字
      * 返回值 BufferedSink - BufferedSink
      */
-    func writeInt64Le(value: Int64): BufferedSink
+    public func writeInt64Le(value: Int64): BufferedSink
 
     /*
      * 将BufferedSink所有缓冲数据写入Sink中（如果存在）
      * 返回值 BufferedSink - BufferedSink
      */
-    func emit(): BufferedSink
+    public func emit(): BufferedSink
 
     /*
      * 将完整Segment数据写入Sink中（如果存在）
      * 返回值 BufferedSink - BufferedSink
      */
-    func emitCompleteSegments(): BufferedSink 
+    public func emitCompleteSegments(): BufferedSink 
 }
 ```
 
@@ -1117,26 +1117,26 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
      * 参数 ByteString - 另一个ByteString对象
      * 返回值 Bool - 相等返回true， 反之返回false。
      */
-    operator func == (that: ByteString): Bool
+    operator public func == (that: ByteString): Bool
 
     /*
      * 判断ByteString是否不相等
      * 参数 ByteString - 另一个ByteString对象
      * 返回值 Bool - 相等返回false， 反之返回true。
      */
-    operator func != (that: ByteString): Bool
+    operator public func != (that: ByteString): Bool
 
     /*
      * 返回此ByteBuffer的哈希值
      * 返回值 Int64 - Int64
      */
-    func hashCode (): Int64
+    public func hashCode (): Int64
     
     /*
      * 对象的toString函数
      * 返回值 String - 对象的字符串表示
      */
-    func toString (): String
+    public func toString (): String
 
     /*
      * 返回包含UTF-8字节的新字节字符串。
@@ -1392,7 +1392,7 @@ class RealBufferedSink <: BufferedSink {
      * 参数 source - 字节数组
      * 返回值 BufferedSink - BufferedSink
      */
-    func write(source: Array): BufferedSink
+    public func write(source: Array): BufferedSink
 
     /*
      * 向该Buffer写入一个从offset开始byteCount长度的字节数组.
@@ -1401,27 +1401,27 @@ class RealBufferedSink <: BufferedSink {
      * 参数 byteCount - 字节数, 写入的长度
      * 返回值 Buffer - Buffer
      */
-    func write(source: Array, offset: Int64, byteCount: Int64): BufferedSink
+    public func write(source: Array, offset: Int64, byteCount: Int64): BufferedSink
 
     /*
      * 清理sink里面内容，重写父类sink的flush()方法
      * 参数：source：Buffe对象
      * 返回值 Unit
      */
-    func flush(): Unit
+    public func flush(): Unit
 
     /*
      * 将所有缓冲字节推送到SInk的目标中, 并释放此Sink持有的资源。写入已关闭的Sink是错误的。多次关闭Sink是安全的
      * 返回值 Unit
      */
-    func close(): Unit
+    public func close(): Unit
 
     /*
      * 获取Timeout对象，重写父类sink的timeout()方法
      * 参数：source：Buffe对象
      * 返回值 Timeout对象
      */
-    func timeout(): Timeout
+    public func timeout(): Timeout
 
     /*
      * 向BufferedSink中写入一个source中包含bytecount个的字节序列
@@ -1429,32 +1429,32 @@ class RealBufferedSink <: BufferedSink {
      * 参数 Int64 - 写入的计数器
      * 返回值 BufferedSink - BufferedSink
      */
-    func write(source: Buffer, byteCount: Int64): Unit
+    public func write(source: Buffer, byteCount: Int64): Unit
 
     /*
 	 * 判断资源是否关闭
 	 * 返回值 Bool - 如果已经关闭返回 true，否则返回 false
 	 */
-    func isClosed():Bool
+    public func isClosed():Bool
 
     /*
      * 对象的toString函数
      * 返回值 String - 对象的字符串表示
      */
-    func toString (): String
+    public func toString (): String
 
     /*
      * 获取此BufferedSink的缓冲对象
      * 返回值 Buffer - Buffer
      */
-    func buffer (): Buffer
+    public func buffer (): Buffer
 
     /*
      * 向BufferedSink中写入一个完整的ByteString所包含的字节序列
      * 参数 Buffer - okio的ByteString对象
      * 返回值 BufferedSink - BufferedSink
      */
-    func write(byteString: ByteString): BufferedSink  
+    public func write(byteString: ByteString): BufferedSink  
 
     /*
      * 向BufferedSink中写入一个source中包含bytecount个的字节序列
@@ -1462,21 +1462,21 @@ class RealBufferedSink <: BufferedSink {
      * 参数 Int64 - 写入的计数器
      * 返回值 BufferedSink - BufferedSink
      */
-    func write(source: Source, byteCount: Int64): BufferedSink
+    public func write(source: Source, byteCount: Int64): BufferedSink
 
     /*
      * 向BufferedSink中写入一个完整source的字节序列
      * 参数 Buffer - 读取的source
      * 返回值 Int64 - Int64
      */
-    func writeAll(source: Source): Int64
+    public func writeAll(source: Source): Int64
 
     /*
      * 向BufferedSink中写入UTF-8编码的字符串.
      * 参数 String - 读取的String
      * 返回值 BufferedSink - BufferedSink
      */
-    func writeUtf8(string: String): BufferedSink
+    public func writeUtf8(string: String): BufferedSink
 
     /*
      * 向BufferedSink中写入UTF-8编码带有起始和结束范围的字符串.
@@ -1485,75 +1485,75 @@ class RealBufferedSink <: BufferedSink {
      * 参数 Int64 - 结束索引
      * 返回值 BufferedSink - BufferedSink
      */
-    func writeUtf8(string: String, beginIndex: Int64, endIndex: Int64): BufferedSink
+    public func writeUtf8(string: String, beginIndex: Int64, endIndex: Int64): BufferedSink
 
     /*
      * 用UTF-8编码codePoint并将其写入此BufferedSink。
      * 参数 Int64 - UTF-8的数字表示形式
      * 返回值 BufferedSink - BufferedSink
      */
-    func writeUtf8CodePoint(codePoInt64: Int64): BufferedSink 
+    public func writeUtf8CodePoint(codePoInt64: Int64): BufferedSink 
 
     /*
      * 向BufferedSink中写入一个int8的字节
      * 参数 Int64 - 写入一个不超过int8.max的数字
      * 返回值 BufferedSink - BufferedSink
      */
-    func writeInt8(value: Int64): BufferedSink
+    public func writeInt8(value: Int64): BufferedSink
 
     /*
      * 向BufferedSink中写入一个大端int16的字节
      * 参数 Int64 - 写入一个不超过int16.max的数字
      * 返回值 BufferedSink - BufferedSink
      */
-    func writeInt16(value: Int64): BufferedSink
+    public func writeInt16(value: Int64): BufferedSink
 
     /*
      * 向BufferedSink中写入一个小端int16的字节
      * 参数 Int64 - 写入一个不超过int16.max的数字
      * 返回值 BufferedSink - BufferedSink
      */
-    func writeInt16Le(value: Int64): BufferedSink
+    public func writeInt16Le(value: Int64): BufferedSink
 
     /*
      * 向BufferedSink中写入一个大端int32的字节
      * 参数 Int64 - 写入一个不超过int32.max的数字
      * 返回值 BufferedSink - BufferedSink
      */
-    func writeInt32(value: Int64): BufferedSink
+    public func writeInt32(value: Int64): BufferedSink
 
     /*
      * 向BufferedSink中写入一个小端int32的字节
      * 参数 Int64 - 写入一个不超过int32.max的数字
      * 返回值 BufferedSink - BufferedSink
      */
-    func writeInt32Le(value: Int64): BufferedSink
+    public func writeInt32Le(value: Int64): BufferedSink
 
     /*
      * 向BufferedSink中写入一个大端int64的字节
      * 参数 Int64 - 写入一个不超过int64.max的数字
      * 返回值 BufferedSink - BufferedSink
      */
-    func writeInt64(value: Int64): BufferedSink
+    public func writeInt64(value: Int64): BufferedSink
 
     /*
      * 向BufferedSink中写入一个小端int64的字节
      * 参数 Int64 - 写入一个不超过int64.max的数字
      * 返回值 BufferedSink - BufferedSink
      */
-    func writeInt64Le(value: Int64): BufferedSink
+    public func writeInt64Le(value: Int64): BufferedSink
 
     /*
      * 将BufferedSink所有缓冲数据写入Sink中（如果存在）
      * 返回值 BufferedSink - BufferedSink
      */
-    func emit(): BufferedSink
+    public func emit(): BufferedSink
 
     /*
      * 将完整Segment数据写入Sink中（如果存在）
      * 返回值 BufferedSink - BufferedSink
      */
-    func emitCompleteSegments(): BufferedSink 
+    public func emitCompleteSegments(): BufferedSink 
 }
 ```
 
@@ -1578,83 +1578,83 @@ class RealBufferedSource <: BufferedSource {
      * 参数 Int64 - 计数器
      * 返回值 Int64 - 返回读取的字节数，如果此Source已用完，则返回-1。
      */
-    func read (sink: Buffer, byteCount: Int64): Int64
+    public func read (sink: Buffer, byteCount: Int64): Int64
 
     /*
      * 从该源读取带符号的十进制形式的长字符串（即，以10为基数的字符串，可选前导“-”）。遇到非数字字符停止。
      * 返回值 Int64 - Int64
      */
-    func readDecimalInt64(): Int64
+    public func readDecimalInt64(): Int64
 
     /*
      * 以十六进制形式读取此源的长格式（即以16为基数的字符串）。遇到非十六进制字符停止。
      * 返回值 Int64 - Int64
      */
-    func readHexadecimalUInt64(): Int64
+    public func readHexadecimalUInt64(): Int64
 
     /*
      * 将所有缓冲字节推送到SInk的目标中, 并释放此Sink持有的资源。写入已关闭的Sink是错误的。多次关闭Sink是安全的
      * 返回值 Unit
      */
-    func close (): Unit
+    public func close (): Unit
 
     /*
      * 获取Timeout对象，重写父类sink的timeout()方法
      * 参数 source - Buffe对象
      * 返回值 Timeout对象
      */
-    func timeout(): Timeout
+    public func timeout(): Timeout
 
     /*
      * 对象的toString函数
      * 返回值 String - 对象的字符串表示
      */
-    func toString (): String
+    public func toString (): String
 
     /*
      * 判断资源是否关闭
      * 返回值 Bool - 如果已经关闭返回 true，否则返回 false
      */
-    func isClosed(): Bool
+    public func isClosed(): Bool
 
     /*
      * 获取buffer类
      * 返回值 Buffer - Buffer类
      */
-    func getBuffer(): Buffer
+    public func getBuffer(): Buffer
 
     /*
      * 如果此源中没有更多字节，则返回true。这将阻塞，直到有字节要读取或源完全耗尽。
      * 返回值 Bool - bool
      */
-    func exhausted(): Bool
+    public func exhausted(): Bool
 
     /*
      * 当缓冲区至少包含byteCount字节时返回。如果Source在读取所需字节之前耗尽, 将抛出EOFException.
      * 参数 Int64 - byteCount 计数器
      */
-    func require(byteCount: Int64): Unit
+    public func require(byteCount: Int64): Unit
 
     /*
      * 当缓冲区至少包含byteCount字节时，返回true，并根据需要进行扩展。如果源在读取请求的字节之前耗尽，则返回false。
      * 参数 Int64 - byteCount 计数器
      * 返回值 Bool - Bool
      */
-    func request(byteCount: Int64): Bool
+    public func request(byteCount: Int64): Bool
 
     /*
      * 从Sink中复制到数组中。返回读取的字节数，如果此源已用完，则返回-1。
      * 参数 Array<Byte> - 读取的数组
      * 返回值 Int64 - 返回读取的长度
      */
-    func read(sink: Array<Byte>): Int64
+    public func read(sink: Array<Byte>): Int64
 
     /*
      * 将Sink中的字节序列读入给定的ByteBuffer。
      * 参数 ByteBuffer - 读取的byteBuffer
      * 返回值 Int64 - 读取的长度
      */
-    func read(sink: ByteBuffer): Int64  
+    public func read(sink: ByteBuffer): Int64  
 
     /*
      * 从Sink中带有起始索引和结束索引的子序列复制到数组中。返回读取的字节数，如果此源已用完，则返回-1。
@@ -1663,153 +1663,153 @@ class RealBufferedSource <: BufferedSource {
      * 参数 Int64 - byteCount 计数长度
      * 返回值 Int64 - 返回读取的字节数
      */
-    func read(sink: Array<Byte>, offset: Int64, byteCount: Int64): Int64
+    public func read(sink: Array<Byte>, offset: Int64, byteCount: Int64): Int64
 
     /*
      * 从这个source中删除一个字节并返回它。
      * 返回值 Int8 - 返回的字节
      */
-    func readInt8(): Int8
+    public func readInt8(): Int8
 
     /*
      * 从这个源中删除两个字节，并返回一个大端int16
      * 返回值 Int16 - 大端int16
      */
-    func readInt16(): Int16
+    public func readInt16(): Int16
 
     /*
      * 从这个源中删除两个字节，并返回一个小端int16
      * 返回值 Int16 - 小端int16
      */
-    func readInt16Le(): Int16
+    public func readInt16Le(): Int16
 
     /*
      * 从这个源中删除四个字节，并返回一个大端int32
      * 返回值 Int32 - 大端int32
      */
-    func readInt32(): Int32
+    public func readInt32(): Int32
 
     /*
      * 从这个源中删除四个字节，并返回一个小端int32
      * 返回值 Int32 - 小端int32
      */
-    func readInt32Le(): Int32
+    public func readInt32Le(): Int32
 
     /*
      * 从这个源中删除八个字节，并返回一个大端int64
      * 返回值 Int64 - 大端int64
      */
-    func readInt64(): Int64
+    public func readInt64(): Int64
 
     /*
      * 从这个源中删除八个字节，并返回一个小端int64
      * 返回值 Int64 - 小端int64
      */
-    func readInt64Le(): Int64
+    public func readInt64Le(): Int64
 
     /*
      * 从中删除所有字节并将其作为字节字符串返回
      * 返回值 ByteString - ByteString
      */
-    func readByteString(): ByteString  
+    public func readByteString(): ByteString  
 
     /*
      * 从中删除byteCount字节并将其作为字节字符串返回。
      * 参数 Int64 - byteCount
      * 返回值 ByteString - ByteString
      */
-    func readByteString(byteCount: Int64): ByteString 
+    public func readByteString(byteCount: Int64): ByteString 
 
     /*
      * 从中删除所有字节并将其作为字节数组返回
      * 返回值 Array<Byte> - 返回的字节数组
      */
-    func readByteArray(): Array<Byte>
+    public func readByteArray(): Array<Byte>
 
     /*
      * 从中删除byteCount字节并将其作为字节数组返回。
      * 参数 Int64 - byteCount
      * 返回值 Array<Byte> - 返回的字节数组
      */
-    func readByteArray(byteCount: Int64): Array<Byte>
+    public func readByteArray(byteCount: Int64): Array<Byte>
 
     /*
      * 从中精确删除BufferedSink长度的字节，并将其复制到数组中。如果无法读取请求的字节数，抛出EOFException。
      * 参数  Array<Byte> - 写入的字节数组
      */
-    func readFully(sink: Array<Byte>): Unit
+    public func readFully(sink: Array<Byte>): Unit
 
     /*
      * 从中精确删除byteCount长度的字节，并将其复制到数组中。如果无法读取请求的字节数，抛出EOFException。
      * 参数 Buffer - sink 写入的数据源
      * 参数 Int64 - byteCount 写入的长度
      */
-    func readFully(sink: Buffer, byteCount: Int64): Unit
+    public func readFully(sink: Buffer, byteCount: Int64): Unit
 
     /*
      * 从中删除所有字节并将它们附加到sink。返回写入接收器的总字节数，如果用完，则为0。
      * 参数 Sink - 写入的数据源
      * 返回值 Int64 - 返回字节数
      */
-    func readAll(sink: Sink): Int64
+    public func readAll(sink: Sink): Int64
 
     /*
      * 删除其中的所有字节，将其解码为UTF-8，并返回字符串。如果此源为空，则返回空字符串
      * 返回值 String - String
      */
-    func readUtf8(): String
+    public func readUtf8(): String
 
     /*
      * 删除其中的byteCount长度的字节，将其解码为UTF-8，并返回字符串。如果此源为空，则返回空字符串
      * 参数 Int64 - byteCount
      * 返回值 String - String
      */
-    func readUtf8(byteCount: Int64): String
+    public func readUtf8(byteCount: Int64): String
 
     /*
      * 删除其中的所有字节，将其解码为默认UTF-8，并返回字符串
      * 返回值 String - String
      */
-    func readString(): String
+    public func readString(): String
 
     /*
      * 删除其中的byteCount长度的字节，将其解码为默认UTF-8，并返回字符串
      * 参数 Int64 - byteCount
      * 返回值 String - String
      */
-    func readString(byteCount: Int64): String
+    public func readString(byteCount: Int64): String
 
     /*
      * 删除并返回最多但不包括下一个换行符的字符。换行符为“\n”或“\r\n”；这些字符不包含在结果中。
      * 返回值 ?String - Option<String>
      */
-    func readUtf8Line(): ?String
+    public func readUtf8Line(): ?String
 
     /*
      * 删除并返回最多但不包括下一个换行符的字符。换行符为“\n”或“\r\n”；这些字符不包含在结果中。
      * 返回值 ?String - Option<String>
      */
-    func readUtf8LineStrict(): ?String
+    public func readUtf8LineStrict(): ?String
 
     /*
      * 与readUtf8LineStrict（）类似，但这允许调用者指定允许的最长匹配。使用此选项可防止不包含“\n”或“\r\n”的流。返回的字符串最多只能包含UTF-8字节，扫描的最大字节数为limit+2。如果limit==0，则始终会引发EOFException，因为不会扫描任何字节。
      * 参数 Int64 - limit
      * 返回值 ?String - Option<String>
      */
-    func readUtf8LineStrict(limit: Int64): ?String
+    public func readUtf8LineStrict(limit: Int64): ?String
 
     /*
      * 删除并返回单个UTF-8代码点，根据需要读取1到4个字节。
      * 返回值 Int64 - 返回字节数
      */
-    func readUtf8CodePoint(): Int64
+    public func readUtf8CodePoint(): Int64
 
     /*
      * 相当于indexOf(value，0)。
      * 参数 Int8 - value
      * 返回值 Int64 - 索引位置
      */
-    func indexOf(value: Int8): Int64
+    public func indexOf(value: Int8): Int64
 
     /*
      * 返回缓冲区中fromIndex处或之后的第一个value的索引。这会根据需要扩展缓冲区，直到找到value。这会将无限数量的字节读入缓冲区。如果流在找到请求的字节之前耗尽，则返回-1。
@@ -1817,7 +1817,7 @@ class RealBufferedSource <: BufferedSource {
      * 参数 Int64 - fromIndex
      * 返回值 Int64 - 索引位置
      */
-    func indexOf(value: Int8, fromIndex: Int64): Int64
+    public func indexOf(value: Int8, fromIndex: Int64): Int64
 
     /*
      * 如果在fromIndex到toIndex的范围内找到value，则返回value的索引。如果找不到value，或者如果fromIndex==toIndex，则返回-1。
@@ -1826,14 +1826,14 @@ class RealBufferedSource <: BufferedSource {
      * 参数 Int64 - toIndex
      * 返回值 Int64 - 索引位置
      */
-    func indexOf(value: Int8, fromIndex: Int64, toIndex: Int64): Int64
+    public func indexOf(value: Int8, fromIndex: Int64, toIndex: Int64): Int64
 
     /*
      * 相当于indexOf(bytes，0)。
      * 参数 ByteString - bytes
      * 返回值 Int64 - 索引位置
      */
-    func indexOf(bytes: ByteString): Int64
+    public func indexOf(bytes: ByteString): Int64
 
     /*
      * 返回缓冲区中fromIndex处或之后字节的第一个匹配项的索引。这会根据需要扩展缓冲区，直到找到字节。这会将无限数量的字节读入缓冲区。如果流在找到请求的字节之前耗尽，则返回-1。
@@ -1841,14 +1841,14 @@ class RealBufferedSource <: BufferedSource {
      * 参数 Int64 - fromIndex
      * 返回值 Int64 - 索引位置
      */
-    func indexOf(bytes: ByteString, fromIndex: Int64): Int64
+    public func indexOf(bytes: ByteString, fromIndex: Int64): Int64
 
     /*
      * 相当于indexOfElement(targetBytes, 0)
      * 参数 ByteString - targetBytes
      * 返回值 Int64 - 索引位置
      */
-    func indexOfElement(targetBytes: ByteString): Int64
+    public func indexOfElement(targetBytes: ByteString): Int64
 
     /*
      * 返回此缓冲区中位于fromIndex处或之后的第一个索引，该索引包含targetBytes中的任何字节。这会根据需要扩展缓冲区，直到找到目标字节。这会将无限数量的字节读入缓冲区。如果流在找到请求的字节之前耗尽，则返回-1。
@@ -1856,7 +1856,7 @@ class RealBufferedSource <: BufferedSource {
      * 参数 Int64 - fromIndex
      * 返回值 Int64 - 索引位置
      */
-    func indexOfElement(targetBytes: ByteString, fromIndex: Int64): Int64
+    public func indexOfElement(targetBytes: ByteString, fromIndex: Int64): Int64
 
     /*
      * 如果此源中偏移量处的字节等于字节，则返回true。这会根据需要扩展缓冲区，直到一个字节不匹配，所有字节都匹配，或者如果流在足够的字节确定匹配之前耗尽。
@@ -1864,7 +1864,7 @@ class RealBufferedSource <: BufferedSource {
      * 参数 ByteString - bytes
      * 返回值 Bool - Bool
      */
-    func rangeEquals(offset: Int64, bytes: ByteString): Bool
+    public func rangeEquals(offset: Int64, bytes: ByteString): Bool
 
     /*
      * 如果此源中偏移量处的byteCount字节等于bytesOffset处的字节，则返回true。这会根据需要扩展缓冲区，直到一个字节不匹配，所有字节都匹配，或者如果流在足够的字节确定匹配之前耗尽。
@@ -1874,19 +1874,19 @@ class RealBufferedSource <: BufferedSource {
      * 参数 Int64 - byteCount
      * 返回值 Bool - Bool
      */
-    func rangeEquals(offset: Int64, bytes: ByteString, bytesOffset: Int64, byteCount: Int64): Bool
+    public func rangeEquals(offset: Int64, bytes: ByteString, bytesOffset: Int64, byteCount: Int64): Bool
 
     /*
      * 从此源读取并丢弃byteCount字节。如果源在请求的字节被跳过之前耗尽, 抛出EOFException.
      * 参数 byteCount - byteCount
      */
-    func skip(byteCount: Int64): Unit
+    public func skip(byteCount: Int64): Unit
 
     /*
      * 返回一个新的BufferedSource，它可以从该BufferedResource读取数据，而不使用它。一旦下次读取或关闭此源，返回的源将变为无效。例如，我们可以使用peek（）向前看并多次读取相同的数据。
      * 返回值 BufferedSource - 新的BufferedSource
      */
-    func peek(): BufferedSource 
+    public func peek(): BufferedSource 
 }
 ```
 
@@ -2744,27 +2744,27 @@ public class Segment <: Object & Equatable<Segment> {
      * 参数 segment - Segment对象
      * 返回值 Segment - Segment对象
      */
-    func push(segment: Segment): Segment
+    public func push(segment: Segment): Segment
 
 
     /*
      * 删除循环链接列表的此段并返回其后续部分。如果列表现在为空，则返回None。
      * 返回值 ?Segment - Segment对象
      */
-    func pop(): ?Segment 
+    public func pop(): ?Segment 
 
     /*
      * 将循环链接列表的头部拆分为两段。第一段包含[pos..pos+byteCount]中的数据。第二段包含[pos+byteCount..limit]中的数据。
      * 参数 Int64 - 字节数
      * 返回值 Segment - Segment对象
      */
-    func split(byteCount: Int64): Segment
+    public func split(byteCount: Int64): Segment
 
     /*
      * 当结尾和它的前身可能都不到一半时。这将复制数据，以便可以回收段。
      * 返回值 Unit
      */
-    func compact() 
+    public func compact() 
 
     /*
      * 将此段中的byteCount字节移动到接收器。
@@ -2772,19 +2772,19 @@ public class Segment <: Object & Equatable<Segment> {
      * 参数 byteCount - 字节数
      * 返回值 Unit
      */
-    func writeTo(sink: Segment, byteCount: Int64)
+    public func writeTo(sink: Segment, byteCount: Int64)
 
     /*
      * 判断两个Segment是否是一个对象
      * 返回值 Bool - 相等返回true
      */
-    operator func ==(that: Segment): Bool 
+    operator public func ==(that: Segment): Bool 
 
     /*
      * 判断两个Segment是否是一个对象
      * 返回值 Bool - 相等返回false
      */ 
-    operator func !=(that: Segment): Bool 
+    operator public func !=(that: Segment): Bool 
 }
 ```
 #### 1.1.13 SocketBuffer 类
@@ -2798,48 +2798,48 @@ public open class SocketBuffer <: InputStream & OutputStream & Resource & ToStri
      * 构造一个SocketBuffer。
      * 参数 Socket - Socket
      */
-    init(sockClient: Socket) 
+    public init(sockClient: Socket) 
 
     /*
      * 构造一个SocketBuffer。
      * 参数 Socket - Socket
      */
-    init(sockClient: TlsSocket)
+    public init(sockClient: TlsSocket)
 
     /*
      * 写出到socket字节数组
      * 参数 Array<Byte> - 字节数组
      */
-    func write(buffer: Array<Byte>): Unit
+    public func write(buffer: Array<Byte>): Unit
 
     /*
      * 暂存在socketbuffer中的字节数组刷出去到socket中
      */
-    func flush(): Unit
+    public func flush(): Unit
 
     /*
      * 读数据到字节数组中
      * 参数 Array<Byte> - 字节数组
      * 返回值 Int64 - 字节数组的长度
      */
-    func read(buffer: Array<Byte>): Int64
+    public func read(buffer: Array<Byte>): Int64
 
     /*
      * 返回该socketbuffer是否是关闭的
      * 返回值 Bool - 关闭为true
      */
-    func isClosed(): Bool
+    public func isClosed(): Bool
 
     /*
      * 关闭此源并释放此源持有的资源
      */
-    func close(): Unit
+    public func close(): Unit
 
     /*
      * 打印SocketBuffer信息
      * 返回值 String - String
      */
-    func toString(): String
+    public func toString(): String
 }
 ```
 ### 1.2 示例
@@ -3118,7 +3118,7 @@ public abstract class ForwardingSink <: Sink {
      * 参数 Buffer - okio的Buffer对象, source的实现类
      * 参数 byteCount - Int64 写入长度
      */
-    public override open func write(source: Buffer,byteCount: Int64): Unit
+    public override open public func write(source: Buffer,byteCount: Int64): Unit
     
 }
 
@@ -3136,7 +3136,7 @@ public abstract class ForwardingSource <: Source{
      * 参数 Int64 - 读取的长度
      * 返回值 Int64 - 返回读取的字节数，如果此Source已用完，则返回-1
      */
-    public override open func read(sink: Buffer,byteCount:Int64): Int64
+    public override open public func read(sink: Buffer,byteCount:Int64): Int64
 }
 ```
 
