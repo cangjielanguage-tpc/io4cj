@@ -263,32 +263,6 @@ class RealBufferedSink <: BufferedSink {
     }
 
     /**
-     * The Function is writeDecimalInt64
-     *
-     * @param value of Int64
-     *
-     * @return Type of BufferedSink
-     * @since 0.32.5
-     */
-    public override func writeDecimalInt64(value: Int64): BufferedSink {
-        this.buf.writeDecimalInt64(value)
-        return emitCompleteSegments()
-    }
-
-    /**
-     * The Function is writeHexadecimalUInt64
-     *
-     * @param value of Int64
-     *
-     * @return Type of BufferedSink
-     * @since 0.32.5
-     */
-    public override func writeHexadecimalUInt64(value: Int64): BufferedSink {
-        this.buf.writeHexadecimalUInt64(value)
-        return emitCompleteSegments()
-    }
-
-    /**
      * The Function is flush
      *
      * @return Type of Unit

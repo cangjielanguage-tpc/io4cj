@@ -167,24 +167,6 @@ public interface BufferedSink <: Sink & ToString {
      */
     func writeInt64Le(value: Int64): BufferedSink
     /*
-     * The Function is writeDecimalInt64
-     *
-     * @param value of Int64
-     *
-     * @return Type of BufferedSink
-     * @since 0.32.5
-     */
-    func writeDecimalInt64(value: Int64): BufferedSink
-    /*
-     * The Function is writeHexadecimalUInt64
-     *
-     * @param value of Int64
-     *
-     * @return Type of BufferedSink
-     * @since 0.32.5
-     */
-    func writeHexadecimalUInt64(value: Int64): BufferedSink
-    /*
      * The Function is emit
      *
      * @return Type of BufferedSink

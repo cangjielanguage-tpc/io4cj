@@ -40,7 +40,7 @@ Okio是OkHttp的低层IO库，Okio是对仓颉io库的补充，使访问、存�
 
 
 
-##    <img alt="" src="./doc/assets/readme-icon-framework.png" style="display: inline-block;" width=3%/> 软件架构
+##    <img alt="" src="./doc/assets/readme-icon-framework.png" style="display: inline-block;" width=3%/> 架构
 
 ### 架构图
 
@@ -58,22 +58,61 @@ Okio是OkHttp的低层IO库，Okio是对仓颉io库的补充，使访问、存�
 .
 ├── README.md
 ├── doc
-│   ├── assets     
+│   ├── assets 
+│	├── cjcov 
 │   ├── design.md  
-│   ├── proposal.md
-│   └── xxx_lib.md 
+│   └── feature_api.md
 ├── src
 │   ├── nio
+│	│	├── Buffer.cj
+│	│	├── ByteBuffer.cj
+│	│	└── HeapByteBuffer.cj
 │   └── okio
+│ 	│ 	├── asyncTimeout.cj
+│	│	├── buffer.cj
+│ 	│ 	├── buffered_sink.cj
+│	│	├── buffered_source.cj
+│ 	│ 	├── byte_string.cj
+│	│	├── deflater_sink.cj
+│ 	│ 	├── exception.cj
+│	│	├── forwarding_sink.cj
+│ 	│ 	├── forwarding_source.cj
+│	│	├── forwarding_timeout.cj
+│ 	│ 	├── gzip_sink.cj
+│	│	├── gzip_source.cj
+│ 	│ 	├── hashing_sink.cj
+│	│	├── hashing_source.cj
+│	│	├── inflater_source.cj
+│ 	│ 	├── okio.cj
+│	│	├── PeekSource.cj
+│ 	│ 	├── pipe.cj
+│	│	├── pushable_timeout.cj
+│ 	│ 	├── RealBufferedSink.cj
+│	│	├── RealBufferedSource.cj
+│ 	│ 	├── segment_pool.cj
+│	│	├── segment.cj
+│ 	│ 	├── sink.cj
+│	│	├── SocketStream.cj
+│ 	│ 	├── source.cj
+│	│	├── timeout.cj
+│ 	│ 	├── utf8.cj
+│	│	└── util.cj
 └── test   
-    ├── HLT
-    ├── LLT
-    └── UT
+│   ├── HLT
+│   ├── LLT
+│   └── UT
+├── CHANGELOG.md
+├── gitee_gate.cfg
+├── LICENSE.txt
+├── module.json
+├── .gitignore
+├── README.md
+└── README.OpenSource
 ```
 
-- `doc`是库的设计文档、提案、库的使用文档 、LLT 覆盖率报告(1. okio 中存在包内可见的私有实现类, 成员函数调用之间都是包内可见函数, 外部LLT测试用例调用不到 2. okio中开启spawn时 LLT测试用例覆盖不到.  导致覆盖率未达到90%. )
+- `doc`是库的设计文档、库的使用文档 、LLT 覆盖率报告(1. okio 中存在包内可见的私有实现类, 成员函数调用之间都是包内可见函数, 外部LLT测试用例调用不到 2. okio中开启spawn时 LLT测试用例覆盖不到.  导致覆盖率未达到90%. )
 - `src`是库源码目录
-- `test`是存放测试用例，包括HLT用例、LLT 用例和UT用例
+- `test`存放 HLT 测试用例、LLT 自测用例和 UT 单元测试用例
 
 ### 接口说明
 
@@ -83,12 +122,20 @@ Okio是OkHttp的低层IO库，Okio是对仓颉io库的补充，使访问、存�
 
 ### 编译
 
-设置好cjc和cpm的编译环境
+1. 本项目编译运行方式
 
-```shell
-cd okio
-cpm build
-```
+   ```
+   git clone https://gitee.com/HW-PLLab/okio.git; ---> 拉取代码
+   git clone https://gitee.com/HW-PLLab/testJekins.git; ---> 拉取编译脚本
+   cd okio;                            ---> 进入到okio目录下
+   cp -r ../testJekins/src/ci_test .;     ---> 将ci test复制到okio的根目录
+   
+   python3 ci_test/main.py build   ---> 编译
+   python3 ci_test/main.py test;   ---> 执行 test/LLT 用例 
+   ```
+   
+test/LLT 用例书写参考：https://gitee.com/HW-PLLab/cangjie-library-pages/wikis 的门禁测试脚本使用方式
+
 #### 测试demo脚本
 ```shell
 #!/bin/bash

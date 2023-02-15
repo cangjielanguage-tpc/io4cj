@@ -98,10 +98,10 @@ public class Segment <: Object & Equatable<Segment> {
     }
 
     /*
-       将循环链表的头拆分为两段。
-       第一段包含 [pos..pos+byteCount）中的数据,
-       第二段包含 [pos+byteCount..limit] 中的数据,
-       将部分段从一个缓冲区移动到另一个缓冲区时非常有用。
+     *  Split the head of the circular linked list into two sections.
+     *  The first paragraph contains the data in [pos.. Pos+byteCount),
+     *  The second paragraph contains the data in [pos+byteCount.. Limit],
+     *  It is useful to move some segments from one buffer to another.
      */
     public func split(byteCount: Int64): Segment {
         if (byteCount <= 0 || byteCount > limit - pos) {

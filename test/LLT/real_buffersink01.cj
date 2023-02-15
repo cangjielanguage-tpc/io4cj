@@ -29,8 +29,6 @@ main () {
     reals.writeInt32(1)
     reals.writeInt32Le(1)
     reals.writeInt64Le(1)
-    reals.writeDecimalInt64(1)
-    reals.writeHexadecimalUInt64(1)
     var str = reals.isClosed()
     if(str) {
         return 1
