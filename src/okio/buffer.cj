@@ -425,30 +425,6 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
     }
 
     /**
-     * The Function is writeDecimalInt64
-     *
-     * @param value of Int64
-     *
-     * @return Type of BufferedSink
-     * @since 0.32.5
-     */
-    public override func writeDecimalInt64(value: Int64): BufferedSink {
-        this  // TODO 
-    }
-
-    /**
-     * The Function is writeHexadecimalUInt64
-     *
-     * @param value of Int64
-     *
-     * @return Type of BufferedSink
-     * @since 0.32.5
-     */
-    public override func writeHexadecimalUInt64(value: Int64): BufferedSink {
-        this  // TODO 
-    }
-
-    /**
      * The Function is flush
      *
      * @return Type of Unit

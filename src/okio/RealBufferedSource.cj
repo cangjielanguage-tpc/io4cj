@@ -756,16 +756,6 @@ class RealBufferedSource <: BufferedSource {
     }
 
     /**
-     * The Function is isOpen
-     *
-     * @return Type of Bool
-     * @since 0.32.5
-     */
-    public func isOpen (): Bool {
-        return !this.closed
-    }
-
-    /**
      * The Function is close
      *
      * @return Type of Unit
@@ -807,6 +797,6 @@ class RealBufferedSource <: BufferedSource {
      * @since 0.32.5
      */
     public override func isClosed(): Bool {
-        return !isOpen()
+        return !this.closed
     }
 }
