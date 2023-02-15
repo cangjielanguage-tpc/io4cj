@@ -1,4 +1,5 @@
 //3rd_party_lib:okio/build/okio
+//3rd_party_lib:okio/ci_lib/cryptocj
 //dependence:../utils/parseStringData.cj
 
 from okio import okio.*
