@@ -162,6 +162,13 @@ public interface BufferedSink <: Sink {
     public func buffer (): Buffer
 
     /*
+     * 向该source写入一个完整的字节数组。
+     * 参数 source - 字节数组
+     * 返回值 Buffer - Buffer
+     */
+    public func write(source: Array<Byte>): BufferedSink 
+
+    /*
      * 向BufferedSink中写入一个完整的ByteString所包含的字节序列
      * 参数 Buffer - okio的ByteString对象
      * 返回值 BufferedSink - BufferedSink
@@ -367,6 +374,18 @@ public interface BufferedSource <: Source & ToString {
     public func readInt64Le(): Int64
 
     /*
+     * 从该源读取带符号的十进制形式的长字符串（即，以10为基数的字符串，可选前导“-”）。遇到非数字字符停止。
+     * 返回值 Int64 - Int64
+     */
+    public func readDecimalInt64(): Int64
+
+    /*
+     * 以十六进制形式读取此源的长格式（即以16为基数的字符串）。遇到非十六进制字符停止。
+     * 返回值 Int64 - Int64
+     */
+    public func readHexadecimalUInt64(): Int64
+
+    /*
      * 从中删除所有字节并将其作为字节字符串返回
      * 返回值 ByteString - ByteString
      */
@@ -563,13 +582,6 @@ public class Buffer <: Object & BufferedSource & BufferedSink & Equatable<Buffer
      * 构造函数
      */
     public init() 
-
-    /*
-     * 清理sink里面内容，重写父类sink的flush()方法
-     * 参数：source：Buffe对象
-     * 返回值 Unit
-     */
-    public func flush(): Unit 
 
     /*
      * 从该源读取带符号的十进制形式的长字符串（即，以10为基数的字符串，可选前导“-”）。遇到非数字字符停止。
