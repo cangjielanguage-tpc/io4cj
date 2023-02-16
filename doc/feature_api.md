@@ -1,7 +1,7 @@
 ## okio 库
 ### 介绍
 
-Okio是OkHttp的低层IO库，核心概念是source和sink，类似于仓颉的InputStream和OutputStream。
+Okio是OkHttp的底层IO库，核心概念是source和sink，类似于仓颉的InputStream和OutputStream。
 
 ### 1 提供okio轻量级io框架功能
 
@@ -3739,8 +3739,9 @@ public open class Timeout <: Object {
     public open func deadlineNanoTime(deadlineNanoTime: Int64): Timeout 
 
     /*
-     * 获取Timeout对象，重写父类Timeout的deadlineNanoTime（deadlineNanoTime: Int64）方法
-     * 参数 deadlineNanoTime - Int64 截至日期纳秒
+     * 获取Timeout对象
+     * 参数 duration - Duration 线程时间间隔
+     * 参数 timeout - Int64 截至日期纳秒
      * 返回值 Timeout 对象
      */
     public func deadline(duration: Duration, timeout: Int64) : Timeout 
