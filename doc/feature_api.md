@@ -2831,16 +2831,17 @@ public open class SocketBuffer <: InputStream & OutputStream & Resource & ToStri
 ```cangjie
 from std import io.*
 from std import time.*
+from std import fs.*
 from okio import okio.*
 main() {
-    var file = File("demo.txt", Write, ForceCreate)
+    var file = File("demo.txt", OpenOption.Create(true))
     Okio.buffer(Okio.sink(file))
         .writeUtf8("abcdefghijklmn \n")
         .writeUtf8("中国 \n")
         .writeUtf8("1234")
         .close();
 
-    file = File("demo.txt", Read, Open)
+    file = File("demo.txt", OpenOption.Open(true, true))
     let bufferedSource = Okio.buffer(Okio.source(file));
     println(bufferedSource.readUtf8Line())
     println(bufferedSource.readUtf8Line())

@@ -21,7 +21,7 @@ let IDLE_TIMEOUT_MILLIS: UInt64 = 60000
  * @author liyanqing14
  * @since 0.32.5
  */
-public open class AsyncTimeout <: Timeout & Equatable<AsyncTimeout> { 
+open class AsyncTimeout <: Timeout & Equatable<AsyncTimeout> {
     static let TIMEOUT_WRITE_SIZE: Int64 = 64 * 1024;
     private var inQueue = false
 
