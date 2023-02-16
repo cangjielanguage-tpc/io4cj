@@ -3049,19 +3049,30 @@ from std import fs.*
 
 main () {
     let data: Buffer = Buffer()
-    let testString: String = "Test whether gzipsink can be compressed"
+    let testString: String = "你好仓颉Test whether gzipsink can be compressed"
     data.writeUtf8(testString)
     let buffer: Buffer = Buffer()
     let gs: GzipSink = GzipSink(buffer) 
-    let str1 = gs.write(data,data.size)
-    let str3 = gs.timeout()
-    gs.flush()
+    gs.write(data,data.size)
+    let result: Buffer = Buffer()
     gs.close()
-    gs.isClosed()
-    println(gs.toString())
     gs.toString()
+    gs.timeout()
+    let inflated: Buffer = gunzip(buffer)
+    var a: String = inflated.readUtf8()
+    if("你好仓颉Test whether gzipsink can be compressed" != a) {
+        return 1
+    }
     return 0
 }
+
+public func gunzip(gzipped: Buffer):Buffer {
+    let result: Buffer = Buffer()
+    let source: GzipSource = GzipSource(gzipped);
+    while (source.read(result, gzipped.size) != -1) {
+    }
+    return result
+  } 
 
 ```
 
@@ -3299,7 +3310,6 @@ main () {
     let s3 = fws.timeout()
     let s4 = fws.close()
     let s5 = fws.toString()
-    let s6 = fws.isClosed()
     return 0
 }
 
@@ -3533,6 +3543,12 @@ HashingSource 类 继承了ForwardingSource抽象类，调用具体算法，返�
 ##### 4.1.2 示例
 
 ```cangjie
+from okio import okio.*
+from std import os.posix.*
+from std import io.*
+from std import time.*
+from okio import nio.ByteBuffer
+from std import socket.*
 main () {
 	var source: Buffer = Buffer()
     var sink: Buffer = Buffer()
@@ -3584,6 +3600,11 @@ Pipe 类 okio管道类，使用一个缓冲区来解耦源和接收器。该缓�
 ##### 4.2.2 示例
 
 ```cangjie
+from okio import okio.*
+from std import os.posix.*
+from std import io.*
+from std import time.*
+from std import fs.*
 main () {
 	let pi: Pipe = Pipe(100)
     let bu: Buffer = Buffer()
