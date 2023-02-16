@@ -2289,29 +2289,6 @@ public abstract class ByteBuffer <: Buffer & ToString & Hashable & Equatable<Buf
     public func put(src: Array<UInt8>, offset:Int64, length: Int64): Buffer 
 
     /*
-     * 相当于 put(src, 0, src.size)
-     * 参数 src - 要从中读取字节的数组
-     * 返回值 Buffer - Buffer
-     */
-    public func put(src: Array<UInt8>): Buffer
-    
-    /*
-     * 判断是否可通过一个可访问的 byte 数组实现此缓冲区。
-     * 返回值 Bool - 如果可访问返回 true
-     */
-    public func hasArray(): Bool 
-    
-    /*
-     * 返回支持此缓冲区的数组。
-     * 此方法旨在允许更有效地将数组支持的缓冲区传递给本机代码。
-     * 具体的实现子类会为该方法提供了更强类型的返回值。
-     * 对该缓冲区内容的修改将导致返回数组的内容被修改，反之亦然。
-     * 在调用此方法之前调用hasArray方法，以确保此缓冲区具有可访问的后备数组。
-     * 返回值 Array<UInt8> - 数组
-     */
-    public func array(): Array<UInt8> 
-    
-    /*
      * 返回此缓冲区中的第一个元素在缓冲区的底层实现数组中的偏移量 （可选操作）。
      * 如果存在实现此缓冲区的数组，则缓冲区位置 p 对应于数组索引 p + arrayOffset()。
      * 调用此方法之前要调用 hasArray 方法，以确保此缓冲区具有可访问的底层实现数组。
@@ -2972,7 +2949,7 @@ DeflaterSink 类 实现了Sink接口，封装了具体的压缩方法
      * 参数：sink：Sink 对象
      * 参数：deflater：Deflater 对象
      */
-    public init(sink: Sink , deflater: Deflater)
+    public init(sink: Sink)
     
     /*
 	 * 判断资源是否关闭
@@ -2990,13 +2967,6 @@ DeflaterSink 类 实现了Sink接口，封装了具体的压缩方法
 
   }
 
-Deflater 类 
-  public class Deflater {
-  /*
-     * 构造一个空参Deflater对象
-     */
-    public init()
-  }
   
 GzipSource 类 实现了Source接口
   public class GzipSource <: Source {

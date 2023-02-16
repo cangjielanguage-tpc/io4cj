@@ -15,7 +15,6 @@ public class DeflaterSink {
 
     private var sink: BufferedSink
     private var sinks: Sink
-    private var deflater: Deflater
     private var closed: Bool = false
     private var bufferSink: Buffer = Buffer()
     private var byteCountSink: Int64 = 0
@@ -25,10 +24,9 @@ public class DeflaterSink {
      *
      * @since 0.34.3
      */
-    public init(sink: Sink , deflater: Deflater){
+    public init(sink: Sink ){
         this.sink = Okio.buffer(sink)
         this.sinks = sink
-        this.deflater = deflater
     }
 
     /**
@@ -54,7 +52,6 @@ public class DeflaterSink {
         deflate(source , byteCount)
         this.bufferSink = source
         this.byteCountSink = byteCount
-        finishDeflate() 
     }
 
     /**
@@ -92,70 +89,6 @@ public class DeflaterSink {
         file.close()
     }
 
-    /**
-     * The Function is finishDeflate
-     *
-     * @return Type of Unit
-     * @since 0.34.3
-     */
-    func finishDeflate():Unit {
-        deflater.finishs()
-    }
 
 }
 
-
-/**
- * @file
- * The file declars the Deflater class.
- */
-public class Deflater {
-    
-    private var input: ByteBuffer = ByteBuffer.allocate(0)
-    private var inputPos: Int64 = 0
-    private var inputLim: Int64 = 0
-    private var finish: Bool = true
-    private var level: Int64 = 0
-
-    /**
-     * The Function is init constructor
-     *
-     * @since 0.34.3
-     */
-     public init(){}
-
-    /**
-     * The Function is init constructor
-     *
-     * @since 0.34.3
-     */
-    init(level: Int64 , nowrap: Bool) {
-        this.level = level      
-    }
-
-    /**
-     * The Function is needsInput
-     *
-     * @return Type of Bool
-     * @since 0.34.3
-     */
-    func needsInput(): Bool {
-        let input: ?ByteBuffer = this.input
-        return match (input) {
-            case None => inputLim == inputPos
-            case Some(v) => ! input.getOrThrow().hasRemaining()
-        }
-    }
-
-    /**
-     * The Function is finishs
-     *
-     * @return Type of Unit
-     * @since 0.34.3
-     */
-    func finishs():Unit {
-        finish = true
-        needsInput()
-    }
-
-}

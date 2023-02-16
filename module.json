@@ -1,9 +1,9 @@
 {
 	"cjc_version": "0.36.4",
-	"organization": "kool",
+	"organization": "cangjie",
 	"name": "okio",
 	"description": "io library for okhttp ecosystem",
-	"version": "1.0.0",
+	"version": "0.0.4",
 	"requires": {
 		"cryptocj": {
 			"organization": "cangjie",

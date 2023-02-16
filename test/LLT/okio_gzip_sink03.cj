@@ -21,9 +21,8 @@ main () {
     }catch(e: Exception){
         es = e.toString()
     }
-    let deflater: Deflater = Deflater()
     let bu3: Buffer = Buffer()
-    let ds: DeflaterSink = DeflaterSink(bu3 ,deflater)
+    let ds: DeflaterSink = DeflaterSink(bu3)
     ds.isClosed()
     return 0
 

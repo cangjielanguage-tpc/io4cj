@@ -12,7 +12,6 @@ package okio
 public class GzipSink <: Sink {
 
     private var sink: BufferedSink
-    private var deflater: Deflater
     public var deflaterSink: DeflaterSink
     public var closed: Bool = false
     private var crc: Int64 = 0
@@ -23,9 +22,8 @@ public class GzipSink <: Sink {
      * @since 0.34.3
      */
     public init(sink: Sink){
-        this.deflater = Deflater(-1 , true)
         this.sink = Okio.buffer(sink)
-        this.deflaterSink = DeflaterSink(this.sink, deflater)
+        this.deflaterSink = DeflaterSink(this.sink)
     }
 
     /**
@@ -78,11 +76,6 @@ public class GzipSink <: Sink {
             return
         }
         var thrown: ?Exception = None
-        try {
-            deflaterSink.finishDeflate()
-        } catch (e: Exception) {
-            thrown = e
-        }
         try {
             this.sink.close()
         } catch (e: Exception) {
