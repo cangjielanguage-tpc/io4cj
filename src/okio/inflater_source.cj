@@ -22,7 +22,6 @@ public class InflaterSource <: Source {
      */
     public init(source: Source) {
         this.source = source
-        //this.inflater = inflater
     }
 
     /**
@@ -106,8 +105,7 @@ public class InflaterSource <: Source {
      * @since 0.34.3
      */
     public override func isClosed(): Bool {
-        this.closed = true
-        return closed
+        return source.isClosed()
     } 
 
     /**

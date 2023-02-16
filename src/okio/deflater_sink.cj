@@ -36,7 +36,7 @@ public class DeflaterSink {
      * @since 0.34.3
      */
     public func isClosed(): Bool{
-        this.closed
+        sinks.isClosed()
     }
 
     /**

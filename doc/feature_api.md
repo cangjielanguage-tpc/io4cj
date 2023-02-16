@@ -978,7 +978,7 @@ public class Buffer <: Object & BufferedSource & BufferedSink & Equatable<Buffer
      * 返回一个新的BufferedSource，它可以从该BufferedResource读取数据，而不使用它。一旦下次读取或关闭此源，返回的源将变为无效。例如，我们可以使用peek（）向前看并多次读取相同的数据。
      * 返回值 BufferedSource - 新的BufferedSource
      */
-    public func peek(): BufferedSource  (930版本不支持新的BufferedSource直接打印输出 只能使用read方法读取)
+    public func peek(): BufferedSource 
     
         
     /*
@@ -2925,7 +2925,7 @@ GzipSink 类 实现了Sink接口
     public override func timeout(): Timeout
     
     /*
-	 * 判断资源是否关闭
+	 * 判断资源是否关闭，调用Resource接口的isClosed方法
 	 * 返回值 Bool - 如果已经关闭返回 true，否则返回 false
 	 */
     public override func isClosed(): Bool
@@ -2949,7 +2949,7 @@ DeflaterSink 类 实现了Sink接口，封装了具体的压缩方法
     public init(sink: Sink)
     
     /*
-	 * 判断资源是否关闭
+	 * 判断资源是否关闭，调用Resource接口的isClosed方法
 	 * 返回值 Bool - 如果已经关闭返回 true，否则返回 false
 	 */
     public override func isClosed(): Bool
@@ -2982,7 +2982,7 @@ GzipSource 类 实现了Source接口
     public override func timeout(): Timeout
     
     /*
-	 * 判断资源是否关闭
+	 * 判断资源是否关闭，调用Resource接口的isClosed方法
 	 * 返回值 Bool - 如果已经关闭返回 true，否则返回 false
 	 */
     public override func isClosed(): Bool
@@ -3025,7 +3025,7 @@ InflaterSource 类 实现了Source接口，封装了具体的解压缩方法
     public override func timeout(): Timeout
     
     /*
-	 * 判断资源是否关闭
+	 * 判断资源是否关闭，调用Resource接口的isClosed方法
 	 * 返回值 Bool - 如果已经关闭返回 true，否则返回 false
 	 */
     public override func isClosed(): Bool
@@ -3152,12 +3152,6 @@ ForwardingSink 类 实现Sink接口，多出获取Sink对象的方法
     public override func timeout(): Timeout
     
     /*
-	 * 判断资源是否关闭
-	 * 返回值 Bool - 如果已经关闭返回 true，否则返回 false
-	 */
-    public override func isClosed(): Bool
-    
-    /*
      * 获取String类型，重写toString()方法。
      * 返回值 String类型的sink对象
      */
@@ -3185,12 +3179,6 @@ ForwardingSource 类 实现Source接口，多出获取Sink对象的方法
      * 返回值 Timeout对象
      */
     public override func timeout(): Timeout
-    
-    /*
-	 * 判断资源是否关闭
-	 * 返回值 Bool - 如果已经关闭返回 true，否则返回 false
-	 */
-    public override func isClosed(): Bool
     
     /*
      * 获取String类型，重写toString()方法。
@@ -3438,7 +3426,7 @@ public class HashingSink <: ForwardingSink {
     public func hash(): String
     
     /*
-	 * 判断资源是否关闭
+	 * 判断资源是否关闭，调用Resource接口的isClosed方法
 	 * 返回值 Bool - 如果已经关闭返回 true，否则返回 false
 	 */
     public override func isClosed(): Bool
@@ -3526,7 +3514,7 @@ HashingSource 类 继承了ForwardingSource抽象类，调用具体算法，返�
     public func hash(): String
     
     /*
-	 * 判断资源是否关闭
+	 * 判断资源是否关闭，调用Resource接口的isClosed方法
 	 * 返回值 Bool - 如果已经关闭返回 true，否则返回 false
 	 */
     public override func isClosed(): Bool

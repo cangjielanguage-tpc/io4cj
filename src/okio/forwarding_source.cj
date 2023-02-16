@@ -71,16 +71,6 @@ public abstract class ForwardingSource <: Source{
     }
 
     /**
-     * The Function is isClosed
-     *
-     * @return Type of Unit
-     * @since 0.33.3
-     */
-    public open override func isClosed(): Bool{
-        this.closed
-    }
-
-    /**
      * The Function is toString
      *
      * @return Type of String
