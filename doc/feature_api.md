@@ -684,7 +684,7 @@ public class Buffer <: Object & BufferedSource & BufferedSink & Equatable<Buffer
     /*
      * 向该Buffer写入一个完整的字节数组。
      * 参数 source - 字节数组
-     * 返回值 Buffer - Buffer
+     * 返回值 BufferedSink - BufferedSink
      */
     public func write(source: Array<Byte>): BufferedSink 
 
@@ -693,7 +693,7 @@ public class Buffer <: Object & BufferedSource & BufferedSink & Equatable<Buffer
      * 参数 source - 字节数组
      * 参数 offset - 偏移量, 开始写入的位置
      * 参数 byteCount - 字节数, 写入的长度
-     * 返回值 Buffer - Buffer
+     * 返回值 BufferedSink - BufferedSink
      */
     public func write(source: Array<Byte>, offset: Int64, byteCount: Int64): BufferedSink
 
