@@ -3137,6 +3137,12 @@ ForwardingSink 类 实现Sink接口，多出获取Sink对象的方法
      */
     public override func close(): Unit
     
+     /*
+	 * 判断资源是否关闭，调用Resource接口的isClosed方法
+	 * 返回值 Bool - 如果已经关闭返回 true，否则返回 false
+	 */
+    public override func isClosed(): Bool
+    
     /*
      * 清理sink里面内容，重写父类sink的flush()方法
      * 参数：source：Buffe对象
@@ -3172,6 +3178,12 @@ ForwardingSource 类 实现Source接口，多出获取Sink对象的方法
      * 返回值 Unit
      */
     public override func close(): Unit
+    
+     /*
+	 * 判断资源是否关闭，调用Resource接口的isClosed方法
+	 * 返回值 Bool - 如果已经关闭返回 true，否则返回 false
+	 */
+    public override func isClosed(): Bool
     
     /*
      * 获取Timeout对象，重写父类sink的timeout()方法
