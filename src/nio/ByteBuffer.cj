@@ -323,7 +323,7 @@ public abstract class ByteBuffer <: Buffer & ToString & Hashable & Equatable<Buf
      *
      * @since 0.32.5
      */
-    public override func clear () {
+    public override func clear (): ByteBuffer {
         super.clear()
         return this
     }

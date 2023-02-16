@@ -1940,6 +1940,14 @@ public class Utf8 {
  * 返回值 Unit
  */
 public func ArrayCopy(src: Array, srcPos: Int64, dest: Array, destPos: Int64, length: Int64)
+
+public class BufferOverflowException <: Exception {
+    /*
+     * 异常构造函数
+     */
+    public init () 
+}
+
 ```
 
 ##### 1.1.11.1 abstract class Buffer
@@ -2034,24 +2042,12 @@ public abstract class Buffer <: Object & ToString {
     public func hasRemaining(): Bool 
     
     /*
-     * 指示返回此缓冲区是否为只读。
-     * 返回值 Bool - 布尔值
-     */
-    public func isReadOnly(): Bool 
-    
-    /*
      * 返回此缓冲区中的第一个元素在缓冲区的底层实现数组中的偏移量 （可选操作）。
      * 如果存在实现此缓冲区的数组，则缓冲区位置 p 对应于数组索引 p + arrayOffset()。
      * 调用此方法之前要调用 hasArray 方法，以确保此缓冲区具有可访问的底层实现数组。
      * 返回值 Int64 - 偏移量
      */
     public func arrayOffset(): Int64
-    
-    /*
-     * 判断此字节缓冲区是否为直接的。
-     * 返回值 Bool - 当且仅当此缓冲区为直接时，返回 true
-     */
-    public func isDirect(): Bool
     
     /*
      * 实现此缓冲区的数组返回新的字节缓冲区
@@ -2135,9 +2131,9 @@ public abstract class ByteBuffer <: Buffer & ToString & Hashable & Equatable<Buf
      * 此缓冲区内容的更改在新缓冲区中是可见的，反之亦然；这两个缓冲区的位置、界限和标记值是相互独立的。
      * 新缓冲区的容量、界限、位置和标记值将与此缓冲区相同。
      * 当且仅当此缓冲区为直接时，新缓冲区才是直接的，当且仅当此缓冲区为只读时，新缓冲区才是只读的。
-     * 返回值 Buffer - Buffer
+     * 返回值 ByteBuffer - ByteBuffer
      */ 
-    public func duplicate(): Buffer
+    public func duplicate(): ByteBuffer
     
     
     /*
@@ -2146,9 +2142,9 @@ public abstract class ByteBuffer <: Buffer & ToString & Hashable & Equatable<Buf
      * 此缓冲区内容的更改在新缓冲区中是可见的，但新缓冲区将是只读的并且不允许修改共享内容。
      * 两个缓冲区的位置、界限和标记值是相互独立的。
      * 新缓冲区的容量、界限、位置和标记值将与此缓冲区相同。
-     * 返回值 Buffer - Buffer
+     * 返回值 ByteBuffer - ByteBuffer
      */
-    public func asReadOnlyBuffer(): Buffer
+    public func asReadOnlyBuffer(): ByteBuffer
     
     /*
      * 获取一个字节
@@ -2159,9 +2155,9 @@ public abstract class ByteBuffer <: Buffer & ToString & Hashable & Equatable<Buf
     /*
      * 存储一个字节
      * 参数 b - UInt8
-     * 返回值 Buffer - Buffer
+     * 返回值 ByteBuffer - ByteBuffer
      */
-    public func put(b: UInt8): Buffer
+    public func put(b: UInt8): ByteBuffer
     
     /*
      * 读取指定索引处的字节。 
@@ -2175,7 +2171,7 @@ public abstract class ByteBuffer <: Buffer & ToString & Hashable & Equatable<Buf
      * 参数 b - 要写入的字节值
      * 返回值 Buffer - Buffer
      */
-    public func put(index: Int64, b: UInt8): Buffer
+    public func put(index: Int64, b: UInt8): ByteBuffer
     
     /*
      * 存储一个 Int64（八个字节），只支持 Big-Endian（大端）写入操作
@@ -2261,21 +2257,21 @@ public abstract class ByteBuffer <: Buffer & ToString & Hashable & Equatable<Buf
      * 参数 dst - 向其中写入字节的数组
      * 参数 offset - 要写入的第一个字节在数组中的偏移量；必须为非负且不大于  dst.size
      * 参数 length - 要写入到给定数组中的字节的最大数量；必须为非负且不大于  dst.size - offset
-     * 返回值 Buffer - Buffer
+     * 返回值 ByteBuffer - ByteBuffer
      */
-    public func get(dst: Array<UInt8>, offset: Int64, length: Int64) : Buffer 
+    public func get(dst: Array<UInt8>, offset: Int64, length: Int64) : ByteBuffer 
     
     /*
      * 相当于 get(dst, 0, dst.size)
      * 参数 dst - 向其中写入字节的数组
-     * 返回值 Buffer - Buffer
+     * 返回值 ByteBuffer - ByteBuffer
      */
-    public func get(dst: Array<UInt8>): Buffer
+    public func get(dst: Array<UInt8>): ByteBuffer
      
     /*
      * 将给定src缓冲区中的剩余字节传输到此缓冲区中。
      * 参数 src - 要从中读取字节的源缓冲区；不能为当前的缓冲区
-     * 返回值 Buffer - Buffer
+     * 返回值 ByteBuffer - ByteBuffer
      */
     public func put(src: ByteBuffer) : ByteBuffer 
     
@@ -2284,9 +2280,9 @@ public abstract class ByteBuffer <: Buffer & ToString & Hashable & Equatable<Buf
      * 参数 src - 要从中读取字节的数组
      * 参数 offset - 要读取的第一个字节在数组中的偏移量；必须为非负且不大于  array.size
      * 参数 length - 要从给定数组读取的字节的数量；必须为非负且不大于  array.size - offset
-     * 返回值 Buffer - Buffer
+     * 返回值 ByteBuffer - ByteBuffer
      */
-    public func put(src: Array<UInt8>, offset:Int64, length: Int64): Buffer 
+    public func put(src: Array<UInt8>, offset:Int64, length: Int64): ByteBuffer 
 
     /*
      * 返回此缓冲区中的第一个元素在缓冲区的底层实现数组中的偏移量 （可选操作）。
@@ -2299,31 +2295,31 @@ public abstract class ByteBuffer <: Buffer & ToString & Hashable & Equatable<Buf
     /*
      * 设置此缓冲区的位置。如果标记(mark)已定义且大于新位置(newPosition)，则丢弃该标记(mark)
      * 参数 newPosition - 新位置值；必须为非负且不大于当前限制(limit)
-     * 返回值 Buffer - Buffer
+     * 返回值 ByteBuffer - ByteBuffer
      */
-    public func position(newPosition: Int64): Buffer
+    public func position(newPosition: Int64): ByteBuffer
 
     /*
      * 设置此缓冲区的限制（limit）。
      * 如果位置（position）大于新限制（newlimit），则将其设置为新限制（limit）。
      * 如果标记（mark）已定义且大于新限制，则将丢弃该标记。
      * 参数 newPosition - 新的极限值；必须为非负，且不大于此缓冲区的容量（capacity）
-     * 返回值 Buffer - Buffer
+     * 返回值 ByteBuffer - ByteBuffer
      */
-    public func limit(newLimit: Int64): Buffer 
+    public func limit(newLimit: Int64): ByteBuffer 
     
     /*
      * 将此缓冲区的位置重置为先前标记的位置，调用此方法既不会更改也不会丢弃标记的值。
      * 内部逻辑是把position设置成mark的值，相当于之前做过一个标记，现在要退回到之前标记的位置。
-     * 返回值 Buffer - Buffer
+     * 返回值 ByteBuffer - ByteBuffer
      */
-    public func reset(): Buffer 
+    public func reset(): ByteBuffer 
     
     /*
      * 重置初始化状态。它通常用于清除操作。
      * 此方法的功能是所有状态都将返回到初始状态。position=0， mark=-1，limit=capacity；
      * 注意，此方法与flip的区别在于limit的值是不一样的。
-     * 返回值 Buffer - Buffer
+     * 返回值 Unit
      */
     public func clear(): Unit
     
@@ -2331,16 +2327,16 @@ public abstract class ByteBuffer <: Buffer & ToString & Hashable & Equatable<Buf
      * 翻转状态，将一个处于存数据状态的缓冲区变为一个处于准备取数据的状态，
      * 也就是让flip之后的position到limit这块区域变成之前的0到position这块
      * limit = position;position = 0;mark = -1;
-     * 返回值 Buffer - Buffer
+     * 返回值 ByteBuffer - ByteBuffer
      */
-    public func flip(): Buffer
+    public func flip(): ByteBuffer
     
     /*
      * 清零，一版用于写完之后的数据，想从起始位置开始读数据的情形
      * 把position设为0，mark设为-1，不改变limit的值。
-     * 返回值 Buffer - Buffer
+     * 返回值 ByteBuffer - ByteBuffer
      */
-    public func rewind(): Buffer
+    public func rewind(): ByteBuffer
     
     /*
      * 压缩此缓冲区 （可选操作）。
@@ -2435,9 +2431,9 @@ public open class HeapByteBuffer <: ByteBuffer & ToString {
      * 此缓冲区内容的更改在新缓冲区中是可见的，反之亦然；这两个缓冲区的位置、界限和标记值是相互独立的。
      * 新缓冲区的容量、界限、位置和标记值将与此缓冲区相同。
      * 当且仅当此缓冲区为直接时，新缓冲区才是直接的，当且仅当此缓冲区为只读时，新缓冲区才是只读的。
-     * 返回值 Buffer - Buffer
+     * 返回值 ByteBuffer - ByteBuffer
      */ 
-    public func duplicate(): Buffer
+    public func duplicate(): ByteBuffer
     
     
     /*
@@ -2446,9 +2442,9 @@ public open class HeapByteBuffer <: ByteBuffer & ToString {
      * 此缓冲区内容的更改在新缓冲区中是可见的，但新缓冲区将是只读的并且不允许修改共享内容。
      * 两个缓冲区的位置、界限和标记值是相互独立的。
      * 新缓冲区的容量、界限、位置和标记值将与此缓冲区相同。
-     * 返回值 Buffer - Buffer
+     * 返回值 ByteBuffer - ByteBuffer
      */
-    public func asReadOnlyBuffer(): Buffer
+    public func asReadOnlyBuffer(): ByteBuffer
     
     /*
      * 获取一个字节
@@ -2459,9 +2455,9 @@ public open class HeapByteBuffer <: ByteBuffer & ToString {
     /*
      * 存储一个字节
      * 参数 b - UInt8
-     * 返回值 Buffer - Buffer
+     * 返回值 ByteBuffer - ByteBuffer
      */
-    public func put(b: UInt8): Buffer
+    public func put(b: UInt8): ByteBuffer
     
     /*
      * 读取指定索引处的字节。 
@@ -2474,9 +2470,9 @@ public open class HeapByteBuffer <: ByteBuffer & ToString {
      * 将给定字节写入此缓冲区的给定索引处。如果 index 为负或不小于缓冲区界限, 将抛出 IndexOutOfBoundsException 。
      * 参数 index - 将在该位置写入字节的索引
      * 参数 b - 要写入的字节值
-     * 返回值 Buffer - Buffer
+     * 返回值 ByteBuffer - ByteBuffer
      */
-    public func put(index: Int64, b: UInt8): Buffer
+    public func put(index: Int64, b: UInt8): ByteBuffer
     
     /*
      * 存储一个 Int64（八个字节），只支持 Big-Endian（大端）写入操作
@@ -2562,16 +2558,16 @@ public open class HeapByteBuffer <: ByteBuffer & ToString {
      * 参数 dst - 向其中写入字节的数组
      * 参数 offset - 要写入的第一个字节在数组中的偏移量；必须为非负且不大于  dst.size
      * 参数 length - 要写入到给定数组中的字节的最大数量；必须为非负且不大于  dst.size - offset
-     * 返回值 Buffer - Buffer
+     * 返回值 ByteBuffer - ByteBuffer
      */
-    public func get(dst: Array<UInt8>, offset: Int64, length: Int64) : Buffer 
+    public func get(dst: Array<UInt8>, offset: Int64, length: Int64) : ByteBuffer 
     
     /*
      * 相当于 get(dst, 0, dst.size)
      * 参数 dst - 向其中写入字节的数组
-     * 返回值 Buffer - Buffer
+     * 返回值 ByteBuffer - ByteBuffer
      */
-    public func get(dst: Array<UInt8>): Buffer
+    public func get(dst: Array<UInt8>): ByteBuffer
      
     /*
      * 将给定src缓冲区中的剩余字节传输到此缓冲区中。
@@ -2585,16 +2581,16 @@ public open class HeapByteBuffer <: ByteBuffer & ToString {
      * 参数 src - 要从中读取字节的数组
      * 参数 offset - 要读取的第一个字节在数组中的偏移量；必须为非负且不大于  array.size
      * 参数 length - 要从给定数组读取的字节的数量；必须为非负且不大于  array.size - offset
-     * 返回值 Buffer - Buffer
+     * 返回值 ByteBuffer - ByteBuffer
      */
-    public func put(src: Array<UInt8>, offset:Int64, length: Int64): Buffer 
+    public func put(src: Array<UInt8>, offset:Int64, length: Int64): ByteBuffer 
 
     /*
      * 相当于 put(src, 0, src.size)
      * 参数 src - 要从中读取字节的数组
-     * 返回值 Buffer - Buffer
+     * 返回值 ByteBuffer - ByteBuffer
      */
-    public func put(src: Array<UInt8>): Buffer
+    public func put(src: Array<UInt8>): ByteBuffer
     
     /*
      * 判断是否可通过一个可访问的 byte 数组实现此缓冲区。
@@ -2623,31 +2619,31 @@ public open class HeapByteBuffer <: ByteBuffer & ToString {
     /*
      * 设置此缓冲区的位置。如果标记(mark)已定义且大于新位置(newPosition)，则丢弃该标记(mark)
      * 参数 newPosition - 新位置值；必须为非负且不大于当前限制(limit)
-     * 返回值 Buffer - Buffer
+     * 返回值 ByteBuffer - ByteBuffer
      */
-    public func position(newPosition: Int64): Buffer
+    public func position(newPosition: Int64): ByteBuffer
 
     /*
      * 设置此缓冲区的限制（limit）。
      * 如果位置（position）大于新限制（newlimit），则将其设置为新限制（limit）。
      * 如果标记（mark）已定义且大于新限制，则将丢弃该标记。
      * 参数 newPosition - 新的极限值；必须为非负，且不大于此缓冲区的容量（capacity）
-     * 返回值 Buffer - Buffer
+     * 返回值 ByteBuffer - ByteBuffer
      */
-    public func limit(newLimit: Int64): Buffer 
+    public func limit(newLimit: Int64): ByteBuffer 
     
     /*
      * 将此缓冲区的位置重置为先前标记的位置，调用此方法既不会更改也不会丢弃标记的值。
      * 内部逻辑是把position设置成mark的值，相当于之前做过一个标记，现在要退回到之前标记的位置。
-     * 返回值 Buffer - Buffer
+     * 返回值 ByteBuffer - ByteBuffer
      */
-    public func reset(): Buffer 
+    public func reset(): ByteBuffer 
     
     /*
      * 重置初始化状态。它通常用于清除操作。
      * 此方法的功能是所有状态都将返回到初始状态。position=0， mark=-1，limit=capacity；
      * 注意，此方法与flip的区别在于limit的值是不一样的。
-     * 返回值 Buffer - Buffer
+     * 返回值 ByteBuffer - ByteBuffer
      */
     public func clear(): Unit
     
@@ -2655,16 +2651,16 @@ public open class HeapByteBuffer <: ByteBuffer & ToString {
      * 翻转状态，将一个处于存数据状态的缓冲区变为一个处于准备取数据的状态，
      * 也就是让flip之后的position到limit这块区域变成之前的0到position这块
      * limit = position;position = 0;mark = -1;
-     * 返回值 Buffer - Buffer
+     * 返回值 ByteBuffer - ByteBuffer
      */
-    public func flip(): Buffer
+    public func flip(): ByteBuffer
     
     /*
      * 清零，一版用于写完之后的数据，想从起始位置开始读数据的情形
      * 把position设为0，mark设为-1，不改变limit的值。
-     * 返回值 Buffer - Buffer
+     * 返回值 ByteBuffer - ByteBuffer
      */
-    public func rewind(): Buffer
+    public func rewind(): ByteBuffer
     
     /*
      * 压缩此缓冲区 （可选操作）。
@@ -3604,6 +3600,91 @@ main () {
         return 1
     }
      return 0
+}
+```
+
+### 5 定义异常类
+
+#### 5.1 主要接口
+```cangjie
+public class ArrayIndexOutOfBoundsException <: Exception {
+
+    /*
+     * 得到一个 ArrayIndexOutOfBoundsException 实例
+     */
+    public init()
+
+    /*
+     * 得到一个 ArrayIndexOutOfBoundsException 实例
+     * 参数 message - 预定义消息
+     */
+    public init(string: String) 
+}
+
+public class EOFException <: Exception {
+    /*
+     * 得到一个 EOFException 实例
+     */
+    public init()
+
+    /*
+     * 得到一个 EOFException 实例
+     * 参数 message - 预定义消息
+     */
+    public init(string: String) 
+}
+
+public class InterruptedException <: Exception {
+    /*
+     * 得到一个 InterruptedException 实例
+     */
+    public init()
+    /*
+     * 得到一个 InterruptedException 实例
+     * 参数 message - 预定义消息
+     */
+    public init(string: String) 
+}
+
+public class IllegalStateException <: Exception {
+    /*
+     * 得到一个 IllegalStateException 实例
+     */
+    public init()
+
+    /*
+     * 得到一个 IllegalStateException 实例
+     * 参数 message - 预定义消息
+     */
+    public init(string: String) 
+}
+
+public class NumberFormatException <: Exception {
+    /*
+     * 得到一个 NumberFormatException 实例
+     * 参数 message - 预定义消息
+     */
+    public init()
+
+    /*
+     * 得到一个 NumberFormatException 实例
+     * 参数 message - 预定义消息
+     */
+    public init(string: String) 
+}
+
+public class AssertionException <: Exception {
+    /*
+     * 得到一个 AssertionException 实例
+     * 参数 message - 预定义消息
+     */
+    public init()
+
+    /*
+     * 得到一个 AssertionException 实例
+     * 参数 message - 预定义消息
+     */
+    public init(string: String) 
 }
 ```
 
