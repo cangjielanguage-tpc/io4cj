@@ -2949,7 +2949,7 @@ DeflaterSink 类 实现了Sink接口，封装了具体的压缩方法
      * 参数：sink：Sink 对象
      * 参数：deflater：Deflater 对象
      */
-    public init(sink: Sink , deflater: Deflater)
+    public init(sink: Sink)
     
     /*
 	 * 判断资源是否关闭
@@ -2967,13 +2967,6 @@ DeflaterSink 类 实现了Sink接口，封装了具体的压缩方法
 
   }
 
-Deflater 类 
-  public class Deflater {
-  /*
-     * 构造一个空参Deflater对象
-     */
-    public init()
-  }
   
 GzipSource 类 实现了Source接口
   public class GzipSource <: Source {
