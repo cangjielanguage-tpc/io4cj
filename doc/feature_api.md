@@ -164,13 +164,13 @@ public interface BufferedSink <: Sink {
     /*
      * 向该source写入一个完整的字节数组。
      * 参数 source - 字节数组
-     * 返回值 Buffer - Buffer
+     * 返回值 BufferedSink - BufferedSink
      */
     public func write(source: Array<Byte>): BufferedSink 
 
     /*
      * 向BufferedSink中写入一个完整的ByteString所包含的字节序列
-     * 参数 Buffer - okio的ByteString对象
+     * 参数 byteString - okio的ByteString对象
      * 返回值 BufferedSink - BufferedSink
      */
     public func write(byteString: ByteString): BufferedSink  
@@ -185,7 +185,7 @@ public interface BufferedSink <: Sink {
 
     /*
      * 向BufferedSink中写入一个完整source的字节序列
-     * 参数 Buffer - 读取的source
+     * 参数 source - 读取的source
      * 返回值 Int64 - Int64
      */
     public func writeAll(source: Source): Int64
@@ -2862,7 +2862,7 @@ main() {
 
 可靠性： NA
 
-### 2.1 主要接口
+#### 2.1 主要接口
 
 ```cangjie
 public class GzipSink <: Sink {
@@ -2900,7 +2900,7 @@ public class GzipSource <: Source {
 }
 ```
 
-### 2.2相关接口
+#### 2.2相关接口
 
 ```cangjie
 GzipSink 类 实现了Sink接口
@@ -3038,9 +3038,7 @@ InflaterSource 类 实现了Source接口，封装了具体的解压缩方法
   }
 ```
 
-
-
-### 2.3 示例
+#### 2.3 示例
 
 ```cangjie
 from okio import okio.*
@@ -3081,7 +3079,7 @@ main () {
 
 可靠性： NA
 
-### 3.1 主要接口
+#### 3.1 主要接口
 
 ```cangjie
 public abstract class ForwardingSink <: Sink {
@@ -3119,7 +3117,7 @@ public abstract class ForwardingSource <: Source{
 }
 ```
 
-### 3.2相关接口
+#### 3.2相关接口
 
 ```cnagjie
 ForwardingSink 类 实现Sink接口，多出获取Sink对象的方法
@@ -3274,9 +3272,7 @@ ForwardingTimeout 类 继承了Timeout类
   }
 ```
 
-
-
-### 3.3 示例
+#### 3.3 示例
 
 ```cangjie
 from okio import okio.*
@@ -3325,9 +3321,9 @@ main () {
 
 可靠性： NA
 
-### 4.1 加密/ sha族算法
+#### 4.1 加密/ sha族算法
 
-### 4.1.1 主要接口
+##### 4.1.1 主要接口
 
 ```cangjie
 HashingSink类 继承了ForwardingSink抽象类，调用具体算法，返回响应的哈希值
@@ -3534,8 +3530,7 @@ HashingSource 类 继承了ForwardingSource抽象类，调用具体算法，返�
   }
 ```
 
-
-### 4.1.2 示例
+##### 4.1.2 示例
 
 ```cangjie
 main () {
@@ -3552,9 +3547,9 @@ main () {
 }
 ```
 
-### 4.2 管道扩展类
+#### 4.2 管道扩展类
 
-### 4.2.1 主要接口
+##### 4.2.1 主要接口
 
 ```cangjie
 Pipe 类 okio管道类，使用一个缓冲区来解耦源和接收器。该缓冲区具有用户指定的大小。当生产线程的运行速度超过消费线程时，缓冲区会被填满，并最终写入接收器，直到消	 	费线程赶上。对称地，如果消费者超出了它的生产者读块，直到有数据可读。
@@ -3586,7 +3581,7 @@ Pipe 类 okio管道类，使用一个缓冲区来解耦源和接收器。该缓�
 
 ```
 
-### 4.2.2 示例
+##### 4.2.2 示例
 
 ```cangjie
 main () {
