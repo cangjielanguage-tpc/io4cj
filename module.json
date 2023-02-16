@@ -14,5 +14,5 @@
 	"package_requires": {},
 	"foreign_requires": {},
 	"output_type": "dynamic",
-	"command_option": "-O2 --fno-chir-function-inlining"
+	"command_option": " --fno-chir-function-inlining"
 }

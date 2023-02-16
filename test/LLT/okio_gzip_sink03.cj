@@ -23,7 +23,6 @@ main () {
     }
     let bu3: Buffer = Buffer()
     let ds: DeflaterSink = DeflaterSink(bu3)
-    ds.isClosed()
     return 0
 
 }

@@ -9,7 +9,7 @@
 
 package okio
 
-public abstract class ForwardingSink <: Sink {
+public open class ForwardingSink <: Sink {
     
     /**
      * let member delegate type is Sink
@@ -38,6 +38,16 @@ public abstract class ForwardingSink <: Sink {
     public func delegate(): Sink{
         return sink
     }
+
+    /**
+     * The Function is isClosed
+     *
+     * @return Type of Bool
+     * @since 0.34.3
+     */
+    public open override func isClosed(): Bool {
+        sink.isClosed()
+    } 
 
     /**
      * The Function is write
