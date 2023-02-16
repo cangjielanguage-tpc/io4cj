@@ -158,17 +158,7 @@ public abstract class ByteBuffer <: Buffer & ToString & Hashable & Equatable<Buf
      * @return Type of Buffer
      * @since 0.32.5
      */
-    public open func get(dst: Array<UInt8>, offset: Int64, length: Int64) : ByteBuffer {
-        checkBounds(offset, length, dst.size)
-        if (length > super.remaining()) {
-            throw Exception("length > super.remaining()")
-        }
-        let end = offset + length
-        for (i in offset..end) {
-            dst[i] = get()
-        }
-        return this
-    }
+    public func get(dst: Array<UInt8>, offset: Int64, length: Int64) : ByteBuffer
 
     /**
      * The Function is get
@@ -190,30 +180,7 @@ public abstract class ByteBuffer <: Buffer & ToString & Hashable & Equatable<Buf
      * @return Type of ByteBuffer
      * @since 0.32.5
      */
-    public open func put(src: ByteBuffer) : ByteBuffer {
-        if (src == this) {
-            throw createSameBufferException() // createSameBufferException
-        }
-        let n = src.remaining()
-        if (n > remaining()) {
-            throw BufferOverflowException() // BufferOverflowException
-        }
-        for (i in 0..n) {
-            this.put(src.get())
-        }
-        return this
-    } 
-
-    /**
-     * The Function is createSameBufferException
-     *
-     *
-     * @return Type of IllegalArgumentException
-     * @since 0.32.5
-     */
-    open func createSameBufferException(): IllegalArgumentException {
-        throw IllegalArgumentException("The source buffer is this buffer")
-    }
+    public func put(src: ByteBuffer) : ByteBuffer 
 
     /**
      * The Function is put
@@ -225,17 +192,7 @@ public abstract class ByteBuffer <: Buffer & ToString & Hashable & Equatable<Buf
      * @return Type of Buffer
      * @since 0.32.5
      */
-    public open func put(src: Array<UInt8>, offset:Int64, length: Int64): ByteBuffer {
-        checkBounds(offset, length, src.size)
-        if (length > super.remaining()) {
-            throw Exception("length > super.remaining()")
-        }
-        let end = offset + length
-        for (i in offset..end) {
-            this.put(src[i])
-        }
-        return this
-    }
+    public func put(src: Array<UInt8>, offset:Int64, length: Int64): ByteBuffer 
 
     /**
      * The Function is put
