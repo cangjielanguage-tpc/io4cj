@@ -696,18 +696,6 @@ public class Buffer <: Object & BufferedSource & BufferedSink & Equatable<Buffer
      * 返回值 BufferedSink - BufferedSink
      */
     public func write(source: Array<Byte>, offset: Int64, byteCount: Int64): BufferedSink
-
-    /*
-     * 从中删除所有字节，并将其作为字节字符串返回
-     * 返回值 ByteString - ByteString
-     */
-    public func readByteString(): ByteString
-    
-    /*
-     * 向该Buffer写入一个完整的字节字符串。
-     * 返回值 BufferedSink - BufferedSink
-     */
-    public func write(byteString: ByteString): BufferedSink 
     
     /*
      * 获取buffer类
