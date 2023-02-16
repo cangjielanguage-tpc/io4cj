@@ -1444,7 +1444,7 @@ class RealBufferedSink <: BufferedSink {
     public func write(source: Buffer, byteCount: Int64): Unit
 
     /*
-	 * 判断资源是否关闭
+	 * 判断资源是否关闭，调用Resource接口的isClosed方法
 	 * 返回值 Bool - 如果已经关闭返回 true，否则返回 false
 	 */
     public func isClosed():Bool
@@ -1624,7 +1624,7 @@ class RealBufferedSource <: BufferedSource {
     public func toString (): String
 
     /*
-     * 判断资源是否关闭
+     * 判断资源是否关闭，调用Resource接口的isClosed方法
      * 返回值 Bool - 如果已经关闭返回 true，否则返回 false
      */
     public func isClosed(): Bool
