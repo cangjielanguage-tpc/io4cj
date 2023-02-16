@@ -3704,4 +3704,82 @@ public class AssertionException <: Exception {
     public init(string: String) 
 }
 ```
+### 6 timeout超时类
 
+#### 6.1 主要接口
+
+```cangjie
+public open class Timeout <: Object {
+    // 空的 timeout实例
+    public static let NONE: Timeout
+
+    /*
+     * 构造 timeout对象
+     */
+    public init() 
+
+    /*
+     * 获取Timeout对象，重写父类Timeout的timeout(timeout: Int64)方法
+     * 参数 timeout - Int64 计数器
+     * 返回值 Timeout 对象
+     */
+    public open func timeout(timeout: Int64): Timeout 
+
+    /*
+     * 获取超时时间纳秒值
+     * 返回值 Int64 超时时间纳秒值
+     */
+    public open func timeoutNanos(): Int64
+
+    /*
+     * 获取是否有截止日期
+     * 返回值 Bool - 如果是 true，否则返回 false
+     */
+    public open func hasDeadline(): Bool 
+
+    /*
+     * 获取截止日期纳秒值
+     * 返回值 Int64 截止日期纳秒值
+     */
+    public open func deadlineNanoTime(): Int64 
+
+    /*
+     * 获取Timeout对象
+     * 参数 deadlineNanoTime - Int64 截至日期纳秒
+     * 返回值 Timeout 对象
+     */
+    public open func deadlineNanoTime(deadlineNanoTime: Int64): Timeout 
+
+    /*
+     * 获取Timeout对象，重写父类Timeout的deadlineNanoTime（deadlineNanoTime: Int64）方法
+     * 参数 deadlineNanoTime - Int64 截至日期纳秒
+     * 返回值 Timeout 对象
+     */
+    public func deadline(duration: Duration, timeout: Int64) : Timeout 
+
+    /*
+     * 清理Timeout变量timeoutnanost，使timeoutnanost值变为零
+     * 返回值 Timeout 对象
+     */
+    public open func clearTimeout(): Timeout 
+
+    /*
+     * 清理Timeout变量hasdeadline，使hasdeadline值变为false
+     * 返回值 Timeout 对象
+     */
+    public open func clearDeadline(): Timeout 
+
+    /*
+     * 抛出预期，如果hasdeadline为true且deadlinenanotime小于等于当前时间则抛出异常
+     * 返回值 Unit
+     */
+    public open func throwIfReached() 
+
+    /*
+     * 在监视器上等待，直到收到通知。
+     * 参数 monitor - monitor
+     * 返回值 Unit
+     */
+    public func waitUntilNotified(monitor: Monitor) 
+}
+```
