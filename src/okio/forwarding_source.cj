@@ -8,7 +8,7 @@
  */
 package okio
 
-public abstract class ForwardingSource <: Source{
+public open class ForwardingSource <: Source{
 
     /**
      * let member source type is Source
@@ -36,6 +36,16 @@ public abstract class ForwardingSource <: Source{
     public func delegate(): Source{
         return source
     }
+
+    /**
+     * The Function is isClosed
+     *
+     * @return Type of Bool
+     * @since 0.34.3
+     */
+    public open func isClosed(): Bool {
+        source.isClosed()
+    } 
 
     /**
      * The Function is read
@@ -68,16 +78,6 @@ public abstract class ForwardingSource <: Source{
      */
     public override func close(): Unit {
         source.close()
-    }
-
-    /**
-     * The Function is isClosed
-     *
-     * @return Type of Unit
-     * @since 0.33.3
-     */
-    public open override func isClosed(): Bool{
-        this.closed
     }
 
     /**

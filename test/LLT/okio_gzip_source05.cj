@@ -76,7 +76,6 @@ main () {
     let infla4: Buffer = Buffer()
     let sou4: InflaterSource = InflaterSource(buffer4)
     try{
-        sou4.isClosed()
     var sou14 = sou4.read(infla4 , 0)
     sou4.close()
     } catch(e: IllegalStateException) {

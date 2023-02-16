@@ -12,7 +12,7 @@
 
 ## <img alt="" src="./doc/assets/readme-icon-introduction.png" style="display: inline-block;" width=3%/>介绍
 
-Okio是OkHttp的低层IO库，Okio是对仓颉io库的补充，使访问、存储和处理数据变得更加容易。核心概念是source和sink，分别类似于仓颉的InputStream和OutputStream。
+Okio是OkHttp的底层IO库，Okio是对仓颉io库的补充，使访问、存储和处理数据变得更加容易。核心概念是source和sink，分别类似于仓颉的InputStream和OutputStream。
 
 参考项目：[https://square.github.io/okio/](https://link.segmentfault.com/?enc=2VN47riy2Ak%2Fwy47iNAgWQ%3D%3D.%2BGZbqetBcijDGsPLatrZBzGOj7YkIAubAWAzDAettzY%3D) 。
 
@@ -116,7 +116,7 @@ Okio是OkHttp的低层IO库，Okio是对仓颉io库的补充，使访问、存�
 
 ### 接口说明
 
-主要是核心类和成员函数说明，详情见 [API](./doc/api.md)
+主要是核心类和成员函数说明，详情见 [feature_api](./doc/feature_api.md)
 
 ## <img alt="" src="./doc/assets/readme-icon-compile.png" style="display: inline-block;" width=3%/>使用说明
 
@@ -125,15 +125,16 @@ Okio是OkHttp的低层IO库，Okio是对仓颉io库的补充，使访问、存�
 1. 本项目编译运行方式
 
    ```
-   git clone https://gitee.com/HW-PLLab/okio.git; ---> 拉取代码
-   git clone https://gitee.com/HW-PLLab/testJekins.git; ---> 拉取编译脚本
-   cd okio;                            ---> 进入到okio目录下
-   cp -r ../testJekins/src/ci_test .;     ---> 将ci test复制到okio的根目录
+   git clone https://gitee.com/HW-PLLab/okio.git  ---> 拉取代码
+   git clone https://gitee.com/HW-PLLab/testJekins.git  ---> 拉取编译脚本
+   cd okio                               ---> 进入到okio目录下
+   cp -r ../testJekins/src/ci_test .     ---> 将ci test复制到okio的根目录
    
    python3 ci_test/main.py build   ---> 编译
-   python3 ci_test/main.py test;   ---> 执行 test/LLT 用例 
+   python3 ci_test/main.py test    ---> 执行 test/LLT 用例 
    ```
    
+
 test/LLT 用例书写参考：https://gitee.com/HW-PLLab/cangjie-library-pages/wikis 的门禁测试脚本使用方式
 
 #### 测试demo脚本
@@ -149,16 +150,17 @@ time ./a.out
 ```cangjie
 from std import io.*
 from std import time.*
+from std import fs.*
 from okio import okio.*
 main() {
-    var file = File("demo.txt", Write, ForceCreate)
+    var file = File("demo.txt", OpenOption.Create(true))
     Okio.buffer(Okio.sink(file))
         .writeUtf8("abcdefghijklmn \n")
         .writeUtf8("中国 \n")
         .writeUtf8("1234")
         .close();
 
-    file = File("demo.txt", Read, Open)
+    file = File("demo.txt", OpenOption.Open(true, true))
     let bufferedSource = Okio.buffer(Okio.source(file));
     println(bufferedSource.readUtf8Line())
     println(bufferedSource.readUtf8Line())

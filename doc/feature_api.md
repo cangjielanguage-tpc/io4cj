@@ -164,13 +164,13 @@ public interface BufferedSink <: Sink {
     /*
      * 向该source写入一个完整的字节数组。
      * 参数 source - 字节数组
-     * 返回值 Buffer - Buffer
+     * 返回值 BufferedSink - BufferedSink
      */
     public func write(source: Array<Byte>): BufferedSink 
 
     /*
      * 向BufferedSink中写入一个完整的ByteString所包含的字节序列
-     * 参数 Buffer - okio的ByteString对象
+     * 参数 byteString - okio的ByteString对象
      * 返回值 BufferedSink - BufferedSink
      */
     public func write(byteString: ByteString): BufferedSink  
@@ -185,7 +185,7 @@ public interface BufferedSink <: Sink {
 
     /*
      * 向BufferedSink中写入一个完整source的字节序列
-     * 参数 Buffer - 读取的source
+     * 参数 source - 读取的source
      * 返回值 Int64 - Int64
      */
     public func writeAll(source: Source): Int64
@@ -684,7 +684,7 @@ public class Buffer <: Object & BufferedSource & BufferedSink & Equatable<Buffer
     /*
      * 向该Buffer写入一个完整的字节数组。
      * 参数 source - 字节数组
-     * 返回值 Buffer - Buffer
+     * 返回值 BufferedSink - BufferedSink
      */
     public func write(source: Array<Byte>): BufferedSink 
 
@@ -693,21 +693,9 @@ public class Buffer <: Object & BufferedSource & BufferedSink & Equatable<Buffer
      * 参数 source - 字节数组
      * 参数 offset - 偏移量, 开始写入的位置
      * 参数 byteCount - 字节数, 写入的长度
-     * 返回值 Buffer - Buffer
-     */
-    public func write(source: Array<Byte>, offset: Int64, byteCount: Int64): BufferedSink
-
-    /*
-     * 从中删除所有字节，并将其作为字节字符串返回
-     * 返回值 ByteString - ByteString
-     */
-    public func readByteString(): ByteString
-    
-    /*
-     * 向该Buffer写入一个完整的字节字符串。
      * 返回值 BufferedSink - BufferedSink
      */
-    public func write(byteString: ByteString): BufferedSink 
+    public func write(source: Array<Byte>, offset: Int64, byteCount: Int64): BufferedSink
     
     /*
      * 获取buffer类
@@ -978,7 +966,7 @@ public class Buffer <: Object & BufferedSource & BufferedSink & Equatable<Buffer
      * 返回一个新的BufferedSource，它可以从该BufferedResource读取数据，而不使用它。一旦下次读取或关闭此源，返回的源将变为无效。例如，我们可以使用peek（）向前看并多次读取相同的数据。
      * 返回值 BufferedSource - 新的BufferedSource
      */
-    public func peek(): BufferedSource  (930版本不支持新的BufferedSource直接打印输出 只能使用read方法读取)
+    public func peek(): BufferedSource 
     
         
     /*
@@ -1444,7 +1432,7 @@ class RealBufferedSink <: BufferedSink {
     public func write(source: Buffer, byteCount: Int64): Unit
 
     /*
-	 * 判断资源是否关闭
+	 * 判断资源是否关闭，调用Resource接口的isClosed方法
 	 * 返回值 Bool - 如果已经关闭返回 true，否则返回 false
 	 */
     public func isClosed():Bool
@@ -1624,7 +1612,7 @@ class RealBufferedSource <: BufferedSource {
     public func toString (): String
 
     /*
-     * 判断资源是否关闭
+     * 判断资源是否关闭，调用Resource接口的isClosed方法
      * 返回值 Bool - 如果已经关闭返回 true，否则返回 false
      */
     public func isClosed(): Bool
@@ -1940,6 +1928,14 @@ public class Utf8 {
  * 返回值 Unit
  */
 public func ArrayCopy(src: Array, srcPos: Int64, dest: Array, destPos: Int64, length: Int64)
+
+public class BufferOverflowException <: Exception {
+    /*
+     * 异常构造函数
+     */
+    public init () 
+}
+
 ```
 
 ##### 1.1.11.1 abstract class Buffer
@@ -2034,24 +2030,12 @@ public abstract class Buffer <: Object & ToString {
     public func hasRemaining(): Bool 
     
     /*
-     * 指示返回此缓冲区是否为只读。
-     * 返回值 Bool - 布尔值
-     */
-    public func isReadOnly(): Bool 
-    
-    /*
      * 返回此缓冲区中的第一个元素在缓冲区的底层实现数组中的偏移量 （可选操作）。
      * 如果存在实现此缓冲区的数组，则缓冲区位置 p 对应于数组索引 p + arrayOffset()。
      * 调用此方法之前要调用 hasArray 方法，以确保此缓冲区具有可访问的底层实现数组。
      * 返回值 Int64 - 偏移量
      */
     public func arrayOffset(): Int64
-    
-    /*
-     * 判断此字节缓冲区是否为直接的。
-     * 返回值 Bool - 当且仅当此缓冲区为直接时，返回 true
-     */
-    public func isDirect(): Bool
     
     /*
      * 实现此缓冲区的数组返回新的字节缓冲区
@@ -2135,9 +2119,9 @@ public abstract class ByteBuffer <: Buffer & ToString & Hashable & Equatable<Buf
      * 此缓冲区内容的更改在新缓冲区中是可见的，反之亦然；这两个缓冲区的位置、界限和标记值是相互独立的。
      * 新缓冲区的容量、界限、位置和标记值将与此缓冲区相同。
      * 当且仅当此缓冲区为直接时，新缓冲区才是直接的，当且仅当此缓冲区为只读时，新缓冲区才是只读的。
-     * 返回值 Buffer - Buffer
+     * 返回值 ByteBuffer - ByteBuffer
      */ 
-    public func duplicate(): Buffer
+    public func duplicate(): ByteBuffer
     
     
     /*
@@ -2146,9 +2130,9 @@ public abstract class ByteBuffer <: Buffer & ToString & Hashable & Equatable<Buf
      * 此缓冲区内容的更改在新缓冲区中是可见的，但新缓冲区将是只读的并且不允许修改共享内容。
      * 两个缓冲区的位置、界限和标记值是相互独立的。
      * 新缓冲区的容量、界限、位置和标记值将与此缓冲区相同。
-     * 返回值 Buffer - Buffer
+     * 返回值 ByteBuffer - ByteBuffer
      */
-    public func asReadOnlyBuffer(): Buffer
+    public func asReadOnlyBuffer(): ByteBuffer
     
     /*
      * 获取一个字节
@@ -2159,9 +2143,9 @@ public abstract class ByteBuffer <: Buffer & ToString & Hashable & Equatable<Buf
     /*
      * 存储一个字节
      * 参数 b - UInt8
-     * 返回值 Buffer - Buffer
+     * 返回值 ByteBuffer - ByteBuffer
      */
-    public func put(b: UInt8): Buffer
+    public func put(b: UInt8): ByteBuffer
     
     /*
      * 读取指定索引处的字节。 
@@ -2175,7 +2159,7 @@ public abstract class ByteBuffer <: Buffer & ToString & Hashable & Equatable<Buf
      * 参数 b - 要写入的字节值
      * 返回值 Buffer - Buffer
      */
-    public func put(index: Int64, b: UInt8): Buffer
+    public func put(index: Int64, b: UInt8): ByteBuffer
     
     /*
      * 存储一个 Int64（八个字节），只支持 Big-Endian（大端）写入操作
@@ -2261,21 +2245,21 @@ public abstract class ByteBuffer <: Buffer & ToString & Hashable & Equatable<Buf
      * 参数 dst - 向其中写入字节的数组
      * 参数 offset - 要写入的第一个字节在数组中的偏移量；必须为非负且不大于  dst.size
      * 参数 length - 要写入到给定数组中的字节的最大数量；必须为非负且不大于  dst.size - offset
-     * 返回值 Buffer - Buffer
+     * 返回值 ByteBuffer - ByteBuffer
      */
-    public func get(dst: Array<UInt8>, offset: Int64, length: Int64) : Buffer 
+    public func get(dst: Array<UInt8>, offset: Int64, length: Int64) : ByteBuffer 
     
     /*
      * 相当于 get(dst, 0, dst.size)
      * 参数 dst - 向其中写入字节的数组
-     * 返回值 Buffer - Buffer
+     * 返回值 ByteBuffer - ByteBuffer
      */
-    public func get(dst: Array<UInt8>): Buffer
+    public func get(dst: Array<UInt8>): ByteBuffer
      
     /*
      * 将给定src缓冲区中的剩余字节传输到此缓冲区中。
      * 参数 src - 要从中读取字节的源缓冲区；不能为当前的缓冲区
-     * 返回值 Buffer - Buffer
+     * 返回值 ByteBuffer - ByteBuffer
      */
     public func put(src: ByteBuffer) : ByteBuffer 
     
@@ -2284,9 +2268,9 @@ public abstract class ByteBuffer <: Buffer & ToString & Hashable & Equatable<Buf
      * 参数 src - 要从中读取字节的数组
      * 参数 offset - 要读取的第一个字节在数组中的偏移量；必须为非负且不大于  array.size
      * 参数 length - 要从给定数组读取的字节的数量；必须为非负且不大于  array.size - offset
-     * 返回值 Buffer - Buffer
+     * 返回值 ByteBuffer - ByteBuffer
      */
-    public func put(src: Array<UInt8>, offset:Int64, length: Int64): Buffer 
+    public func put(src: Array<UInt8>, offset:Int64, length: Int64): ByteBuffer 
 
     /*
      * 返回此缓冲区中的第一个元素在缓冲区的底层实现数组中的偏移量 （可选操作）。
@@ -2299,31 +2283,31 @@ public abstract class ByteBuffer <: Buffer & ToString & Hashable & Equatable<Buf
     /*
      * 设置此缓冲区的位置。如果标记(mark)已定义且大于新位置(newPosition)，则丢弃该标记(mark)
      * 参数 newPosition - 新位置值；必须为非负且不大于当前限制(limit)
-     * 返回值 Buffer - Buffer
+     * 返回值 ByteBuffer - ByteBuffer
      */
-    public func position(newPosition: Int64): Buffer
+    public func position(newPosition: Int64): ByteBuffer
 
     /*
      * 设置此缓冲区的限制（limit）。
      * 如果位置（position）大于新限制（newlimit），则将其设置为新限制（limit）。
      * 如果标记（mark）已定义且大于新限制，则将丢弃该标记。
      * 参数 newPosition - 新的极限值；必须为非负，且不大于此缓冲区的容量（capacity）
-     * 返回值 Buffer - Buffer
+     * 返回值 ByteBuffer - ByteBuffer
      */
-    public func limit(newLimit: Int64): Buffer 
+    public func limit(newLimit: Int64): ByteBuffer 
     
     /*
      * 将此缓冲区的位置重置为先前标记的位置，调用此方法既不会更改也不会丢弃标记的值。
      * 内部逻辑是把position设置成mark的值，相当于之前做过一个标记，现在要退回到之前标记的位置。
-     * 返回值 Buffer - Buffer
+     * 返回值 ByteBuffer - ByteBuffer
      */
-    public func reset(): Buffer 
+    public func reset(): ByteBuffer 
     
     /*
      * 重置初始化状态。它通常用于清除操作。
      * 此方法的功能是所有状态都将返回到初始状态。position=0， mark=-1，limit=capacity；
      * 注意，此方法与flip的区别在于limit的值是不一样的。
-     * 返回值 Buffer - Buffer
+     * 返回值 Unit
      */
     public func clear(): Unit
     
@@ -2331,16 +2315,16 @@ public abstract class ByteBuffer <: Buffer & ToString & Hashable & Equatable<Buf
      * 翻转状态，将一个处于存数据状态的缓冲区变为一个处于准备取数据的状态，
      * 也就是让flip之后的position到limit这块区域变成之前的0到position这块
      * limit = position;position = 0;mark = -1;
-     * 返回值 Buffer - Buffer
+     * 返回值 ByteBuffer - ByteBuffer
      */
-    public func flip(): Buffer
+    public func flip(): ByteBuffer
     
     /*
      * 清零，一版用于写完之后的数据，想从起始位置开始读数据的情形
      * 把position设为0，mark设为-1，不改变limit的值。
-     * 返回值 Buffer - Buffer
+     * 返回值 ByteBuffer - ByteBuffer
      */
-    public func rewind(): Buffer
+    public func rewind(): ByteBuffer
     
     /*
      * 压缩此缓冲区 （可选操作）。
@@ -2435,9 +2419,9 @@ public open class HeapByteBuffer <: ByteBuffer & ToString {
      * 此缓冲区内容的更改在新缓冲区中是可见的，反之亦然；这两个缓冲区的位置、界限和标记值是相互独立的。
      * 新缓冲区的容量、界限、位置和标记值将与此缓冲区相同。
      * 当且仅当此缓冲区为直接时，新缓冲区才是直接的，当且仅当此缓冲区为只读时，新缓冲区才是只读的。
-     * 返回值 Buffer - Buffer
+     * 返回值 ByteBuffer - ByteBuffer
      */ 
-    public func duplicate(): Buffer
+    public func duplicate(): ByteBuffer
     
     
     /*
@@ -2446,9 +2430,9 @@ public open class HeapByteBuffer <: ByteBuffer & ToString {
      * 此缓冲区内容的更改在新缓冲区中是可见的，但新缓冲区将是只读的并且不允许修改共享内容。
      * 两个缓冲区的位置、界限和标记值是相互独立的。
      * 新缓冲区的容量、界限、位置和标记值将与此缓冲区相同。
-     * 返回值 Buffer - Buffer
+     * 返回值 ByteBuffer - ByteBuffer
      */
-    public func asReadOnlyBuffer(): Buffer
+    public func asReadOnlyBuffer(): ByteBuffer
     
     /*
      * 获取一个字节
@@ -2459,9 +2443,9 @@ public open class HeapByteBuffer <: ByteBuffer & ToString {
     /*
      * 存储一个字节
      * 参数 b - UInt8
-     * 返回值 Buffer - Buffer
+     * 返回值 ByteBuffer - ByteBuffer
      */
-    public func put(b: UInt8): Buffer
+    public func put(b: UInt8): ByteBuffer
     
     /*
      * 读取指定索引处的字节。 
@@ -2474,9 +2458,9 @@ public open class HeapByteBuffer <: ByteBuffer & ToString {
      * 将给定字节写入此缓冲区的给定索引处。如果 index 为负或不小于缓冲区界限, 将抛出 IndexOutOfBoundsException 。
      * 参数 index - 将在该位置写入字节的索引
      * 参数 b - 要写入的字节值
-     * 返回值 Buffer - Buffer
+     * 返回值 ByteBuffer - ByteBuffer
      */
-    public func put(index: Int64, b: UInt8): Buffer
+    public func put(index: Int64, b: UInt8): ByteBuffer
     
     /*
      * 存储一个 Int64（八个字节），只支持 Big-Endian（大端）写入操作
@@ -2562,16 +2546,16 @@ public open class HeapByteBuffer <: ByteBuffer & ToString {
      * 参数 dst - 向其中写入字节的数组
      * 参数 offset - 要写入的第一个字节在数组中的偏移量；必须为非负且不大于  dst.size
      * 参数 length - 要写入到给定数组中的字节的最大数量；必须为非负且不大于  dst.size - offset
-     * 返回值 Buffer - Buffer
+     * 返回值 ByteBuffer - ByteBuffer
      */
-    public func get(dst: Array<UInt8>, offset: Int64, length: Int64) : Buffer 
+    public func get(dst: Array<UInt8>, offset: Int64, length: Int64) : ByteBuffer 
     
     /*
      * 相当于 get(dst, 0, dst.size)
      * 参数 dst - 向其中写入字节的数组
-     * 返回值 Buffer - Buffer
+     * 返回值 ByteBuffer - ByteBuffer
      */
-    public func get(dst: Array<UInt8>): Buffer
+    public func get(dst: Array<UInt8>): ByteBuffer
      
     /*
      * 将给定src缓冲区中的剩余字节传输到此缓冲区中。
@@ -2585,16 +2569,16 @@ public open class HeapByteBuffer <: ByteBuffer & ToString {
      * 参数 src - 要从中读取字节的数组
      * 参数 offset - 要读取的第一个字节在数组中的偏移量；必须为非负且不大于  array.size
      * 参数 length - 要从给定数组读取的字节的数量；必须为非负且不大于  array.size - offset
-     * 返回值 Buffer - Buffer
+     * 返回值 ByteBuffer - ByteBuffer
      */
-    public func put(src: Array<UInt8>, offset:Int64, length: Int64): Buffer 
+    public func put(src: Array<UInt8>, offset:Int64, length: Int64): ByteBuffer 
 
     /*
      * 相当于 put(src, 0, src.size)
      * 参数 src - 要从中读取字节的数组
-     * 返回值 Buffer - Buffer
+     * 返回值 ByteBuffer - ByteBuffer
      */
-    public func put(src: Array<UInt8>): Buffer
+    public func put(src: Array<UInt8>): ByteBuffer
     
     /*
      * 判断是否可通过一个可访问的 byte 数组实现此缓冲区。
@@ -2623,31 +2607,31 @@ public open class HeapByteBuffer <: ByteBuffer & ToString {
     /*
      * 设置此缓冲区的位置。如果标记(mark)已定义且大于新位置(newPosition)，则丢弃该标记(mark)
      * 参数 newPosition - 新位置值；必须为非负且不大于当前限制(limit)
-     * 返回值 Buffer - Buffer
+     * 返回值 ByteBuffer - ByteBuffer
      */
-    public func position(newPosition: Int64): Buffer
+    public func position(newPosition: Int64): ByteBuffer
 
     /*
      * 设置此缓冲区的限制（limit）。
      * 如果位置（position）大于新限制（newlimit），则将其设置为新限制（limit）。
      * 如果标记（mark）已定义且大于新限制，则将丢弃该标记。
      * 参数 newPosition - 新的极限值；必须为非负，且不大于此缓冲区的容量（capacity）
-     * 返回值 Buffer - Buffer
+     * 返回值 ByteBuffer - ByteBuffer
      */
-    public func limit(newLimit: Int64): Buffer 
+    public func limit(newLimit: Int64): ByteBuffer 
     
     /*
      * 将此缓冲区的位置重置为先前标记的位置，调用此方法既不会更改也不会丢弃标记的值。
      * 内部逻辑是把position设置成mark的值，相当于之前做过一个标记，现在要退回到之前标记的位置。
-     * 返回值 Buffer - Buffer
+     * 返回值 ByteBuffer - ByteBuffer
      */
-    public func reset(): Buffer 
+    public func reset(): ByteBuffer 
     
     /*
      * 重置初始化状态。它通常用于清除操作。
      * 此方法的功能是所有状态都将返回到初始状态。position=0， mark=-1，limit=capacity；
      * 注意，此方法与flip的区别在于limit的值是不一样的。
-     * 返回值 Buffer - Buffer
+     * 返回值 ByteBuffer - ByteBuffer
      */
     public func clear(): Unit
     
@@ -2655,16 +2639,16 @@ public open class HeapByteBuffer <: ByteBuffer & ToString {
      * 翻转状态，将一个处于存数据状态的缓冲区变为一个处于准备取数据的状态，
      * 也就是让flip之后的position到limit这块区域变成之前的0到position这块
      * limit = position;position = 0;mark = -1;
-     * 返回值 Buffer - Buffer
+     * 返回值 ByteBuffer - ByteBuffer
      */
-    public func flip(): Buffer
+    public func flip(): ByteBuffer
     
     /*
      * 清零，一版用于写完之后的数据，想从起始位置开始读数据的情形
      * 把position设为0，mark设为-1，不改变limit的值。
-     * 返回值 Buffer - Buffer
+     * 返回值 ByteBuffer - ByteBuffer
      */
-    public func rewind(): Buffer
+    public func rewind(): ByteBuffer
     
     /*
      * 压缩此缓冲区 （可选操作）。
@@ -2835,16 +2819,17 @@ public open class SocketBuffer <: InputStream & OutputStream & Resource & ToStri
 ```cangjie
 from std import io.*
 from std import time.*
+from std import fs.*
 from okio import okio.*
 main() {
-    var file = File("demo.txt", Write, ForceCreate)
+    var file = File("demo.txt", OpenOption.Create(true))
     Okio.buffer(Okio.sink(file))
         .writeUtf8("abcdefghijklmn \n")
         .writeUtf8("中国 \n")
         .writeUtf8("1234")
         .close();
 
-    file = File("demo.txt", Read, Open)
+    file = File("demo.txt", OpenOption.Open(true, true))
     let bufferedSource = Okio.buffer(Okio.source(file));
     println(bufferedSource.readUtf8Line())
     println(bufferedSource.readUtf8Line())
@@ -2865,7 +2850,7 @@ main() {
 
 可靠性： NA
 
-### 2.1 主要接口
+#### 2.1 主要接口
 
 ```cangjie
 public class GzipSink <: Sink {
@@ -2903,7 +2888,7 @@ public class GzipSource <: Source {
 }
 ```
 
-### 2.2相关接口
+#### 2.2相关接口
 
 ```cangjie
 GzipSink 类 实现了Sink接口
@@ -2928,7 +2913,7 @@ GzipSink 类 实现了Sink接口
     public override func timeout(): Timeout
     
     /*
-	 * 判断资源是否关闭
+	 * 判断资源是否关闭，调用Resource接口的isClosed方法
 	 * 返回值 Bool - 如果已经关闭返回 true，否则返回 false
 	 */
     public override func isClosed(): Bool
@@ -2952,7 +2937,7 @@ DeflaterSink 类 实现了Sink接口，封装了具体的压缩方法
     public init(sink: Sink)
     
     /*
-	 * 判断资源是否关闭
+	 * 判断资源是否关闭，调用Resource接口的isClosed方法
 	 * 返回值 Bool - 如果已经关闭返回 true，否则返回 false
 	 */
     public override func isClosed(): Bool
@@ -2985,7 +2970,7 @@ GzipSource 类 实现了Source接口
     public override func timeout(): Timeout
     
     /*
-	 * 判断资源是否关闭
+	 * 判断资源是否关闭，调用Resource接口的isClosed方法
 	 * 返回值 Bool - 如果已经关闭返回 true，否则返回 false
 	 */
     public override func isClosed(): Bool
@@ -3028,7 +3013,7 @@ InflaterSource 类 实现了Source接口，封装了具体的解压缩方法
     public override func timeout(): Timeout
     
     /*
-	 * 判断资源是否关闭
+	 * 判断资源是否关闭，调用Resource接口的isClosed方法
 	 * 返回值 Bool - 如果已经关闭返回 true，否则返回 false
 	 */
     public override func isClosed(): Bool
@@ -3041,9 +3026,7 @@ InflaterSource 类 实现了Source接口，封装了具体的解压缩方法
   }
 ```
 
-
-
-### 2.3 示例
+#### 2.3 示例
 
 ```cangjie
 from okio import okio.*
@@ -3054,19 +3037,30 @@ from std import fs.*
 
 main () {
     let data: Buffer = Buffer()
-    let testString: String = "Test whether gzipsink can be compressed"
+    let testString: String = "你好仓颉Test whether gzipsink can be compressed"
     data.writeUtf8(testString)
     let buffer: Buffer = Buffer()
     let gs: GzipSink = GzipSink(buffer) 
-    let str1 = gs.write(data,data.size)
-    let str3 = gs.timeout()
-    gs.flush()
+    gs.write(data,data.size)
+    let result: Buffer = Buffer()
     gs.close()
-    gs.isClosed()
-    println(gs.toString())
     gs.toString()
+    gs.timeout()
+    let inflated: Buffer = gunzip(buffer)
+    var a: String = inflated.readUtf8()
+    if("你好仓颉Test whether gzipsink can be compressed" != a) {
+        return 1
+    }
     return 0
 }
+
+public func gunzip(gzipped: Buffer):Buffer {
+    let result: Buffer = Buffer()
+    let source: GzipSource = GzipSource(gzipped);
+    while (source.read(result, gzipped.size) != -1) {
+    }
+    return result
+  } 
 
 ```
 
@@ -3084,7 +3078,7 @@ main () {
 
 可靠性： NA
 
-### 3.1 主要接口
+#### 3.1 主要接口
 
 ```cangjie
 public abstract class ForwardingSink <: Sink {
@@ -3122,7 +3116,7 @@ public abstract class ForwardingSource <: Source{
 }
 ```
 
-### 3.2相关接口
+#### 3.2相关接口
 
 ```cnagjie
 ForwardingSink 类 实现Sink接口，多出获取Sink对象的方法
@@ -3140,6 +3134,12 @@ ForwardingSink 类 实现Sink接口，多出获取Sink对象的方法
      */
     public override func close(): Unit
     
+     /*
+	 * 判断资源是否关闭，调用Resource接口的isClosed方法
+	 * 返回值 Bool - 如果已经关闭返回 true，否则返回 false
+	 */
+    public override func isClosed(): Bool
+    
     /*
      * 清理sink里面内容，重写父类sink的flush()方法
      * 参数：source：Buffe对象
@@ -3153,12 +3153,6 @@ ForwardingSink 类 实现Sink接口，多出获取Sink对象的方法
      * 返回值 Timeout对象
      */
     public override func timeout(): Timeout
-    
-    /*
-	 * 判断资源是否关闭
-	 * 返回值 Bool - 如果已经关闭返回 true，否则返回 false
-	 */
-    public override func isClosed(): Bool
     
     /*
      * 获取String类型，重写toString()方法。
@@ -3182,18 +3176,18 @@ ForwardingSource 类 实现Source接口，多出获取Sink对象的方法
      */
     public override func close(): Unit
     
+     /*
+	 * 判断资源是否关闭，调用Resource接口的isClosed方法
+	 * 返回值 Bool - 如果已经关闭返回 true，否则返回 false
+	 */
+    public override func isClosed(): Bool
+    
     /*
      * 获取Timeout对象，重写父类sink的timeout()方法
      * 参数：source：Buffe对象
      * 返回值 Timeout对象
      */
     public override func timeout(): Timeout
-    
-    /*
-	 * 判断资源是否关闭
-	 * 返回值 Bool - 如果已经关闭返回 true，否则返回 false
-	 */
-    public override func isClosed(): Bool
     
     /*
      * 获取String类型，重写toString()方法。
@@ -3277,9 +3271,7 @@ ForwardingTimeout 类 继承了Timeout类
   }
 ```
 
-
-
-### 3.3 示例
+#### 3.3 示例
 
 ```cangjie
 from okio import okio.*
@@ -3306,7 +3298,6 @@ main () {
     let s3 = fws.timeout()
     let s4 = fws.close()
     let s5 = fws.toString()
-    let s6 = fws.isClosed()
     return 0
 }
 
@@ -3328,9 +3319,9 @@ main () {
 
 可靠性： NA
 
-### 4.1 加密/ sha族算法
+#### 4.1 加密/ sha族算法
 
-### 4.1.1 主要接口
+##### 4.1.1 主要接口
 
 ```cangjie
 HashingSink类 继承了ForwardingSink抽象类，调用具体算法，返回响应的哈希值
@@ -3441,7 +3432,7 @@ public class HashingSink <: ForwardingSink {
     public func hash(): String
     
     /*
-	 * 判断资源是否关闭
+	 * 判断资源是否关闭，调用Resource接口的isClosed方法
 	 * 返回值 Bool - 如果已经关闭返回 true，否则返回 false
 	 */
     public override func isClosed(): Bool
@@ -3529,7 +3520,7 @@ HashingSource 类 继承了ForwardingSource抽象类，调用具体算法，返�
     public func hash(): String
     
     /*
-	 * 判断资源是否关闭
+	 * 判断资源是否关闭，调用Resource接口的isClosed方法
 	 * 返回值 Bool - 如果已经关闭返回 true，否则返回 false
 	 */
     public override func isClosed(): Bool
@@ -3537,10 +3528,15 @@ HashingSource 类 继承了ForwardingSource抽象类，调用具体算法，返�
   }
 ```
 
-
-### 4.1.2 示例
+##### 4.1.2 示例
 
 ```cangjie
+from okio import okio.*
+from std import os.posix.*
+from std import io.*
+from std import time.*
+from okio import nio.ByteBuffer
+from std import socket.*
 main () {
 	var source: Buffer = Buffer()
     var sink: Buffer = Buffer()
@@ -3555,9 +3551,9 @@ main () {
 }
 ```
 
-### 4.2 管道扩展类
+#### 4.2 管道扩展类
 
-### 4.2.1 主要接口
+##### 4.2.1 主要接口
 
 ```cangjie
 Pipe 类 okio管道类，使用一个缓冲区来解耦源和接收器。该缓冲区具有用户指定的大小。当生产线程的运行速度超过消费线程时，缓冲区会被填满，并最终写入接收器，直到消	 	费线程赶上。对称地，如果消费者超出了它的生产者读块，直到有数据可读。
@@ -3589,9 +3585,14 @@ Pipe 类 okio管道类，使用一个缓冲区来解耦源和接收器。该缓�
 
 ```
 
-### 4.2.2 示例
+##### 4.2.2 示例
 
 ```cangjie
+from okio import okio.*
+from std import os.posix.*
+from std import io.*
+from std import time.*
+from std import fs.*
 main () {
 	let pi: Pipe = Pipe(100)
     let bu: Buffer = Buffer()
@@ -3607,3 +3608,166 @@ main () {
 }
 ```
 
+### 5 定义异常类
+
+#### 5.1 主要接口
+```cangjie
+public class ArrayIndexOutOfBoundsException <: Exception {
+
+    /*
+     * 得到一个 ArrayIndexOutOfBoundsException 实例
+     */
+    public init()
+
+    /*
+     * 得到一个 ArrayIndexOutOfBoundsException 实例
+     * 参数 message - 预定义消息
+     */
+    public init(string: String) 
+}
+
+public class EOFException <: Exception {
+    /*
+     * 得到一个 EOFException 实例
+     */
+    public init()
+
+    /*
+     * 得到一个 EOFException 实例
+     * 参数 message - 预定义消息
+     */
+    public init(string: String) 
+}
+
+public class InterruptedException <: Exception {
+    /*
+     * 得到一个 InterruptedException 实例
+     */
+    public init()
+    /*
+     * 得到一个 InterruptedException 实例
+     * 参数 message - 预定义消息
+     */
+    public init(string: String) 
+}
+
+public class IllegalStateException <: Exception {
+    /*
+     * 得到一个 IllegalStateException 实例
+     */
+    public init()
+
+    /*
+     * 得到一个 IllegalStateException 实例
+     * 参数 message - 预定义消息
+     */
+    public init(string: String) 
+}
+
+public class NumberFormatException <: Exception {
+    /*
+     * 得到一个 NumberFormatException 实例
+     * 参数 message - 预定义消息
+     */
+    public init()
+
+    /*
+     * 得到一个 NumberFormatException 实例
+     * 参数 message - 预定义消息
+     */
+    public init(string: String) 
+}
+
+public class AssertionException <: Exception {
+    /*
+     * 得到一个 AssertionException 实例
+     * 参数 message - 预定义消息
+     */
+    public init()
+
+    /*
+     * 得到一个 AssertionException 实例
+     * 参数 message - 预定义消息
+     */
+    public init(string: String) 
+}
+```
+### 6 timeout超时类
+
+#### 6.1 主要接口
+
+```cangjie
+public open class Timeout <: Object {
+    // 空的 timeout实例
+    public static let NONE: Timeout
+
+    /*
+     * 构造 timeout对象
+     */
+    public init() 
+
+    /*
+     * 获取Timeout对象，重写父类Timeout的timeout(timeout: Int64)方法
+     * 参数 timeout - Int64 计数器
+     * 返回值 Timeout 对象
+     */
+    public open func timeout(timeout: Int64): Timeout 
+
+    /*
+     * 获取超时时间纳秒值
+     * 返回值 Int64 超时时间纳秒值
+     */
+    public open func timeoutNanos(): Int64
+
+    /*
+     * 获取是否有截止日期
+     * 返回值 Bool - 如果是 true，否则返回 false
+     */
+    public open func hasDeadline(): Bool 
+
+    /*
+     * 获取截止日期纳秒值
+     * 返回值 Int64 截止日期纳秒值
+     */
+    public open func deadlineNanoTime(): Int64 
+
+    /*
+     * 获取Timeout对象
+     * 参数 deadlineNanoTime - Int64 截至日期纳秒
+     * 返回值 Timeout 对象
+     */
+    public open func deadlineNanoTime(deadlineNanoTime: Int64): Timeout 
+
+    /*
+     * 获取Timeout对象，重写父类Timeout的deadlineNanoTime（deadlineNanoTime: Int64）方法
+     * 参数 deadlineNanoTime - Int64 截至日期纳秒
+     * 返回值 Timeout 对象
+     */
+    public func deadline(duration: Duration, timeout: Int64) : Timeout 
+
+    /*
+     * 清理Timeout变量timeoutnanost，使timeoutnanost值变为零
+     * 返回值 Timeout 对象
+     */
+    public open func clearTimeout(): Timeout 
+
+    /*
+     * 清理Timeout变量hasdeadline，使hasdeadline值变为false
+     * 返回值 Timeout 对象
+     */
+    public open func clearDeadline(): Timeout 
+
+    /*
+     * 抛出预期，如果hasdeadline为true且deadlinenanotime小于等于当前时间则抛出异常
+     * 返回值 Unit
+     */
+    public open func throwIfReached() 
+
+    /*
+     * 在监视器上等待，直到收到通知。
+     * 参数 monitor - monitor
+     * 返回值 Unit
+     */
+    public func waitUntilNotified(monitor: Monitor) 
+}
+```

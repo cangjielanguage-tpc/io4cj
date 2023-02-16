@@ -284,12 +284,12 @@ pre
           </tr>
           <tr>
             <td class="headerName">Date:</td>
-            <td class="headerValue">2023-01-06 11:08:07</td>
+            <td class="headerValue">2023-02-16 18:14:02</td>
             <td></td>
             <td class="headerName">Lines:</td>
-            <td class="headerTableEntry">20</td>
-            <td class="headerTableEntry">22</td>
-            <td class="headerTableEntry" style="background-color:LightGreen">90.9 %</td>
+            <td class="headerTableEntry">23</td>
+            <td class="headerTableEntry">27</td>
+            <td class="headerTableEntry" style="background-color:Yellow">85.2 %</td>
           </tr>
           <tr>
             <td class="headerName">Legend:</td>
@@ -300,9 +300,9 @@ pre
             </td>
             <td></td>
             <td class="headerName">Branches:</td>
-            <td class="headerTableEntry">8</td>
-            <td class="headerTableEntry">32</td>
-            <td class="headerTableEntry" style="background-color:LightPink">25.0 %</td>
+            <td class="headerTableEntry">10</td>
+            <td class="headerTableEntry">36</td>
+            <td class="headerTableEntry" style="background-color:LightPink">27.8 %</td>
           </tr>
         </table>
       </td>
@@ -413,8 +413,8 @@ pre
 <tr>
 <td align="right" class="lineno"><pre>16</pre></td>
 <td align="right" class="linebranch"></td>
-<td align="center" class="linecount "><pre></pre></td>
-<td align="left" class="src "><pre>public class SegmentPool {</pre></td>
+<td align="center" class="linecount uncoveredLine"><pre>N</pre></td>
+<td align="left" class="src uncoveredLine"><pre>public class SegmentPool {</pre></td>
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>17</pre></td>
@@ -425,8 +425,8 @@ pre
 <tr>
 <td align="right" class="lineno"><pre>18</pre></td>
 <td align="right" class="linebranch"></td>
-<td align="center" class="linecount uncoveredLine"><pre>N</pre></td>
-<td align="left" class="src uncoveredLine"><pre>    static let MAX_SIZE = 64 * 1024</pre></td>
+<td align="center" class="linecount "><pre></pre></td>
+<td align="left" class="src "><pre>    static let MAX_SIZE = 64 * 1024</pre></td>
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>19</pre></td>
@@ -437,8 +437,8 @@ pre
 <tr>
 <td align="right" class="lineno"><pre>20</pre></td>
 <td align="right" class="linebranch"></td>
-<td align="center" class="linecount "><pre></pre></td>
-<td align="left" class="src "><pre>    static let mutex = ReentrantMutex()</pre></td>
+<td align="center" class="linecount coveredLine"><pre>Y</pre></td>
+<td align="left" class="src coveredLine"><pre>    static let mutex = ReentrantMutex()</pre></td>
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>21</pre></td>
@@ -449,8 +449,8 @@ pre
 <tr>
 <td align="right" class="lineno"><pre>22</pre></td>
 <td align="right" class="linebranch"></td>
-<td align="center" class="linecount coveredLine"><pre>Y</pre></td>
-<td align="left" class="src coveredLine"><pre>    static var next: ?Segment = None</pre></td>
+<td align="center" class="linecount "><pre></pre></td>
+<td align="left" class="src "><pre>    static var next: ?Segment = None</pre></td>
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>23</pre></td>
@@ -473,8 +473,8 @@ pre
 <tr>
 <td align="right" class="lineno"><pre>26</pre></td>
 <td align="right" class="linebranch"></td>
-<td align="center" class="linecount "><pre></pre></td>
-<td align="left" class="src "><pre>    static func take(): Segment {</pre></td>
+<td align="center" class="linecount coveredLine"><pre>Y</pre></td>
+<td align="left" class="src coveredLine"><pre>    static func take(): Segment {</pre></td>
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>27</pre></td>
@@ -490,9 +490,15 @@ pre
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>29</pre></td>
-<td align="right" class="linebranch"></td>
-<td align="center" class="linecount "><pre></pre></td>
-<td align="left" class="src "><pre>                case Some(result) =&gt;</pre></td>
+<td align="right" class="linebranch"><details class="linebranchDetails">
+<summary class="linebranchSummary">2/2</summary>
+<div class="linebranchContents">
+<div class="takenBranch">&check; Branch 0 taken 66 times.</div><div class="takenBranch">&check; Branch 1 taken 47 times.</div>
+</div>
+</details>
+</td>
+<td align="center" class="linecount coveredLine"><pre>Y</pre></td>
+<td align="left" class="src coveredLine"><pre>                case Some(result) =&gt;</pre></td>
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>30</pre></td>
@@ -502,19 +508,19 @@ pre
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>31</pre></td>
-<td align="right" class="linebranch"><details class="linebranchDetails">
-<summary class="linebranchSummary">2/2</summary>
-<div class="linebranchContents">
-<div class="takenBranch">&check; Branch 0 taken 664 times.</div><div class="takenBranch">&check; Branch 1 taken 896 times.</div>
-</div>
-</details>
-</td>
+<td align="right" class="linebranch"></td>
 <td align="center" class="linecount coveredLine"><pre>Y</pre></td>
 <td align="left" class="src coveredLine"><pre>                    result.next = None</pre></td>
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>32</pre></td>
-<td align="right" class="linebranch"></td>
+<td align="right" class="linebranch"><details class="linebranchDetails">
+<summary class="linebranchSummary">1/8</summary>
+<div class="linebranchContents">
+<div class="takenBranch">&check; Branch 0 taken 47 times.</div><div class="notTakenBranch">&cross; Branch 1 not taken.</div><div class="notTakenBranch">&cross; Branch 2 not taken.</div><div class="notTakenBranch">&cross; Branch 3 not taken.</div><div class="notTakenBranch">&cross; Branch 4 not taken.</div><div class="notTakenBranch">&cross; Branch 5 not taken.</div><div class="notTakenBranch">&cross; Branch 6 not taken.</div><div class="notTakenBranch">&cross; Branch 7 not taken.</div>
+</div>
+</details>
+</td>
 <td align="center" class="linecount coveredLine"><pre>Y</pre></td>
 <td align="left" class="src coveredLine"><pre>                    byteCount -= Segment.SIZE</pre></td>
 </tr>
@@ -532,27 +538,21 @@ pre
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>35</pre></td>
-<td align="right" class="linebranch"><details class="linebranchDetails">
-<summary class="linebranchSummary">1/8</summary>
-<div class="linebranchContents">
-<div class="takenBranch">&check; Branch 0 taken 664 times.</div><div class="notTakenBranch">&cross; Branch 1 not taken.</div><div class="notTakenBranch">&cross; Branch 2 not taken.</div><div class="notTakenBranch">&cross; Branch 3 not taken.</div><div class="notTakenBranch">&cross; Branch 4 not taken.</div><div class="notTakenBranch">&cross; Branch 5 not taken.</div><div class="notTakenBranch">&cross; Branch 6 not taken.</div><div class="notTakenBranch">&cross; Branch 7 not taken.</div>
-</div>
-</details>
-</td>
-<td align="center" class="linecount coveredLine"><pre>Y</pre></td>
-<td align="left" class="src coveredLine"><pre>            }</pre></td>
+<td align="right" class="linebranch"></td>
+<td align="center" class="linecount "><pre></pre></td>
+<td align="left" class="src "><pre>            }</pre></td>
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>36</pre></td>
 <td align="right" class="linebranch"></td>
-<td align="center" class="linecount coveredLine"><pre>Y</pre></td>
-<td align="left" class="src coveredLine"><pre>        }</pre></td>
+<td align="center" class="linecount "><pre></pre></td>
+<td align="left" class="src "><pre>        }</pre></td>
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>37</pre></td>
 <td align="right" class="linebranch"></td>
-<td align="center" class="linecount "><pre></pre></td>
-<td align="left" class="src "><pre>        return Segment()</pre></td>
+<td align="center" class="linecount coveredLine"><pre>Y</pre></td>
+<td align="left" class="src coveredLine"><pre>        return Segment()</pre></td>
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>38</pre></td>
@@ -563,119 +563,161 @@ pre
 <tr>
 <td align="right" class="lineno"><pre>39</pre></td>
 <td align="right" class="linebranch"></td>
-<td align="center" class="linecount coveredLine"><pre>Y</pre></td>
-<td align="left" class="src coveredLine"><pre></pre></td>
+<td align="center" class="linecount "><pre></pre></td>
+<td align="left" class="src "><pre></pre></td>
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>40</pre></td>
 <td align="right" class="linebranch"></td>
-<td align="center" class="linecount "><pre></pre></td>
-<td align="left" class="src "><pre>    static func recycle(segment: Segment) {</pre></td>
+<td align="center" class="linecount coveredLine"><pre>Y</pre></td>
+<td align="left" class="src coveredLine"><pre>    static func recycle(segment: Segment) {</pre></td>
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>41</pre></td>
 <td align="right" class="linebranch"></td>
-<td align="center" class="linecount "><pre></pre></td>
-<td align="left" class="src "><pre>        match(segment.prev) {</pre></td>
+<td align="center" class="linecount coveredLine"><pre>Y</pre></td>
+<td align="left" class="src coveredLine"><pre>        match(segment.prev) {</pre></td>
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>42</pre></td>
-<td align="right" class="linebranch"></td>
+<td align="right" class="linebranch"><details class="linebranchDetails">
+<summary class="linebranchSummary">1/2</summary>
+<div class="linebranchContents">
+<div class="notTakenBranch">&cross; Branch 0 not taken.</div><div class="takenBranch">&check; Branch 1 taken 80 times.</div>
+</div>
+</details>
+</td>
 <td align="center" class="linecount coveredLine"><pre>Y</pre></td>
 <td align="left" class="src coveredLine"><pre>            case None =&gt; ()</pre></td>
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>43</pre></td>
 <td align="right" class="linebranch"></td>
-<td align="center" class="linecount coveredLine"><pre>Y</pre></td>
-<td align="left" class="src coveredLine"><pre>            case _ =&gt; throw IllegalArgumentException()</pre></td>
+<td align="center" class="linecount uncoveredLine"><pre>N</pre></td>
+<td align="left" class="src uncoveredLine"><pre>            case _ =&gt; throw IllegalArgumentException()</pre></td>
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>44</pre></td>
-<td align="right" class="linebranch"><details class="linebranchDetails">
-<summary class="linebranchSummary">1/2</summary>
-<div class="linebranchContents">
-<div class="notTakenBranch">&cross; Branch 0 not taken.</div><div class="takenBranch">&check; Branch 1 taken 1131 times.</div>
-</div>
-</details>
-</td>
-<td align="center" class="linecount coveredLine"><pre>Y</pre></td>
-<td align="left" class="src coveredLine"><pre>        }</pre></td>
+<td align="right" class="linebranch"></td>
+<td align="center" class="linecount "><pre></pre></td>
+<td align="left" class="src "><pre>        }</pre></td>
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>45</pre></td>
 <td align="right" class="linebranch"></td>
-<td align="center" class="linecount uncoveredLine"><pre>N</pre></td>
-<td align="left" class="src uncoveredLine"><pre>        match(segment.next) {</pre></td>
+<td align="center" class="linecount coveredLine"><pre>Y</pre></td>
+<td align="left" class="src coveredLine"><pre>        match(segment.next) {</pre></td>
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>46</pre></td>
-<td align="right" class="linebranch"></td>
-<td align="center" class="linecount "><pre></pre></td>
-<td align="left" class="src "><pre>            case None =&gt; ()</pre></td>
-</tr>
-<tr>
-<td align="right" class="lineno"><pre>47</pre></td>
-<td align="right" class="linebranch"></td>
-<td align="center" class="linecount "><pre></pre></td>
-<td align="left" class="src "><pre>            case _ =&gt; throw IllegalArgumentException()</pre></td>
-</tr>
-<tr>
-<td align="right" class="lineno"><pre>48</pre></td>
 <td align="right" class="linebranch"><details class="linebranchDetails">
-<summary class="linebranchSummary">3/10</summary>
+<summary class="linebranchSummary">1/2</summary>
 <div class="linebranchContents">
-<div class="takenBranch">&check; Branch 0 taken 98 times.</div><div class="takenBranch">&check; Branch 1 taken 1033 times.</div><div class="notTakenBranch">&cross; Branch 2 not taken.</div><div class="takenBranch">&check; Branch 3 taken 1033 times.</div><div class="notTakenBranch">&cross; Branch 4 not taken.</div><div class="notTakenBranch">&cross; Branch 5 not taken.</div><div class="notTakenBranch">&cross; Branch 6 not taken.</div><div class="notTakenBranch">&cross; Branch 7 not taken.</div><div class="notTakenBranch">&cross; Branch 8 not taken.</div><div class="notTakenBranch">&cross; Branch 9 not taken.</div>
+<div class="notTakenBranch">&cross; Branch 0 not taken.</div><div class="takenBranch">&check; Branch 1 taken 80 times.</div>
 </div>
 </details>
 </td>
 <td align="center" class="linecount coveredLine"><pre>Y</pre></td>
-<td align="left" class="src coveredLine"><pre>        }</pre></td>
+<td align="left" class="src coveredLine"><pre>            case None =&gt; ()</pre></td>
+</tr>
+<tr>
+<td align="right" class="lineno"><pre>47</pre></td>
+<td align="right" class="linebranch"></td>
+<td align="center" class="linecount uncoveredLine"><pre>N</pre></td>
+<td align="left" class="src uncoveredLine"><pre>            case _ =&gt; throw IllegalArgumentException()</pre></td>
+</tr>
+<tr>
+<td align="right" class="lineno"><pre>48</pre></td>
+<td align="right" class="linebranch"></td>
+<td align="center" class="linecount "><pre></pre></td>
+<td align="left" class="src "><pre>        }</pre></td>
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>49</pre></td>
-<td align="right" class="linebranch"></td>
+<td align="right" class="linebranch"><details class="linebranchDetails">
+<summary class="linebranchSummary">2/2</summary>
+<div class="linebranchContents">
+<div class="takenBranch">&check; Branch 0 taken 7 times.</div><div class="takenBranch">&check; Branch 1 taken 73 times.</div>
+</div>
+</details>
+</td>
 <td align="center" class="linecount coveredLine"><pre>Y</pre></td>
 <td align="left" class="src coveredLine"><pre>        if (segment.shared) {</pre></td>
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>50</pre></td>
 <td align="right" class="linebranch"></td>
-<td align="center" class="linecount "><pre></pre></td>
-<td align="left" class="src "><pre>            return</pre></td>
+<td align="center" class="linecount coveredLine"><pre>Y</pre></td>
+<td align="left" class="src coveredLine"><pre>            return</pre></td>
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>51</pre></td>
-<td align="right" class="linebranch"><details class="linebranchDetails">
-<summary class="linebranchSummary">1/8</summary>
-<div class="linebranchContents">
-<div class="takenBranch">&check; Branch 0 taken 1033 times.</div><div class="notTakenBranch">&cross; Branch 1 not taken.</div><div class="notTakenBranch">&cross; Branch 2 not taken.</div><div class="notTakenBranch">&cross; Branch 3 not taken.</div><div class="notTakenBranch">&cross; Branch 4 not taken.</div><div class="notTakenBranch">&cross; Branch 5 not taken.</div><div class="notTakenBranch">&cross; Branch 6 not taken.</div><div class="notTakenBranch">&cross; Branch 7 not taken.</div>
-</div>
-</details>
-</td>
-<td align="center" class="linecount coveredLine"><pre>Y</pre></td>
-<td align="left" class="src coveredLine"><pre>        }</pre></td>
+<td align="right" class="linebranch"></td>
+<td align="center" class="linecount "><pre></pre></td>
+<td align="left" class="src "><pre>        }</pre></td>
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>52</pre></td>
 <td align="right" class="linebranch"></td>
-<td align="center" class="linecount coveredLine"><pre>Y</pre></td>
-<td align="left" class="src coveredLine"><pre>        synchronized (mutex) {</pre></td>
+<td align="center" class="linecount "><pre></pre></td>
+<td align="left" class="src "><pre>        synchronized (mutex) {</pre></td>
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>53</pre></td>
-<td align="right" class="linebranch"></td>
+<td align="right" class="linebranch"><details class="linebranchDetails">
+<summary class="linebranchSummary">2/10</summary>
+<div class="linebranchContents">
+<div class="notTakenBranch">&cross; Branch 0 not taken.</div><div class="takenBranch">&check; Branch 1 taken 73 times.</div><div class="notTakenBranch">&cross; Branch 2 not taken.</div><div class="notTakenBranch">&cross; Branch 3 not taken.</div><div class="notTakenBranch">&cross; Branch 4 not taken.</div><div class="notTakenBranch">&cross; Branch 5 not taken.</div><div class="notTakenBranch">&cross; Branch 6 not taken.</div><div class="notTakenBranch">&cross; Branch 7 not taken.</div><div class="notTakenBranch">&cross; Branch 8 not taken.</div><div class="takenBranch">&check; Branch 9 taken 73 times.</div>
+</div>
+</details>
+</td>
 <td align="center" class="linecount coveredLine"><pre>Y</pre></td>
 <td align="left" class="src coveredLine"><pre>            if (byteCount + Segment.SIZE &gt; MAX_SIZE) {</pre></td>
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>54</pre></td>
 <td align="right" class="linebranch"></td>
-<td align="center" class="linecount coveredLine"><pre>Y</pre></td>
-<td align="left" class="src coveredLine"><pre>                return</pre></td>
+<td align="center" class="linecount uncoveredLine"><pre>N</pre></td>
+<td align="left" class="src uncoveredLine"><pre>                return</pre></td>
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>55</pre></td>
+<td align="right" class="linebranch"></td>
+<td align="center" class="linecount "><pre></pre></td>
+<td align="left" class="src "><pre>            }</pre></td>
+</tr>
+<tr>
+<td align="right" class="lineno"><pre>56</pre></td>
+<td align="right" class="linebranch"><details class="linebranchDetails">
+<summary class="linebranchSummary">1/8</summary>
+<div class="linebranchContents">
+<div class="takenBranch">&check; Branch 0 taken 73 times.</div><div class="notTakenBranch">&cross; Branch 1 not taken.</div><div class="notTakenBranch">&cross; Branch 2 not taken.</div><div class="notTakenBranch">&cross; Branch 3 not taken.</div><div class="notTakenBranch">&cross; Branch 4 not taken.</div><div class="notTakenBranch">&cross; Branch 5 not taken.</div><div class="notTakenBranch">&cross; Branch 6 not taken.</div><div class="notTakenBranch">&cross; Branch 7 not taken.</div>
+</div>
+</details>
+</td>
+<td align="center" class="linecount coveredLine"><pre>Y</pre></td>
+<td align="left" class="src coveredLine"><pre>            byteCount += Segment.SIZE</pre></td>
+</tr>
+<tr>
+<td align="right" class="lineno"><pre>57</pre></td>
+<td align="right" class="linebranch"></td>
+<td align="center" class="linecount coveredLine"><pre>Y</pre></td>
+<td align="left" class="src coveredLine"><pre>            segment.next = next</pre></td>
+</tr>
+<tr>
+<td align="right" class="lineno"><pre>58</pre></td>
+<td align="right" class="linebranch"></td>
+<td align="center" class="linecount coveredLine"><pre>Y</pre></td>
+<td align="left" class="src coveredLine"><pre>            segment.pos = 0</pre></td>
+</tr>
+<tr>
+<td align="right" class="lineno"><pre>59</pre></td>
+<td align="right" class="linebranch"></td>
+<td align="center" class="linecount coveredLine"><pre>Y</pre></td>
+<td align="left" class="src coveredLine"><pre>            segment.limit = 0</pre></td>
+</tr>
+<tr>
+<td align="right" class="lineno"><pre>60</pre></td>
 <td align="right" class="linebranch"><details class="linebranchDetails">
 <summary class="linebranchSummary">0/2</summary>
 <div class="linebranchContents">
@@ -684,37 +726,7 @@ pre
 </details>
 </td>
 <td align="center" class="linecount coveredLine"><pre>Y</pre></td>
-<td align="left" class="src coveredLine"><pre>            }</pre></td>
-</tr>
-<tr>
-<td align="right" class="lineno"><pre>56</pre></td>
-<td align="right" class="linebranch"></td>
-<td align="center" class="linecount "><pre></pre></td>
-<td align="left" class="src "><pre>            byteCount += Segment.SIZE</pre></td>
-</tr>
-<tr>
-<td align="right" class="lineno"><pre>57</pre></td>
-<td align="right" class="linebranch"></td>
-<td align="center" class="linecount "><pre></pre></td>
-<td align="left" class="src "><pre>            segment.next = next</pre></td>
-</tr>
-<tr>
-<td align="right" class="lineno"><pre>58</pre></td>
-<td align="right" class="linebranch"></td>
-<td align="center" class="linecount "><pre></pre></td>
-<td align="left" class="src "><pre>            segment.pos = 0</pre></td>
-</tr>
-<tr>
-<td align="right" class="lineno"><pre>59</pre></td>
-<td align="right" class="linebranch"></td>
-<td align="center" class="linecount "><pre></pre></td>
-<td align="left" class="src "><pre>            segment.limit = 0</pre></td>
-</tr>
-<tr>
-<td align="right" class="lineno"><pre>60</pre></td>
-<td align="right" class="linebranch"></td>
-<td align="center" class="linecount "><pre></pre></td>
-<td align="left" class="src "><pre>            next = Some(segment)</pre></td>
+<td align="left" class="src coveredLine"><pre>            next = Some(segment)</pre></td>
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>61</pre></td>

@@ -268,54 +268,6 @@ public abstract class Buffer <: Object & ToString {
     }
 
     /**
-     * The Function is nextGetIndex
-     *
-     * @param nb of Int64
-     *
-     * @return Type of Int64
-     * @since 0.32.5
-     */
-    func nextGetIndex(nb: Int64): Int64 {     
-        if (lim - pos < nb){
-            throw Exception()
-        }
-        var p = pos
-        pos += nb
-        return p
-    }
-
-    /**
-     * The Function is nextPutIndex
-     *
-     * @return Type of Int64
-     * @since 0.32.5
-     */
-    func nextPutIndex(): Int64 {
-        if (pos >= lim){
-            throw Exception()
-        }
-        pos++
-        return pos
-    }
-
-    /**
-     * The Function is nextPutIndex
-     *
-     * @param nb of Int64
-     *
-     * @return Type of Int64
-     * @since 0.32.5
-     */
-    func nextPutIndex(nb: Int64): Int64 {     
-        if (lim - pos < nb){
-            throw Exception()
-        }
-        var p = pos
-        pos += nb
-        return p
-    }
-
-    /**
      * The Function is checkIndex
      *
      * @param i of Int64
@@ -331,22 +283,6 @@ public abstract class Buffer <: Object & ToString {
     }
 
     /**
-     * The Function is checkIndex
-     *
-     * @param i of Int64
-     * @param nb of Int64
-     *
-     * @return Type of Int64
-     * @since 0.32.5
-     */
-    func checkIndex(i: Int64, nb: Int64): Int64 {
-        if ((i < 0) || (nb > lim - i)){
-            throw IndexOutOfBoundsException()
-        }
-        return i
-    }
-
-    /**
      * The Function is markValue
      *
      * @return Type of Int64
@@ -354,18 +290,6 @@ public abstract class Buffer <: Object & ToString {
      */
     func markValue(): Int64 {   
         return mar
-    }
-
-    /**
-     * The Function is truncate
-     *
-     * @since 0.32.5
-     */
-    func truncate() {   
-        mar = -1
-        pos = 0
-        lim = 0
-        capa = 0
     }
 
     /**

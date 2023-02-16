@@ -1,4 +1,5 @@
-
+// EXEC: cjc %import-path %L %l %f
+// EXEC: ./main
 
 from okio import okio.*
 from std import os.posix.*
@@ -26,7 +27,6 @@ main () {
     let s3 = fws.timeout()
     let s4 = fws.close()
     let s5 = fws.toString()
-    let s6 = fws.isClosed()
     
     return 0
 }

@@ -211,8 +211,6 @@ public open class HeapByteBuffer <: ByteBuffer & ToString {
             ArrayCopy(sb.hb, sb.ix(sb.position()), hb, ix(position()), n)
             sb.position(sb.position() + n )
             position(position() +n)
-        } else {
-            super.put(src)
         }
         return this
     }
