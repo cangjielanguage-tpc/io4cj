@@ -65,7 +65,7 @@ public class nio_slice_341 {
         // @Assert("${byteBuffer1}","ByteBuffer: [offset=0 pos=0 lim=3 cap=5]")
 
     }
-    @TestCase
+    @TestCase //isDirect isReadOnl接口删除 用例暂时注释
     func nio_slice_341_4(): Unit {
         
         println("---------------------------nio_slice_341_4-----------------------------")
@@ -75,13 +75,13 @@ public class nio_slice_341 {
 
         var byteBuffer1 = byteBuffer.slice()
 
-        println("byteBuffer.isDirect() : ${byteBuffer.isDirect()}")
-        println("byteBuffer1.isDirect() : ${byteBuffer1.isDirect()}")
-        @Assert(byteBuffer.isDirect(),byteBuffer1.isDirect())
+        // println("byteBuffer.isDirect() : ${byteBuffer.isDirect()}")
+        // println("byteBuffer1.isDirect() : ${byteBuffer1.isDirect()}")
+        // @Assert(byteBuffer.isDirect(),byteBuffer1.isDirect())
 
-        println("byteBuffer.isReadOnly() : ${byteBuffer.isReadOnly()}")
-        println("byteBuffer1.isReadOnly() : ${byteBuffer1.isReadOnly()}")
-        @Assert(byteBuffer.isReadOnly(),byteBuffer1.isReadOnly())
+        // println("byteBuffer.isReadOnly() : ${byteBuffer.isReadOnly()}")
+        // println("byteBuffer1.isReadOnly() : ${byteBuffer1.isReadOnly()}")
+        // @Assert(byteBuffer.isReadOnly(),byteBuffer1.isReadOnly())
     
         println("byteBuffer.slice() : ${byteBuffer1}")
         println("byteBuffer : ${byteBuffer}")

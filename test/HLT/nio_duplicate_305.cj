@@ -40,9 +40,9 @@ public class nio_duplicate_305{
         @Assert("${byteBuffer.duplicate()}","${byteBuffer}")
         // @Assert(byteBuffer.duplicate(),byteBuffer)
 
-        println("byteBuffer isReadOnly? : ${byteBuffer.isReadOnly()}")
-        println("byteBuffer.duplicate() isReadOnly? : ${byteBuffer.duplicate().isReadOnly()}")
-        @Assert(byteBuffer.isReadOnly(),byteBuffer.duplicate().isReadOnly())
+        // println("byteBuffer isReadOnly? : ${byteBuffer.isReadOnly()}") //isReadOnly接口暂时取消
+        // println("byteBuffer.duplicate() isReadOnly? : ${byteBuffer.duplicate().isReadOnly()}")
+        // @Assert(byteBuffer.isReadOnly(),byteBuffer.duplicate().isReadOnly())
     }
     @TestCase
     func nio_duplicate_305_3(): Unit {
@@ -81,13 +81,13 @@ public class nio_duplicate_305{
 
         var byteBuffer1 = byteBuffer.duplicate()
 
-        println("byteBuffer.isDirect() : ${byteBuffer.isDirect()}")
-        println("byteBuffer1.isDirect() : ${byteBuffer1.isDirect()}")
-        @Assert(byteBuffer.isDirect(),byteBuffer1.isDirect())
+        // println("byteBuffer.isDirect() : ${byteBuffer.isDirect()}")
+        // println("byteBuffer1.isDirect() : ${byteBuffer1.isDirect()}")
+        // @Assert(byteBuffer.isDirect(),byteBuffer1.isDirect())
 
-        println("byteBuffer.isReadOnly() : ${byteBuffer.isReadOnly()}")
-        println("byteBuffer1.isReadOnly() : ${byteBuffer1.isReadOnly()}")
-        @Assert(byteBuffer.isReadOnly(),byteBuffer1.isReadOnly())
+        // println("byteBuffer.isReadOnly() : ${byteBuffer.isReadOnly()}")
+        // println("byteBuffer1.isReadOnly() : ${byteBuffer1.isReadOnly()}")
+        // @Assert(byteBuffer.isReadOnly(),byteBuffer1.isReadOnly())
     
         println("byteBuffer.duplicate() : ${byteBuffer1}")
         println("byteBuffer : ${byteBuffer}")

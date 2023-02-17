@@ -132,8 +132,8 @@ public class okio_ForwardingTimeout {
         let original: String = "They're moving in herds. They do move in herds."
         data.writeUtf8(original)
         let sink: Buffer = Buffer()
-        var deflater: Deflater = Deflater()
-        var deflaterSink: DeflaterSink = DeflaterSink(sink, deflater)
+        //var deflater: Deflater = Deflater()
+        var deflaterSink: DeflaterSink = DeflaterSink(sink)
         println(sink.size)
         deflaterSink.write(data, data.size)
         println(sink.size)
@@ -148,8 +148,7 @@ public class okio_ForwardingTimeout {
             "仓颉你好cangjenihaoaaaaaaaaaaaaaaaaaaaaaaaaaaaa12346789741852963@#&*》》》》：、、、、、、、"
         data.writeUtf8(original)
         let sink: Buffer = Buffer()
-        var deflater: Deflater = Deflater()
-        var deflaterSink: DeflaterSink = DeflaterSink(sink, deflater)
+        var deflaterSink: DeflaterSink = DeflaterSink(sink)
         println(sink.size)
         deflaterSink.write(data, data.size)
         println(sink.size)

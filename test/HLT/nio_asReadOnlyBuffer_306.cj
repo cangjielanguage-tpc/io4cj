@@ -40,9 +40,9 @@ public class nio_asReadOnlyBuffer_306{
         @Assert("${byteBuffer.asReadOnlyBuffer()}","${byteBuffer}")
         // @Assert(byteBuffer.asReadOnlyBuffer(),byteBuffer)
 
-        println("byteBuffer isReadOnly? : ${byteBuffer.isReadOnly()}")
-        println("byteBuffer.asReadOnlyBuffer() isReadOnly? : ${byteBuffer.asReadOnlyBuffer().isReadOnly()}")
-        @Assert(byteBuffer.isReadOnly(),byteBuffer.asReadOnlyBuffer().isReadOnly())
+        // println("byteBuffer isReadOnly? : ${byteBuffer.isReadOnly()}")
+        // println("byteBuffer.asReadOnlyBuffer() isReadOnly? : ${byteBuffer.asReadOnlyBuffer().isReadOnly()}")
+        // @Assert(byteBuffer.isReadOnly(),byteBuffer.asReadOnlyBuffer().isReadOnly())
     }
     @TestCase
     func nio_asReadOnlyBuffer_306_3(): Unit {
@@ -81,12 +81,12 @@ public class nio_asReadOnlyBuffer_306{
 
         var byteBuffer1 = byteBuffer.asReadOnlyBuffer()
 
-        println("byteBuffer.isDirect() : ${byteBuffer.isDirect()}")
-        println("byteBuffer1.isDirect() : ${byteBuffer1.isDirect()}")
-        @Assert(byteBuffer.isDirect(),byteBuffer1.isDirect())
+        // println("byteBuffer.isDirect() : ${byteBuffer.isDirect()}")
+        // println("byteBuffer1.isDirect() : ${byteBuffer1.isDirect()}")
+        // @Assert(byteBuffer.isDirect(),byteBuffer1.isDirect())
 
-        println("byteBuffer.isReadOnly() : ${byteBuffer.isReadOnly()}")
-        println("byteBuffer1.isReadOnly() : ${byteBuffer1.isReadOnly()}")   
+        // println("byteBuffer.isReadOnly() : ${byteBuffer.isReadOnly()}")
+        // println("byteBuffer1.isReadOnly() : ${byteBuffer1.isReadOnly()}")   
         // @Assert(byteBuffer.isReadOnly(),byteBuffer1.isReadOnly())
     
         println("byteBuffer.asReadOnlyBuffer() : ${byteBuffer1}")
