@@ -1264,14 +1264,20 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
 
     /*
      * 如果自身ByteString的[offset..offset+byteCount）(左闭右开)中的字节等于其他ByteString的[otherOffset..otherOffset+byteCount）中的字节，则返回true。如果任一范围超出界限，则返回false。
-     * 参数 Int64 - 索引
+     * 参数 offset - Int64 索引
+     * 参数 other - ByteString 对象
+     * 参数 otherOffset - Int64 索引
+     * 参数 byteCount - Int64 计数器
      * 返回值 Bool - bool值
      */
     public func rangeEquals(offset: Int64, other: ByteString, otherOffset: Int64, byteCount: Int64): Bool
 
     /*
      * 如果自身ByteString的内部数组[offset..offset+byteCount）(左闭右开)中的字节等于其他ByteString的[otherOffset..otherOffset+byteCount）中的字节，则返回true。如果任一范围超出界限，则返回false。
-     * 参数 Int64 - 索引
+     * 参数 offset - Int64 索引
+     * 参数 other - Array<Byte> 内部数组
+     * 参数 otherOffset - Int64 索引
+     * 参数 byteCount - Int64 计数器
      * 返回值 Bool - bool值
      */
     public func rangeEquals(offset: Int64, other: Array<Byte>, otherOffset: Int64, byteCount: Int64): Bool
@@ -1399,7 +1405,7 @@ class RealBufferedSink <: BufferedSink {
      * 参数 source - 字节数组
      * 参数 offset - 偏移量, 开始写入的位置
      * 参数 byteCount - 字节数, 写入的长度
-     * 返回值 Buffer - Buffer
+     * 返回值 BufferedSink - BufferedSink
      */
     public func write(source: Array, offset: Int64, byteCount: Int64): BufferedSink
 
@@ -1427,7 +1433,7 @@ class RealBufferedSink <: BufferedSink {
      * 向BufferedSink中写入一个source中包含bytecount个的字节序列
      * 参数 Source - 读取的source
      * 参数 Int64 - 写入的计数器
-     * 返回值 BufferedSink - BufferedSink
+     * 返回值 Unit
      */
     public func write(source: Buffer, byteCount: Int64): Unit
 
@@ -1600,7 +1606,6 @@ class RealBufferedSource <: BufferedSource {
 
     /*
      * 获取Timeout对象，重写父类sink的timeout()方法
-     * 参数 source - Buffe对象
      * 返回值 Timeout对象
      */
     public func timeout(): Timeout
@@ -2749,12 +2754,14 @@ public class Segment <: Object & Equatable<Segment> {
 
     /*
      * 判断两个Segment是否是一个对象
+     * 参数 that - Segment对象
      * 返回值 Bool - 相等返回true
      */
     operator public func ==(that: Segment): Bool 
 
     /*
      * 判断两个Segment是否是一个对象
+     * 参数 that - Segment对象
      * 返回值 Bool - 相等返回false
      */ 
     operator public func !=(that: Segment): Bool 
@@ -2775,7 +2782,7 @@ public open class SocketBuffer <: InputStream & OutputStream & Resource & ToStri
 
     /*
      * 构造一个SocketBuffer。
-     * 参数 Socket - Socket
+     * 参数 sockClient - TlsSocket
      */
     public init(sockClient: TlsSocket)
 
@@ -2901,13 +2908,11 @@ GzipSink 类 实现了Sink接口
     public override func close(): Unit
     /*
      * 清理sink里面内容，重写父类sink的flush()方法
-     * 参数：source：Buffe对象
      * 返回值 Unit
      */
     public override func flush(): Unit
     /*
      * 获取Timeout对象，重写父类sink的timeout()方法
-     * 参数：source：Buffe对象
      * 返回值 Timeout对象
      */
     public override func timeout(): Timeout
@@ -2932,7 +2937,6 @@ DeflaterSink 类 实现了Sink接口，封装了具体的压缩方法
     /*
      * 构造一个DeflaterSink。
      * 参数：sink：Sink 对象
-     * 参数：deflater：Deflater 对象
      */
     public init(sink: Sink)
     
@@ -2964,7 +2968,6 @@ GzipSource 类 实现了Source接口
     
     /*
      * 获取Timeout对象，重写父类sink的timeout()方法。
-     * 参数：source：Buffe对象
      * 返回值 Timeout对象
      */
     public override func timeout(): Timeout
@@ -3007,7 +3010,6 @@ InflaterSource 类 实现了Source接口，封装了具体的解压缩方法
     
     /*
      * 获取Timeout对象，重写父类sink的timeout()方法。
-     * 参数：source：Buffe对象
      * 返回值 Timeout对象
      */
     public override func timeout(): Timeout
@@ -3142,14 +3144,12 @@ ForwardingSink 类 实现Sink接口，多出获取Sink对象的方法
     
     /*
      * 清理sink里面内容，重写父类sink的flush()方法
-     * 参数：source：Buffe对象
      * 返回值 Unit
      */
     public override func flush(): Unit
     
     /*
      * 获取Timeout对象，重写父类sink的timeout()方法
-     * 参数：source：Buffe对象
      * 返回值 Timeout对象
      */
     public override func timeout(): Timeout
@@ -3184,7 +3184,6 @@ ForwardingSource 类 实现Source接口，多出获取Sink对象的方法
     
     /*
      * 获取Timeout对象，重写父类sink的timeout()方法
-     * 参数：source：Buffe对象
      * 返回值 Timeout对象
      */
     public override func timeout(): Timeout
@@ -3202,7 +3201,6 @@ ForwardingTimeout 类 继承了Timeout类
   	/*
      * 构造 ForwardingTimeout 对象
      * 参数 assignment - Timeout对象
-     * 返回值 ForwardingTimeout 对象
      */
     public init(assignment: Timeout)
     
@@ -3334,6 +3332,7 @@ public class HashingSink <: ForwardingSink {
      * 返回值 HashingSink 对象
      */
     public static func md5(sink: Sink): HashingSink
+    
     /*
      * 获取一个使用过时的sha1哈希算法生成160位哈希的接收器
      * 参数sink Sink 对象
