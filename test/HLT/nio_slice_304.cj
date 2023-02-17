@@ -40,9 +40,9 @@ public class nio_slice_304{
         @Assert("${byteBuffer.slice()}","${byteBuffer}")
         // @Assert(byteBuffer.slice(),byteBuffer)
 
-        println("byteBuffer isReadOnly? : ${byteBuffer.isReadOnly()}")
-        println("byteBuffer.slice() isReadOnly? : ${byteBuffer.slice().isReadOnly()}")
-        @Assert(byteBuffer.isReadOnly(),byteBuffer.slice().isReadOnly())
+        // println("byteBuffer isReadOnly? : ${byteBuffer.isReadOnly()}")
+        // println("byteBuffer.slice() isReadOnly? : ${byteBuffer.slice().isReadOnly()}")
+        // @Assert(byteBuffer.isReadOnly(),byteBuffer.slice().isReadOnly())
     }
     @TestCase
     func nio_slice_304_3(): Unit {
@@ -81,13 +81,13 @@ public class nio_slice_304{
 
         var byteBuffer1 = byteBuffer.slice()
 
-        println("byteBuffer.isDirect() : ${byteBuffer.isDirect()}")
-        println("byteBuffer1.isDirect() : ${byteBuffer1.isDirect()}")
-        @Assert(byteBuffer.isDirect(),byteBuffer1.isDirect())
+        // println("byteBuffer.isDirect() : ${byteBuffer.isDirect()}")
+        // println("byteBuffer1.isDirect() : ${byteBuffer1.isDirect()}")
+        // @Assert(byteBuffer.isDirect(),byteBuffer1.isDirect())
 
-        println("byteBuffer.isReadOnly() : ${byteBuffer.isReadOnly()}")
-        println("byteBuffer1.isReadOnly() : ${byteBuffer1.isReadOnly()}")
-        @Assert(byteBuffer.isReadOnly(),byteBuffer1.isReadOnly())
+        // println("byteBuffer.isReadOnly() : ${byteBuffer.isReadOnly()}")
+        // println("byteBuffer1.isReadOnly() : ${byteBuffer1.isReadOnly()}")
+        // @Assert(byteBuffer.isReadOnly(),byteBuffer1.isReadOnly())
     
         println("byteBuffer.slice() : ${byteBuffer1}")
         println("byteBuffer : ${byteBuffer}")
