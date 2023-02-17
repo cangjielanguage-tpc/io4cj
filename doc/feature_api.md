@@ -2927,7 +2927,7 @@ GzipSink 类 实现了Sink接口
     
     
 DeflaterSink 类 实现了Sink接口，封装了具体的压缩方法
-  public class DeflaterSink <: Sink {
+  public class DeflaterSink {
 
     /*
      * 构造一个DeflaterSink。
