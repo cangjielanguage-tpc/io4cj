@@ -3332,6 +3332,7 @@ public class HashingSink <: ForwardingSink {
      * 返回值 HashingSink 对象
      */
     public static func md5(sink: Sink): HashingSink
+    
     /*
      * 获取一个使用过时的sha1哈希算法生成160位哈希的接收器
      * 参数sink Sink 对象
