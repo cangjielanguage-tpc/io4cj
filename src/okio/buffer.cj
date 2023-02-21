@@ -1233,11 +1233,11 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
             }
         } else  {
             offset = 0
-            var nextOffset = offset + (s.getOrThrow().limit - s.getOrThrow().pos)
-            while (nextOffset < fromIndex) {
+            var nextOffsets = offset + (s.getOrThrow().limit - s.getOrThrow().pos)
+            while (nextOffsets < fromIndex) {
                 s = s.getOrThrow().next.getOrThrow()
-                offset = nextOffset
-                nextOffset = offset + (s.getOrThrow().limit - s.getOrThrow().pos)
+                offset = nextOffsets
+                nextOffsets = offset + (s.getOrThrow().limit - s.getOrThrow().pos)
             }
         }
         while (offset < toIndex) {
