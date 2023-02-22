@@ -29,16 +29,16 @@ public func ArrayCopy(src: Array<Byte>, srcPos: Int64, dest: Array<Byte>, destPo
  */
 public open class HeapByteBuffer <: ByteBuffer & ToString {
 
-    init (cap: Int64, lim: Int64) {
-        super (-1, 0, lim, cap, Array<Byte>(cap, item: 0), 0)
+    init (cap: Int64, lims: Int64) {
+        super (-1, 0, lims, cap, Array<Byte>(cap, item: 0), 0)
     }
 
-    init (buf: Array<Byte>, off: Int64, len: Int64) {
-        super (-1, off, off+len, buf.size, buf, 0)
+    init (bufs: Array<Byte>, off: Int64, len: Int64) {
+        super (-1, off, off+len, bufs.size, bufs, 0)
     }
 
-    protected init (buf: Array<Byte>, mark: Int64, pos: Int64, lim: Int64, cap: Int64, off: Int64) {
-        super(mark, pos, lim, cap, buf, off)
+    protected init (bufs: Array<Byte>, mark: Int64, pos: Int64, lim: Int64, cap: Int64, off: Int64) {
+        super(mark, pos, lim, cap, bufs, off)
     }
 
     /**
@@ -60,8 +60,8 @@ public open class HeapByteBuffer <: ByteBuffer & ToString {
      * @return Type of ByteBuffer
      * @since 0.32.5
      */
-    public override func slice (pos: Int64, lim: Int64): ByteBuffer {
-        let rem = lim - pos
+    public override func slice (pos: Int64, limit: Int64): ByteBuffer {
+        let rem = limit - pos
         return HeapByteBuffer(hb, -1, 0, rem, rem, pos + offset)
     }
 
@@ -93,8 +93,8 @@ public open class HeapByteBuffer <: ByteBuffer & ToString {
      * @return Type of Int64
      * @since 0.32.5
      */
-    protected func ix(i: Int64): Int64 {
-        return i + offset
+    protected func ix(ii: Int64): Int64 {
+        return ii + offset
     }
 
     /**
@@ -122,19 +122,19 @@ public open class HeapByteBuffer <: ByteBuffer & ToString {
     /**
      * The Function is get
      *
-     * @param dst of Array<Byte>
+     * @param dsts of Array<Byte>
      * @param offset of Int64
      * @param length of Int64
      *
      * @return Type of ByteBuffer
      * @since 0.32.5
      */
-    public override func get(dst: Array<Byte>, offset: Int64, length: Int64): ByteBuffer {
-        checkBounds(offset, length, dst.size)
+    public override func get(dsts: Array<Byte>, offset: Int64, length: Int64): ByteBuffer {
+        checkBounds(offset, length, dsts.size)
         if (length > this.remaining()) {
             throw Exception() // BufferUnderflowException
         }
-        ArrayCopy(hb, ix(position()), dst, offset, length)
+        ArrayCopy(hb, ix(position()), dsts, offset, length)
         position(position() + length)
         return this
     }
@@ -195,12 +195,12 @@ public open class HeapByteBuffer <: ByteBuffer & ToString {
      * @return Type of ByteBuffer
      * @since 0.32.5
      */
-    public override func put(src: ByteBuffer): ByteBuffer {
-        if (src is HeapByteBuffer) {
-            if (src == this) {
+    public override func put(srcs: ByteBuffer): ByteBuffer {
+        if (srcs is HeapByteBuffer) {
+            if (srcs == this) {
                 throw createSameBufferException()
             }
-            let sb: HeapByteBuffer = match ((src as HeapByteBuffer)) {
+            let sb: HeapByteBuffer = match ((srcs as HeapByteBuffer)) {
                 case None => throw NoneValueException()
                 case Some (v) => v
             }
@@ -238,8 +238,8 @@ public open class HeapByteBuffer <: ByteBuffer & ToString {
      * @since 0.33.3
      */
     @overflowWrapping
-    public override func putLong(value: Int64): ByteBuffer {
-        this.putUInt64(UInt64(value))
+    public override func putLong(val: Int64): ByteBuffer {
+        this.putUInt64(UInt64(val))
     }
 
     /**
@@ -251,8 +251,8 @@ public open class HeapByteBuffer <: ByteBuffer & ToString {
      * @since 0.33.3
      */
     @overflowWrapping
-    public override func putInt(value: Int32): ByteBuffer {
-        this.putUInt32(UInt32(value))
+    public override func putInt(val: Int32): ByteBuffer {
+        this.putUInt32(UInt32(val))
     }
 
     /**
@@ -264,8 +264,8 @@ public open class HeapByteBuffer <: ByteBuffer & ToString {
      * @since 0.33.3
      */
     @overflowWrapping
-    public override func putShort(value: Int16): ByteBuffer {
-        this.putUInt16(UInt16(value))
+    public override func putShort(val: Int16): ByteBuffer {
+        this.putUInt16(UInt16(val))
     }
     
     /**
@@ -302,31 +302,31 @@ public open class HeapByteBuffer <: ByteBuffer & ToString {
     }
 
     @overflowWrapping
-    public func putUInt64(value: UInt64): ByteBuffer {
-        this.put(UInt8((value >> 56) & 0xff))
-        this.put(UInt8((value >> 48) & 0xff))
-        this.put(UInt8((value >> 40) & 0xff))
-        this.put(UInt8((value >> 32) & 0xff))
-        this.put(UInt8((value >> 24) & 0xff))
-        this.put(UInt8((value >> 16) & 0xff))
-        this.put(UInt8((value >> 8) & 0xff))
-        this.put(UInt8(value & 0xff))
+    public func putUInt64(val: UInt64): ByteBuffer {
+        this.put(UInt8((val >> 56) & 0xff))
+        this.put(UInt8((val >> 48) & 0xff))
+        this.put(UInt8((val >> 40) & 0xff))
+        this.put(UInt8((val >> 32) & 0xff))
+        this.put(UInt8((val >> 24) & 0xff))
+        this.put(UInt8((val >> 16) & 0xff))
+        this.put(UInt8((val >> 8) & 0xff))
+        this.put(UInt8(val & 0xff))
         return this
     }
 
     @overflowWrapping
-    public func putUInt32(value: UInt32): ByteBuffer {
-        this.put(UInt8((value >> 24) & 0xff))
-        this.put(UInt8((value >> 16) & 0xff))
-        this.put(UInt8((value >> 8) & 0xff))
-        this.put(UInt8(value & 0xff))
+    public func putUInt32(val: UInt32): ByteBuffer {
+        this.put(UInt8((val >> 24) & 0xff))
+        this.put(UInt8((val >> 16) & 0xff))
+        this.put(UInt8((val >> 8) & 0xff))
+        this.put(UInt8(val & 0xff))
         return this
     }
 
     @overflowWrapping
-    public func putUInt16(value: UInt16): ByteBuffer {
-        this.put(UInt8((value >> 8) & 0xff))
-        this.put(UInt8(value & 0xff))
+    public func putUInt16(val: UInt16): ByteBuffer {
+        this.put(UInt8((val >> 8) & 0xff))
+        this.put(UInt8(val & 0xff))
         return this
     }
 

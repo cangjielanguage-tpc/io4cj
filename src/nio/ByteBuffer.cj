@@ -21,10 +21,10 @@ public abstract class ByteBuffer <: Buffer & ToString & Hashable & Equatable<Buf
 
     let offset: Int64
     
-    init (mark: Int64, position: Int64, limit: Int64, capacity: Int64, hbs: Array<Byte>, offset: Int64) {
-        super(mark, position, limit, capacity)
+    init (mark: Int64, position: Int64, limits: Int64, capacity: Int64, hbs: Array<Byte>, offsets: Int64) {
+        super(mark, position, limits, capacity)
         this.hb = hbs
-        this.offset = offset
+        this.offset = offsets
     }
 
     /**
@@ -35,11 +35,11 @@ public abstract class ByteBuffer <: Buffer & ToString & Hashable & Equatable<Buf
      * @return Type of ByteBuffer
      * @since 0.32.5
      */
-    public static func allocate(capacity: Int64): ByteBuffer {
-        if (capacity < 0) {
+    public static func allocate(capacitys: Int64): ByteBuffer {
+        if (capacitys < 0) {
             throw IllegalArgumentException()
         }
-        return HeapByteBuffer(capacity, capacity)
+        return HeapByteBuffer(capacitys, capacitys)
     }
 
     /**
@@ -52,10 +52,10 @@ public abstract class ByteBuffer <: Buffer & ToString & Hashable & Equatable<Buf
      * @return Type of ByteBuffer
      * @since 0.32.5
      */
-    public static func wrap(array: Array<UInt8>, offset: Int64, length: Int64): ByteBuffer {
+    public static func wrap(arrays: Array<UInt8>, offset: Int64, length: Int64): ByteBuffer {
         try{
-            return HeapByteBuffer(array,offset,length)
-        } catch (e: IllegalArgumentException) {
+            return HeapByteBuffer(arrays,offset,length)
+        } catch (ex: IllegalArgumentException) {
             throw IndexOutOfBoundsException()
         }
     }
@@ -68,8 +68,8 @@ public abstract class ByteBuffer <: Buffer & ToString & Hashable & Equatable<Buf
      * @return Type of ByteBuffer
      * @since 0.32.5
      */
-    public static func wrap(array: Array<UInt8>): ByteBuffer {
-        return wrap(array, 0, array.size)
+    public static func wrap(arrays: Array<UInt8>): ByteBuffer {
+        return wrap(arrays, 0, arrays.size)
     }
 
     /**
@@ -112,7 +112,7 @@ public abstract class ByteBuffer <: Buffer & ToString & Hashable & Equatable<Buf
      * @return Type of Buffer
      * @since 0.32.5
      */
-    public func put(b: UInt8): ByteBuffer
+    public func put(bs: UInt8): ByteBuffer
 
     /**
      * The Function is get
@@ -122,7 +122,7 @@ public abstract class ByteBuffer <: Buffer & ToString & Hashable & Equatable<Buf
      * @return Type of UInt8
      * @since 0.32.5
      */
-    public func get(index: Int64): UInt8
+    public func get(indexs: Int64): UInt8
 
     /**
      * The Function is put
@@ -133,14 +133,14 @@ public abstract class ByteBuffer <: Buffer & ToString & Hashable & Equatable<Buf
      * @return Type of Buffer
      * @since 0.32.5
      */
-    public func put(index: Int64, b: UInt8): ByteBuffer
+    public func put(indexs: Int64, b: UInt8): ByteBuffer
 
-    public func putLong(value: Int64): ByteBuffer
-    public func putInt(value: Int32): ByteBuffer
-    public func putShort(value: Int16): ByteBuffer
-    public func putUInt64(value: UInt64): ByteBuffer
-    public func putUInt32(value: UInt32): ByteBuffer
-    public func putUInt16(value: UInt16): ByteBuffer
+    public func putLong(val: Int64): ByteBuffer
+    public func putInt(val: Int32): ByteBuffer
+    public func putShort(val: Int16): ByteBuffer
+    public func putUInt64(val: UInt64): ByteBuffer
+    public func putUInt32(val: UInt32): ByteBuffer
+    public func putUInt16(val: UInt16): ByteBuffer
 
     public func getLong(): Int64
     public func getInt(): Int32
@@ -202,8 +202,8 @@ public abstract class ByteBuffer <: Buffer & ToString & Hashable & Equatable<Buf
      * @return Type of Buffer
      * @since 0.32.5
      */
-    public open func put(src: Array<UInt8>): ByteBuffer {
-        return this.put(src, 0, src.size)
+    public open func put(srcs: Array<UInt8>): ByteBuffer {
+        return this.put(srcs, 0, srcs.size)
     }
 
     /**
@@ -245,8 +245,8 @@ public abstract class ByteBuffer <: Buffer & ToString & Hashable & Equatable<Buf
      * @return Type of Buffer
      * @since 0.32.5
      */
-    public override func position(newPosition: Int64): ByteBuffer {
-        super.position(newPosition)
+    public override func position(newPosit: Int64): ByteBuffer {
+        super.position(newPosit)
         return this
     }
 
@@ -258,8 +258,8 @@ public abstract class ByteBuffer <: Buffer & ToString & Hashable & Equatable<Buf
      * @return Type of Buffer
      * @since 0.32.5
      */
-    public override func limit(newLimit: Int64): ByteBuffer {
-        super.limit(newLimit)
+    public override func limit(newLim: Int64): ByteBuffer {
+        super.limit(newLim)
         return this
     }
 
@@ -322,20 +322,20 @@ public abstract class ByteBuffer <: Buffer & ToString & Hashable & Equatable<Buf
      * @since 0.32.5
      */
     public open func toString(): String {
-        let sb = StringBuilder()
-        sb.append("ByteBuffer: [offset=")
-        sb.append(this.offset)
-        sb.append(" mark=")
-        sb.append(this.mar)
-        sb.append(" pos=")
-        sb.append(position())
-        sb.append(" lim=")
-        sb.append(limit())
-        sb.append(" cap=")
-        sb.append(capacity())
-        sb.append("]")
-        let src = sb.toString()
-        sb.clear()
+        let sbd = StringBuilder()
+        sbd.append("ByteBuffer: [offset=")
+        sbd.append(this.offset)
+        sbd.append(" mark=")
+        sbd.append(this.mar)
+        sbd.append(" pos=")
+        sbd.append(position())
+        sbd.append(" lim=")
+        sbd.append(limit())
+        sbd.append(" cap=")
+        sbd.append(capacity())
+        sbd.append("]")
+        let src = sbd.toString()
+        sbd.clear()
         return src
     }
 
@@ -347,12 +347,12 @@ public abstract class ByteBuffer <: Buffer & ToString & Hashable & Equatable<Buf
      */
     @overflowWrapping
     public open func hashCode(): Int64 {
-        var h: Int32 = 1
+        var hc: Int32 = 1
         var p = position()
         for (i in limit()-1..=p:-1) {
-            h = 31 * h + Int32(get(i))
+            hc = 31 * hc + Int32(get(i))
         }
-        return Int64(h)
+        return Int64(hc)
     }
 
     /**
@@ -363,8 +363,8 @@ public abstract class ByteBuffer <: Buffer & ToString & Hashable & Equatable<Buf
      * @return Type of Bool
      * @since 0.32.5
      */
-    public open operator func == (that: Buffer): Bool {
-        return refEq(this, that)
+    public open operator func == (thats: Buffer): Bool {
+        return refEq(this, thats)
     }
     /**
      * The Function is !=
@@ -374,8 +374,8 @@ public abstract class ByteBuffer <: Buffer & ToString & Hashable & Equatable<Buf
      * @return Type of Bool
      * @since 0.32.5
      */
-    public open operator func != (that: Buffer): Bool {
-        return !refEq(this, that)
+    public open operator func != (thats: Buffer): Bool {
+        return !refEq(this, thats)
     }
 
     /**
@@ -387,6 +387,6 @@ public abstract class ByteBuffer <: Buffer & ToString & Hashable & Equatable<Buf
      * @return Type of ByteBuffer
      * @since 0.32.5
      */
-    public func slice(pos: Int64, lim: Int64): ByteBuffer
+    public func slice(pos: Int64, limit: Int64): ByteBuffer
     
 }

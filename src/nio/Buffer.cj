@@ -25,15 +25,15 @@ public abstract class Buffer <: Object & ToString {
     var capa: Int64
 
     
-    Buffer (mark: Int64, position: Int64, limit: Int64, capacity: Int64) {
+    Buffer (marks: Int64, position: Int64, limits: Int64, capacity: Int64) {
         if (capacity < 0) {
             throw IllegalArgumentException()
         }
         this.capa = capacity
-        if (limit > this.capa || limit < 0 ) {
+        if (limits > this.capa || limits < 0 ) {
             throw IllegalArgumentException()
         }
-        this.lim = limit
+        this.lim = limits
         if (this.pos > this.lim) {
             this.pos = this.lim
         }
@@ -47,11 +47,11 @@ public abstract class Buffer <: Object & ToString {
         if (mar > pos) {
             this.mar = -1
         }
-        if (mark >= 0) {
-            if (mark > position) {
+        if (marks >= 0) {
+            if (marks > position) {
                 throw IllegalArgumentException()
             }
-            this.mar = mark
+            this.mar = marks
         }
     }
 
@@ -84,14 +84,14 @@ public abstract class Buffer <: Object & ToString {
      * @return Type of Buffer
      * @since 0.32.5
      */
-    public open func position(newPosition: Int64): Buffer {
-        if (newPosition > lim || newPosition < 0) {
+    public open func position(newPosit: Int64): Buffer {
+        if (newPosit > lim || newPosit < 0) {
             throw IllegalArgumentException("newPosition")
         }
         if (mar > pos) {
             mar = -1
         }
-        pos = newPosition
+        pos = newPosit
         return this
     }
 
@@ -115,11 +115,11 @@ public abstract class Buffer <: Object & ToString {
      * @return Type of Buffer
      * @since 0.32.5
      */
-    public open func limit(newLimit: Int64): Buffer {
-        if (newLimit > capa || newLimit < 0) {
+    public open func limit(newLimits: Int64): Buffer {
+        if (newLimits > capa || newLimits < 0) {
             throw IllegalArgumentException("newLimit")
         }
-        lim = newLimit
+        lim = newLimits
         if (pos > lim) {pos = lim}
         if (mar > lim) {mar = -1}
         return this
@@ -144,11 +144,11 @@ public abstract class Buffer <: Object & ToString {
      * @since 0.32.5
      */
     public open func reset(): Buffer  {
-        var m = mar
-        if (m < 0){
+        var ma = mar
+        if (ma < 0){
             throw Exception()
         }
-        pos = m
+        pos = ma
         return this
     }
 
@@ -201,9 +201,9 @@ public abstract class Buffer <: Object & ToString {
      * @since 0.32.5
      */
     public func remaining(): Int64 {
-        let rem = lim - pos
-        return if (rem > 0) {
-            rem
+        let rems = lim - pos
+        return if (rems > 0) {
+            rems
         } else {
             0
         }
@@ -262,9 +262,9 @@ public abstract class Buffer <: Object & ToString {
         if (pos >= lim){
             throw Exception()
         }
-        let temp = pos
+        let temps = pos
         pos++
-        return temp
+        return temps
     }
 
     /**
@@ -275,11 +275,11 @@ public abstract class Buffer <: Object & ToString {
      * @return Type of Int64
      * @since 0.32.5
      */
-    func checkIndex(i: Int64): Int64 {        
-        if ((i < 0) || (i >= lim)){
+    func checkIndex(t: Int64): Int64 {        
+        if ((t < 0) || (t >= lim)){
             throw IndexOutOfBoundsException()
         }
-        return i
+        return t
     }
 
     /**
