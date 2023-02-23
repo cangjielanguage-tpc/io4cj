@@ -126,7 +126,7 @@ Okio是OkHttp的底层IO库，Okio是对仓颉io库的补充，使访问、存�
 
    ```cangjie
    # 使用cpm编译
-   # okio依赖cryptocj, 需要在module.json中requires项配置cryptocj目录(需预编译cryptocj)
+   # okio依赖cryptocj, 需要在module.json中requires项配置cryptocj目录(依赖的cryptocj版本为v0.0.6 需预编译cryptocj)
    # 然后在okio目录build
    cpm build
    ```
