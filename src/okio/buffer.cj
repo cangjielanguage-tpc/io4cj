@@ -194,13 +194,13 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
      * @since 0.32.5
      */
     @overflowWrapping
-    public override func writeUtf8(string: String, beginIndex: Int64, endIndex: Int64): BufferedSink {
+    public override func writeUtf8(str: String, beginIndex: Int64, endIndex: Int64): BufferedSink {
         if (beginIndex < 0) { throw IllegalArgumentException("beginIndex < 0: ${beginIndex}") }
         if (endIndex < beginIndex) { throw IllegalArgumentException("endIndex < beginIndex: ${endIndex} < ${beginIndex}") }
-        if (endIndex > string.size) { throw IllegalArgumentException("endIndex > string.length: ${endIndex} > ${string.size}") }
+        if (endIndex > str.size) { throw IllegalArgumentException("endIndex > string.length: ${endIndex} > ${str.size}") }
         var i = beginIndex
         while (i < endIndex) {
-            var c: Char = string.charAt(i)
+            var c: Char = str.charAt(i)
             if (UInt32(c) < 0x80) {
                 let tail = writableSegment(1)
                 let data = tail.data
@@ -209,7 +209,7 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
                 data[segmentOffset + i] = UInt8(UInt32(c))
                 i++
                 while (i < runLimit) {
-                    c = string.charAt(i)
+                    c = str.charAt(i)
                     if (UInt32(c) >= 0x80){
                         break
                     }
@@ -229,7 +229,7 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
                 writeInt8(Int64(UInt32(c)       & 0x3f) | 0x80)     // 10xxxxxx
                 i++
             } else {
-                let low: UInt32 = if (i + 1 < endIndex) { UInt32(string.charAt(i+1)) } else { 0 }
+                let low: UInt32 = if (i + 1 < endIndex) { UInt32(str.charAt(i+1)) } else { 0 }
                 if (UInt32(c) > 0xdbff || low < 0xdc00 || low > 0xdfff) {
                     writeInt8(Int64(UInt32('?')))
                     i++
