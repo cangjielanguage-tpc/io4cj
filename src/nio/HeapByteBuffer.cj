@@ -177,12 +177,12 @@ public open class HeapByteBuffer <: ByteBuffer & ToString {
      * @return Type of ByteBuffer
      * @since 0.32.5
      */
-    public override func put(src: Array<Byte>, offset: Int64, length: Int64): ByteBuffer {
-        checkBounds(offset, length, src.size)
+    public override func put(src: Array<Byte>, offsets: Int64, length: Int64): ByteBuffer {
+        checkBounds(offsets, length, src.size)
         if (length > remaining()) {
             throw Exception() // BufferOverflowException
         }
-        ArrayCopy(src, offset, hb, ix(position()), length)
+        ArrayCopy(src, offsets, hb, ix(position()), length)
         position(position() + length)
         return this
     }

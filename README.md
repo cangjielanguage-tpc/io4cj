@@ -124,11 +124,18 @@ Okio是OkHttp的底层IO库，Okio是对仓颉io库的补充，使访问、存�
 
 1. 本项目编译运行方式
 
+   ```cangjie
+   # 使用cpm编译
+   # okio依赖cryptocj, 需要在module.json中requires项配置cryptocj目录(需预编译cryptocj)
+   # 然后在okio目录build
+   cpm build
    ```
+   
+   ```cangjie
    git clone https://gitee.com/HW-PLLab/okio.git  ---> 拉取代码
    git clone https://gitee.com/HW-PLLab/testJekins.git  ---> 拉取编译脚本
    cd okio                               ---> 进入到okio目录下
-   cp -r ../testJekins/src/ci_test .     ---> 将ci test复制到okio的根目录
+   cp -r ../testJekins/src/ci_test .     ---> 将ci_test复制到okio的根目录
    
    python3 ci_test/main.py build   ---> 编译
    python3 ci_test/main.py test    ---> 执行 test/LLT 用例 
