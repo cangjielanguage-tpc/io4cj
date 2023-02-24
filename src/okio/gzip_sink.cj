@@ -15,6 +15,7 @@ public class GzipSink <: Sink {
     public var deflaterSink: DeflaterSink
     public var closed: Bool = false
 
+
     /**
      * The Function is init constructor
      *
