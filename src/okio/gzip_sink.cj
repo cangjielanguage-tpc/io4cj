@@ -14,7 +14,6 @@ public class GzipSink <: Sink {
     private var sink: BufferedSink
     public var deflaterSink: DeflaterSink
     public var closed: Bool = false
-    private var crc: Int64 = 0
 
     /**
      * The Function is init constructor
@@ -145,7 +144,7 @@ public class GzipSink <: Sink {
         if (off < 0 || len < 0 || off > b.size - len) {
             throw ArrayIndexOutOfBoundsException()
         }
-        updateBytes(crc, b, off, len)
+        updateBytes(b, off, len)
     }
 
     /**
@@ -159,7 +158,7 @@ public class GzipSink <: Sink {
      * @return Type of Unit
      * @since 0.34.3
      */
-    func updateBytes(crc: Int64 , b: Array<Byte> , off: Int64 , len: Int64):Unit {
+    func updateBytes(b: Array<Byte> , off: Int64 , len: Int64):Unit {
         updateBytesCheck(b , off , len)
 
     }
