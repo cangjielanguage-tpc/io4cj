@@ -27,6 +27,11 @@ main () {
     let s3 = fws.timeout()
     let s4 = fws.close()
     let s5 = fws.toString()
+    try {
+    let s6 = fws.isClosed()
+    }catch(e: Exception){
+        e.toString()
+    }
     
     return 0
 }

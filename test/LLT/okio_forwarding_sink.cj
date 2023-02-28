@@ -19,5 +19,11 @@ main () {
     let f4 = fwd.timeout()
     let f5 = fwd.close()
     let f7 = fwd.toString()
+    try{
+
+    let f8 = fwd.isClosed()
+    }catch(e: Exception){
+        println(e.toString())
+    }
     
 }
