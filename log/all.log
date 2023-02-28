@@ -1,0 +1,39 @@
+[2023-02-28 19:29:12,448] [INFO] find 3rd party libs in ['/home/hy/workspace/okio/build/okio']
+[2023-02-28 19:29:12,448] [INFO] find 3rd party libs in ['/home/hy/workspace/okio/ci_lib/cryptocj']
+[2023-02-28 19:29:12,448] [INFO] ************************Start to run case file: test/HLT/okio_gzip_sink_401.cj************************
+[2023-02-28 19:29:12,448] [INFO] [Run CMD]cjc   --import-path /home/hy/workspace/okio/build/okio/.. -L /home/hy/workspace/okio/build/okio -l okio_okio -l okio_nio  --import-path /home/hy/workspace/okio/ci_lib/cryptocj/.. -L /home/hy/workspace/okio/ci_lib/cryptocj -l cryptocj_aescj -l cryptocj_md5cj -l cryptocj_sha384cj -l cryptocj_bignumcj -l cryptocj_sha512cj -l crypto -l cryptocj_sha224cj -l cryptocj_sha256cj -l cryptocj_rc2cj -l cryptocj_sha1cj -l cryptocj_dsacj -l mycrypto -l cryptocj_dhcj -l cryptocj_rc4cj -l cryptocj_hmaccj -l cryptocj_rsacj -l cryptocj_eccj -l cryptocj_utils   test/HLT/okio_gzip_sink_401.cj  -o tmp/test/HLT/okio_gzip_sink_401.cj.out --test
+[2023-02-28 19:29:13,195] [INFO] [Run CMD]cd tmp/test/HLT;./okio_gzip_sink_401.cj.out  
+[2023-02-28 19:29:13,210] [INFO] --------------------------------------------------------------------------------------------------
+[2023-02-28 19:29:13,210] [INFO] TP: [33mdefault[0m, time elapsed: 299571 ns, Result:
+[2023-02-28 19:29:13,210] [INFO] TCS: [33mokio_gzip_sink_401[0m, time elapsed: 298462 ns, RESULT:
+[2023-02-28 19:29:13,210] [INFO] [[31m ERROR  [0m] CASE: okio_gzip_sink_401 (294821 ns)
+[2023-02-28 19:29:13,210] [INFO] REASON: An exception has occurred:IllegalArgumentException: closed
+[2023-02-28 19:29:13,210] [INFO] at std/core.Exception::init(std/core::String)(std/core/exception.cj:28)
+[2023-02-28 19:29:13,210] [INFO] at std/core.IllegalArgumentException::init(std/core::String)(std/core/illegal_argument_exception.cj:12)
+[2023-02-28 19:29:13,210] [INFO] at okio/okio.RealBufferedSink::flush()(/home/hy/workspace/okio/src/okio/RealBufferedSink.cj:273)
+[2023-02-28 19:29:13,210] [INFO] at okio/okio.GzipSink::flush()(/home/hy/workspace/okio/src/okio/gzip_sink.cj:56)
+[2023-02-28 19:29:13,210] [INFO] at default.okio_gzip_sink_401::okio_gzip_sink_401()(/home/hy/workspace/okio/test/HLT/okio_gzip_sink_401.cj:8)
+[2023-02-28 19:29:13,210] [INFO] at default.lambda.0()(/home/hy/workspace/okio/test/HLT/okio_gzip_sink_401.cj:8)
+[2023-02-28 19:29:13,210] [INFO] at std/unittest.TestCases::execute()(std/unittest/test_case.cj:92)
+[2023-02-28 19:29:13,211] [INFO] at std/unittest.UT::run(std/unittest::UTestRunner)(std/unittest/test_runner.cj:192)
+[2023-02-28 19:29:13,211] [INFO] at std/unittest.UTestRunner::doRun()(std/unittest/test_runner.cj:76)
+[2023-02-28 19:29:13,211] [INFO] at std/unittest.UT::run(std/unittest::UTestRunner)(std/unittest/test_runner.cj:198)
+[2023-02-28 19:29:13,211] [INFO] at std/unittest.UTestRunner::doRun()(std/unittest/test_runner.cj:73)
+[2023-02-28 19:29:13,211] [INFO] at std/unittest.entryMain(std/unittest::TestPackage)(std/unittest/entry_main.cj:11)
+[2023-02-28 19:29:13,211] [INFO] Summary: TOTAL: 1
+[2023-02-28 19:29:13,211] [INFO] [32mPASSED[0m: 0, [32mSKIPPED[0m: 0, ERROR: 1
+[2023-02-28 19:29:13,211] [INFO] [31mFAILED[0m: 0
+[2023-02-28 19:29:13,211] [INFO] --------------------------------------------------------------------------------------------------
+[2023-02-28 19:29:13,213] [INFO] **************************************************
+[2023-02-28 19:29:13,213] [INFO] Test Summary
+[2023-02-28 19:29:13,213] [INFO] Total  : 1
+[2023-02-28 19:29:13,213] [INFO] Passed : 0
+[2023-02-28 19:29:13,213] [INFO] Failed : 0
+[2023-02-28 19:29:13,213] [INFO] Error  : 1
+[2023-02-28 19:29:13,214] [INFO] Skipped: 0
+[2023-02-28 19:29:13,214] [INFO] Ratio  : 0.0%
+[2023-02-28 19:29:13,214] [INFO] **************************************************
+[2023-02-28 19:29:13,214] [INFO] Error listed below:
+[2023-02-28 19:29:13,214] [INFO] test.HLT.okio_gzip_sink_401.okio_gzip_sink_401.okio_gzip_sink_401
+[2023-02-28 19:29:13,214] [INFO] **************************************************
+[2023-02-28 19:29:13,214] [INFO] View the full log in log/all.log, or view the log of each case under log/split_log

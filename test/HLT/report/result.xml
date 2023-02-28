@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+<testsuites errors="1" failures="0" skipped="0" tests="1">
+    <testsuite errors="1" failures="0" name="okio_socketbuffer_408.okio_socketbuffer_408" skipped="0" tests="1" time="0.00025314399999999996">
+        <testcase class_name="okio_socketbuffer_408.okio_socketbuffer_408" name="okio_socketbuffer_408" time="0.00025047800000000005">
+            <error>REASON: An exception has occurred:SocketException: Failed to connect: Native function error 111: Connection refused.
+at std/core.Exception::init(std/core::String)(std/core/exception.cj:28)
+at std/socket.socketProcessErrno(std/socket::ErrnoLabel)(std/socket/socket_util.cj:20)
+at std/socket.Socket::connect(Int64)(std/socket/socket.cj:281)
+at std/socket.Socket::connect()(std/socket/socket.cj:207)
+at default.okio_socketbuffer_408::okio_socketbuffer_408()(/home/hy/workspace/okio/test/HLT/okio_socketbuffer_408.cj:10)
+at default.lambda.1()(/home/hy/workspace/okio/test/HLT/okio_socketbuffer_408.cj:10)
+at std/unittest.TestCases::execute()(std/unittest/test_case.cj:92)
+at std/unittest.UT::run(std/unittest::UTestRunner)(std/unittest/test_runner.cj:192)
+at std/unittest.UTestRunner::doRun()(std/unittest/test_runner.cj:76)
+at std/unittest.UT::run(std/unittest::UTestRunner)(std/unittest/test_runner.cj:198)
+at std/unittest.UTestRunner::doRun()(std/unittest/test_runner.cj:73)
+at std/unittest.entryMain(std/unittest::TestPackage)(std/unittest/entry_main.cj:11)
+</error>
+        </testcase>
+    </testsuite>
+</testsuites>
