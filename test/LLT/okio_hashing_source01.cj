@@ -15,6 +15,11 @@ main () {
     source.writeUtf8("helloworld")
     let result: Int64 = hashingSource.read(sink, 0x7fffffffffffffff)
     hashingSource.readMD5()
+    try{
+        let hs1 = hashingSource.isClosed()
+    }catch(e: Exception) {
+        e.toString()
+    }
     let a: String = hashingSource.hash()
     if(result != 10){
         return 2

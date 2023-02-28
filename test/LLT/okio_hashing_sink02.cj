@@ -14,6 +14,11 @@ main () {
     var sink: Buffer = Buffer()
     let HMAC_KEY: String = "test1280"
     let hashingSink: HashingSink = HashingSink.hmacSha512(sink , HMAC_KEY)
+    try{
+    let hs1 = hashingSink.isClosed()
+    }catch(e: Exception){
+        e.toString()
+    }
     source.writeUtf8("0123456789ABCDEF")
     hashingSink.writehmacSha512(source, 16)
     let a: String = hashingSink.hash()

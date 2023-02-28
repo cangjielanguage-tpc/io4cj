@@ -13,7 +13,11 @@ main () {
     data.writeUtf8(testString)
     let inflaterSource: InflaterSource = InflaterSource(data)
     inflaterSource.toString()
-
+    try{
+        let is1 = inflaterSource.isClosed()
+    }catch(e: Exception){
+        println(e.toString())
+    }
     inflaterSource.timeout()
     return 0
 }

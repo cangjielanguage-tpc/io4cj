@@ -284,7 +284,7 @@ pre
           </tr>
           <tr>
             <td class="headerName">Date:</td>
-            <td class="headerValue">2023-02-16 18:14:02</td>
+            <td class="headerValue">2023-02-28 15:58:16</td>
             <td></td>
             <td class="headerName">Lines:</td>
             <td class="headerTableEntry">116</td>
@@ -510,13 +510,13 @@ pre
 <td align="right" class="lineno"><pre>32</pre></td>
 <td align="right" class="linebranch"></td>
 <td align="center" class="linecount coveredLine"><pre>Y</pre></td>
-<td align="left" class="src coveredLine"><pre>    init (cap: Int64, lim: Int64) {</pre></td>
+<td align="left" class="src coveredLine"><pre>    init (cap: Int64, lims: Int64) {</pre></td>
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>33</pre></td>
 <td align="right" class="linebranch"></td>
 <td align="center" class="linecount coveredLine"><pre>Y</pre></td>
-<td align="left" class="src coveredLine"><pre>        super (-1, 0, lim, cap, Array&lt;Byte&gt;(cap, item: 0), 0)</pre></td>
+<td align="left" class="src coveredLine"><pre>        super (-1, 0, lims, cap, Array&lt;Byte&gt;(cap, item: 0), 0)</pre></td>
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>34</pre></td>
@@ -534,19 +534,19 @@ pre
 <td align="right" class="lineno"><pre>36</pre></td>
 <td align="right" class="linebranch"></td>
 <td align="center" class="linecount coveredLine"><pre>Y</pre></td>
-<td align="left" class="src coveredLine"><pre>    init (buf: Array&lt;Byte&gt;, off: Int64, len: Int64) {</pre></td>
+<td align="left" class="src coveredLine"><pre>    init (bufs: Array&lt;Byte&gt;, off: Int64, len: Int64) {</pre></td>
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>37</pre></td>
 <td align="right" class="linebranch"><details class="linebranchDetails">
 <summary class="linebranchSummary">1/2</summary>
 <div class="linebranchContents">
-<div class="notTakenBranch">&cross; Branch 0 not taken.</div><div class="takenBranch">&check; Branch 1 taken 159 times.</div>
+<div class="notTakenBranch">&cross; Branch 0 not taken.</div><div class="takenBranch">&check; Branch 1 taken 318 times.</div>
 </div>
 </details>
 </td>
 <td align="center" class="linecount coveredLine"><pre>Y</pre></td>
-<td align="left" class="src coveredLine"><pre>        super (-1, off, off+len, buf.size, buf, 0)</pre></td>
+<td align="left" class="src coveredLine"><pre>        super (-1, off, off+len, bufs.size, bufs, 0)</pre></td>
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>38</pre></td>
@@ -564,13 +564,13 @@ pre
 <td align="right" class="lineno"><pre>40</pre></td>
 <td align="right" class="linebranch"></td>
 <td align="center" class="linecount coveredLine"><pre>Y</pre></td>
-<td align="left" class="src coveredLine"><pre>    protected init (buf: Array&lt;Byte&gt;, mark: Int64, pos: Int64, lim: Int64, cap: Int64, off: Int64) {</pre></td>
+<td align="left" class="src coveredLine"><pre>    protected init (bufs: Array&lt;Byte&gt;, mark: Int64, pos: Int64, lim: Int64, cap: Int64, off: Int64) {</pre></td>
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>41</pre></td>
 <td align="right" class="linebranch"></td>
 <td align="center" class="linecount coveredLine"><pre>Y</pre></td>
-<td align="left" class="src coveredLine"><pre>        super(mark, pos, lim, cap, buf, off)</pre></td>
+<td align="left" class="src coveredLine"><pre>        super(mark, pos, lim, cap, bufs, off)</pre></td>
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>42</pre></td>
@@ -631,7 +631,7 @@ pre
 <td align="right" class="linebranch"><details class="linebranchDetails">
 <summary class="linebranchSummary">1/2</summary>
 <div class="linebranchContents">
-<div class="notTakenBranch">&cross; Branch 0 not taken.</div><div class="takenBranch">&check; Branch 1 taken 8 times.</div>
+<div class="notTakenBranch">&cross; Branch 0 not taken.</div><div class="takenBranch">&check; Branch 1 taken 16 times.</div>
 </div>
 </details>
 </td>
@@ -708,26 +708,26 @@ pre
 <td align="right" class="lineno"><pre>63</pre></td>
 <td align="right" class="linebranch"></td>
 <td align="center" class="linecount coveredLine"><pre>Y</pre></td>
-<td align="left" class="src coveredLine"><pre>    public override func slice (pos: Int64, lim: Int64): ByteBuffer {</pre></td>
+<td align="left" class="src coveredLine"><pre>    public override func slice (pos: Int64, limit: Int64): ByteBuffer {</pre></td>
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>64</pre></td>
 <td align="right" class="linebranch"><details class="linebranchDetails">
 <summary class="linebranchSummary">1/2</summary>
 <div class="linebranchContents">
-<div class="notTakenBranch">&cross; Branch 0 not taken.</div><div class="takenBranch">&check; Branch 1 taken 12 times.</div>
+<div class="notTakenBranch">&cross; Branch 0 not taken.</div><div class="takenBranch">&check; Branch 1 taken 24 times.</div>
 </div>
 </details>
 </td>
 <td align="center" class="linecount coveredLine"><pre>Y</pre></td>
-<td align="left" class="src coveredLine"><pre>        let rem = lim - pos</pre></td>
+<td align="left" class="src coveredLine"><pre>        let rem = limit - pos</pre></td>
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>65</pre></td>
 <td align="right" class="linebranch"><details class="linebranchDetails">
 <summary class="linebranchSummary">1/2</summary>
 <div class="linebranchContents">
-<div class="notTakenBranch">&cross; Branch 0 not taken.</div><div class="takenBranch">&check; Branch 1 taken 12 times.</div>
+<div class="notTakenBranch">&cross; Branch 0 not taken.</div><div class="takenBranch">&check; Branch 1 taken 24 times.</div>
 </div>
 </details>
 </td>
@@ -918,19 +918,19 @@ pre
 <td align="right" class="lineno"><pre>96</pre></td>
 <td align="right" class="linebranch"></td>
 <td align="center" class="linecount coveredLine"><pre>Y</pre></td>
-<td align="left" class="src coveredLine"><pre>    protected func ix(i: Int64): Int64 {</pre></td>
+<td align="left" class="src coveredLine"><pre>    protected func ix(ii: Int64): Int64 {</pre></td>
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>97</pre></td>
 <td align="right" class="linebranch"><details class="linebranchDetails">
 <summary class="linebranchSummary">1/2</summary>
 <div class="linebranchContents">
-<div class="notTakenBranch">&cross; Branch 0 not taken.</div><div class="takenBranch">&check; Branch 1 taken 335 times.</div>
+<div class="notTakenBranch">&cross; Branch 0 not taken.</div><div class="takenBranch">&check; Branch 1 taken 670 times.</div>
 </div>
 </details>
 </td>
 <td align="center" class="linecount coveredLine"><pre>Y</pre></td>
-<td align="left" class="src coveredLine"><pre>        return i + offset</pre></td>
+<td align="left" class="src coveredLine"><pre>        return ii + offset</pre></td>
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>98</pre></td>
@@ -1098,7 +1098,7 @@ pre
 <td align="right" class="lineno"><pre>125</pre></td>
 <td align="right" class="linebranch"></td>
 <td align="center" class="linecount "><pre></pre></td>
-<td align="left" class="src "><pre>     * @param dst of Array&lt;Byte&gt;</pre></td>
+<td align="left" class="src "><pre>     * @param dsts of Array&lt;Byte&gt;</pre></td>
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>126</pre></td>
@@ -1140,20 +1140,20 @@ pre
 <td align="right" class="lineno"><pre>132</pre></td>
 <td align="right" class="linebranch"></td>
 <td align="center" class="linecount coveredLine"><pre>Y</pre></td>
-<td align="left" class="src coveredLine"><pre>    public override func get(dst: Array&lt;Byte&gt;, offset: Int64, length: Int64): ByteBuffer {</pre></td>
+<td align="left" class="src coveredLine"><pre>    public override func get(dsts: Array&lt;Byte&gt;, offset: Int64, length: Int64): ByteBuffer {</pre></td>
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>133</pre></td>
 <td align="right" class="linebranch"></td>
 <td align="center" class="linecount coveredLine"><pre>Y</pre></td>
-<td align="left" class="src coveredLine"><pre>        checkBounds(offset, length, dst.size)</pre></td>
+<td align="left" class="src coveredLine"><pre>        checkBounds(offset, length, dsts.size)</pre></td>
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>134</pre></td>
 <td align="right" class="linebranch"><details class="linebranchDetails">
 <summary class="linebranchSummary">4/4</summary>
 <div class="linebranchContents">
-<div class="takenBranch">&check; Branch 0 taken 2 times.</div><div class="takenBranch">&check; Branch 1 taken 15 times.</div><div class="takenBranch">&check; Branch 2 taken 2 times.</div><div class="takenBranch">&check; Branch 3 taken 15 times.</div>
+<div class="takenBranch">&check; Branch 0 taken 4 times.</div><div class="takenBranch">&check; Branch 1 taken 30 times.</div><div class="takenBranch">&check; Branch 2 taken 4 times.</div><div class="takenBranch">&check; Branch 3 taken 30 times.</div>
 </div>
 </details>
 </td>
@@ -1176,14 +1176,14 @@ pre
 <td align="right" class="lineno"><pre>137</pre></td>
 <td align="right" class="linebranch"></td>
 <td align="center" class="linecount coveredLine"><pre>Y</pre></td>
-<td align="left" class="src coveredLine"><pre>        ArrayCopy(hb, ix(position()), dst, offset, length)</pre></td>
+<td align="left" class="src coveredLine"><pre>        ArrayCopy(hb, ix(position()), dsts, offset, length)</pre></td>
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>138</pre></td>
 <td align="right" class="linebranch"><details class="linebranchDetails">
 <summary class="linebranchSummary">1/2</summary>
 <div class="linebranchContents">
-<div class="notTakenBranch">&cross; Branch 0 not taken.</div><div class="takenBranch">&check; Branch 1 taken 15 times.</div>
+<div class="notTakenBranch">&cross; Branch 0 not taken.</div><div class="takenBranch">&check; Branch 1 taken 30 times.</div>
 </div>
 </details>
 </td>
@@ -1440,20 +1440,20 @@ pre
 <td align="right" class="lineno"><pre>180</pre></td>
 <td align="right" class="linebranch"></td>
 <td align="center" class="linecount coveredLine"><pre>Y</pre></td>
-<td align="left" class="src coveredLine"><pre>    public override func put(src: Array&lt;Byte&gt;, offset: Int64, length: Int64): ByteBuffer {</pre></td>
+<td align="left" class="src coveredLine"><pre>    public override func put(src: Array&lt;Byte&gt;, offsets: Int64, length: Int64): ByteBuffer {</pre></td>
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>181</pre></td>
 <td align="right" class="linebranch"></td>
 <td align="center" class="linecount coveredLine"><pre>Y</pre></td>
-<td align="left" class="src coveredLine"><pre>        checkBounds(offset, length, src.size)</pre></td>
+<td align="left" class="src coveredLine"><pre>        checkBounds(offsets, length, src.size)</pre></td>
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>182</pre></td>
 <td align="right" class="linebranch"><details class="linebranchDetails">
 <summary class="linebranchSummary">4/4</summary>
 <div class="linebranchContents">
-<div class="takenBranch">&check; Branch 0 taken 2 times.</div><div class="takenBranch">&check; Branch 1 taken 18 times.</div><div class="takenBranch">&check; Branch 2 taken 2 times.</div><div class="takenBranch">&check; Branch 3 taken 18 times.</div>
+<div class="takenBranch">&check; Branch 0 taken 4 times.</div><div class="takenBranch">&check; Branch 1 taken 36 times.</div><div class="takenBranch">&check; Branch 2 taken 4 times.</div><div class="takenBranch">&check; Branch 3 taken 36 times.</div>
 </div>
 </details>
 </td>
@@ -1476,14 +1476,14 @@ pre
 <td align="right" class="lineno"><pre>185</pre></td>
 <td align="right" class="linebranch"></td>
 <td align="center" class="linecount coveredLine"><pre>Y</pre></td>
-<td align="left" class="src coveredLine"><pre>        ArrayCopy(src, offset, hb, ix(position()), length)</pre></td>
+<td align="left" class="src coveredLine"><pre>        ArrayCopy(src, offsets, hb, ix(position()), length)</pre></td>
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>186</pre></td>
 <td align="right" class="linebranch"><details class="linebranchDetails">
 <summary class="linebranchSummary">1/2</summary>
 <div class="linebranchContents">
-<div class="notTakenBranch">&cross; Branch 0 not taken.</div><div class="takenBranch">&check; Branch 1 taken 18 times.</div>
+<div class="notTakenBranch">&cross; Branch 0 not taken.</div><div class="takenBranch">&check; Branch 1 taken 36 times.</div>
 </div>
 </details>
 </td>
@@ -1560,31 +1560,31 @@ pre
 <td align="right" class="lineno"><pre>198</pre></td>
 <td align="right" class="linebranch"></td>
 <td align="center" class="linecount coveredLine"><pre>Y</pre></td>
-<td align="left" class="src coveredLine"><pre>    public override func put(src: ByteBuffer): ByteBuffer {</pre></td>
+<td align="left" class="src coveredLine"><pre>    public override func put(srcs: ByteBuffer): ByteBuffer {</pre></td>
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>199</pre></td>
 <td align="right" class="linebranch"><details class="linebranchDetails">
 <summary class="linebranchSummary">1/2</summary>
 <div class="linebranchContents">
-<div class="takenBranch">&check; Branch 0 taken 6 times.</div><div class="notTakenBranch">&cross; Branch 1 not taken.</div>
+<div class="takenBranch">&check; Branch 0 taken 12 times.</div><div class="notTakenBranch">&cross; Branch 1 not taken.</div>
 </div>
 </details>
 </td>
 <td align="center" class="linecount coveredLine"><pre>Y</pre></td>
-<td align="left" class="src coveredLine"><pre>        if (src is HeapByteBuffer) {</pre></td>
+<td align="left" class="src coveredLine"><pre>        if (srcs is HeapByteBuffer) {</pre></td>
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>200</pre></td>
 <td align="right" class="linebranch"><details class="linebranchDetails">
 <summary class="linebranchSummary">2/2</summary>
 <div class="linebranchContents">
-<div class="takenBranch">&check; Branch 0 taken 2 times.</div><div class="takenBranch">&check; Branch 1 taken 4 times.</div>
+<div class="takenBranch">&check; Branch 0 taken 4 times.</div><div class="takenBranch">&check; Branch 1 taken 8 times.</div>
 </div>
 </details>
 </td>
 <td align="center" class="linecount coveredLine"><pre>Y</pre></td>
-<td align="left" class="src coveredLine"><pre>            if (src == this) {</pre></td>
+<td align="left" class="src coveredLine"><pre>            if (srcs == this) {</pre></td>
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>201</pre></td>
@@ -1602,14 +1602,14 @@ pre
 <td align="right" class="lineno"><pre>203</pre></td>
 <td align="right" class="linebranch"></td>
 <td align="center" class="linecount coveredLine"><pre>Y</pre></td>
-<td align="left" class="src coveredLine"><pre>            let sb: HeapByteBuffer = match ((src as HeapByteBuffer)) {</pre></td>
+<td align="left" class="src coveredLine"><pre>            let sb: HeapByteBuffer = match ((srcs as HeapByteBuffer)) {</pre></td>
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>204</pre></td>
 <td align="right" class="linebranch"><details class="linebranchDetails">
 <summary class="linebranchSummary">1/2</summary>
 <div class="linebranchContents">
-<div class="notTakenBranch">&cross; Branch 0 not taken.</div><div class="takenBranch">&check; Branch 1 taken 4 times.</div>
+<div class="notTakenBranch">&cross; Branch 0 not taken.</div><div class="takenBranch">&check; Branch 1 taken 8 times.</div>
 </div>
 </details>
 </td>
@@ -1639,7 +1639,7 @@ pre
 <td align="right" class="linebranch"><details class="linebranchDetails">
 <summary class="linebranchSummary">2/2</summary>
 <div class="linebranchContents">
-<div class="takenBranch">&check; Branch 0 taken 1 times.</div><div class="takenBranch">&check; Branch 1 taken 3 times.</div>
+<div class="takenBranch">&check; Branch 0 taken 2 times.</div><div class="takenBranch">&check; Branch 1 taken 6 times.</div>
 </div>
 </details>
 </td>
@@ -1669,7 +1669,7 @@ pre
 <td align="right" class="linebranch"><details class="linebranchDetails">
 <summary class="linebranchSummary">1/2</summary>
 <div class="linebranchContents">
-<div class="notTakenBranch">&cross; Branch 0 not taken.</div><div class="takenBranch">&check; Branch 1 taken 3 times.</div>
+<div class="notTakenBranch">&cross; Branch 0 not taken.</div><div class="takenBranch">&check; Branch 1 taken 6 times.</div>
 </div>
 </details>
 </td>
@@ -1681,7 +1681,7 @@ pre
 <td align="right" class="linebranch"><details class="linebranchDetails">
 <summary class="linebranchSummary">1/2</summary>
 <div class="linebranchContents">
-<div class="notTakenBranch">&cross; Branch 0 not taken.</div><div class="takenBranch">&check; Branch 1 taken 3 times.</div>
+<div class="notTakenBranch">&cross; Branch 0 not taken.</div><div class="takenBranch">&check; Branch 1 taken 6 times.</div>
 </div>
 </details>
 </td>
@@ -1854,13 +1854,13 @@ pre
 <td align="right" class="lineno"><pre>241</pre></td>
 <td align="right" class="linebranch"></td>
 <td align="center" class="linecount coveredLine"><pre>Y</pre></td>
-<td align="left" class="src coveredLine"><pre>    public override func putLong(value: Int64): ByteBuffer {</pre></td>
+<td align="left" class="src coveredLine"><pre>    public override func putLong(val: Int64): ByteBuffer {</pre></td>
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>242</pre></td>
 <td align="right" class="linebranch"></td>
 <td align="center" class="linecount coveredLine"><pre>Y</pre></td>
-<td align="left" class="src coveredLine"><pre>        this.putUInt64(UInt64(value))</pre></td>
+<td align="left" class="src coveredLine"><pre>        this.putUInt64(UInt64(val))</pre></td>
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>243</pre></td>
@@ -1932,13 +1932,13 @@ pre
 <td align="right" class="lineno"><pre>254</pre></td>
 <td align="right" class="linebranch"></td>
 <td align="center" class="linecount coveredLine"><pre>Y</pre></td>
-<td align="left" class="src coveredLine"><pre>    public override func putInt(value: Int32): ByteBuffer {</pre></td>
+<td align="left" class="src coveredLine"><pre>    public override func putInt(val: Int32): ByteBuffer {</pre></td>
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>255</pre></td>
 <td align="right" class="linebranch"></td>
 <td align="center" class="linecount coveredLine"><pre>Y</pre></td>
-<td align="left" class="src coveredLine"><pre>        this.putUInt32(UInt32(value))</pre></td>
+<td align="left" class="src coveredLine"><pre>        this.putUInt32(UInt32(val))</pre></td>
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>256</pre></td>
@@ -2010,13 +2010,13 @@ pre
 <td align="right" class="lineno"><pre>267</pre></td>
 <td align="right" class="linebranch"></td>
 <td align="center" class="linecount coveredLine"><pre>Y</pre></td>
-<td align="left" class="src coveredLine"><pre>    public override func putShort(value: Int16): ByteBuffer {</pre></td>
+<td align="left" class="src coveredLine"><pre>    public override func putShort(val: Int16): ByteBuffer {</pre></td>
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>268</pre></td>
 <td align="right" class="linebranch"></td>
 <td align="center" class="linecount coveredLine"><pre>Y</pre></td>
-<td align="left" class="src coveredLine"><pre>        this.putUInt16(UInt16(value))</pre></td>
+<td align="left" class="src coveredLine"><pre>        this.putUInt16(UInt16(val))</pre></td>
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>269</pre></td>
@@ -2238,55 +2238,55 @@ pre
 <td align="right" class="lineno"><pre>305</pre></td>
 <td align="right" class="linebranch"></td>
 <td align="center" class="linecount coveredLine"><pre>Y</pre></td>
-<td align="left" class="src coveredLine"><pre>    public func putUInt64(value: UInt64): ByteBuffer {</pre></td>
+<td align="left" class="src coveredLine"><pre>    public func putUInt64(val: UInt64): ByteBuffer {</pre></td>
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>306</pre></td>
 <td align="right" class="linebranch"></td>
 <td align="center" class="linecount coveredLine"><pre>Y</pre></td>
-<td align="left" class="src coveredLine"><pre>        this.put(UInt8((value &gt;&gt; 56) &amp; 0xff))</pre></td>
+<td align="left" class="src coveredLine"><pre>        this.put(UInt8((val &gt;&gt; 56) &amp; 0xff))</pre></td>
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>307</pre></td>
 <td align="right" class="linebranch"></td>
 <td align="center" class="linecount coveredLine"><pre>Y</pre></td>
-<td align="left" class="src coveredLine"><pre>        this.put(UInt8((value &gt;&gt; 48) &amp; 0xff))</pre></td>
+<td align="left" class="src coveredLine"><pre>        this.put(UInt8((val &gt;&gt; 48) &amp; 0xff))</pre></td>
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>308</pre></td>
 <td align="right" class="linebranch"></td>
 <td align="center" class="linecount coveredLine"><pre>Y</pre></td>
-<td align="left" class="src coveredLine"><pre>        this.put(UInt8((value &gt;&gt; 40) &amp; 0xff))</pre></td>
+<td align="left" class="src coveredLine"><pre>        this.put(UInt8((val &gt;&gt; 40) &amp; 0xff))</pre></td>
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>309</pre></td>
 <td align="right" class="linebranch"></td>
 <td align="center" class="linecount coveredLine"><pre>Y</pre></td>
-<td align="left" class="src coveredLine"><pre>        this.put(UInt8((value &gt;&gt; 32) &amp; 0xff))</pre></td>
+<td align="left" class="src coveredLine"><pre>        this.put(UInt8((val &gt;&gt; 32) &amp; 0xff))</pre></td>
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>310</pre></td>
 <td align="right" class="linebranch"></td>
 <td align="center" class="linecount coveredLine"><pre>Y</pre></td>
-<td align="left" class="src coveredLine"><pre>        this.put(UInt8((value &gt;&gt; 24) &amp; 0xff))</pre></td>
+<td align="left" class="src coveredLine"><pre>        this.put(UInt8((val &gt;&gt; 24) &amp; 0xff))</pre></td>
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>311</pre></td>
 <td align="right" class="linebranch"></td>
 <td align="center" class="linecount coveredLine"><pre>Y</pre></td>
-<td align="left" class="src coveredLine"><pre>        this.put(UInt8((value &gt;&gt; 16) &amp; 0xff))</pre></td>
+<td align="left" class="src coveredLine"><pre>        this.put(UInt8((val &gt;&gt; 16) &amp; 0xff))</pre></td>
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>312</pre></td>
 <td align="right" class="linebranch"></td>
 <td align="center" class="linecount coveredLine"><pre>Y</pre></td>
-<td align="left" class="src coveredLine"><pre>        this.put(UInt8((value &gt;&gt; 8) &amp; 0xff))</pre></td>
+<td align="left" class="src coveredLine"><pre>        this.put(UInt8((val &gt;&gt; 8) &amp; 0xff))</pre></td>
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>313</pre></td>
 <td align="right" class="linebranch"></td>
 <td align="center" class="linecount coveredLine"><pre>Y</pre></td>
-<td align="left" class="src coveredLine"><pre>        this.put(UInt8(value &amp; 0xff))</pre></td>
+<td align="left" class="src coveredLine"><pre>        this.put(UInt8(val &amp; 0xff))</pre></td>
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>314</pre></td>
@@ -2316,31 +2316,31 @@ pre
 <td align="right" class="lineno"><pre>318</pre></td>
 <td align="right" class="linebranch"></td>
 <td align="center" class="linecount coveredLine"><pre>Y</pre></td>
-<td align="left" class="src coveredLine"><pre>    public func putUInt32(value: UInt32): ByteBuffer {</pre></td>
+<td align="left" class="src coveredLine"><pre>    public func putUInt32(val: UInt32): ByteBuffer {</pre></td>
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>319</pre></td>
 <td align="right" class="linebranch"></td>
 <td align="center" class="linecount coveredLine"><pre>Y</pre></td>
-<td align="left" class="src coveredLine"><pre>        this.put(UInt8((value &gt;&gt; 24) &amp; 0xff))</pre></td>
+<td align="left" class="src coveredLine"><pre>        this.put(UInt8((val &gt;&gt; 24) &amp; 0xff))</pre></td>
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>320</pre></td>
 <td align="right" class="linebranch"></td>
 <td align="center" class="linecount coveredLine"><pre>Y</pre></td>
-<td align="left" class="src coveredLine"><pre>        this.put(UInt8((value &gt;&gt; 16) &amp; 0xff))</pre></td>
+<td align="left" class="src coveredLine"><pre>        this.put(UInt8((val &gt;&gt; 16) &amp; 0xff))</pre></td>
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>321</pre></td>
 <td align="right" class="linebranch"></td>
 <td align="center" class="linecount coveredLine"><pre>Y</pre></td>
-<td align="left" class="src coveredLine"><pre>        this.put(UInt8((value &gt;&gt; 8) &amp; 0xff))</pre></td>
+<td align="left" class="src coveredLine"><pre>        this.put(UInt8((val &gt;&gt; 8) &amp; 0xff))</pre></td>
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>322</pre></td>
 <td align="right" class="linebranch"></td>
 <td align="center" class="linecount coveredLine"><pre>Y</pre></td>
-<td align="left" class="src coveredLine"><pre>        this.put(UInt8(value &amp; 0xff))</pre></td>
+<td align="left" class="src coveredLine"><pre>        this.put(UInt8(val &amp; 0xff))</pre></td>
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>323</pre></td>
@@ -2370,19 +2370,19 @@ pre
 <td align="right" class="lineno"><pre>327</pre></td>
 <td align="right" class="linebranch"></td>
 <td align="center" class="linecount coveredLine"><pre>Y</pre></td>
-<td align="left" class="src coveredLine"><pre>    public func putUInt16(value: UInt16): ByteBuffer {</pre></td>
+<td align="left" class="src coveredLine"><pre>    public func putUInt16(val: UInt16): ByteBuffer {</pre></td>
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>328</pre></td>
 <td align="right" class="linebranch"></td>
 <td align="center" class="linecount coveredLine"><pre>Y</pre></td>
-<td align="left" class="src coveredLine"><pre>        this.put(UInt8((value &gt;&gt; 8) &amp; 0xff))</pre></td>
+<td align="left" class="src coveredLine"><pre>        this.put(UInt8((val &gt;&gt; 8) &amp; 0xff))</pre></td>
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>329</pre></td>
 <td align="right" class="linebranch"></td>
 <td align="center" class="linecount coveredLine"><pre>Y</pre></td>
-<td align="left" class="src coveredLine"><pre>        this.put(UInt8(value &amp; 0xff))</pre></td>
+<td align="left" class="src coveredLine"><pre>        this.put(UInt8(val &amp; 0xff))</pre></td>
 </tr>
 <tr>
 <td align="right" class="lineno"><pre>330</pre></td>

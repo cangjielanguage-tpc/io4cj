@@ -23,6 +23,11 @@ main () {
     }
     let bu3: Buffer = Buffer()
     let ds: DeflaterSink = DeflaterSink(bu3)
+    try{
+        let ds1 = ds.isClosed()
+    }catch(e: Exception){
+        println(e.toString())
+    }
     return 0
 
 }
