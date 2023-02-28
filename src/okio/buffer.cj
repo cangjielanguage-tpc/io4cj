@@ -1067,10 +1067,16 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
     }
 
     func readUtf8Line(newLine: Int64): ?String {
-        if (newLine > 0 && getInt8(newLine -1) == Int8(UInt32('\r'))) {
-            let result = readUtf8(newLine -1)
-            this.skip(2)
-            return result
+        if (newLine > 0) {
+            if (getInt8(newLine -1) == Int8(UInt32('\r'))) {
+                let result = readUtf8(newLine -1)
+                this.skip(2)
+                return result
+            } else {
+                let result = readUtf8(newLine)
+                this.skip(1)
+                return result
+            }
         } else {
             let result = readUtf8(newLine)
             this.skip(1)
@@ -1109,10 +1115,12 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         if (newLine != -1) {
             return readUtf8Line(newLine)
         }
-        if (scanLength < mysize 
-            && getInt8(scanLength - 1) == let_CR
-            && getInt8(scanLength) == let_LF) {
-            return readUtf8Line(scanLength)
+        if (scanLength < mysize) {
+            if (getInt8(scanLength - 1) == let_CR) {
+               if (getInt8(scanLength) == let_LF) {
+                    return readUtf8Line(scanLength)
+                } 
+            }
         }
         let data = Buffer()
         copyTo(data, 0, math.min(32, mysize))

@@ -122,25 +122,28 @@ Okio是OkHttp的底层IO库，Okio是对仓颉io库的补充，使访问、存�
 
 ### 编译
 
-1. 本项目编译运行方式
+#### Linux环境编译
 
-   ```cangjie
-   # 使用cpm编译
-   # okio依赖cryptocj, 需要在module.json中requires项配置cryptocj目录(依赖的cryptocj版本为v0.0.6 需预编译cryptocj)
-   # 然后在okio目录build
-   cpm build
-   ```
-   
-   ```cangjie
-   git clone https://gitee.com/HW-PLLab/okio.git  ---> 拉取代码
-   git clone https://gitee.com/HW-PLLab/testJekins.git  ---> 拉取编译脚本
-   cd okio                               ---> 进入到okio目录下
-   cp -r ../testJekins/src/ci_test .     ---> 将ci_test复制到okio的根目录
-   
-   python3 ci_test/main.py build   ---> 编译
-   python3 ci_test/main.py test    ---> 执行 test/LLT 用例 
-   ```
-   
+```cangjie
+git clone https://gitee.com/HW-PLLab/okio.git  ---> 拉取代码
+git clone https://gitee.com/HW-PLLab/testJekins.git  ---> 拉取编译脚本
+cd okio                               ---> 进入到okio目录下
+cp -r ../testJekins/src/ci_test .     ---> 将ci_test复制到okio的根目录
+
+python3 ci_test/main.py build   ---> 编译
+```
+
+#### Windows编译
+
+```cangjie
+git clone https://gitee.com/HW-PLLab/okio.git  ---> 拉取代码
+# okio依赖cryptocj, 需要在module.json中requires项配置cryptocj目录(依赖的cryptocj版本为v0.0.6 需预编译cryptocj)
+# 然后在okio目录build
+cd okio                               ---> 进入到okio目录下
+
+cpm build -V   ---> 编译
+cpm test - V   ---> 执行 test/LLT 用例
+```
 
 test/LLT 用例书写参考：https://gitee.com/HW-PLLab/cangjie-library-pages/wikis 的门禁测试脚本使用方式
 
