@@ -402,8 +402,17 @@ class RealBufferedSource <: BufferedSource {
         if (newLine != -1) {
             return this.buf.readUtf8Line(newLine)
         }
-        if (scanLength < Int64.Max && request(scanLength) && request(scanLength + 1) && this.buf.getInt8(scanLength - 1) == let_CR && this.buf.getInt8(scanLength) == let_LF) {
-            return this.buf.readUtf8Line(scanLength)
+        if(scanLength < Int64.Max) {
+            if(request(scanLength)) {
+                if (request(scanLength + 1)) {
+                    if (this.buf.getInt8(scanLength - 1) == let_CR) {
+                        if (this.buf.getInt8(scanLength) == let_LF) {
+                            return this.buf.readUtf8Line(scanLength)
+                        }
+
+                    }
+                }
+            }
         }
         let data = Buffer()
         this.buf.copyTo(data, 0, math.min(32, this.buf.size))
