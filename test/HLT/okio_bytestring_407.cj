@@ -14,7 +14,7 @@ public class okio_byteString_407 {
 
         println("---------------------------okio_byteString_write_221-----------------------------")
 
-        var file = File.create("../../testData/okio_emitCompleteSegments_214.txt")
+        var file = File("../../testData/okio_emitCompleteSegments_214.txt" , CreateOrTruncate(true))
         let bufferedSink: BufferedSink = Okio.buffer(Okio.sink(file))
 
         try {
