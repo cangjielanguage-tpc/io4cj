@@ -115,6 +115,13 @@ public class okio_ForwardingTimeout {
         let ft: ForwardingTimeout = ForwardingTimeout(str)
         let ft1 = ft.clearTimeout()
         let ft2 = ft.clearDeadline()
+        var exc = ""
+        try{
+        let ft3 = ft.throwIfReached()
+        }catch(e: Exception){
+            exc = e.message
+        }
+        @Assert(exc , "")
         println(ft2.timeoutNanos())
         println(ft2.hasDeadline())
         @Assert(ft2.timeoutNanos().toString(),"0")
