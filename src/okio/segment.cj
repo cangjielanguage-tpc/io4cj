@@ -128,7 +128,9 @@ public class Segment <: Object & Equatable<Segment> {
     public func compact() {
         match (prev) {
             case Some(seg) => doCompact(seg)
-            case None => 1
+            case None =>
+                1
+                ()
         }
     }
 
