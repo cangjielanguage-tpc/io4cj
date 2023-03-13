@@ -3,8 +3,10 @@
 from std import io.*
 from std import time.*
 from okio import okio.*
-
-func call_fuzz(int641: InT64, int642: InT64) {
+import secodeFuzz.*
+from std import unittest.testmacro.*
+from std import collection.ArrayList
+func call_fuzz(int641: Int64, int642: Int64) {
     if (int641 < 0 || int64 > 4 && int642 < -1 || int642 > 4 && int641 > int642) {
         return
     }

@@ -3,8 +3,11 @@
 from std import io.*
 from std import time.*
 from okio import okio.*
+import secodeFuzz.*
+from std import unittest.testmacro.*
+from std import collection.ArrayList
 
-func call_fuzz(int641: InT64, int642: InT64) {
+func call_fuzz(int641: Int64, int642: Int64) {
     var buffer = Buffer()
     buffer.write([6, 5, 4, 3, 2, 16, 7]).writeUtf8("华为").writeUtf8("中国")
     var buffer2 = Buffer()
