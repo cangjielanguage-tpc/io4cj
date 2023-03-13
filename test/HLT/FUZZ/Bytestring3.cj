@@ -3,7 +3,9 @@
 from std import io.*
 from std import time.*
 from okio import okio.*
-
+import secodeFuzz.*
+from std import unittest.testmacro.*
+from std import collection.ArrayList
 func call_fuzz(string: String) {
     ByteString.decodeBase64(string)
 }

@@ -3,8 +3,10 @@
 from std import io.*
 from std import time.*
 from okio import okio.*
-
-func call_fuzz(int64: InT64) {
+import secodeFuzz.*
+from std import unittest.testmacro.*
+from std import collection.ArrayList
+func call_fuzz(int64: Int64) {
     if (int64 > 7) {
         return
     }

@@ -3,8 +3,10 @@
 from std import io.*
 from std import time.*
 from okio import okio.*
-
-func call_fuzz(int64: InT64) {
+import secodeFuzz.*
+from std import unittest.testmacro.*
+from std import collection.ArrayList
+func call_fuzz(int64: Int64) {
     let arrb: Array<Byte> = [6, 5, 4, 3, 2, 16, 7]
     let a_buffer = Buffer()
     a_buffer.write(arrb)
