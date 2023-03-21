@@ -6,18 +6,20 @@ from okio import okio.*
 import secodeFuzz.*
 from std import unittest.testmacro.*
 from std import collection.ArrayList
-func call_fuzz(int641: Int64, int642: Int64) {
-    if (int641 < 0 || int64 > 4 && int642 < -1 || int642 > 4 && int641 > int642) {
+func call_fuzz(int64: Int64) {
+    
+    if (int64 < 1 || int64 > 4) {
         return
     }
     let bufferedSink = okio.Buffer()
-    bufferedSink.writeUtf8("hell", int641, int642)
+    bufferedSink.writeUtf8("hell", 1, int64)
+    return
 }
 
 func unboundTest(): Unit {
     var case_name = CString("Fuzz_bufferedSink.writeUtf8")
     unsafe {
-        DT_FUZZ_Int64_2(0, 100000, case_name, 0, call_fuzz)
+        DT_FUZZ_Int64(0, 30000000, case_name, 0, call_fuzz)
         case_name.free()
     }
 }

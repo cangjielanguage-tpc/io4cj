@@ -13,12 +13,13 @@ func call_fuzz(int64: Int64) {
     let a_buffer = Buffer()
     a_buffer.writeUtf8("华为\n中国")
     a_buffer.readUtf8LineStrict(int64)
+    return
 }
 
 func unboundTest(): Unit {
     var case_name = CString("Fuzz_a_buffer.readUtf8LineStrict")
     unsafe {
-        DT_FUZZ_Int64(0, 100000, case_name, 0, call_fuzz)
+        DT_FUZZ_Int64(0, 30000000, case_name, 0, call_fuzz)
         case_name.free()
     }
 }
