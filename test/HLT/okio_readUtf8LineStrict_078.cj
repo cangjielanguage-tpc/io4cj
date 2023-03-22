@@ -13,6 +13,7 @@ public class okio_readUtf8LineStrict_078{
         var exc = ""
         try {
             let a_buffer = Buffer()
+            a_buffer.writeUtf8("华为\n中国")
             println(a_buffer)
             println(a_buffer.readUtf8LineStrict(1))
             println(a_buffer)
@@ -29,6 +30,7 @@ public class okio_readUtf8LineStrict_078{
         var exc = ""
         try {
             let a_buffer = Buffer()
+            a_buffer.writeUtf8("华为\n中国")
             let source: Source = a_buffer
             let bufferedSource: BufferedSource = Okio.buffer(source)
             println(bufferedSource)
