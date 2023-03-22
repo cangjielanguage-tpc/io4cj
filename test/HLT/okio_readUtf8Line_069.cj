@@ -53,4 +53,24 @@ public class okio_readUtf8Line_069{
         }
         @Assert(exc.contains("closed"),true)
     }
+    @TestCase
+    func okio_readUtf8Line_069_3(): Unit {
+        let a_buffer = Buffer()
+        a_buffer.writeUtf8("华为中国")
+        @Assert(a_buffer.toString(),"[size=12] [229, 141, 142, 228, 184, 186, 228, 184, 173, 229, 155, 189]")
+        @Assert(a_buffer.readUtf8Line().getOrThrow(),"华为中国")
+        @Assert(a_buffer.size,0)
+        @Assert(a_buffer.toString(),"[size=0] []")
+        @Assert(a_buffer.exhausted(),true)
+    }
+    @TestCase
+    func okio_readUtf8Line_069_4(): Unit {
+        let a_buffer = Buffer()
+        a_buffer.writeUtf8("华为中国")
+        let source: Source = a_buffer
+        let bufferedSource: BufferedSource = Okio.buffer(source)
+        @Assert(bufferedSource.readUtf8Line().getOrThrow(),"华为中国")
+        @Assert(bufferedSource.exhausted(),true)
+    }
+    
 }
