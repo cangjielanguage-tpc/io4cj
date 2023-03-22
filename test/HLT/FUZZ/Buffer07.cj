@@ -14,12 +14,13 @@ func call_fuzz(int8: Int8) {
     let a_buffer = Buffer()
     a_buffer.write(arrb)
     a_buffer.indexOf(int8)
+    return
 }
 
 func unboundTest(): Unit {
     var case_name = CString("Fuzz_a_buffer.indexOf")
     unsafe {
-        DT_FUZZ_Int8(0, 100000, case_name, 0, call_fuzz)
+        DT_FUZZ_Int8(0, 30000000, case_name, 0, call_fuzz)
         case_name.free()
     }
 }

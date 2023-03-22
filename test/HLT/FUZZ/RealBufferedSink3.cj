@@ -12,12 +12,13 @@ func call_fuzz(int64: Int64) {
     }
     let bufferedSink = okio.Buffer()
     bufferedSink.writeUtf8CodePoint(int64)
+    return
 }
 
 func unboundTest(): Unit {
     var case_name = CString("Fuzz_bufferedSink.writeUtf8CodePoint")
     unsafe {
-        DT_FUZZ_InT64(0, 100000, case_name, 0, call_fuzz)
+        DT_FUZZ_Int64(0, 30000000, case_name, 0, call_fuzz)
         case_name.free()
     }
 }

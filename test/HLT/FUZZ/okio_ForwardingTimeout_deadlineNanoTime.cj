@@ -9,12 +9,13 @@ from std import collection.ArrayList
 func call_fuzz(int64: Int64) {
     let str = Timeout()
     let str2 = str.deadlineNanoTime(int64)
+    return
 }
 
 func unboundTest(): Unit {
     var case_name = CString("Fuzz_str.deadlineNanoTime")
     unsafe {
-        DT_FUZZ_InT64(0, 100000, case_name, 0, call_fuzz)
+        DT_FUZZ_InT64(0, 30000000, case_name, 0, call_fuzz)
         case_name.free()
     }
 }
