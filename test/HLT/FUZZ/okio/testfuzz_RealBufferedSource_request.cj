@@ -11,33 +11,23 @@ from std import collection.ArrayList
 
 
 func call_fuzz(value: Int64){
-    if (value < Int64.Min || value > Int64.Max) {
-		return
-	}
-    let arrb:Array<Byte> = creatArr(value)
+    let arrb:Array<Byte> = "Fuzz_RealBufferedSource_request".toUtf8Array()
     let a_buffer2 = Buffer()
     a_buffer2.write(arrb)
     let source: Source = a_buffer2
     let bufferedSource: BufferedSource = Okio.buffer(source)
-    bufferedSource.request(value -1)
-}
-
-func creatArr(len:Int64):Array<Byte>{
-    var byteArr:Array<Byte> = Array<Byte>(len,item:1)
-    for(i in 0..len){
-        if(UInt8(i) < UInt8.Max){
-            byteArr[i] = UInt8(i)
-        }else{
-            break
-        }
+    if (value >= 0 && value < arrb.size) {
+		bufferedSource.request(value)
+	}else{
+        return
     }
-    return byteArr
+    return
 }
 
 func unboundTest():Unit{
     var case_name = CString("Fuzz_RealBufferedSource_request")
     unsafe{
-        DT_FUZZ_Int64(0,100000,case_name,0,call_fuzz)
+        DT_FUZZ_Int64(0,30000000,case_name,0,call_fuzz)
         case_name.free()
     }
 }

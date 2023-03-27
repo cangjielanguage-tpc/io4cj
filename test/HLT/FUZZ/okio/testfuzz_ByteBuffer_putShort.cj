@@ -12,29 +12,20 @@ from std import collection.ArrayList
 
 // public func putShort(value: Int16): ByteBuffer
 func call_fuzz(value: Int16){
-    if (value < Int16.Min || value > Int16.Max) {
-		return
-	}
-    var byteBuffer = ByteBuffer.wrap(creatArr(value + 1),0,value + 1)
-    byteBuffer.putShort(value)
+    var str1:String = "Fuzz_ByteBuffer_putShort"
+    var byteBuffer = ByteBuffer.wrap(str1.toUtf8Array())
+    if(value >= 0 && value < Int16(str1.size)){
+        byteBuffer.putShort(value)
+    }else{
+        return
+    }
+    return
 } 
 
-func creatArr(len:Int16):Array<Byte>{
-    var byteArr:Array<Byte> = Array<Byte>(Int64(len),item:1)
-    for(i in 0..Int64(len)){
-        if(UInt8(i) < UInt8.Max){
-            byteArr[i] = UInt8(i)
-        }else{
-            break
-        }
-    }
-    return byteArr
-}
-
 func unboundTest():Unit{
-    var case_name = CString("Fuzz_ByteBuffer_putInt")
+    var case_name = CString("Fuzz_ByteBuffer_putShort")
     unsafe{
-        DT_FUZZ_Int16(0,100000,case_name,0,call_fuzz)
+        DT_FUZZ_Int16(0,30000000,case_name,0,call_fuzz)
         case_name.free()
     }
 }

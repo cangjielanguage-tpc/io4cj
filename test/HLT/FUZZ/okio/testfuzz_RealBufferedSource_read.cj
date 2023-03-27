@@ -8,39 +8,32 @@ from std import math.*
 import secodeFuzz.*
 from std import unittest.testmacro.*
 from std import collection.ArrayList
+from std import runtime.*
 
 
-func call_fuzz(len: Int64,offset: Int64,byteCount: Int64){
-    if (len < Int64.Min || offset < Int64.Min || byteCount < 0  || byteCount > Int64.Max || offset > Int64.Max || len > Int64.Max) {
-		 if (offset >= len || byteCount >= len || offset+byteCount >= len){
-            return
-        }
-	}
-    let arrb:Array<Byte> = creatArr(len)
+func call_fuzz(offset: Int64,byteCount: Int64){
+    let arrb:Array<Byte> = "Fuzz_RealBufferedSource_read".toUtf8Array()
     let a_buffer = Buffer()
     a_buffer.write(arrb)
-    let arrb2 :Array<Byte> = Array<Byte>(len,item:0)
+    let arrb2 :Array<Byte> = Array<Byte>(arrb.size,item:0)
     let source: Source = a_buffer
     let bufferedSource: BufferedSource = Okio.buffer(source)
-    bufferedSource.read(arrb2,offset,byteCount)
-}
-
-func creatArr(len:Int64):Array<Byte>{
-    var byteArr:Array<Byte> = Array<Byte>(len,item:1)
-    for(i in 0..len){
-        if(UInt8(i) < UInt8.Max){
-            byteArr[i] = UInt8(i)
-        }else{
-            break
+    if (offset < 0 || byteCount < 0  || byteCount > MemoryInfo.maxHeapSize || offset >  MemoryInfo.maxHeapSize ) {
+        return
+	}else{
+        try{
+            bufferedSource.read(arrb2,offset,byteCount)
+        }catch(e1:Exception){
+            return
         }
     }
-    return byteArr
+    return
 }
 
 func unboundTest():Unit{
-    var case_name = CString("Fuzz_RealBufferedSource_request")
+    var case_name = CString("Fuzz_RealBufferedSource_read")
     unsafe{
-        DT_FUZZ_Int64_3(0,100000,case_name,0,call_fuzz)
+        DT_FUZZ_Int64_2(0,30000000,case_name,0,call_fuzz)
         case_name.free()
     }
 }

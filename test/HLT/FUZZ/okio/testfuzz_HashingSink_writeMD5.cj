@@ -11,25 +11,23 @@ from std import collection.ArrayList
 
 // public func writeMD5(source: Buffer , byteCount: Int64)
 func call_fuzz(value: Int64){
-    if (value < Int64.Min || value > Int64.Max) {
-		return
-	}
     var source: Buffer = Buffer()
     var sink: Buffer = Buffer()
+    let str1:String = "Fuzz_HashingSink_writeMD5"
     let hashingSink: HashingSink = HashingSink.md5(sink)
-    source.writeUtf8(creatStr(value +1))
-    hashingSink.writeMD5(source, value)
-} 
-
-func creatStr(len:Int64):String{
-    var charArr:Array<Char> = Array<Char>(len,item:'Q')
-    return String(charArr)
+    source.writeUtf8(str1)
+    if(value > 0 && value < str1.size){
+        hashingSink.writeMD5(source, value)
+    }else{
+        return
+    }
+    return
 } 
 
 func unboundTest():Unit{
     var case_name = CString("Fuzz_HashingSink_writeMD5")
     unsafe{
-        DT_FUZZ_Int64(0,100000,case_name,0,call_fuzz)
+        DT_FUZZ_Int64(0,30000000,case_name,0,call_fuzz)
         case_name.free()
     }
 }
