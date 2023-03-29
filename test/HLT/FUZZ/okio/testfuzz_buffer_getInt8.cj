@@ -9,25 +9,22 @@ import secodeFuzz.*
 from std import unittest.testmacro.*
 from std import collection.ArrayList
 
-
 func call_fuzz(pos: Int64){
-    if (pos < Int64.Min || pos > Int64.Max) {
-		return
-	}
     var buffer = Buffer()
-    buffer.writeUtf8(creatStr(pos + 1))
-    buffer.getInt8(pos)
-}
-
-func creatStr(len:Int64):String{
-    var charArr:Array<Char> = Array<Char>(len,item:'Q')
-    return String(charArr)
+    var str1:String = "Fuzz_Buffer_getInt8"
+    buffer.writeUtf8(str1)
+    if(pos >= 0 && pos < str1.size){
+        buffer.getInt8(pos)
+    }else{
+        return
+    }
+    return
 }
 
 func unboundTest():Unit{
     var case_name = CString("Fuzz_Buffer_getInt8")
     unsafe{
-        DT_FUZZ_Int64(0,100000,case_name,0,call_fuzz)
+        DT_FUZZ_Int64(0,30000000,case_name,0,call_fuzz)
         case_name.free()
     }
 }

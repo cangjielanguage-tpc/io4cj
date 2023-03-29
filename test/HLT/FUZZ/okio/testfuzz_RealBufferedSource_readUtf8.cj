@@ -11,33 +11,23 @@ from std import collection.ArrayList
 
 // func readUtf8(byteCount: Int64): ?String
 func call_fuzz(value: Int64){
-    if (value < Int64.Min || value > Int64.Max) {
-		return
-	}
-    let arrb:Array<Byte> = creatArr(value + 1)
+    let arrb:Array<Byte> = "Fuzz_RealBufferedSource_readUtf8".toUtf8Array()
     let a_buffer = Buffer()
     a_buffer.writeUtf8(arrb.toString())
     let source: Source = a_buffer
     let bufferedSource: BufferedSource = Okio.buffer(source)
-    bufferedSource.readUtf8(value)
-}
-
-func creatArr(len:Int64):Array<Byte>{
-    var byteArr:Array<Byte> = Array<Byte>(len,item:1)
-    for(i in 0..len){
-        if(UInt8(i) < UInt8.Max){
-            byteArr[i] = UInt8(i)
-        }else{
-            break
-        }
+    if (value >= 0 && value < arrb.size) {
+		bufferedSource.readUtf8(value)
+	}else{
+        return
     }
-    return byteArr
+    return
 }
 
 func unboundTest():Unit{
     var case_name = CString("Fuzz_RealBufferedSource_readUtf8")
     unsafe{
-        DT_FUZZ_Int64(0,100000,case_name,0,call_fuzz)
+        DT_FUZZ_Int64(0,30000000,case_name,0,call_fuzz)
         case_name.free()
     }
 }

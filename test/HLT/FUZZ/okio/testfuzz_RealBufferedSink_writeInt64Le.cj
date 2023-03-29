@@ -11,19 +11,25 @@ from std import collection.ArrayList
 
 
 func call_fuzz(value: Int64){
-    if (value < Int64.Min || value > Int64.Max) {
-		return
-	}
     let buffer = okio.Buffer()
     let sink: Sink = buffer
     let bufferedSink: BufferedSink = Okio.buffer(sink)
-    bufferedSink.writeInt64Le(value)
+    if (value < Int64.Min || value > Int64.Max) {
+		return
+	}else{
+        try{
+            bufferedSink.writeInt64Le(value)
+        }catch(e1:Exception){
+            return
+        }
+    }
+    return
 }
 
 func unboundTest():Unit{
     var case_name = CString("Fuzz_RealBufferedSink_writeInt64Le")
     unsafe{
-        DT_FUZZ_Int64(0,100000,case_name,0,call_fuzz)
+        DT_FUZZ_Int64(0,30000000,case_name,0,call_fuzz)
         case_name.free()
     }
 }

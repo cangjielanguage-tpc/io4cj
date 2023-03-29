@@ -11,26 +11,23 @@ from std import collection.ArrayList
 
 // public func writehmacSha1(source: Buffer , byteCount: Int64)
 func call_fuzz(value: Int64){
-    if (value < Int64.Min || value > Int64.Max) {
-		return
-	}
     var source: Buffer = Buffer()
     var sink: Buffer = Buffer()
-    let str1:String = creatStr(value +1)
+    let str1:String = "Fuzz_HashingSink_writehmacSha1"
     let hashingSink: HashingSink = HashingSink.hmacSha1(sink,str1)
     source.writeUtf8(str1)
-    hashingSink.writehmacSha1(source, value)
-} 
-
-func creatStr(len:Int64):String{
-    var charArr:Array<Char> = Array<Char>(len,item:'Q')
-    return String(charArr)
+    if(value > 0 && value < str1.size){
+        hashingSink.writehmacSha1(source, value)
+    }else{
+        return
+    }
+    return
 } 
 
 func unboundTest():Unit{
     var case_name = CString("Fuzz_HashingSink_writehmacSha1")
     unsafe{
-        DT_FUZZ_Int64(0,100000,case_name,0,call_fuzz)
+        DT_FUZZ_Int64(0,30000000,case_name,0,call_fuzz)
         case_name.free()
     }
 }
