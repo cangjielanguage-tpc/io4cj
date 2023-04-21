@@ -17,7 +17,7 @@ public class okio_socketbuffer_408 {
 
         println("---------------------------okio_socketbuffer_408-----------------------------")
         var port: UInt16 = 0
-        var server = SocketServer(TCP, 8080)
+        var server = SocketServer(TCP, 8086)
         port = server.port
         spawn {
             clientSocket()
@@ -78,7 +78,7 @@ func clientSocket(): Unit {
         println(str)
     })
 
-    var server = Socket(TCP, "127.0.0.1", 8080)
+    var server = Socket(TCP, "127.0.0.1", 8086)
     var buf: Array<UInt8> = Array<UInt8>(1024*106, item: 8)
     server.connect()
     server.write(buf)
