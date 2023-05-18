@@ -2,7 +2,7 @@
 
 _2022-09-20_
 
-初版cangjie实现的okio简易框架. 
+初版cangjie实现的io4cj简易框架. 
 
 - 支持读文件、写文件
 - 支持bytebuffer
@@ -16,9 +16,9 @@ _2022-10-29_
 
 - 【缺陷】操作符重载接口 == 与！= 返回结果相同
 - 【缺陷】indexOf 和lastIndexOf 共重载8个接口 进行2个以上字符对比时预期结果不正确
-- 【文档】api文档 write (outPath: String）接口 书写错误
+- 【文档】api文档 write (outPath: String)接口 书写错误
 - 【功能】ByteString 类 equals功能与竞品库不一致
-- 【功能】ByteString 类of接口及其重载接口 竞品库是静态方法 仓颉okio库非静态方法
+- 【功能】ByteString 类of接口及其重载接口 竞品库是静态方法 仓颉io4cj库非静态方法
 
 ## v0.0.3
 
