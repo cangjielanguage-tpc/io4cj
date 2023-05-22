@@ -1,9 +1,9 @@
-## okio 库
+## io4cj 库
 ### 介绍
 
-Okio是OkHttp的底层IO库，核心概念是source和sink，类似于仓颉的InputStream和OutputStream。
+io4cj是OkHttp的底层IO库，核心概念是source和sink，类似于仓颉的InputStream和OutputStream。
 
-### 1 提供okio轻量级io框架功能
+### 1 提供io4cj轻量级io框架功能
 
 前置条件：NA
 
