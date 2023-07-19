@@ -14,7 +14,7 @@ from std import sync.*
 
 let reentrantMutex = ReentrantMutex()
 
-let IDLE_TIMEOUT_MILLIS: UInt64 = 60000
+let IDLE_TIMEOUT_MILLIS: Duration = Duration.nanosecond * 6000
 
 /**
  * The class is AsyncTimeout inherited from Timeout & Equatable<AsyncTimeout>
@@ -63,7 +63,7 @@ open class AsyncTimeout <: Timeout & Equatable<AsyncTimeout> {
                     this.watchdog()
                 case _ => ()
             }
-            let now = Time.now().nanosecond()
+            let now = DateTime.now(timeZone:  TimeZone.Local).nanosecond
             if (timeoutNanos != 0 && hasDeadline) {
                 node.timeoutAt = math.min(timeoutNanos, node.deadlineNanoTime() - now)
             } else if (timeoutNanos != 0) {
@@ -299,22 +299,22 @@ open class AsyncTimeout <: Timeout & Equatable<AsyncTimeout> {
         let node = head
         match (node) {
             case None => 
-                let start = Time.now()
+                let start = DateTime.now()
                 monitor.wait(timeout: IDLE_TIMEOUT_MILLIS)
                 if (match (head.getOrThrow().next) {
                     case None => true
                     case _ => false
-                } && Time.since(start).nanoseconds() >= Int64(IDLE_TIMEOUT_MILLIS)) {
+                } &&  Duration.nanosecond >= IDLE_TIMEOUT_MILLIS) {
                     return head
                 } else {
                     return None
                 }
             case Some(v) =>
-                var waitNanos = node.getOrThrow().remainingNanos(Time.now().nanosecond())
+                var waitNanos = node.getOrThrow().remainingNanos(DateTime.now().nanosecond)
                 if (waitNanos > 0) {
                     let waitMillis = waitNanos / 1000000
                     waitNanos = waitNanos - (waitMillis * 1000000)
-                    monitor.wait(timeout: UInt64(waitNanos + waitMillis))
+                    monitor.wait(timeout: Duration.nanosecond * (waitNanos + waitMillis))
                     return None
                 } 
                 head.getOrThrow().next = node.getOrThrow().next

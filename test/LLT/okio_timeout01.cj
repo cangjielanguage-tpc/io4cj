@@ -1,7 +1,7 @@
 // EXEC: cjc %import-path %L %l %f
 // EXEC: ./main
 
-from okio import okio.*
+from io4cj import okio.*
 from std import os.posix.*
 from std import io.*
 from std import time.*
@@ -13,7 +13,7 @@ main () {
     let str3 = str.hasDeadline()
     let str5 = str.deadlineNanoTime(1)
     let str6 = str.deadlineNanoTime()
-    let str7 = str.deadline(Duration.second(10),1)
+    let str7 = str.deadline(Duration.nanosecond*10,1)
     var es: String = ""
     try {
         let str22 = str.timeout(-1)

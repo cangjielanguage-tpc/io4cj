@@ -1,7 +1,7 @@
 // EXEC: cjc %import-path %L %l %f
 // EXEC: ./main
 
-from okio import nio.*
+from io4cj import nio.*
 
 
 main () {

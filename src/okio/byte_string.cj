@@ -118,7 +118,7 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
         return encode(this.data, MAP)
     }
 
-    @overflowWrapping
+    @OverflowWrapping
     protected func encode(input: Array<Byte>, map: Array<Byte>): String {
         let length = (input.size + 2) / 3 * 4
         let out = Array<Byte>(length, item: NULL)
@@ -173,11 +173,11 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
         }
     }
 
-    @overflowWrapping
+    @OverflowWrapping
     protected static func decode(input: String): ?Array<Byte> {
         var limit = input.size
         while (limit > 0) {
-            let c = input.charAt(limit - 1)
+            let c = input.get(limit - 1).getOrThrow()
             if (c != '=' && c != '\n' && c != '\r' && c != ' ' && c != '\t') {
                 break
             }
@@ -188,7 +188,7 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
         var inCount = 0
         var word = 0
         for (pos in 0..limit) {
-            let c = input.charAt(pos)
+            let c = input.get(pos).getOrThrow()
             var bits = 0
             if (c >= 'A' && c <= 'Z') {
                 bits = Int64(UInt32(c)) - 65
@@ -263,15 +263,15 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
      * @return Type of ByteString
      * @since 0.32.5
      */
-    @overflowWrapping
+    @OverflowWrapping
     public static func decodeHex(hex: String): ByteString {
         if (hex.size % 2 != 0) {
             throw IllegalArgumentException("Unexpected hex string: ${hex}")
         }
         let result = Array<Byte>(hex.size / 2, item: NULL)
         for (i in 0..result.size) {
-            let d1 = decodeHexDigit(hex.charAt(i * 2)) << 4
-            let d2 = decodeHexDigit(hex.charAt(i * 2 + 1))
+            let d1 = decodeHexDigit(hex.get(i * 2).getOrThrow()) << 4
+            let d2 = decodeHexDigit(hex.get(i * 2 + 1).getOrThrow())
             result[i] = UInt8(d1 + d2)
         }
         return ByteString(result)
@@ -427,7 +427,7 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
      * let member size type is Int64 {
      * @since 0.32.5
      */
-    public prop let size: Int64 {
+    public prop size: Int64 {
         get () {
             return this.data.size
         }
@@ -720,7 +720,7 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
      * @return Type of Int64
      * @since 0.32.5
      */
-    @overflowWrapping
+    @OverflowWrapping
     public func hashCode (): Int64 {
         return if (this.hashcode != 0) {
             this.hashcode

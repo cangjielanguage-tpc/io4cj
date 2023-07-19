@@ -1,7 +1,7 @@
 // EXEC: cjc %import-path %L %l %f
 // EXEC: ./main
 
-from okio import okio.*
+from io4cj import okio.*
 
 main () {
     var data:String = ""

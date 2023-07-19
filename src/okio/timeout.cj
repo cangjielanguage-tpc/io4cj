@@ -43,7 +43,7 @@ public open class Timeout <: Object {
         if (timeout < 0) {
             throw  IllegalArgumentException("timeout < 0: ${timeout}")
         }
-        this.timeoutnanos = Duration.nanosecond(timeout).nanoseconds()
+        this.timeoutnanos = (Duration.nanosecond * timeout).toNanoseconds()
         return this
     }
 
@@ -107,7 +107,7 @@ public open class Timeout <: Object {
         if (timeout < 0) {
             throw IllegalArgumentException("duration <= 0: ${duration}")
         }
-        (Duration.nanosecond(timeout) + duration).nanoseconds()
+        //(Duration.nanosecond(timeout) + duration).nanoseconds()
         return deadlineNanoTime(123)
     }
 
@@ -139,7 +139,7 @@ public open class Timeout <: Object {
      * @since 0.32.5
      */
     public open func throwIfReached() {
-        if (this.hasdeadline && this.deadlinenanotime - Time.now().nanosecond() <= 0) {
+        if (this.hasdeadline && this.deadlinenanotime - DateTime.now().nanosecond <= 0) {
             throw InterruptedException("deadline reached");
         }
     }
@@ -159,7 +159,7 @@ public open class Timeout <: Object {
                 return
             }
 
-            var start: Int64 = Time.now().nanosecond()
+            var start: Int64 = DateTime.now().nanosecond
             let waitNanos: Int64 = if (hasDeadline && timeoutNanos != 0) {
                 let deadlineNanos = deadlineNanoTime() - start
                 math.min(deadlineNanos, timeoutNanos)
@@ -181,8 +181,8 @@ public open class Timeout <: Object {
                 if (nanos > 0) {
                     waitMillis++
                 }
-                monitor.wait(timeout: UInt64(waitMillis))
-                elapsedNanos = Time.now().nanosecond() - start
+                monitor.wait(timeout: Duration.nanosecond * waitMillis)
+                elapsedNanos = DateTime.now().nanosecond - start
             }
 
             if (elapsedNanos >= waitNanos) {

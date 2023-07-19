@@ -1,12 +1,10 @@
-// 3rd_party_lib:okio/build/okio
-// 3rd_party_lib:okio/ci_lib/cryptocj
-// 3rd_party_lib:io4cj/build/okio
-// 3rd_party_lib:io4cj/ci_lib/cryptocj
+// 3rd_party_lib:io4cj/build/io4cj
+// 3rd_party_lib:io4cj/ci_lib/crypto4cj
 
 from std import io.*
 from std import time.*
 from std import fs.*
-from okio import okio.*
+from io4cj import okio.*
 
 @Test
 public class okio_HashingSink_sha256_223{
@@ -29,18 +27,15 @@ public class okio_HashingSink_sha256_223{
     func okio_HashingSink_sha256_223_2(): Unit {
 
         println("---------------------------okio_HashingSink_sha256_223_2-----------------------------")
-        var exc=""
-        try{
+
             var source: Buffer = Buffer()
             var sink: Buffer = Buffer()
             let hashingSink: HashingSink = HashingSink.sha256(sink)
             source.writeUtf8("hello world")
             hashingSink.writeSHA256(source, 0)
             println("hashingSink.hash() = ${hashingSink.hash()}")
-        } catch (e:Exception){
-            exc=e.message
-        }
-        @Assert(exc,"The data cannot be empty.")
+
+        @Assert(hashingSink.hash(),"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855")
     }
     @TestCase 
     func okio_HashingSink_sha256_223_3(): Unit {
@@ -160,18 +155,15 @@ public class okio_HashingSink_sha256_223{
     func okio_HashingSink_sha256_223_10(): Unit {
 
         println("---------------------------okio_HashingSink_sha256_223_10-----------------------------")
-        var exc=""
-        try{
+
             var source: Buffer = Buffer()
             var sink: Buffer = Buffer()
             let hashingSink: HashingSink = HashingSink.sha256(sink)
             source.writeUtf8("")
             hashingSink.writeSHA256(source, 0)
             println("hashingSink.hash() = ${hashingSink.hash()}")
-        } catch (e:Exception){
-            exc=e.message
-        }
-        @Assert(exc,"The data cannot be empty.")
+
+        @Assert(hashingSink.hash(),"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855")
         
     }
     @TestCase 

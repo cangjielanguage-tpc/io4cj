@@ -1,10 +1,9 @@
-// 3rd_party_lib:okio/build/okio
-// 3rd_party_lib:okio/ci_lib/cryptocj
+
 
 from std import io.*
 from std import time.*
 from std import fs.*
-from okio import okio.*
+from io4cj import okio.*
 
 @Test
 public class okio_equals_036{

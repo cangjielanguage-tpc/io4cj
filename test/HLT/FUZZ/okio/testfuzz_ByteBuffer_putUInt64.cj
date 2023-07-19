@@ -1,10 +1,8 @@
-// 3rd_party_lib:okio/build/okio
-// 3rd_party_lib:okio/ci_lib/cryptocj
-// 3rd_party_lib:io4cj/build/okio
-// 3rd_party_lib:io4cj/ci_lib/cryptocj
+// 3rd_party_lib:io4cj/build/io4cj
+// 3rd_party_lib:io4cj/ci_lib/crypto4cj
 
-from okio import okio.*
-from okio import nio.*
+from io4cj import okio.*
+from io4cj import nio.*
 from std import unittest.*
 from std import io.*
 from std import math.*

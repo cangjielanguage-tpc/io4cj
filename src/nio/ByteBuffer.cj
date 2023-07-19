@@ -345,7 +345,7 @@ public abstract class ByteBuffer <: Buffer & ToString & Hashable & Equatable<Buf
      * @return Type of Int64
      * @since 0.32.5
      */
-    @overflowWrapping
+    @OverflowWrapping
     public open func hashCode(): Int64 {
         var hc: Int32 = 1
         var p = position()

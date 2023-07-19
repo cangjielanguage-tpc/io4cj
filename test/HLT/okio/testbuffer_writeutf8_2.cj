@@ -1,14 +1,12 @@
-// 3rd_party_lib:okio/build/okio
-// 3rd_party_lib:okio/ci_lib/cryptocj
-// 3rd_party_lib:io4cj/build/okio
-// 3rd_party_lib:io4cj/ci_lib/cryptocj
+// 3rd_party_lib:io4cj/build/io4cj
+// 3rd_party_lib:io4cj/ci_lib/crypto4cj
 //dependence:../utils/parseStringData.cj
 
-from okio import okio.*
+from io4cj import okio.*
 from std import os.posix.*
 from std import io.*
 from std import time.*
-from okio import nio.ByteBuffer
+from io4cj import nio.ByteBuffer
 from std import unittest.*
 
 /* 

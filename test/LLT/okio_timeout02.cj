@@ -1,7 +1,7 @@
 // EXEC: cjc %import-path %L %l %f
 // EXEC: ./main
 
-from okio import okio.*
+from io4cj import okio.*
 from std import os.posix.*
 from std import io.*
 from std import time.*
@@ -14,7 +14,7 @@ main () {
     let str6 = str.deadlineNanoTime(123)
     var es: String = ""
     try {
-        let str1 = str.deadline(Duration.second(10),-1)
+        let str1 = str.deadline(Duration.nanosecond*10,-1)
         let str4 = str.waitUntilNotified(Monitor())
     } catch(e: Exception) {
         var ess: String = ""
