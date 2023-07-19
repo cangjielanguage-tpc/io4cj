@@ -39,7 +39,7 @@ class Util {
      * @return Type of Int16
      * @since 0.32.5
      */
-    @overflowWrapping
+    @OverflowWrapping
     public static func reverseBytesInt16(s: Int16): Int16 {
         let i: UInt16 = UInt16(s) & 0xffff
         return Int16((i & 0xff00) >> 8 | (i & 0x00ff) << 8)
@@ -53,7 +53,7 @@ class Util {
      * @return Type of Int32
      * @since 0.32.5
      */
-    @overflowWrapping
+    @OverflowWrapping
     public static func reverseBytesInt32(s: Int32): Int32 {
         let i: UInt32 = UInt32(s) & 0xffffffff
         return Int32( (i & 0xff000000) >> 24
@@ -70,7 +70,7 @@ class Util {
      * @return Type of Int64
      * @since 0.32.5
      */
-    @overflowWrapping
+    @OverflowWrapping
     public static func reverseBytesInt64(s: Int64): Int64 {
         let i: UInt64 = UInt64(s) & 0xffffffffffffffff
         return Int64( (i & 0xff00000000000000) >> 56

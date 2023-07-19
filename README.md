@@ -5,14 +5,14 @@
 <p align="center">
 <img alt="" src="https://img.shields.io/badge/release-v0.0.4-brightgreen" style="display: inline-block;" />
 <img alt="" src="https://img.shields.io/badge/build-pass-brightgreen" style="display: inline-block;" />
-<img alt="" src="https://img.shields.io/badge/cjc-v0.38.2-brightgreen" style="display: inline-block;" />
+<img alt="" src="https://img.shields.io/badge/cjc-v0.39.4-brightgreen" style="display: inline-block;" />
 <img alt="" src="https://img.shields.io/badge/cjcov-85.4%25-brightgreen" style="display: inline-block;" />
 <img alt="" src="https://img.shields.io/badge/project-open-brightgreen" style="display: inline-block;" />
 </p>
 
 ## <img alt="" src="./doc/assets/readme-icon-introduction.png" style="display: inline-block;" width=3%/>介绍
 
-io4cj是OkHttp的底层IO库，io4cj是对仓颉io库的补充，使访问、存储和处理数据变得更加容易。核心概念是source和sink，分别类似于仓颉的InputStream和OutputStream。
+io4cj是HttpClient的底层IO库，io4cj是对仓颉io库的补充，使访问、存储和处理数据变得更加容易。核心概念是source和sink，分别类似于仓颉的InputStream和OutputStream。
 
 参考项目：[https://square.github.io/okio/](https://link.segmentfault.com/?enc=2VN47riy2Ak%2Fwy47iNAgWQ%3D%3D.%2BGZbqetBcijDGsPLatrZBzGOj7YkIAubAWAzDAettzY%3D) 。
 
@@ -150,10 +150,10 @@ test/LLT 用例书写参考：https://gitee.com/HW-PLLab/cangjie-library-pages/w
 #### 测试demo脚本
 ```shell
 #!/bin/bash
-okio_home=`pwd`
-okio_home_lib=${okio_home}/build/okio
-export LD_LIBRARY_PATH=$okio_home_lib:$LD_LIBRARY_PATH
-cjc --import-path $okio_home_lib/.. -L $okio_home_lib -l okio_nio -l okio_okio $1 -o a.out -g
+io4cj_home=`pwd`
+io4cj_home_lib=${io4cj_home}/build/io4cj
+export LD_LIBRARY_PATH=$io4cj_home_lib:$LD_LIBRARY_PATH
+cjc --import-path $io4cj_home_lib/.. -L $io4cj_home_lib -l io4cj_nio -l io4cj_okio $1 -o a.out -g
 time ./a.out
 ```
 ## 功能示例
@@ -161,7 +161,7 @@ time ./a.out
 from std import io.*
 from std import time.*
 from std import fs.*
-from okio import okio.*
+from io4cj import okio.*
 main() {
     var file = File("demo.txt", OpenOption.Create(true))
     Okio.buffer(Okio.sink(file))
@@ -191,7 +191,7 @@ abcdefghijklmn
 ```cangjie
 from std import io.*
 from std import time.*
-from okio import okio.*
+from io4cj import okio.*
 main() {
     let a = Time.now().unixNano() / 1000000  // 计算开始时间
     let file = File("apache-tomcat-8.5.81.rar", Read, Open)

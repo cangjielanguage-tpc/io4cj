@@ -358,7 +358,7 @@ class RealBufferedSource <: BufferedSource {
      * @return Type of ?String
      * @since 0.32.5
      */
-    @overflowWrapping
+    @OverflowWrapping
     public override func readUtf8Line (): ?String {
         let newline = indexOf(Int8(UInt32('\n')))
         if (newline == -1) {

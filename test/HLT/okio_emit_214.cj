@@ -1,19 +1,17 @@
-// 3rd_party_lib:okio/build/okio
-// 3rd_party_lib:okio/ci_lib/cryptocj
-// 3rd_party_lib:io4cj/build/okio
-// 3rd_party_lib:io4cj/ci_lib/cryptocj
+// 3rd_party_lib:io4cj/build/io4cj
+// 3rd_party_lib:io4cj/ci_lib/crypto4cj
 
 from std import io.*
 from std import time.*
 from std import fs.*
-from okio import okio.*
+from io4cj import okio.*
 
 @Test
 public class okio_emit_214{
 
     @TestCase //Segment 1个
     func okio_emit_214(): Unit {
-        var exc = ""
+        //var exc = ""
         try {
             File.delete("../../testData/okio_emit_214.txt")
         } catch (e:Exception){
@@ -69,7 +67,7 @@ public class okio_emit_214{
     }
     @TestCase //Segment 2个
     func okio_emit_214_2(): Unit {
-        var exc = ""
+        // var exc = ""
         try {
             File.delete("../../testData/okio_emit_214_2.txt")
         } catch (e:Exception){

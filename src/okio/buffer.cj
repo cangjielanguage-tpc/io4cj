@@ -40,7 +40,7 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
      * let member size type is Int64 {
      * @since 0.32.5
      */
-    public prop let size: Int64 {
+    public prop size: Int64 {
         get() {
             return mysize
         }
@@ -193,14 +193,14 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
      * @return Type of BufferedSink
      * @since 0.32.5
      */
-    @overflowWrapping
+    @OverflowWrapping
     public override func writeUtf8(str: String, beginIndex: Int64, endIndex: Int64): BufferedSink {
         if (beginIndex < 0) { throw IllegalArgumentException("beginIndex < 0: ${beginIndex}") }
         if (endIndex < beginIndex) { throw IllegalArgumentException("endIndex < beginIndex: ${endIndex} < ${beginIndex}") }
         if (endIndex > str.size) { throw IllegalArgumentException("endIndex > string.length: ${endIndex} > ${str.size}") }
         var i = beginIndex
         while (i < endIndex) {
-            var c: Char = str.charAt(i)
+            var c: Char = str.get(i).getOrThrow()
             if (UInt32(c) < 0x80) {
                 let tail = writableSegment(1)
                 let data = tail.data
@@ -209,7 +209,7 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
                 data[segmentOffset + i] = UInt8(UInt32(c))
                 i++
                 while (i < runLimit) {
-                    c = str.charAt(i)
+                    c = str.get(i).getOrThrow()
                     if (UInt32(c) >= 0x80){
                         break
                     }
@@ -229,7 +229,7 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
                 writeInt8(Int64(UInt32(c)       & 0x3f) | 0x80)     // 10xxxxxx
                 i++
             } else {
-                let low: UInt32 = if (i + 1 < endIndex) { UInt32(str.charAt(i+1)) } else { 0 }
+                let low: UInt32 = if (i + 1 < endIndex) { UInt32(str.get(i+1).getOrThrow()) } else { 0 }
                 if (UInt32(c) > 0xdbff || low < 0xdc00 || low > 0xdfff) {
                     writeInt8(Int64(UInt32('?')))
                     i++
@@ -254,7 +254,7 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
      * @return Type of BufferedSink
      * @since 0.32.5
      */
-    @overflowWrapping
+    @OverflowWrapping
     public override func writeUtf8CodePoint(codePoint: Int64): BufferedSink {
         if (codePoint < 0x80) {
             this.writeInt8(codePoint)
@@ -295,7 +295,7 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
      * @return Type of BufferedSink
      * @since 0.32.5
      */
-    @overflowWrapping
+    @OverflowWrapping
     public override func writeInt8(value: Int64): BufferedSink {
         let tail = writableSegment(1)
         tail.data[tail.limit] = UInt8(value)
@@ -312,7 +312,7 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
      * @return Type of BufferedSink
      * @since 0.32.5
      */
-    @overflowWrapping
+    @OverflowWrapping
     public override func writeInt16(i: Int64): BufferedSink {
         let tail = writableSegment(2)
         let data = tail.data
@@ -334,7 +334,7 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
      * @return Type of BufferedSink
      * @since 0.32.5
      */
-    @overflowWrapping
+    @OverflowWrapping
     public override func writeInt16Le(value: Int64): BufferedSink {
         return writeInt16(Int64(Util.reverseBytesInt16(Int16(value))))
     }
@@ -347,7 +347,7 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
      * @return Type of BufferedSink
      * @since 0.32.5
      */
-    @overflowWrapping
+    @OverflowWrapping
     public override func writeInt32(i: Int64): BufferedSink {
         let tail = writableSegment(4)
         let data = tail.data
@@ -373,7 +373,7 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
      * @return Type of BufferedSink
      * @since 0.32.5
      */
-    @overflowWrapping
+    @OverflowWrapping
     public override func writeInt32Le(value: Int64): BufferedSink {
         return writeInt32(Int64(Util.reverseBytesInt32(Int32(value))))
     }
@@ -386,7 +386,7 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
      * @return Type of BufferedSink
      * @since 0.32.5
      */
-    @overflowWrapping
+    @OverflowWrapping
     public override func writeInt64(i: Int64): BufferedSink {
         let tail = writableSegment(8)
         let data = tail.data
@@ -1556,7 +1556,7 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
      * @return Type of Int64
      * @since 0.32.5
      */
-    @overflowWrapping
+    @OverflowWrapping
     public override func hashCode(): Int64 {
         match (this.head) {
             case None => 
@@ -1722,7 +1722,7 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
      * @return Type of Int8
      * @since 0.32.5
      */
-    @overflowWrapping
+    @OverflowWrapping
     public func getInt8(p: Int64): Int8 {
         var pos = p
         Util.checkOffsetAndCount(mysize, pos, 1)

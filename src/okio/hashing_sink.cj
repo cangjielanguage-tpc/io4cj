@@ -9,11 +9,11 @@
 package okio
 
 from std import core.*
-from  cryptocj import md5cj.*
-from  cryptocj import sha1cj.*
-from  cryptocj import sha256cj.*
-from  cryptocj import sha512cj.*
-from  cryptocj import hmaccj.*
+from  crypto4cj import md5cj.*
+from  crypto4cj import sha1cj.*
+from  crypto4cj import sha256cj.*
+from  crypto4cj import sha512cj.*
+from  crypto4cj import hmaccj.*
 
 public class HashingSink <: ForwardingSink {
 

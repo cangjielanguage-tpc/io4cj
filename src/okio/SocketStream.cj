@@ -97,7 +97,7 @@ public open class SocketBuffer <: InputStream & OutputStream & Resource & ToStri
      * let member length type is Int64 {
      * @since 0.32.5
      */
-    public open prop let length: Int64 {
+    public open prop length: Int64 {
         get() { -1 }
     }
 

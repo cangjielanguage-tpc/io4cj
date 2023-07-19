@@ -1,7 +1,7 @@
 // EXEC: cjc %import-path %L %l %f
 // EXEC: ./main
 
-from okio import okio.*
+from io4cj import okio.*
 from std import os.posix.*
 from std import io.*
 from compress import zlib.*

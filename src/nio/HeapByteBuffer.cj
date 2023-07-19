@@ -237,7 +237,7 @@ public open class HeapByteBuffer <: ByteBuffer & ToString {
      * @return Type of ByteBuffer
      * @since 0.33.3
      */
-    @overflowWrapping
+    @OverflowWrapping
     public override func putLong(val: Int64): ByteBuffer {
         this.putUInt64(UInt64(val))
     }
@@ -250,7 +250,7 @@ public open class HeapByteBuffer <: ByteBuffer & ToString {
      * @return Type of ByteBuffer
      * @since 0.33.3
      */
-    @overflowWrapping
+    @OverflowWrapping
     public override func putInt(val: Int32): ByteBuffer {
         this.putUInt32(UInt32(val))
     }
@@ -263,7 +263,7 @@ public open class HeapByteBuffer <: ByteBuffer & ToString {
      * @return Type of ByteBuffer
      * @since 0.33.3
      */
-    @overflowWrapping
+    @OverflowWrapping
     public override func putShort(val: Int16): ByteBuffer {
         this.putUInt16(UInt16(val))
     }
@@ -274,7 +274,7 @@ public open class HeapByteBuffer <: ByteBuffer & ToString {
      * @return Type of Int64
      * @since 0.33.3
      */
-    @overflowWrapping
+    @OverflowWrapping
     public override func getLong(): Int64 {
         return Int64(this.getUInt64())
     }
@@ -285,7 +285,7 @@ public open class HeapByteBuffer <: ByteBuffer & ToString {
      * @return Type of Int32
      * @since 0.33.3
      */
-    @overflowWrapping
+    @OverflowWrapping
     public override func getInt(): Int32 {
         return Int32(this.getUInt32())
     }
@@ -296,12 +296,12 @@ public open class HeapByteBuffer <: ByteBuffer & ToString {
      * @return Type of Int16
      * @since 0.33.3
      */
-    @overflowWrapping
+    @OverflowWrapping
     public override func getShort(): Int16 {
         return Int16(this.getUInt16())
     }
 
-    @overflowWrapping
+    @OverflowWrapping
     public func putUInt64(val: UInt64): ByteBuffer {
         this.put(UInt8((val >> 56) & 0xff))
         this.put(UInt8((val >> 48) & 0xff))
@@ -314,7 +314,7 @@ public open class HeapByteBuffer <: ByteBuffer & ToString {
         return this
     }
 
-    @overflowWrapping
+    @OverflowWrapping
     public func putUInt32(val: UInt32): ByteBuffer {
         this.put(UInt8((val >> 24) & 0xff))
         this.put(UInt8((val >> 16) & 0xff))
@@ -323,14 +323,14 @@ public open class HeapByteBuffer <: ByteBuffer & ToString {
         return this
     }
 
-    @overflowWrapping
+    @OverflowWrapping
     public func putUInt16(val: UInt16): ByteBuffer {
         this.put(UInt8((val >> 8) & 0xff))
         this.put(UInt8(val & 0xff))
         return this
     }
 
-    @overflowWrapping
+    @OverflowWrapping
     public func getUInt64(): UInt64 {
         return UInt64(this.get()) << 56 
             | UInt64(this.get()) << 48
@@ -342,7 +342,7 @@ public open class HeapByteBuffer <: ByteBuffer & ToString {
             | UInt64(this.get())
     }
 
-    @overflowWrapping
+    @OverflowWrapping
     public func getUInt32(): UInt32 {
         return UInt32(this.get()) << 24
             | UInt32(this.get()) << 16
@@ -350,7 +350,7 @@ public open class HeapByteBuffer <: ByteBuffer & ToString {
             | UInt32(this.get())
     }
 
-    @overflowWrapping
+    @OverflowWrapping
     public func getUInt16(): UInt16 {
         return UInt16(this.get()) << 8
             | UInt16(this.get())

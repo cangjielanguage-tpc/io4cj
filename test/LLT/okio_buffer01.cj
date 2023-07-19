@@ -2,12 +2,12 @@
 // EXEC: cjc %import-path %L %l %f
 // EXEC: ./main
 
-from okio import okio.*
+from io4cj import okio.*
 from std import os.posix.*
 from std import io.*
 from std import fs.*
 from std import time.*
-from okio import nio.ByteBuffer
+from io4cj import nio.ByteBuffer
 
 main () {
     var str = Buffer()
