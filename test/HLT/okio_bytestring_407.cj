@@ -14,7 +14,7 @@ public class okio_byteString_407 {
 
         println("---------------------------okio_byteString_write_221-----------------------------")
 
-        var file = File("../../testData/okio_emitCompleteSegments_214.txt" , CreateOrTruncate(true))
+        var file = File("../../../testData/okio_emitCompleteSegments_214.txt" , CreateOrTruncate(true))
         let bufferedSink: BufferedSink = Okio.buffer(Okio.sink(file))
 
         try {
@@ -26,7 +26,7 @@ public class okio_byteString_407 {
                 bufferedSink.buffer().writeUtf8(i.toString()) 
             }
             
-            file = File.openRead("../../testData/okio_emitCompleteSegments_214.txt")
+            file = File.openRead("../../../testData/okio_emitCompleteSegments_214.txt")
             var reals = Okio.buffer(Okio.source(file))
 
             var size = bufferedSink.buffer().size

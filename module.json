@@ -1,5 +1,5 @@
 {
-	"cjc_version": "0.39.4",
+	"cjc_version": "0.39.5",
 	"organization": "cangjie",
 	"name": "io4cj",
 	"description": "io library for okhttp ecosystem",
@@ -7,7 +7,7 @@
 	"requires": {
 		"crypto4cj": {
 			"organization": "cangjie",
-			"version": "0.0.6",
+			"version": "0.0.7",
 			"path": "./crypto4cj"
 		}
 	},
