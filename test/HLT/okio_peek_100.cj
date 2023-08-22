@@ -13,7 +13,7 @@ public class okio_peek_100{
     func okio_peek_100(): Unit {
         var exc = ""
         try {
-            File.delete("../../testData/okio_peek_100.txt")
+            File.delete("../../../testData/okio_peek_100.txt")
         } catch (e:Exception){
             // println("e.message = ${e.message}")
         }
@@ -21,12 +21,12 @@ public class okio_peek_100{
         let a_buffer = Buffer()
         a_buffer.write("abcdefhigklmn".toUtf8Array())
 
-        var file = File.create("../../testData/okio_peek_100.txt")
+        var file = File.create("../../../testData/okio_peek_100.txt")
         let sink: Sink = Okio.sink(file)
         a_buffer.readAll(sink)
         sink.close()
 
-        file = File.openRead("../../testData/okio_peek_100.txt")
+        file = File.openRead("../../../testData/okio_peek_100.txt")
         var reals = Okio.buffer(Okio.source(file))
         
         // println("reals.readUtf8(3)")

@@ -13,19 +13,19 @@ public class okio_emit_215{
     func okio_emit_215(): Unit {
         var exc = ""
         try {
-            File.delete("../../testData/okio_emit_214.txt")
+            File.delete("../../../testData/okio_emit_214.txt")
         } catch (e:Exception){
             println("e.message = ${e.message}")
         }
         
-        var file = File.create("../../testData/okio_emit_214.txt")
+        var file = File.create("../../../testData/okio_emit_214.txt")
         let bufferedSink: BufferedSink = Okio.buffer(Okio.sink(file))
 
         try {
             var byteString = ByteString("hello".toUtf8Array())
-            byteString.write("../../testData/okio_emit_214.txt")
+            byteString.write("../../../testData/okio_emit_214.txt")
 
-            file = File.openRead("../../testData/okio_emit_214.txt")
+            file = File.openRead("../../../testData/okio_emit_214.txt")
             var reals = Okio.buffer(Okio.source(file))
 
             var size = bufferedSink.buffer().size
@@ -42,7 +42,7 @@ public class okio_emit_215{
             println("bufferedSink.emit()")
             bufferedSink.emit()
 
-            var file2 = File.openRead("../../testData/okio_emit_214.txt")
+            var file2 = File.openRead("../../../testData/okio_emit_214.txt")
             reals = Okio.buffer(Okio.source(file2))
 
             size = bufferedSink.buffer().size

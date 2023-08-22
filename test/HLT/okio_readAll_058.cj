@@ -13,19 +13,19 @@ public class okio_readAll_058{
     func okio_readAll_058(): Unit {
         var exc = ""
         try {
-            File.delete("../../testData/okio_readAll_058.txt")
+            File.delete("../../../testData/okio_readAll_058.txt")
         } catch (e:Exception){
             println("e.message = ${e.message}")
         }
         exc = ""
         try {
             let a_buffer = Buffer()
-            var file = File.create("../../testData/okio_readAll_058.txt")
+            var file = File.create("../../../testData/okio_readAll_058.txt")
             let sink: Sink = Okio.sink(file)
             println(a_buffer)
             println(a_buffer.readAll(sink))
             sink.close()
-            let bs = ByteString.read("../../testData/okio_readAll_058.txt")
+            let bs = ByteString.read("../../../testData/okio_readAll_058.txt")
         } catch (e:Exception) {
             println(e.message)
             exc=e.message
@@ -37,21 +37,21 @@ public class okio_readAll_058{
     func okio_readAll_058_2(): Unit {
         var exc = ""
         try {
-            File.delete("../../testData/okio_readAll_058_2.txt")
+            File.delete("../../../testData/okio_readAll_058_2.txt")
         } catch (e:Exception){
             println("e.message = ${e.message}")
         }
         exc = ""
         try {
             let a_buffer = Buffer()
-            var file = File.create("../../testData/okio_readAll_058_2.txt")
+            var file = File.create("../../../testData/okio_readAll_058_2.txt")
             let sink: Sink = Okio.sink(file)
             let source: Source = a_buffer
             let bufferedSource: BufferedSource = Okio.buffer(source)
             println(bufferedSource)
             println(bufferedSource.readAll(sink))
             sink.close()
-            let bs = ByteString.read("../../testData/okio_readAll_058_2.txt")
+            let bs = ByteString.read("../../../testData/okio_readAll_058_2.txt")
         } catch (e:Exception) {
             println(e.message)
             exc=e.message

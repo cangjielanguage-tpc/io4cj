@@ -51,7 +51,7 @@ public class Okio {
      * @return Type of Sink
      * @since 0.32.5
      */
-    public static func sink(socket: Socket): Sink {
+    public static func sink(socket: TcpSocket): Sink {
         let timeout = timeout(socket)
         let sink = sink(SocketBuffer(socket), timeout)
         return timeout.sink(sink)
@@ -92,7 +92,7 @@ public class Okio {
      * @return Type of Source
      * @since 0.32.5
      */
-    public static func source(socket: Socket): Source {
+    public static func source(socket: TcpSocket): Source {
         let timeout = timeout(socket)
         let source = source(SocketBuffer(socket), timeout)
         return timeout.source(source)
@@ -191,7 +191,7 @@ public class Okio {
         return sink
     }
 
-    private static func timeout(socket: Socket): AsyncTimeout {
+    private static func timeout(socket: TcpSocket): AsyncTimeout {
         func subtimeout (): Unit {
             try {
                 socket.close()

@@ -14,21 +14,21 @@ public class okio_emitCompleteSegments_218{
     func okio_emitCompleteSegments_218(): Unit {
         var exc = ""
         try {
-            File.delete("../../testData/okio_emit_214.txt")
+            File.delete("../../../testData/okio_emit_214.txt")
         } catch (e:Exception){
             println("e.message = ${e.message}")
         }
         
-        var file = File.create("../../testData/okio_emit_214.txt")
+        var file = File.create("../../../testData/okio_emit_214.txt")
         let bufferedSink: BufferedSink = Okio.buffer(Okio.sink(file))
 
         try {
             var byteString = ByteString("hello".toUtf8Array())
-            byteString.write("../../testData/okio_emit_214.txt")
+            byteString.write("../../../testData/okio_emit_214.txt")
 
             bufferedSink.buffer().writeUtf8(" world") 
 
-            file = File.openRead("../../testData/okio_emit_214.txt")
+            file = File.openRead("../../../testData/okio_emit_214.txt")
             var reals = Okio.buffer(Okio.source(file))
 
             var size = bufferedSink.buffer().size
@@ -45,7 +45,7 @@ public class okio_emitCompleteSegments_218{
             println("bufferedSink.emitCompleteSegments()")
             bufferedSink.emitCompleteSegments()
 
-            var file2 = File.openRead("../../testData/okio_emit_214.txt")
+            var file2 = File.openRead("../../../testData/okio_emit_214.txt")
             reals = Okio.buffer(Okio.source(file2))
 
             size = bufferedSink.buffer().size
@@ -69,24 +69,24 @@ public class okio_emitCompleteSegments_218{
     func okio_emitCompleteSegments_218_2(): Unit {
         var exc = ""
         try {
-            File.delete("../../testData/okio_emitCompleteSegments_218.txt")
+            File.delete("../../../testData/okio_emitCompleteSegments_218.txt")
         } catch (e:Exception){
             println("e.message = ${e.message}")
         }
         
-        var file = File.create("../../testData/okio_emitCompleteSegments_218.txt")
+        var file = File.create("../../../testData/okio_emitCompleteSegments_218.txt")
         let bufferedSink: BufferedSink = Okio.buffer(Okio.sink(file))
 
         try {
             var byteString = ByteString("hello".toUtf8Array())
-            byteString.write("../../testData/okio_emitCompleteSegments_218.txt")
+            byteString.write("../../../testData/okio_emitCompleteSegments_218.txt")
             var i = 0
             while(i < 8193){
                 i++;
                 bufferedSink.buffer().writeUtf8(i.toString()) 
             }
             
-            file = File.openRead("../../testData/okio_emitCompleteSegments_218.txt")
+            file = File.openRead("../../../testData/okio_emitCompleteSegments_218.txt")
             var reals = Okio.buffer(Okio.source(file))
 
             var size = bufferedSink.buffer().size
@@ -103,7 +103,7 @@ public class okio_emitCompleteSegments_218{
             println("bufferedSink.emitCompleteSegments()")
             bufferedSink.emitCompleteSegments()
 
-            var file2 = File.openRead("../../testData/okio_emitCompleteSegments_218.txt")
+            var file2 = File.openRead("../../../testData/okio_emitCompleteSegments_218.txt")
             reals = Okio.buffer(Okio.source(file2))
 
             size = bufferedSink.buffer().size

@@ -10,11 +10,11 @@ package okio
 
 from std import io.InputStream
 from std import io.OutputStream
-from std import socket.Socket
-from net import tls.TlsSocket
+from std import socket.*
+from net import tls.*
 
 enum SockClient {
-    | SocketC(Socket)
+    | SocketC(TcpSocket)
     | TlsC(TlsSocket)
 
     /**
@@ -78,7 +78,7 @@ public open class SocketBuffer <: InputStream & OutputStream & Resource & ToStri
      * @param sockClient of Socket
      * @since 0.32.5
      */
-    public init(sockClient: Socket) {
+    public init(sockClient: TcpSocket) {
         this.sockClient = SocketC(sockClient)
     }
 
