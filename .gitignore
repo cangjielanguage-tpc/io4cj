@@ -15,4 +15,5 @@ test/HLT/tmp/
 temp_ci_lib/
 report/
 tmp/
-
+.cjpm-history
+module-lock.json

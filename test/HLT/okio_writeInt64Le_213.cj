@@ -3,6 +3,7 @@
 
 from std import io.*
 from std import time.*
+from std import math.*
 from io4cj import okio.*
 
 @Test

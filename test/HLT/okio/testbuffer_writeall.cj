@@ -29,18 +29,14 @@ public class OkioTest {
         var sourceIns:Sink = Buffer()
         let buffer_1: Buffer = Buffer()
         var bufferIns = Okio.buffer(sourceIns) // > BufferedSink
-        if(!(bufferIns is BufferedSink)){
-            returnFlag = -1
-        }
+        @Assert(bufferIns is BufferedSink , true)
         //func write(source: Source, byteCount: Int64): BufferedSink
         let source_1: Source =  Buffer()
         data = bufferIns.writeAll(source_1).toString() //缓冲区为空
-        // println("data_2:>> ${data}")
         @Assert(data,"0")
 
         realData = buffer_1.writeUtf8("abcd").toString() 
         funcData = cla_1.parseData_utf8_1(realData,4)
-        // println("data2:>> ${buffer_1}")
         @Assert(funcData[0],26)
         @Assert(funcData[1],"100")
 
@@ -49,14 +45,12 @@ public class OkioTest {
             data = bufferIns.writeAll(source_2).toString() // 预期[97, 98]
             println("data3:>> ${data}")
         }catch(e1:Exception){
-            // e1.printStackTrace()
             returnFlag = 1
         }
         @Assert(data,"4")
         
         realData = buffer_1.writeUtf8("磨人的小妖精。啊】【哈").toString() 
         funcData = cla_1.parseData_utf8_1(realData,4)
-        println("data2:>> ${buffer_1}")
         @Assert(funcData[0],175)
         @Assert(funcData[1],"136")
         source_2 =  buffer_1

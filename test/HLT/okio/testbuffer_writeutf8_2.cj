@@ -39,10 +39,8 @@ public class OkioTest {
         // class Buffer <: BufferedSource & BufferedSink &&  BufferedSource <: Source
         var sourceIns:Sink = Buffer()
         var bufferIns = Okio.buffer(sourceIns) // > BufferedSink
-        if(!(bufferIns is BufferedSink)){
-            returnFlag = returnFlag
-        }
-        //将hello抓换为ascii表示： RealBufferedSink: [size=5] [104, 101, 108, 108, 111]
+        @Assert(bufferIns is BufferedSink , true)
+        //将hello转换为ascii表示： RealBufferedSink: [size=5] [104, 101, 108, 108, 111]
         data = bufferIns.writeUtf8(arr_str[0],0,arr_str[0].size).toString() 
         funcData = cla_1.parseData_utf8_1(data,4)
         @Assert(funcData[0],52)
@@ -50,7 +48,6 @@ public class OkioTest {
 
         /* ################################################# */
         data = bufferIns.writeUtf8(arr_str[1],0,1).toString() 
-        // println("data1:>> ${data}")
         funcData = cla_1.parseData_utf8_1(data,4)
         @Assert(funcData[0],67)
         @Assert(funcData[1],"147")
@@ -59,23 +56,28 @@ public class OkioTest {
         try{
             data = bufferIns.writeUtf8(arr_str[4],-1,1).toString() 
         }catch(e1:Exception){
+            // println("e1>> ${e1.toString()}")
+            @Assert(e1.message,"beginIndex < 0: -1") // IllegalArgumentException: beginIndex < 0: -1
             returnFlag = 0
         }
 
         try{
             data = bufferIns.writeUtf8(arr_str[4],1,-2).toString() 
         }catch(e2:Exception){
-            returnFlag = returnFlag
+            println("e2>> ${e2.toString()}")
+            @Assert(e2.message,"endIndex < beginIndex: -2 < 1") // IllegalArgumentException: endIndex < beginIndex: -2 < 1
+            returnFlag = 1
         }
 
         try{
             data = bufferIns.writeUtf8(arr_str[4],1,arr_str[4].size+2).toString() 
         }catch(e3:Exception){
-            returnFlag = returnFlag
+            println("e3>> ${e3.toString()}")
+            @Assert(e3.message,"endIndex > string.length: 30 > 28") // IllegalArgumentException: endIndex > string.length: 30 > 28
+            returnFlag = 2
         }
 
-
-        @Assert(returnFlag,0)
+        @Assert(returnFlag,2)
     }
 
 }

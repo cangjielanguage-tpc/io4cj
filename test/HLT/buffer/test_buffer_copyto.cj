@@ -29,7 +29,6 @@ public class OkioTest {
             .writeUtf8("华为")
             .writeUtf8("中国")
         var buffer2 = Buffer()
-        let s = buffer.size
 
         //源buffer非空，目标buffer为空
         data = buffer.copyTo(buffer2, 0, buffer.size).toString()
@@ -38,7 +37,6 @@ public class OkioTest {
         tuple_1 = cla_1.parseArrFromString(buffer2.toString(),"[")
         @Assert(tuple_1[0][16],"229")
         @Assert(tuple_1[1],19)
-        println("data2:>> ${buffer2}")
 
         //源buffer非空，目标buffer非空
         baseBuffer2.writeUtf8("目标")
