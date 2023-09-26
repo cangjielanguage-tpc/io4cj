@@ -46,7 +46,6 @@ public class OkioTest {
         var sourceIns_2:Source = mybuffer
         data = sourceIns_2.read(buffer_1,2).toString()   
         funcData = cla_1.parseData_utf8_1(data,1,length:1)
-        println("data:>> ${data}")
         @Assert(funcData[0],1)
         @Assert(data,"2")
 

@@ -29,7 +29,7 @@ public class OkioTest {
     func testBuffer(): Unit {
         // class Buffer <: BufferedSource & BufferedSink &&  BufferedSource <: Source
         let sinkIns:Sink = Buffer()
-        var bufferedSinkIns:BufferedSink = Okio.buffer(sinkIns) // > BufferedSink
+        var _:BufferedSink = Okio.buffer(sinkIns) // > BufferedSink
         let buffer_1:Buffer = Buffer()
 
         data = buffer_1.completeSegmentByteCount().toString()

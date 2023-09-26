@@ -41,7 +41,7 @@ public class OkioTest {
         data = bufferIns_2.writeUtf8("come on 得喂 【小高童鞋 && \"hello\"").toString() 
         funcData = cla_1.parseData_utf8_1(data,4)
         tuple_1 = cla_1.parseArrFromString(data,"[")
-        println("data2:>> ${data}")
+        // println("data2:>> ${data}")
         @Assert(funcData[0],223)
         @Assert(funcData[1],"34")
         @Assert(tuple_1[1],41)

@@ -4,6 +4,7 @@
 
 from io4cj import okio.*
 from std import unittest.*
+from std import math.*
 
 /* 
     public static func buffer(source: Source): BufferedSource 
@@ -68,7 +69,6 @@ public class OkioTest {
         //##############################################################
         //sourceIns_2中还剩39字节，byteCount大于39，一次性全部写入到buffer_1，sourceIns_2.size = 0
         data = sourceIns_2.read(buffer_1,41).toString()  
-        println("buffer_1:>> ${buffer_1}")
         funcData = cla_1.parseData_utf8_1(data,2,length:1)
         @Assert(funcData[0],2)
         @Assert(data,"39")
@@ -79,14 +79,11 @@ public class OkioTest {
         //##############################################################
         data = sourceIns_2.read(buffer_1,12).toString()   //sourceIns_2.size = 0
         funcData = cla_1.parseData_utf8_1(data,2,length:1)
-        // println("data2:>> ${data}") 
         @Assert(funcData[0],2)
         @Assert(data,"-1")  
         tuple_1 = cla_1.parseArrFromString(buffer_1.toString(),"[")
         @Assert(tuple_1[0][40],"34")
         @Assert(tuple_1[1],41)           
-
-
         @Assert(returnFlag,0)
     }
 

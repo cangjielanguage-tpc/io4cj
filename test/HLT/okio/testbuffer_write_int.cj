@@ -4,6 +4,7 @@
 
 from io4cj import okio.*
 from std import unittest.*
+from std import math.*
 
 /* 
     public static func buffer(sink: Sink): BufferedSink 
@@ -23,7 +24,6 @@ public class OkioTest {
     var funcData:(Int64,String) = (0,"")
     var tuple_1:(Array<String>,Int64) = (Array<String>(),0)
 
-
     @TestCase
     func testBuffer(): Unit {
         // class Buffer <: BufferedSource & BufferedSink &&  BufferedSource <: Source
@@ -35,13 +35,11 @@ public class OkioTest {
 
         data = bufferIns.writeInt8(12).toString() 
         funcData = cla_1.parseData_utf8_1(data,3,length:2)
-        // println("data2:>> ${data}")
         @Assert(funcData[0],31)
         @Assert(funcData[1],"12")
 
         data = bufferIns.writeInt16(Int64.Max).toString() 
         funcData = cla_1.parseData_utf8_1(data,4,length:3)
-        // println("data2:>> ${data}")
         @Assert(funcData[0],41)
         @Assert(funcData[1],"255")
 
@@ -54,14 +52,12 @@ public class OkioTest {
 
         data = bufferIns.writeInt64(-32).toString() 
         funcData = cla_1.parseData_utf8_1(data,4,length:3)
-        // println("data2:>> ${data}")
         @Assert(funcData[0],94)
         @Assert(funcData[1],"224")
 
         data = bufferIns.writeInt8(0).toString() 
         funcData = cla_1.parseData_utf8_1(data,2,length:1)
         tuple_1 = cla_1.parseArrFromString(data,"[")
-        // println("data2:>> ${data}")
         @Assert(funcData[0],97)
         @Assert(funcData[1],"0")
         @Assert(tuple_1[1],16)

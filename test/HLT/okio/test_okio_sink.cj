@@ -30,15 +30,13 @@ public class OkioTest {
         let file:File = File("${path_base}/basefile.txt", OpenOption.Open(true,true))
         // let file:File = File("${path_base}/basefile.txt",OpenOption.Create(true))
         var sinkIns:Sink = Okio.sink(file)
-        let buffer_1: Buffer = Buffer()
         var bufferedSinkIns = Okio.buffer(sinkIns) // > BufferedSink
 
         //##############################################################
-        println("bufferedSinkIns:>> ${bufferedSinkIns}")
         data = bufferedSinkIns.writeUtf8("hello").toString() 
         bufferedSinkIns.close() //将bufferedSinkIns中的字符序列"hello"写入到当前File中
         funcData = cla_1.parseData_utf8_1(data,4)
-        println("data2:>> ${data}")
+        // println("data2:>> ${data}")
         @Assert(funcData[0],52)
         @Assert(funcData[1],"111")
         tuple_1 = cla_1.parseArrFromString(data,"[")
@@ -47,7 +45,7 @@ public class OkioTest {
 
         try{
             let file_2:File = File("${path_base}/sourcefile/base呀吼file.txt", Open(true,true))
-            var sinkIns_2:Sink = Okio.sink(file_2)
+            var _:Sink = Okio.sink(file_2)
             var bufferedSinkIns_2 = Okio.buffer(sinkIns) // > BufferedSink
             data = bufferedSinkIns_2.writeUtf8("hello").toString() 
         }catch(e1:Exception){
