@@ -13,7 +13,7 @@ public class okio_getByte_133 {
         var exc = ""
         try {
             let str = ""
-            let arr:Array<Byte> = str.toUtf8Array()
+            let arr:Array<Byte> = str.toArray()
             println(arr)
             let bs = ByteString(arr)
             println("bs = ${bs.getByte(0)}")

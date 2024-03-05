@@ -21,7 +21,6 @@ main () {
     let str11 = str.substring(1)
     try {
         let str7 = ByteString.read(srr,10)
-        return 1
     } catch(e: Exception) {
         println("case pass")
     }

@@ -11,11 +11,11 @@ public class okio_of_101{
     @TestCase
     func okio_of_101(): Unit {
         try {
-            let bs = ByteString.of("hello world".toUtf8Array())
+            let bs = ByteString.of("hello world".toArray())
             println("bs = ${bs.toString()}")
             @Assert(bs.toString(),"[text=hello world]")
             
-            let bs2 = ByteString.of("".toUtf8Array())
+            let bs2 = ByteString.of("".toArray())
             println("bs2 = ${bs2.toString()}")
             @Assert(bs2.toString(),"[size=0]")
 

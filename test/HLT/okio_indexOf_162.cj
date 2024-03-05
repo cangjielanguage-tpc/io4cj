@@ -12,33 +12,33 @@ public class okio_indexOf_162 {
     func okio_indexOf_162(): Unit {
         var exc = ""
         try {
-            var byteString = ByteString("hello world".toUtf8Array())
-            var byteArray : Array<Byte> = "l".toUtf8Array()
+            var byteString = ByteString("hello world".toArray())
+            var byteArray : Array<Byte> = "l".toArray()
             var idx = byteString.indexOf(byteArray)
             println("idx : ${idx}")
             @Assert(idx,2)
 
-            byteArray = "".toUtf8Array()
+            byteArray = "".toArray()
             idx = byteString.indexOf(byteArray)
             println("idx : ${idx}")
             @Assert(idx,0)
 
-            byteArray = "h".toUtf8Array()
+            byteArray = "h".toArray()
             idx = byteString.indexOf(byteArray)
             println("idx : ${idx}")
             @Assert(idx,0)
 
-            byteArray = "rld".toUtf8Array()
+            byteArray = "rld".toArray()
             idx = byteString.indexOf(byteArray)
             println("idx : ${idx}")
             @Assert(idx,8)
 
-            byteArray = "oo".toUtf8Array()
+            byteArray = "oo".toArray()
             idx = byteString.indexOf(byteArray)
             println("idx : ${idx}")
             @Assert(idx,-1)
 
-            byteArray = "hello world".toUtf8Array()
+            byteArray = "hello world".toArray()
             idx = byteString.indexOf(byteArray)
             println("idx : ${idx}")
             @Assert(idx,0)

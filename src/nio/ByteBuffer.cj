@@ -8,7 +8,6 @@
  */
 package nio
 
-from std import collection.StringBuilder
 
 /**
  * The class is ByteBuffer inherited from Buffer & ToString & Hashable & Equatable<Buffer>
@@ -335,7 +334,7 @@ public abstract class ByteBuffer <: Buffer & ToString & Hashable & Equatable<Buf
         sbd.append(capacity())
         sbd.append("]")
         let src = sbd.toString()
-        sbd.clear()
+        sbd.reset()
         return src
     }
 

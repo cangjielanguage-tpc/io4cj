@@ -65,7 +65,7 @@ public class InflaterSource <: Source {
                 return -1
                 }
             let mins = math.min(readNum,byteCount)
-            let sourceData= String.fromUtf8(sourceArray).substring(0,readNum).toUtf8Array()
+            let sourceData= String.fromUtf8(sourceArray)[0..readNum].toArray()
             sink.write(sourceData.slice(0,mins).toArray())
 
         }

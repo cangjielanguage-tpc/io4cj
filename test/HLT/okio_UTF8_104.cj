@@ -12,14 +12,14 @@ public class okio_UTF8_104{
     func okio_UTF8_104(): Unit {
         try {
             let str = "hello world"
-            let arr:Array<Byte> = str.toUtf8Array()
+            let arr:Array<Byte> = str.toArray()
             println(arr)
             let bs = ByteString(arr)
             println("bs = ${bs.UTF8()}")
             @Assert(bs.UTF8(),"hello world")
 
             let str2 = ""
-            let arr2:Array<Byte> = str2.toUtf8Array()
+            let arr2:Array<Byte> = str2.toArray()
             println(arr2)
             let bs2 = ByteString(arr2)
             println("bs2 = ${bs2.UTF8()}")

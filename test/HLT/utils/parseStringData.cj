@@ -6,7 +6,7 @@ public class ParseDataStr {
         var dataSize:Int64 = 0
         var subData:String = ""
         dataSize = baseStr.size
-        subData = baseStr.substring(dataSize -baseIndex,length)
+        subData = baseStr[dataSize -baseIndex..dataSize -baseIndex +length]
                   .trimAsciiLeft()
                   .trimAsciiRight()
         tuple_1 = (dataSize,subData)
@@ -35,8 +35,8 @@ public class ParseDataStr {
      public func parseArrFromString(baseStr:String,baseTag:String):(Array<String>,Int64) {
         var arr:Array<String> = Array<String>()
         var baseIndex:Int64 = baseStr.lastIndexOf(baseTag) ?? 0
-        var str = baseStr.substring(baseIndex)
-        var subStr = str.substring(1,str.size -2)
+        var str = baseStr[baseIndex..]
+        var subStr = str[1..str.size -2+1]
         arr = subStr.split(",")
         var str2 = ""
         for(i in 0..arr.size){

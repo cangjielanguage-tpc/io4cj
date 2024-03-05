@@ -12,14 +12,14 @@ public class okio_hex_107 {
     func okio_hex_107(): Unit {
         try {
             let str = "hello world"
-            let arr:Array<Byte> = str.toUtf8Array()
+            let arr:Array<Byte> = str.toArray()
             println(arr)
             let bs = ByteString(arr)
             println("bs = ${bs.hex()}")
             @Assert(bs.hex(),"68656c6c6f20776f726c64")
 
             let str2 = ""
-            let arr2:Array<Byte> = str2.toUtf8Array()
+            let arr2:Array<Byte> = str2.toArray()
             println(arr2)
             let bs2 = ByteString(arr2)
             println("bs2 = ${bs2.hex()}")

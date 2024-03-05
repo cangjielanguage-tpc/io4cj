@@ -6,7 +6,7 @@ from std import os.posix.*
 from std import io.*
 
 main () {
-    var byteString = ByteString("hello world".toUtf8Array())
+    var byteString = ByteString("hello world".toArray())
     if (byteString.hashCode() != 1923188771) {
         return 1
     }

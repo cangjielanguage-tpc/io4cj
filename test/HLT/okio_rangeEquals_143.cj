@@ -12,8 +12,8 @@ public class okio_rangeEquals_143 {
     func okio_rangeEquals_143(): Unit {
         var exc = ""
         try {
-            var byteString = ByteString("12345hello world6".toUtf8Array())
-            var byteString2 = ByteString("123hello world456".toUtf8Array())
+            var byteString = ByteString("12345hello world6".toArray())
+            var byteString2 = ByteString("123hello world456".toArray())
             var tf = byteString.rangeEquals(-1,byteString2,3,1)
             println("true or false : ${tf}")
             @Assert(tf,false)

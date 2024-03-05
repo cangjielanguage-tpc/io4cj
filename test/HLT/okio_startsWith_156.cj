@@ -12,33 +12,33 @@ public class okio_startsWith_156 {
     func okio_startsWith_156(): Unit {
         var exc = ""
         try {
-            var byteString = ByteString("hello world".toUtf8Array())
-            var byteString2 = ByteString("".toUtf8Array())
+            var byteString = ByteString("hello world".toArray())
+            var byteString2 = ByteString("".toArray())
             var tf = byteString.startsWith(byteString2)
             println("true or false : ${tf}")
             @Assert(tf,true)
 
-            byteString2 = ByteString("h".toUtf8Array())
+            byteString2 = ByteString("h".toArray())
             tf = byteString.startsWith(byteString2)
             println("true or false : ${tf}")
             @Assert(tf,true)
 
-            byteString2 = ByteString("hel".toUtf8Array())
+            byteString2 = ByteString("hel".toArray())
             tf = byteString.startsWith(byteString2)
             println("true or false : ${tf}")
             @Assert(tf,true)
 
-            byteString2 = ByteString("hello world".toUtf8Array())
+            byteString2 = ByteString("hello world".toArray())
             tf = byteString.startsWith(byteString2)
             println("true or false : ${tf}")
             @Assert(tf,true)
 
-            byteString2 = ByteString("rld".toUtf8Array())
+            byteString2 = ByteString("rld".toArray())
             tf = byteString.startsWith(byteString2)
             println("true or false : ${tf}")
             @Assert(tf,false)
 
-            byteString2 = ByteString(" ".toUtf8Array())
+            byteString2 = ByteString(" ".toArray())
             tf = byteString.startsWith(byteString2)
             println("true or false : ${tf}")
             @Assert(tf,false)

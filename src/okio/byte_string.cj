@@ -42,7 +42,7 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
 
     init (data: String){
         this.utf8 = data
-        this.data = data.toUtf8Array()
+        this.data = data.toArray()
     }
 
     /**
@@ -177,7 +177,7 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
     protected static func decode(input: String): ?Array<Byte> {
         var limit = input.size
         while (limit > 0) {
-            let c = input.get(limit - 1).getOrThrow()
+            let c = Char(UInt32(input[limit - 1]))
             if (c != '=' && c != '\n' && c != '\r' && c != ' ' && c != '\t') {
                 break
             }
@@ -188,7 +188,7 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
         var inCount = 0
         var word = 0
         for (pos in 0..limit) {
-            let c = input.get(pos).getOrThrow()
+            let c = Char(UInt32(input[pos]))
             var bits = 0
             if (c >= 'A' && c <= 'Z') {
                 bits = Int64(UInt32(c)) - 65
@@ -270,8 +270,8 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
         }
         let result = Array<Byte>(hex.size / 2, item: NULL)
         for (i in 0..result.size) {
-            let d1 = decodeHexDigit(hex.get(i * 2).getOrThrow()) << 4
-            let d2 = decodeHexDigit(hex.get(i * 2 + 1).getOrThrow())
+            let d1 = decodeHexDigit(Char(UInt32(hex[i * 2]))) << 4
+            let d2 = decodeHexDigit(Char(UInt32(hex[i * 2 + 1])))
             result[i] = UInt8(d1 + d2)
         }
         return ByteString(result)
@@ -303,9 +303,6 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
         if (byteCount < 0) {
             throw IllegalArgumentException("byteCount < 0")
         }
-        if (input.length < byteCount) {
-            throw EOFException()
-        }
         let arr = Array<Byte>(byteCount, item: 0)
         try {
             input.read(arr)
@@ -318,25 +315,14 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
     /**
      * The Function is read
      *
-     * @param input of InputStream
-     *
-     * @return Type of ByteString
-     * @since 0.32.5
-     */
-    public static func read(input: InputStream): ByteString {
-        return read(input, input.length)
-    }
-
-    /**
-     * The Function is read
-     *
      * @param path of String
      *
      * @return Type of ByteString
      * @since 0.32.5
      */
     public static func read(path: String): ByteString {
-        return read(File(path, Open(true, false)))
+        let src = File(path, Open(true, false))
+        return read(src,src.length)
     }
 
     /**

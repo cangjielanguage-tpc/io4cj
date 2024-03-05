@@ -13,7 +13,7 @@ public class okio_read_140 {
         var exc = ""
         try {
             var bAs = ByteArrayStream()
-            var byteString = ByteString("hello world".toUtf8Array())
+            var byteString = ByteString("hello world".toArray())
             byteString.write(bAs)
             var arrbyte = Array<Byte>(11, item: 0)
             bAs.read(arrbyte)
@@ -22,7 +22,7 @@ public class okio_read_140 {
 
             var arrbyte2 = Array<Byte>(2, item: 0)
             var arr = Array<Byte>(2, item: 0)
-            byteString = ByteString("".toUtf8Array())
+            byteString = ByteString("".toArray())
             byteString.write(bAs)
             bAs.read(arrbyte2)
             println("bAs2 = ${arrbyte2}")

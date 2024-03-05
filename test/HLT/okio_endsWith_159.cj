@@ -12,33 +12,33 @@ public class okio_endsWith_159 {
     func okio_endsWith_159(): Unit {
         var exc = ""
         try {
-            var byteString = ByteString("hello world".toUtf8Array())
-            var byteArray : Array<Byte> = "".toUtf8Array()
+            var byteString = ByteString("hello world".toArray())
+            var byteArray : Array<Byte> = "".toArray()
             var tf = byteString.endsWith(byteArray)
             println("true or false : ${tf}")
             @Assert(tf,true)
 
-            byteArray = "d".toUtf8Array()
+            byteArray = "d".toArray()
             tf = byteString.endsWith(byteArray)
             println("true or false : ${tf}")
             @Assert(tf,true)
 
-            byteArray = "rld".toUtf8Array()
+            byteArray = "rld".toArray()
             tf = byteString.endsWith(byteArray)
             println("true or false : ${tf}")
             @Assert(tf,true)
 
-            byteArray = "hello world".toUtf8Array()
+            byteArray = "hello world".toArray()
             tf = byteString.endsWith(byteArray)
             println("true or false : ${tf}")
             @Assert(tf,true)
 
-            byteArray = "hel".toUtf8Array()
+            byteArray = "hel".toArray()
             tf = byteString.endsWith(byteArray)
             println("true or false : ${tf}")
             @Assert(tf,false)
 
-            byteArray = " ".toUtf8Array()
+            byteArray = " ".toArray()
             tf = byteString.endsWith(byteArray)
             println("true or false : ${tf}")
             @Assert(tf,false)

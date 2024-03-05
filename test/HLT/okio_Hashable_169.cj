@@ -11,11 +11,11 @@ public class okio_Hashable_169 {
     @TestCase
     func okio_Hashable_169 (): Unit {
         try {
-            let bs = ByteString("".toUtf8Array())
+            let bs = ByteString("".toArray())
             println("bs = ${bs.hashCode()}")
             @Assert(bs.hashCode(),1)
             
-            let bs2 = ByteString("hello world".toUtf8Array())
+            let bs2 = ByteString("hello world".toArray())
             println("bs2 = ${bs2.hashCode()}")
             @Assert(bs2.hashCode(),1923188771)
 

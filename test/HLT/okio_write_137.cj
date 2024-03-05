@@ -20,8 +20,8 @@ public class okio_write_137{
         var str = "world"
         try {
             var file = File.create("../../../testData/okio_write_137.txt")
-            file.write("hello ".toUtf8Array())
-            let arr:Array<Byte> = str.toUtf8Array()
+            file.write("hello ".toArray())
+            let arr:Array<Byte> = str.toArray()
             println(arr)
             let bs = ByteString(arr)
             bs.write("../../../testData/okio_write_137.txt")

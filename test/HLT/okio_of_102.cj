@@ -13,7 +13,7 @@ public class okio_of_102 {
         var exc = ""
         // 参数 Int64 - offset 偏移量 > Array<Byte>长度 
         try {
-            var bs = ByteString.of("hello world".toUtf8Array(),11,11)
+            var bs = ByteString.of("hello world".toArray(),11,11)
 
         } catch (e:IndexOutOfBoundsException) {
             // e.printStackTrace()
@@ -25,7 +25,7 @@ public class okio_of_102 {
 
         // 参数 Int64 - offset 偏移量 < Array<Byte>长度 offset + byteCount > Array<Byte>长度  
         try {
-            var bs = ByteString.of("hello world".toUtf8Array(),1,11)
+            var bs = ByteString.of("hello world".toArray(),1,11)
             println("bs = ${bs.toString()}")
             @Assert(bs.toString(),"[text=ello world]")
             
@@ -39,7 +39,7 @@ public class okio_of_102 {
 
         // 参数 Int64 - offset 偏移量 < Array<Byte>长度 offset + byteCount = Array<Byte>长度  
         try {
-            var bs = ByteString.of("hello world".toUtf8Array(),1,10)
+            var bs = ByteString.of("hello world".toArray(),1,10)
             println("bs = ${bs.toString()}")
             @Assert(bs.toString(),"[text=ello world]")
             
@@ -52,7 +52,7 @@ public class okio_of_102 {
 
         // 参数 Int64 - offset 偏移量 < Array<Byte>长度 offset + byteCount < Array<Byte>长度  
         try {
-            var bs = ByteString.of("hello world".toUtf8Array(),2,9)
+            var bs = ByteString.of("hello world".toArray(),2,9)
             println("bs = ${bs.toString()}")
             @Assert(bs.toString(),"[text=llo world]")
             
@@ -65,7 +65,7 @@ public class okio_of_102 {
 
         // 参数 Int64 - offset 偏移量 < Array<Byte>长度 (0)
         try {
-            var bs = ByteString.of("hello world".toUtf8Array(),0,9)
+            var bs = ByteString.of("hello world".toArray(),0,9)
             println("bs = ${bs.toString()}")
             @Assert(bs.toString(),"[text=hello wor]")
             
@@ -78,7 +78,7 @@ public class okio_of_102 {
 
         // 参数 Int64 - offset 偏移量 < Array<Byte>长度 (-1)
         try {
-            var bs = ByteString.of("hello world".toUtf8Array(),-1,9)
+            var bs = ByteString.of("hello world".toArray(),-1,9)
             println("bs = ${bs.toString()}")
             @Assert(bs.toString(),"[text=hello wor]")
             
@@ -92,7 +92,7 @@ public class okio_of_102 {
 
         // 参数 Int64 - offset 偏移量 = Array<Byte>长度 
         try {
-            var bs = ByteString.of("hello world".toUtf8Array(),10,1)
+            var bs = ByteString.of("hello world".toArray(),10,1)
             println("bs = ${bs.toString()}")
             @Assert(bs.toString(),"[text=d]")
             
@@ -104,7 +104,7 @@ public class okio_of_102 {
 
         // 参数 Int64 - byteCount 字节长度 > Array<Byte>长度 
         try {
-            var bs = ByteString.of("hello world".toUtf8Array(),0,12)
+            var bs = ByteString.of("hello world".toArray(),0,12)
             println("bs = ${bs.toString()}")
             @Assert(bs.toString(),"[text=hello wor]")
             
@@ -118,7 +118,7 @@ public class okio_of_102 {
 
         // 参数 Int64 - byteCount 字节长度 (0)
         try {
-            var bs = ByteString.of("hello world".toUtf8Array(),0,0)
+            var bs = ByteString.of("hello world".toArray(),0,0)
             println("bs = ${bs.toString()}")
             @Assert(bs.toString(),"[size=0]")
             
@@ -131,7 +131,7 @@ public class okio_of_102 {
 
         // 参数 Int64 - byteCount 字节长度 (-1)
         try {
-            var bs = ByteString.of("hello world".toUtf8Array(),0,-1)
+            var bs = ByteString.of("hello world".toArray(),0,-1)
             println("bs = ${bs.toString()}")
             @Assert(bs.toString(),"[text=hello wor]")
             

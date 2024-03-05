@@ -9,8 +9,8 @@ from std import io.*
 // https://gitee.com/HW-PLLab/okio/issues/I5Y7RC
 
 main () {
-    let bs = ByteString("hello world".toUtf8Array())
-    let bs2 = ByteString("hello world1".toUtf8Array())
+    let bs = ByteString("hello world".toArray())
+    let bs2 = ByteString("hello world1".toArray())
     if (bs == bs2) {
         return 1
     }

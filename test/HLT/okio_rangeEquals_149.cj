@@ -12,8 +12,8 @@ public class okio_rangeEquals_149 {
     func okio_rangeEquals_149(): Unit {
         var exc = ""
         try {
-            var byteString = ByteString("12345hello world6".toUtf8Array())
-            var byteArray : Array<Byte> = "123hello world456".toUtf8Array()
+            var byteString = ByteString("12345hello world6".toArray())
+            var byteArray : Array<Byte> = "123hello world456".toArray()
             var tf = byteString.rangeEquals(5,byteArray,3,11)
             println("true or false : ${tf}")
             @Assert(tf,true)
@@ -26,28 +26,28 @@ public class okio_rangeEquals_149 {
             println("true or false : ${tf}")
             @Assert(tf,true)
 
-            byteArray = "l".toUtf8Array()
+            byteArray = "l".toArray()
             tf = byteString.rangeEquals(8,byteArray,0,1)
             println("true or false : ${tf}")
             @Assert(tf,true)
 
-            byteArray = "h".toUtf8Array()
+            byteArray = "h".toArray()
             tf = byteString.rangeEquals(8,byteArray,0,1)
             println("true or false : ${tf}")
             @Assert(tf,false)
 
-            byteArray = "".toUtf8Array()
+            byteArray = "".toArray()
             tf = byteString.rangeEquals(1,byteArray,0,0)
             println("true or false : ${tf}")
             @Assert(tf,true)
 
-            byteArray = "123hello world456789".toUtf8Array()
+            byteArray = "123hello world456789".toArray()
             tf = byteString.rangeEquals(5,byteArray,3,11)
             println("true or false : ${tf}")
             @Assert(tf,true)
             
-            byteString = ByteString("".toUtf8Array())
-            byteArray = "".toUtf8Array()
+            byteString = ByteString("".toArray())
+            byteArray = "".toArray()
             tf = byteString.rangeEquals(0,byteArray,0,0)
             println("true or false : ${tf}")
             @Assert(tf,true)

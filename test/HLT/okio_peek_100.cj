@@ -19,7 +19,7 @@ public class okio_peek_100{
         }
 
         let a_buffer = Buffer()
-        a_buffer.write("abcdefhigklmn".toUtf8Array())
+        a_buffer.write("abcdefhigklmn".toArray())
 
         var file = File.create("../../../testData/okio_peek_100.txt")
         let sink: Sink = Okio.sink(file)

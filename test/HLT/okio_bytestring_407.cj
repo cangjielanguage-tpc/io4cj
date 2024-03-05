@@ -18,7 +18,7 @@ public class okio_byteString_407 {
         let bufferedSink: BufferedSink = Okio.buffer(Okio.sink(file))
 
         try {
-            var byteString = ByteString("hello".toUtf8Array())
+            var byteString = ByteString("hello".toArray())
             byteString.write(file)
             var i = 0
             while(i < 8193){
@@ -44,7 +44,7 @@ public class okio_byteString_407 {
 
         let buffer: Buffer = Buffer()
         try {
-            var byteString = ByteString("hello".toUtf8Array())
+            var byteString = ByteString("hello".toArray())
             byteString.write(buffer)
             
 

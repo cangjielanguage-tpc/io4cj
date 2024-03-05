@@ -15,7 +15,7 @@ public class okio_write_139{
         try {
 
             var str = "hello world"
-            let arr:Array<Byte> = str.toUtf8Array()
+            let arr:Array<Byte> = str.toArray()
             println(arr)
             let bs = ByteString(arr)
             bs.write("../abc/okio_write_139.txt")

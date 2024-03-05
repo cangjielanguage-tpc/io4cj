@@ -12,7 +12,7 @@ main () {
     let bu: Buffer = Buffer()
     //let bs: BufferedSink = RealBufferedSink()
     let abcString: String = "abc"
-    let abc: Array<UInt8> = abcString.toUtf8Array()
+    let abc: Array<UInt8> = abcString.toArray()
     pi.sink().write(bu.write(abc) , 3)
 
     let so: Source = pi.source()

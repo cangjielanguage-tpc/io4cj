@@ -13,15 +13,15 @@ public class okio_read_141 {
         var exc = ""
         try {
             var okbf = okio.Buffer()
-            var byteString = ByteString("hello".toUtf8Array())
+            var byteString = ByteString("hello".toArray())
             byteString.write(okbf)
             var okbf_str = okbf.readUtf8()
             println("okbf = ${okbf_str}")
             @Assert(okbf_str,"hello")
 
-            byteString = ByteString("hello".toUtf8Array())
+            byteString = ByteString("hello".toArray())
             byteString.write(okbf)
-            byteString = ByteString(" world".toUtf8Array())
+            byteString = ByteString(" world".toArray())
             byteString.write(okbf)
 
             okbf_str = okbf.readUtf8()

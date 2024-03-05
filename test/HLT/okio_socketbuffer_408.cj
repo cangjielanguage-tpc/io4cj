@@ -29,7 +29,7 @@ public class okio_socketbuffer_408 {
                 var str = SocketBuffer(client)
                 var str1 = str.length
                 let string1 = "hello"
-                var arr: Array<Byte> = string1.toUtf8Array()
+                var arr: Array<Byte> = string1.toArray()
                 var str2 = str.write(arr)
                 var arr1 = Array<Byte>(5, item: 1)
                 var str4 = str.read(arr1)
@@ -68,7 +68,7 @@ public class okio_socketbuffer_408 {
     func clientSocket(): Unit {
         try (socket = TcpSocket("127.0.0.1", SERVER_PORT)) {
             socket.connect()
-            let resp = "Hello from /red".toUtf8Array()
+            let resp = "Hello from /red".toArray()
             socket.write(resp)
             let str: String = "foo-20000727"
             println(str)

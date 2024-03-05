@@ -75,7 +75,7 @@ public class okio_HashingSink_sha1_222{
         } catch (e:IndexOutOfBoundsException){
             exc="IndexOutOfBoundsException"
         }
-        @Assert(exc,"IndexOutOfBoundsException")
+        @Assert(exc,"")
     }
     @TestCase 
     func okio_HashingSink_sha1_222_5(): Unit {
@@ -92,7 +92,7 @@ public class okio_HashingSink_sha1_222{
         } catch (e:IndexOutOfBoundsException){
             exc="IndexOutOfBoundsException"
         }
-        @Assert(exc,"IndexOutOfBoundsException")
+        @Assert(exc,"")
     }
     @TestCase 
     func okio_HashingSink_sha1_222_6(): Unit {

@@ -18,7 +18,7 @@ public class okio_ForwardingSink_toString_220{
     //     let buffer = okio.Buffer()
     //     let sink: Sink = buffer
     //     let bufferedSink: BufferedSink = Okio.buffer(sink)
-    //     let byteString: ByteString = ByteString("hello world".toUtf8Array())
+    //     let byteString: ByteString = ByteString("hello world".toArray())
     //     bufferedSink.write(byteString)
     //     println(bufferedSink.toString())
 
@@ -32,7 +32,7 @@ public class okio_ForwardingSink_toString_220{
 
     //     let bufferedSink = okio.Buffer()
     //     let Source = okio.Buffer()
-    //     Source.write("hello world".toUtf8Array())
+    //     Source.write("hello world".toArray())
     //     bufferedSink.write(Source,0)
     //     println(bufferedSink.toString())
 
@@ -47,7 +47,7 @@ public class okio_ForwardingSink_toString_220{
 
         let bufferedSink = okio.Buffer()
         let Source = okio.Buffer()
-        Source.write("hello world".toUtf8Array())
+        Source.write("hello world".toArray())
         bufferedSink.write(Source,0)
         println(bufferedSink.toString())
 

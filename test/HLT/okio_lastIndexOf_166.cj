@@ -12,33 +12,33 @@ public class okio_lastIndexOf_166 {
     func okio_lastIndexOf_166(): Unit {
         var exc = ""
         try {
-            var byteString = ByteString("hello world".toUtf8Array())
-            var byteArray : Array<Byte> = "d".toUtf8Array()
+            var byteString = ByteString("hello world".toArray())
+            var byteArray : Array<Byte> = "d".toArray()
             var idx = byteString.lastIndexOf(byteArray)
             println("idx : ${idx}")
             @Assert(idx,10)
 
-            byteArray = "".toUtf8Array()
+            byteArray = "".toArray()
             idx = byteString.lastIndexOf(byteArray)
             println("idx : ${idx}")
             // @Assert(idx,10) // 11
 
-            byteArray = ("h".toUtf8Array())
+            byteArray = ("h".toArray())
             idx = byteString.lastIndexOf(byteArray)
             println("idx : ${idx}")
             @Assert(idx,0)
 
-            byteArray = ("ll".toUtf8Array())
+            byteArray = ("ll".toArray())
             idx = byteString.lastIndexOf(byteArray)
             println("idx : ${idx}")
             @Assert(idx,2)
 
-            byteArray = ("oo".toUtf8Array())
+            byteArray = ("oo".toArray())
             idx = byteString.lastIndexOf(byteArray)
             println("idx : ${idx}")
             @Assert(idx,-1)
 
-            byteArray = ("hello world".toUtf8Array())
+            byteArray = ("hello world".toArray())
             idx = byteString.lastIndexOf(byteArray)
             println("idx : ${idx}")
             @Assert(idx,0)
