@@ -11,15 +11,15 @@ public class okio_toString_170 {
     @TestCase
     func okio_toString_170 (): Unit {
         try {
-            let bs = ByteString("".toUtf8Array())
+            let bs = ByteString("".toArray())
             println("bs = ${bs.toString()}")
             @Assert(bs.toString(),"[size=0]")
             
-            let bs2 = ByteString("hello world".toUtf8Array())
+            let bs2 = ByteString("hello world".toArray())
             println("bs2 = ${bs2.toString()}")
             @Assert(bs2.toString(),"[text=hello world]")
 
-            let bs3 = ByteString("你好".toUtf8Array())
+            let bs3 = ByteString("你好".toArray())
             println("bs3 = ${bs3.toString()}")
             @Assert(bs3.toString(),"[text=你好]")
 

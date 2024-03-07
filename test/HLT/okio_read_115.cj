@@ -19,7 +19,7 @@ public class okio_read_115{
         }
         try {
             var file = File.create("../../../testData/okio_read_115.txt")
-            file.write("hello world".toUtf8Array())
+            file.write("hello world".toArray())
             let bs = ByteString.read("../../../testData/okio_read_115.txt")
             println("bs = ${bs.toString()}")
             @Assert(bs.toString(),"[text=hello world]")

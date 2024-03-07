@@ -23,7 +23,7 @@ main () {
         ess = e.toString()
     }
     let str7 = str.hex()
-    let str11 = ByteString.read(ByteArrayStream())
+    let str11 = ByteString.read(ByteArrayStream(),0)
     if (ess != "IllegalArgumentException: Unexpected hex string: ssfas") {
         return 1
     }

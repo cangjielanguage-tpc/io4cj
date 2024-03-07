@@ -12,7 +12,7 @@ public class okio_substring_124 {
     func okio_substring_124(): Unit {
         try {
             let str = "hello world"
-            let arr:Array<Byte> = str.toUtf8Array()
+            let arr:Array<Byte> = str.toArray()
             println(arr)
             let bs = ByteString(arr)
             println("bs = ${bs.substring(8,9)}")
@@ -27,7 +27,7 @@ public class okio_substring_124 {
             @Assert(bs4.substring(0,0).toString(),"[size=0]") 
 
             let str3 = ""
-            let arr3:Array<Byte> = str3.toUtf8Array()
+            let arr3:Array<Byte> = str3.toArray()
             println(arr3)
             let bs3 = ByteString(arr3)
             println("bs3 = ${bs3.substring(0,0)}")

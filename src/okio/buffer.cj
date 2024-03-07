@@ -11,7 +11,6 @@ package okio
 import nio.ArrayCopy
 
 from std import math.*
-from std import collection.StringBuilder
 
 let let_0: UInt8 = UInt8(UInt32('0'))
 let let_9: UInt8 = UInt8(UInt32('9'))
@@ -180,7 +179,7 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
      * @since 0.32.5
      */
     public override func writeUtf8(string: String): BufferedSink {
-        return writeUtf8(string, 0, string.size)
+        return writeUtf8(string, 0, string.toRuneArray().size)
     }
 
     /**
@@ -194,13 +193,14 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
      * @since 0.32.5
      */
     @OverflowWrapping
-    public override func writeUtf8(str: String, beginIndex: Int64, endIndex: Int64): BufferedSink {
+    public override func writeUtf8(str1: String, beginIndex: Int64, endIndex: Int64): BufferedSink { 
+        var str = str1.toRuneArray()
         if (beginIndex < 0) { throw IllegalArgumentException("beginIndex < 0: ${beginIndex}") }
         if (endIndex < beginIndex) { throw IllegalArgumentException("endIndex < beginIndex: ${endIndex} < ${beginIndex}") }
         if (endIndex > str.size) { throw IllegalArgumentException("endIndex > string.length: ${endIndex} > ${str.size}") }
         var i = beginIndex
         while (i < endIndex) {
-            var c: Char = str.get(i).getOrThrow()
+            var c: Char = Char(UInt32(str[i]))
             if (UInt32(c) < 0x80) {
                 let tail = writableSegment(1)
                 let data = tail.data
@@ -209,7 +209,7 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
                 data[segmentOffset + i] = UInt8(UInt32(c))
                 i++
                 while (i < runLimit) {
-                    c = str.get(i).getOrThrow()
+                    c = Char(UInt32(str[i]))
                     if (UInt32(c) >= 0x80){
                         break
                     }
@@ -229,7 +229,7 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
                 writeInt8(Int64(UInt32(c)       & 0x3f) | 0x80)     // 10xxxxxx
                 i++
             } else {
-                let low: UInt32 = if (i + 1 < endIndex) { UInt32(str.get(i+1).getOrThrow()) } else { 0 }
+                let low: UInt32 = if (i + 1 < endIndex) { UInt32(str[i]) } else { 0 }
                 if (UInt32(c) > 0xdbff || low < 0xdc00 || low > 0xdfff) {
                     writeInt8(Int64(UInt32('?')))
                     i++

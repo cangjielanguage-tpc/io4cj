@@ -6,8 +6,8 @@ from std import os.posix.*
 from std import io.*
 
 main () {
-    var byteString = ByteString("hello world".toUtf8Array())
-    var byteString2 = ByteString("rld".toUtf8Array()) //
+    var byteString = ByteString("hello world".toArray())
+    var byteString2 = ByteString("rld".toArray()) //
     var idx = byteString.indexOf(byteString2)
     if (idx != 8) {
         return 1

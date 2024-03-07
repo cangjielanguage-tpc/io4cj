@@ -12,7 +12,7 @@ public class okio_read_110{
     func okio_read_110(): Unit {
         var exc = ""
         try {
-            var arr : Array<Byte> = "".toUtf8Array()
+            var arr : Array<Byte> = "".toArray()
             var bas = ByteArrayStream()
             bas.write(arr)
 

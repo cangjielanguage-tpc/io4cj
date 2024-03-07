@@ -22,7 +22,7 @@ public class okio_emit_214{
         let bufferedSink: BufferedSink = Okio.buffer(Okio.sink(file))
 
         try {
-            var byteString = ByteString("hello".toUtf8Array())
+            var byteString = ByteString("hello".toArray())
             byteString.write("../../../testData/okio_emit_214.txt")
 
             bufferedSink.buffer().writeUtf8(" world") 
@@ -78,7 +78,7 @@ public class okio_emit_214{
         let bufferedSink: BufferedSink = Okio.buffer(Okio.sink(file))
 
         try {
-            var byteString = ByteString("hello".toUtf8Array())
+            var byteString = ByteString("hello".toArray())
             byteString.write("../../../testData/okio_emit_214_2.txt")
             var i = 0
             while(i < 8193){

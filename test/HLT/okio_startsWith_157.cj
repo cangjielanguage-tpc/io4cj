@@ -12,33 +12,33 @@ public class okio_startsWith_157 {
     func okio_startsWith_157(): Unit {
         var exc = ""
         try {
-            var byteString = ByteString("hello world".toUtf8Array())
-            var byteArray : Array<Byte> = "".toUtf8Array()
+            var byteString = ByteString("hello world".toArray())
+            var byteArray : Array<Byte> = "".toArray()
             var tf = byteString.startsWith(byteArray)
             println("true or false : ${tf}")
             @Assert(tf,true)
 
-            byteArray = "h".toUtf8Array()
+            byteArray = "h".toArray()
             tf = byteString.startsWith(byteArray)
             println("true or false : ${tf}")
             @Assert(tf,true)
 
-            byteArray = "hel".toUtf8Array()
+            byteArray = "hel".toArray()
             tf = byteString.startsWith(byteArray)
             println("true or false : ${tf}")
             @Assert(tf,true)
 
-            byteArray = "hello world".toUtf8Array()
+            byteArray = "hello world".toArray()
             tf = byteString.startsWith(byteArray)
             println("true or false : ${tf}")
             @Assert(tf,true)
 
-            byteArray = "rld".toUtf8Array()
+            byteArray = "rld".toArray()
             tf = byteString.startsWith(byteArray)
             println("true or false : ${tf}")
             @Assert(tf,false)
 
-            byteArray = " ".toUtf8Array()
+            byteArray = " ".toArray()
             tf = byteString.startsWith(byteArray)
             println("true or false : ${tf}")
             @Assert(tf,false)

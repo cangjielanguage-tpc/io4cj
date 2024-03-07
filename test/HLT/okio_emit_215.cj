@@ -22,7 +22,7 @@ public class okio_emit_215{
         let bufferedSink: BufferedSink = Okio.buffer(Okio.sink(file))
 
         try {
-            var byteString = ByteString("hello".toUtf8Array())
+            var byteString = ByteString("hello".toArray())
             byteString.write("../../../testData/okio_emit_214.txt")
 
             file = File.openRead("../../../testData/okio_emit_214.txt")

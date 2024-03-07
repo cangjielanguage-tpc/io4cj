@@ -11,7 +11,7 @@ main () {
     let pi: Pipe = Pipe(100)
     let bu: Buffer = Buffer()
     let abcString: String = "abc"
-    let abc: Array<UInt8> = abcString.toUtf8Array()
+    let abc: Array<UInt8> = abcString.toArray()
     pi.sink().write(bu.write(abc),3)
     pi.sink().flush()
     let pipeSource: BufferedSource = Okio.buffer(pi.source())

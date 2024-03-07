@@ -62,7 +62,7 @@ public class HashingSource <: ForwardingSource {
         throw Exception("The key cannot be empty.")
         }
         HashingSource.algorithmArray = Array<UInt8>(20,item: 0)
-        HashingSource.key = key.toUtf8Array()
+        HashingSource.key = key.toArray()
         HashingSource.result = String(Array<Char>(41, item: '0'))
         return HashingSource(source)
     }
@@ -80,7 +80,7 @@ public class HashingSource <: ForwardingSource {
         throw Exception("The key cannot be empty.")
         }
         HashingSource.algorithmArray = Array<UInt8>(32,item: 0)
-        HashingSource.key = key.toUtf8Array()
+        HashingSource.key = key.toArray()
         HashingSource.result = String(Array<Char>(65, item: '0'))
         return HashingSource(source)
     }
@@ -166,7 +166,7 @@ public class HashingSource <: ForwardingSource {
         var algorithm: AlgorithmType = AlgorithmType.Sha1
         var sinkArray: Array<UInt8> = Array<UInt8>()
         let sinkString: String = sink.readString()
-        sinkArray = sinkString.toUtf8Array()
+        sinkArray = sinkString.toArray()
         hmac(algorithm , key , sinkArray , algorithmArray)
         HashingSource.result = toHexString(algorithmArray)
     }
@@ -181,7 +181,7 @@ public class HashingSource <: ForwardingSource {
         var algorithm: AlgorithmType = AlgorithmType.Sha256
         var sinkArray: Array<UInt8> = Array<UInt8>()
         let sinkString: String = sink.readString()
-        sinkArray = sinkString.toUtf8Array()
+        sinkArray = sinkString.toArray()
         hmac(algorithm , key , sinkArray , algorithmArray)
         HashingSource.result = toHexString(algorithmArray)
     }

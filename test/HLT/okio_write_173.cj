@@ -11,7 +11,7 @@ public class okio_write_173{
     @TestCase//向BufferedSink中写入一个完整的ByteString所包含的字节序列3
     func okio_write_173(): Unit {
         let bufferedSink = okio.Buffer()
-        let byteString: ByteString = ByteString("hello world".toUtf8Array())
+        let byteString: ByteString = ByteString("hello world".toArray())
         bufferedSink.write(byteString)
         println(bufferedSink.toString())
         @Assert(bufferedSink.toString(),"[size=11] [104, 101, 108, 108, 111, 32, 119, 111, 114, 108, 100]")
@@ -21,7 +21,7 @@ public class okio_write_173{
         let buffer = okio.Buffer()
         let sink: Sink = buffer
         let bufferedSink: BufferedSink = Okio.buffer(sink)
-        let byteString: ByteString = ByteString("hello world".toUtf8Array())
+        let byteString: ByteString = ByteString("hello world".toArray())
         bufferedSink.write(byteString)
         println(bufferedSink.toString())
         @Assert(bufferedSink.toString(),"RealBufferedSink: [size=11] [104, 101, 108, 108, 111, 32, 119, 111, 114, 108, 100]")

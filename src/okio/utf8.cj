@@ -50,7 +50,7 @@ public class Utf8 {
         var result: Int64 = 0
         var i = beginIndex
         while (i < endIndex) {
-            let char = UInt32(str.get(i).getOrThrow())
+            let char = UInt32(str[i])
             if (char < 0x80) {
                 result++
                 i++
@@ -65,7 +65,7 @@ public class Utf8 {
             }
             else {
                 let low: UInt32 = if (i + 1 < endIndex) {
-                    UInt32(str.get(i +1).getOrThrow())
+                    UInt32(str[i +1])
                 } else {
                     0x00
                 }

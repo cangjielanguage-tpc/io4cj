@@ -12,14 +12,14 @@ public class okio_size_134{
     func okio_size_134(): Unit {
         try {
             let str = "hello world"
-            let arr:Array<Byte> = str.toUtf8Array()
+            let arr:Array<Byte> = str.toArray()
             println(arr)
             let bs = ByteString(arr)
             println("bs = ${bs.size}")
             @Assert(bs.size,11)
 
             let str2 = ""
-            let arr2:Array<Byte> = str2.toUtf8Array()
+            let arr2:Array<Byte> = str2.toArray()
             println(arr2)
             let bs2 = ByteString(arr2)
             println("bs2 = ${bs2.size}")

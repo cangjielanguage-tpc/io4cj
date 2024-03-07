@@ -106,30 +106,7 @@ public class InterruptedException <: Exception {
         super("InterruptedException: \n${string}")
     }
 }
-/**
- * The class is IllegalStateException inherited from Exception
- * @author liyanqing14
- * @since 0.32.5
- */
-public class IllegalStateException <: Exception {
-    /**
-     * The Function is init constructor
-     *
-     * @since 0.32.5
-     */
-    public init(){
-        this("")
-    }
-    /**
-     * The Function is init constructor
-     *
-     * @param string of String
-     * @since 0.32.5
-     */
-    public init(string: String) {
-        super("IllegalStateException: \n${string}")
-    }
-}
+
 /**
  * The class is NumberFormatException inherited from Exception
  * @author liyanqing14

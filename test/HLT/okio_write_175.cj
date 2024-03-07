@@ -12,7 +12,7 @@ public class okio_write_175{
     func okio_write_175(): Unit {
         let bufferedSink = okio.Buffer()
         let Source = okio.Buffer()
-        Source.write("hello world".toUtf8Array())
+        Source.write("hello world".toArray())
         bufferedSink.write(Source,0)
         println(bufferedSink.toString())
         @Assert(bufferedSink.toString(),"[size=0] []")
@@ -21,7 +21,7 @@ public class okio_write_175{
     func okio_write_175_2(): Unit {
         let buffer = okio.Buffer()
         let source = okio.Buffer()
-        source.write("hello world".toUtf8Array())
+        source.write("hello world".toArray())
         let sink: Sink = buffer
         let bufferedSink: BufferedSink = Okio.buffer(sink)
         bufferedSink.write(source,0)

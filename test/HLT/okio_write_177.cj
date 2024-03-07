@@ -14,7 +14,7 @@ public class okio_write_177{
         try{
             let bufferedSink = okio.Buffer()
             let source = okio.Buffer()
-            source.write("hello world".toUtf8Array())
+            source.write("hello world".toArray())
             bufferedSink.write(source,-1)
             println(bufferedSink.toString())
         }catch (e:ArrayIndexOutOfBoundsException){
@@ -29,7 +29,7 @@ public class okio_write_177{
         try{
             let buffer = okio.Buffer()
             let source = okio.Buffer()
-            source.write("hello world".toUtf8Array())
+            source.write("hello world".toArray())
             let sink: Sink = buffer
             let bufferedSink: BufferedSink = Okio.buffer(sink)
             bufferedSink.write(source,-1)
