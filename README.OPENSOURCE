@@ -3,8 +3,8 @@
         "Name": "okio",
         "License": "Apache-2.0 license",
         "License File": "LICENSE",
-        "Version Number": "",
-        "Owner" : ""
+        "Version Number": "okio-parent-1.17.0",
+        "Owner" : "square"
         "Upstream URL": "https://github.com/square/okio",
         "Description": "Okio is a library that complements java.io and java.nio to make it much easier to access, store, and process your data. It started as a component of OkHttp, the capable HTTP client included in Android. It's well-exercised and ready to solve new problems."
     }
