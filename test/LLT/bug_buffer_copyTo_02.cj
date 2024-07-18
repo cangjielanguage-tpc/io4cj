@@ -1,18 +1,18 @@
 // EXEC: cjc %import-path %L %l %f
 // EXEC: ./main
 
-from io4cj import okio.*
-from std import os.posix.*
-from std import io.*
+import io4cj.*
+import std.os.posix.*
+import std.io.*
 
 main () {
-    var buffer = okio.Buffer()
+    var buffer = Buffer()
     buffer.write([6, 5, 4, 3, 2, 16, 7])
             .writeUtf8("华为")
             .writeUtf8("中国")
     
-    var buffer2 = okio.Buffer()
-    var buffer3 = okio.Buffer()
+    var buffer2 = Buffer()
+    var buffer3 = Buffer()
     let s = buffer.size
     // buffer.copyTo(buffer2, 0, buffer.size)
     

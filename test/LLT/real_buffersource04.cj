@@ -2,11 +2,11 @@
 // EXEC: cjc %import-path %L %l %f
 // EXEC: ./main
 
-from io4cj import okio.*
-from io4cj import nio.ByteBuffer
-from std import os.posix.*
-from std import io.*
-from std import fs.*
+import io4cj.*
+import io4cj.*
+import std.os.posix.*
+import std.io.*
+import std.fs.*
 
 
 main () {
@@ -21,10 +21,6 @@ main () {
         es = e.toString()
     }
 
-    try {
-    let str3 = real0s.read(ByteBuffer.allocate(0))
-    } catch(e: Exception) {
-    }
     real0s.readHexadecimalUInt64()
     if (es.contains("NumberFormatException")) {
         return 0

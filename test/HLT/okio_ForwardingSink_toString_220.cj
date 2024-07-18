@@ -1,10 +1,10 @@
-// 3rd_party_lib:io4cj/build/io4cj
-// 3rd_party_lib:io4cj/ci_lib/crypto4cj
+// 3rd_party_lib:io4cj/target/release/io4cj
+// 3rd_party_lib:io4cj/target/release/crypto4cj
 
-from std import io.*
-from std import time.*
-from std import fs.*
-from io4cj import okio.*
+import std.io.*
+import std.time.*
+import std.fs.*
+import io4cj.*
 
 @Test
 public class okio_ForwardingSink_toString_220{
@@ -15,7 +15,7 @@ public class okio_ForwardingSink_toString_220{
 
     //     println("---------------------------okio_ForwardingSink_toString_220-----------------------------")
 
-    //     let buffer = okio.Buffer()
+    //     let buffer = Buffer()
     //     let sink: Sink = buffer
     //     let bufferedSink: BufferedSink = Okio.buffer(sink)
     //     let byteString: ByteString = ByteString("hello world".toArray())
@@ -30,8 +30,8 @@ public class okio_ForwardingSink_toString_220{
     // func okio_ForwardingSink_toString_220_2(): Unit {
     //     println("---------------------------okio_ForwardingSink_toString_220_2-----------------------------")
 
-    //     let bufferedSink = okio.Buffer()
-    //     let Source = okio.Buffer()
+    //     let bufferedSink = Buffer()
+    //     let Source = Buffer()
     //     Source.write("hello world".toArray())
     //     bufferedSink.write(Source,0)
     //     println(bufferedSink.toString())
@@ -45,8 +45,8 @@ public class okio_ForwardingSink_toString_220{
     func okio_ForwardingSink_toString_220_3(): Unit {
         println("---------------------------okio_ForwardingSink_toString_220_3-----------------------------")
 
-        let bufferedSink = okio.Buffer()
-        let Source = okio.Buffer()
+        let bufferedSink = Buffer()
+        let Source = Buffer()
         Source.write("hello world".toArray())
         bufferedSink.write(Source,0)
         println(bufferedSink.toString())

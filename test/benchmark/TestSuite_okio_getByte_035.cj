@@ -1,9 +1,9 @@
 
 
-from std import io.*
-from std import time.*
-from std import fs.*
-from io4cj import okio.*
+import std.io.*
+import std.time.*
+import std.fs.*
+import io4cj.*
 
 @Test
 public class okio_getByte_035{

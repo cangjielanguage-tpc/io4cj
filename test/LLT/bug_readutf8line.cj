@@ -1,13 +1,13 @@
 // EXEC: cjc %import-path %L %l %f
 // EXEC: ./main
 
-from io4cj import okio.*
-from std import os.posix.*
-from std import io.*
+import io4cj.*
+import std.os.posix.*
+import std.io.*
 
 main () {
     try {
-        let bug = okio.Buffer ()
+        let bug = Buffer ()
         bug.writeUtf8("华为\n中国")
         println(bug.readUtf8LineStrict())
     } catch (e: OverflowException) {

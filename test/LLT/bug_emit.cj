@@ -1,12 +1,12 @@
 // EXEC: cjc %import-path %L %l %f
 // EXEC: ./main
 
-from io4cj import okio.*
-from std import os.posix.*
-from std import io.*
+import io4cj.*
+import std.os.posix.*
+import std.io.*
 
 main () {
-    let b0 = okio.Buffer()
+    let b0 = Buffer()
     let b1: BufferedSink = Okio.buffer(b0)
     let c1: BufferedSource = Okio.buffer(b0)
     let b2: BufferedSink = Okio.buffer(b1)

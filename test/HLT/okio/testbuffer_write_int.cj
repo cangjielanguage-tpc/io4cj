@@ -1,10 +1,10 @@
-// 3rd_party_lib:io4cj/build/io4cj
-// 3rd_party_lib:io4cj/ci_lib/crypto4cj
+// 3rd_party_lib:io4cj/target/release/io4cj
+// 3rd_party_lib:io4cj/target/release/crypto4cj
 //dependence:../utils/parseStringData.cj
 
-from io4cj import okio.*
-from std import unittest.*
-from std import math.*
+import io4cj.*
+import std.unittest.*
+import std.math.*
 
 /* 
     public static func buffer(sink: Sink): BufferedSink 

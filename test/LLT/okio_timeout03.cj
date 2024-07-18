@@ -1,11 +1,11 @@
 // EXEC: cjc %import-path %L %l %f
 // EXEC: ./main
 
-from io4cj import okio.*
-from std import os.posix.*
-from std import io.*
-from std import time.*
-from std import sync.*
+import io4cj.*
+import std.os.posix.*
+import std.io.*
+import std.time.*
+import std.sync.*
 main () {
     let strr = Buffer()
     let str1 = strr.timeout()

@@ -1,14 +1,14 @@
 // EXEC: cjc %import-path %L %l %f
 // EXEC: ./main
 
-from io4cj import okio.*
-from std import os.posix.*
-from std import io.*
-from std import fs.*
+import io4cj.*
+import std.os.posix.*
+import std.io.*
+import std.fs.*
 
 main () {
     let arrb:Array<Byte> = [6,5,4,3,2,16,7,100,9]
-    let a_buffer = okio.Buffer()
+    let a_buffer = Buffer()
     a_buffer.write(arrb)
 
     let path: String = "./okio_readAll_057.txt"

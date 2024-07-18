@@ -1,9 +1,9 @@
-// 3rd_party_lib:io4cj/build/io4cj
-// 3rd_party_lib:io4cj/ci_lib/crypto4cj
+// 3rd_party_lib:io4cj/target/release/io4cj
+// 3rd_party_lib:io4cj/target/release/crypto4cj
 
-from std import io.*
-from std import time.*
-from io4cj import okio.*
+import std.io.*
+import std.time.*
+import io4cj.*
 
 @Test
 public class okio_write_178{
@@ -12,8 +12,8 @@ public class okio_write_178{
     func okio_write_178(): Unit {
         var exc = ""
         try{
-            let bufferedSink = okio.Buffer()
-            let source = okio.Buffer()
+            let bufferedSink = Buffer()
+            let source = Buffer()
             source.write("hello world".toArray())
             bufferedSink.write(source,12)
             println(bufferedSink.toString())
@@ -27,8 +27,8 @@ public class okio_write_178{
     func okio_write_178_2(): Unit {
         var exc = ""
         try{
-            let buffer = okio.Buffer()
-            let source = okio.Buffer()
+            let buffer = Buffer()
+            let source = Buffer()
             source.write("hello world".toArray())
             let sink: Sink = buffer
             let bufferedSink: BufferedSink = Okio.buffer(sink)

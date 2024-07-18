@@ -1,13 +1,13 @@
-// 3rd_party_lib:io4cj/build/io4cj
-// 3rd_party_lib:io4cj/ci_lib/crypto4cj
+// 3rd_party_lib:io4cj/target/release/io4cj
+// 3rd_party_lib:io4cj/target/release/crypto4cj
 
-from io4cj import okio.*
-from std import unittest.*
-from std import io.*
-from std import math.* 
+import io4cj.*
+import std.unittest.*
+import std.io.*
+import std.math.* 
 import secodeFuzz.*
-from std import unittest.testmacro.*
-from std import collection.ArrayList
+import std.unittest.testmacro.*
+import std.collection.ArrayList
 
 // public func writehmacSha1(source: Buffer , byteCount: Int64)
 func call_fuzz(value: Int64){

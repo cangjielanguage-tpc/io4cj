@@ -1,12 +1,12 @@
 
 
-from std import io.*
-from std import time.*
-from io4cj import okio.*
+import std.io.*
+import std.time.*
+import io4cj.*
 
 @Test
 public class okio_peek_022{
-    let buffer = okio.Buffer()
+    let buffer = Buffer()
 
     public override func beforeAll(): Unit {
         

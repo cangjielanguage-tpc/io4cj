@@ -1,12 +1,12 @@
-// 3rd_party_lib:io4cj/build/io4cj
-// 3rd_party_lib:io4cj/ci_lib/crypto4cj
+// 3rd_party_lib:io4cj/target/release/io4cj
+// 3rd_party_lib:io4cj/target/release/crypto4cj
 
-from std import io.*
-from std import time.*
-from std import socket.*
-from net import tls.*
-from net import http.*
-from io4cj import okio.*
+import std.io.*
+import std.time.*
+import std.socket.*
+import net.tls.*
+import net.http.*
+import io4cj.*
 
 
 var SERVER_PORT: UInt16 = 0

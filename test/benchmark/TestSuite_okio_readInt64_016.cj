@@ -1,8 +1,8 @@
 
 
-from std import io.*
-from std import time.*
-from io4cj import okio.*
+import std.io.*
+import std.time.*
+import io4cj.*
 
 @Test
 public class okio_readInt64_016{

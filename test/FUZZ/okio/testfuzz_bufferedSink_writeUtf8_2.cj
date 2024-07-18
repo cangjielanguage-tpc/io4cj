@@ -1,12 +1,12 @@
-// 3rd_party_lib:io4cj/build/io4cj
-// 3rd_party_lib:io4cj/ci_lib/crypto4cj
+// 3rd_party_lib:io4cj/target/release/io4cj
+// 3rd_party_lib:io4cj/target/release/crypto4cj
 
-from io4cj import okio.*
-from std import unittest.*
-from std import io.*
+import io4cj.*
+import std.unittest.*
+import std.io.*
 import secodeFuzz.*
-from std import unittest.testmacro.*
-from std import collection.ArrayList
+import std.unittest.testmacro.*
+import std.collection.ArrayList
 
 func call_fuzz(str: String, beginIndex: Int64, endIndex: Int64){
     var buffer_1: Buffer = Buffer()
