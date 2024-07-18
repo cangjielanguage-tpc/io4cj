@@ -1,9 +1,9 @@
-// 3rd_party_lib:io4cj/build/io4cj
-// 3rd_party_lib:io4cj/ci_lib/crypto4cj
+// 3rd_party_lib:io4cj/target/release/io4cj
+// 3rd_party_lib:io4cj/target/release/crypto4cj
 
-from std import io.*
-from std import time.*
-from io4cj import okio.*
+import std.io.*
+import std.time.*
+import io4cj.*
 
 @Test
 public class okio_read_118{

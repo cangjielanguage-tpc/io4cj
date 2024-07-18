@@ -2,11 +2,11 @@
 // EXEC: cjc %import-path %L %l %f
 // EXEC: ./main
 
-from io4cj import okio.*
-from std import os.posix.*
-from std import io.*
-from std import fs.*
-from std import time.*
+import io4cj.*
+import std.os.posix.*
+import std.io.*
+import std.fs.*
+import std.time.*
 
 main () {
     var str = ByteString(Array<Byte>(15, {i => UInt8(i % 256)}))

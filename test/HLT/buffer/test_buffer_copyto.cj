@@ -1,10 +1,10 @@
-// 3rd_party_lib:io4cj/build/io4cj
-// 3rd_party_lib:io4cj/ci_lib/crypto4cj
+// 3rd_party_lib:io4cj/target/release/io4cj
+// 3rd_party_lib:io4cj/target/release/crypto4cj
 //dependence:../utils/parseStringData.cj
 
-from io4cj import okio.*
-from std import os.posix.*
-from std import unittest.*
+import io4cj.*
+import std.os.posix.*
+import std.unittest.*
 
 /* 
     public static func buffer(source: Source): BufferedSource 

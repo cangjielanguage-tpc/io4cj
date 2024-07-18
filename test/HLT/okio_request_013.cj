@@ -1,9 +1,9 @@
-// 3rd_party_lib:io4cj/build/io4cj
-// 3rd_party_lib:io4cj/ci_lib/crypto4cj
+// 3rd_party_lib:io4cj/target/release/io4cj
+// 3rd_party_lib:io4cj/target/release/crypto4cj
 
-from std import io.*
-from std import time.*
-from io4cj import okio.*
+import std.io.*
+import std.time.*
+import io4cj.*
 
 @Test
 public class okio_request_013{
@@ -17,7 +17,7 @@ public class okio_request_013{
             //a_buffer.write(arrb)
             println(a_buffer.request(0)) 
             @Assert(a_buffer.request(0),true)
-        } catch(e: Exception) {//okio.EOFException 不是public
+        } catch(e: Exception) {//EOFException 不是public
             println("Exception")
             //println(e.printStackTrace())
             exc = "Exception"
@@ -35,7 +35,7 @@ public class okio_request_013{
             let bufferedSource: BufferedSource = Okio.buffer(source)
             println(bufferedSource.request(0)) 
             @Assert(bufferedSource.request(0),true)
-        } catch(e: Exception) {//okio.EOFException 不是public
+        } catch(e: Exception) {//EOFException 不是public
             println("Exception")
             //println(e.printStackTrace())
             exc = "Exception"

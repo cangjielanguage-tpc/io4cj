@@ -2,10 +2,10 @@
 // EXEC: cjc %import-path %L %l %f
 // EXEC: ./main
 
-from io4cj import okio.*
-from std import os.posix.*
-from std import io.*
-from std import fs.*
+import io4cj.*
+import std.os.posix.*
+import std.io.*
+import std.fs.*
 
 
 main () {

@@ -1,9 +1,9 @@
-// 3rd_party_lib:io4cj/build/io4cj
-// 3rd_party_lib:io4cj/ci_lib/crypto4cj
+// 3rd_party_lib:io4cj/target/release/io4cj
+// 3rd_party_lib:io4cj/target/release/crypto4cj
 
-from std import io.*
-from std import time.*
-from io4cj import okio.*
+import std.io.*
+import std.time.*
+import io4cj.*
 
 @Test
 public class okio_writeUtf8_186{
@@ -12,7 +12,7 @@ public class okio_writeUtf8_186{
     func okio_writeUtf8_186(): Unit {
         var exc = ""
         try{
-            let bufferedSink = okio.Buffer()
+            let bufferedSink = Buffer()
             bufferedSink.writeUtf8("hello world",0,-1)
             println(bufferedSink.toString())
             // println(bufferedSink.buffer().readUtf8())
@@ -26,7 +26,7 @@ public class okio_writeUtf8_186{
     func okio_writeUtf8_186_2(): Unit {
         var exc = ""
         try{
-            let buffer = okio.Buffer()
+            let buffer = Buffer()
             let sink: Sink = buffer
             let bufferedSink: BufferedSink = Okio.buffer(sink)
             bufferedSink.writeUtf8("hello world",0,-1)

@@ -1,13 +1,13 @@
-// 3rd_party_lib:io4cj/build/io4cj
-// 3rd_party_lib:io4cj/ci_lib/crypto4cj
-from std import io.*
-from std import time.*
-from io4cj import okio.*
+// 3rd_party_lib:io4cj/target/release/io4cj
+// 3rd_party_lib:io4cj/target/release/crypto4cj
+import std.io.*
+import std.time.*
+import io4cj.*
 import secodeFuzz.*
-from std import unittest.testmacro.*
-from std import collection.ArrayList
+import std.unittest.testmacro.*
+import std.collection.ArrayList
 func call_fuzz(string: String) {
-    let bufferedSink = okio.Buffer()
+    let bufferedSink = Buffer()
     bufferedSink.writeUtf8(string)
     return
 }

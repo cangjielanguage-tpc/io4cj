@@ -1,11 +1,11 @@
 // EXEC: cjc %import-path %L %l %f
 // EXEC: ./main
 
-from io4cj import okio.*
-from std import os.posix.*
-from std import io.*
-from compress import zlib.*
-from std import fs.*
+import io4cj.*
+import std.os.posix.*
+import std.io.*
+import compress.zlib.*
+import std.fs.*
 
 main () {
     let infla: Buffer = Buffer()

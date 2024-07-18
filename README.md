@@ -3,9 +3,9 @@
 </div>
 
 <p align="center">
-<img alt="" src="https://img.shields.io/badge/release-v0.0.4-brightgreen" style="display: inline-block;" />
+<img alt="" src="https://img.shields.io/badge/release-v0.0.1-brightgreen" style="display: inline-block;" />
 <img alt="" src="https://img.shields.io/badge/build-pass-brightgreen" style="display: inline-block;" />
-<img alt="" src="https://img.shields.io/badge/cjc-v0.51.4-brightgreen" style="display: inline-block;" />
+<img alt="" src="https://img.shields.io/badge/cjc-v0.53.4-brightgreen" style="display: inline-block;" />
 <img alt="" src="https://img.shields.io/badge/cjcov-85.4%25-brightgreen" style="display: inline-block;" />
 <img alt="" src="https://img.shields.io/badge/project-open-brightgreen" style="display: inline-block;" />
 </p>
@@ -63,48 +63,41 @@ io4cj是HttpClient的底层IO库，io4cj是对仓颉io库的补充，使访问�
 │   ├── design.md  
 │   └── feature_api.md
 ├── src
-│   ├── nio
-│	│	├── Buffer.cj
-│	│	├── ByteBuffer.cj
-│	│	└── HeapByteBuffer.cj
-│   └── okio
-│ 	│ 	├── asyncTimeout.cj
-│	│	├── buffer.cj
-│ 	│ 	├── buffered_sink.cj
-│	│	├── buffered_source.cj
-│ 	│ 	├── byte_string.cj
-│	│	├── deflater_sink.cj
-│ 	│ 	├── exception.cj
-│	│	├── forwarding_sink.cj
-│ 	│ 	├── forwarding_source.cj
-│	│	├── forwarding_timeout.cj
-│ 	│ 	├── gzip_sink.cj
-│	│	├── gzip_source.cj
-│ 	│ 	├── hashing_sink.cj
-│	│	├── hashing_source.cj
-│	│	├── inflater_source.cj
-│ 	│ 	├── okio.cj
-│	│	├── PeekSource.cj
-│ 	│ 	├── pipe.cj
-│	│	├── pushable_timeout.cj
-│ 	│ 	├── RealBufferedSink.cj
-│	│	├── RealBufferedSource.cj
-│ 	│ 	├── segment_pool.cj
-│	│	├── segment.cj
-│ 	│ 	├── sink.cj
-│	│	├── SocketStream.cj
-│ 	│ 	├── source.cj
-│	│	├── timeout.cj
-│ 	│ 	├── utf8.cj
-│	│	└── util.cj
+│ 	├── asyncTimeout.cj
+│	├── buffer.cj
+│ 	├── buffered_sink.cj
+│	├── buffered_source.cj
+│ 	├── byte_string.cj
+│	├── deflater_sink.cj
+│ 	├── exception.cj
+│	├── forwarding_sink.cj
+│ 	├── forwarding_source.cj
+│	├── forwarding_timeout.cj
+│ 	├── gzip_sink.cj
+│	├── gzip_source.cj
+│ 	├── hashing_sink.cj
+│	├── hashing_source.cj
+│	├── inflater_source.cj
+│ 	├── okio.cj
+│	├── PeekSource.cj
+│ 	├── pipe.cj
+│	├── pushable_timeout.cj
+│ 	├── RealBufferedSink.cj
+│	├── RealBufferedSource.cj
+│ 	├── segment_pool.cj
+│	├── segment.cj
+│ 	├── sink.cj
+│	├── SocketStream.cj
+│ 	├── source.cj
+│	├── timeout.cj
+│ 	├── utf8.cj
+│	└── util.cj
 └── test   
 │   ├── HLT
 │   ├── LLT
 │   └── UT
 ├── CHANGELOG.md
-├── gitee_gate.cfg
 ├── LICENSE.txt
-├── module.json
 ├── .gitignore
 ├── README.md
 └── README.OpenSource
@@ -158,10 +151,10 @@ time ./a.out
 ```
 ## 功能示例
 ```cangjie
-from std import io.*
-from std import time.*
-from std import fs.*
-from io4cj import okio.*
+import std.io.*
+import std.time.*
+import std.fs.*
+import io4cj.*
 main() {
     var file = File("demo.txt", OpenOption.Create(true))
     Okio.buffer(Okio.sink(file))
@@ -189,9 +182,9 @@ abcdefghijklmn
 #### 文件拷贝示例
 
 ```cangjie
-from std import io.*
-from std import time.*
-from io4cj import okio.*
+import std.io.*
+import std.time.*
+import io4cj.*
 main() {
     let a = Time.now().unixNano() / 1000000  // 计算开始时间
     let file = File("apache-tomcat-8.5.81.rar", Read, Open)
@@ -211,8 +204,10 @@ main() {
 31
 ```
 
-## <img alt="" src="./doc/assets/readme-icon-contribute.png" style="display: inline-block;" width=3%/>参与贡献
+## 开源协议
 
-参与贡献
+本项目基于 [Apache License 2.0](/LICENSE) ，请自由的享受和参与开源。
 
-欢迎给我们提交PR，欢迎给我们提交Issue，欢迎参与任何形式的贡献。
+## <img alt="" src="./doc/assets/readme-icon-contribute.png" style="display: inline-block;" width=3%/> 参与贡献
+
+欢迎给我们提交 PR，欢迎给我们提交 issue，欢迎参与任何形式的贡献。

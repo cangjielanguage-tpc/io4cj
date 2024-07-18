@@ -1,17 +1,17 @@
-// 3rd_party_lib:io4cj/build/io4cj
-// 3rd_party_lib:io4cj/ci_lib/crypto4cj
+// 3rd_party_lib:io4cj/target/release/io4cj
+// 3rd_party_lib:io4cj/target/release/crypto4cj
 
-from std import io.*
-from std import time.*
-from io4cj import okio.*
+import std.io.*
+import std.time.*
+import io4cj.*
 
 @Test
 public class okio_writeAll_180{
 
     @TestCase//向BufferedSink中写入一个完整source的字节序列
     func okio_writeAll_180(): Unit {
-        let bufferedSink = okio.Buffer()
-        let source = okio.Buffer()
+        let bufferedSink = Buffer()
+        let source = Buffer()
         source.write("".toArray())
         bufferedSink.writeAll(source)
         println(bufferedSink.toString())
@@ -19,8 +19,8 @@ public class okio_writeAll_180{
     }
     @TestCase
     func okio_writeAll_180_2(): Unit {
-        let buffer = okio.Buffer()
-        let source = okio.Buffer()
+        let buffer = Buffer()
+        let source = Buffer()
         source.write("".toArray())
         let sink: Sink = buffer
         let bufferedSink: BufferedSink = Okio.buffer(sink)

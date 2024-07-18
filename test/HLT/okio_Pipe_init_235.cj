@@ -1,11 +1,11 @@
-// 3rd_party_lib:io4cj/build/io4cj
-// 3rd_party_lib:io4cj/ci_lib/crypto4cj
+// 3rd_party_lib:io4cj/target/release/io4cj
+// 3rd_party_lib:io4cj/target/release/crypto4cj
 
-from std import io.*
-from std import time.*
-from std import fs.*
-from std import math.*
-from io4cj import okio.*
+import std.io.*
+import std.time.*
+import std.fs.*
+import std.math.*
+import io4cj.*
 
 @Test
 public class okio_Pipe_init_235{
@@ -48,7 +48,7 @@ public class okio_Pipe_init_235{
             exc = e.message
         }
         println("exc : ${exc}")
-        // println("maxBufferSize : ${okio.maxBufferSize}")
+        // println("maxBufferSize : ${maxBufferSize}")
         @Assert(exc,"")
     }
 }

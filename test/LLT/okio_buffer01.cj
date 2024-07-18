@@ -2,12 +2,12 @@
 // EXEC: cjc %import-path %L %l %f
 // EXEC: ./main
 
-from io4cj import okio.*
-from std import os.posix.*
-from std import io.*
-from std import fs.*
-from std import time.*
-from io4cj import nio.ByteBuffer
+import io4cj.*
+import std.os.posix.*
+import std.io.*
+import std.fs.*
+import std.time.*
+import io4cj.*
 
 main () {
     var str = Buffer()
@@ -39,7 +39,6 @@ main () {
         println("case pass")
     }
     var str21 = str.read(Array<Byte>())
-    var str22 = str.read(ByteBuffer.allocate(10))
     var str23 = str.read(Array<Byte>(5, item: 1),1,4)
     var str24 = str.read(Buffer(),1)
     var str26 = str.read(Buffer(),111411666)
