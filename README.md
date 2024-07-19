@@ -14,10 +14,6 @@
 
 io4cj是HttpClient的底层IO库，io4cj是对仓颉io库的补充，使访问、存储和处理数据变得更加容易。核心概念是source和sink，分别类似于仓颉的InputStream和OutputStream。
 
-参考项目：[https://square.github.io/okio/](https://link.segmentfault.com/?enc=2VN47riy2Ak%2Fwy47iNAgWQ%3D%3D.%2BGZbqetBcijDGsPLatrZBzGOj7YkIAubAWAzDAettzY%3D) 。
-
-参考文档：https://segmentfault.com/a/1190000038470543
-
 ### 特性
 
 - 🚀 buffer
@@ -26,9 +22,9 @@ io4cj是HttpClient的底层IO库，io4cj是对仓颉io库的补充，使访问�
 
 - 💪 hashing
 
-- 💪forwarding
+- 💪 forwarding
 
-- 💪gzip
+- 💪 gzip
 
 - 💪 deflate/inflate
 
@@ -115,40 +111,11 @@ io4cj是HttpClient的底层IO库，io4cj是对仓颉io库的补充，使访问�
 
 ### 编译
 
-#### Linux环境编译
-
-```cangjie
-git clone https://gitee.com/HW-PLLab/io4cj.git  ---> 拉取代码
-git clone https://gitee.com/HW-PLLab/testJekins.git  ---> 拉取编译脚本
-cd io4cj                               ---> 进入到io4cj目录下
-cp -r ../testJekins/src/ci_test .     ---> 将ci_test复制到io4cj的根目录
-
-python3 ci_test/main.py build   ---> 编译
-```
-
-#### Windows编译
-
-```cangjie
-git clone https://gitee.com/HW-PLLab/io4cj.git  ---> 拉取代码
-# io4cj依赖cryptocj, 需要在module.json中requires项配置cryptocj目录(依赖的cryptocj版本为v0.0.6 需预编译cryptocj)
-# 然后在io4cj目录build
-cd io4cj                               ---> 进入到io4cj目录下
-
-cpm build -V   ---> 编译
-cpm test - V   ---> 执行 test/LLT 用例
-```
-
-test/LLT 用例书写参考：https://gitee.com/HW-PLLab/cangjie-library-pages/wikis 的门禁测试脚本使用方式
-
-#### 测试demo脚本
 ```shell
-#!/bin/bash
-io4cj_home=`pwd`
-io4cj_home_lib=${io4cj_home}/build/io4cj
-export LD_LIBRARY_PATH=$io4cj_home_lib:$LD_LIBRARY_PATH
-cjc --import-path $io4cj_home_lib/.. -L $io4cj_home_lib -l io4cj_nio -l io4cj_okio $1 -o a.out -g
-time ./a.out
+cjpm udpate
+cjpm build
 ```
+
 ## 功能示例
 ```cangjie
 import std.io.*
