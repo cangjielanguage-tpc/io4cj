@@ -6,7 +6,7 @@ import std.os.posix.*
 import std.io.*
 
 
-// https://gitee.com/HW-PLLab/okio/issues/I5Y7RC
+// issues/I5Y7RC
 
 main () {
     let bs = ByteString("hello world".toArray())
