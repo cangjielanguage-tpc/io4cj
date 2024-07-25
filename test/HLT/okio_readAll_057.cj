@@ -35,7 +35,7 @@ public class okio_readAll_057{
             println(e.message)
         }
         @Assert(num,9)
-        // @Assert(bs.toString(),"[text=[6, 5, 4, 3, 2, 16, 7, 100, 9]]") //提单 https://gitee.com/HW-PLLab/okio/issues/I5YUHR?from=project-issue 
+        // @Assert(bs.toString(),"[text=[6, 5, 4, 3, 2, 16, 7, 100, 9]]") //提单 issues/I5YUHR
     }
     @TestCase
     func okio_readAll_057_2(): Unit {
@@ -65,6 +65,6 @@ public class okio_readAll_057{
             println(e.message)
         }
         @Assert(num,9)
-        // @Assert(bs.toString(),"[text=[6, 5, 4, 3, 2, 16, 7, 100, 9]]") //提单 https://gitee.com/HW-PLLab/okio/issues/I5YUHR?from=project-issue
+        // @Assert(bs.toString(),"[text=[6, 5, 4, 3, 2, 16, 7, 100, 9]]") //提单 issues/I5YUHR
     }
 }
