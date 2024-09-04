@@ -2,7 +2,7 @@
   crypto4cj = {branch = "v0.0.1.B001", git = "https://gitcode.com/Cangjie-TPC/crypto4cj.git"}
 
 [package]
-  cjc-version = "0.53.4"
+  cjc-version = "0.54.3"
   compile-option = "-O2 --fno-chir-function-inlining -Woff all"
   description = "io library for okhttp ecosystem"
   link-option = ""

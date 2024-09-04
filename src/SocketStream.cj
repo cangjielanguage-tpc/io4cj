@@ -75,18 +75,12 @@ public open class SocketBuffer <: InputStream & OutputStream & Resource & ToStri
      * @param sockClient of Socket
      * @since 0.32.5
      */
-    public init(sockClient: TcpSocket) {
-        this.sockClient = SocketC(sockClient)
-    }
-
-    /**
-     * The Function is init constructor
-     *
-     * @param sockClient of TlsSocket
-     * @since 0.32.5
-     */
-    public init(sockClient: TlsSocket) {
-        this.sockClient = TlsC(sockClient)
+    public init(sockClient: StreamingSocket) {
+        this.sockClient = match(sockClient) {
+            case v: TcpSocket => SocketC(v)
+            case v: TlsSocket => TlsC(v)
+            case _ => throw Exception("The SocketBuffer is invalid")
+        }
     }
 
     // Disable
