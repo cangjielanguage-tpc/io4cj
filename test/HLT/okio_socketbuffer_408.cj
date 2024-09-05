@@ -2,6 +2,7 @@
 // 3rd_party_lib:io4cj/target/release/crypto4cj
 
 import std.io.*
+import std.net.*
 import std.time.*
 import std.socket.*
 import net.tls.*
@@ -9,7 +10,7 @@ import net.http.*
 import io4cj.*
 
 
-var SERVER_PORT: UInt16 = 0
+var SERVER_PORT: UInt16 = 33333
 
 @Test
 public class okio_socketbuffer_408 {
@@ -20,7 +21,6 @@ public class okio_socketbuffer_408 {
         println("---------------------------okio_socketbuffer_408-----------------------------")
         try (serverSocket = TcpServerSocket(bindAt: SERVER_PORT)) {
             serverSocket.bind()
-            SERVER_PORT = serverSocket.localAddress.port
             spawn {
                 clientSocket()
             }
