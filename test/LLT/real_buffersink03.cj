@@ -24,10 +24,10 @@ main () {
     reals.write(ByteString(Array<Byte>()))
     }catch(e: Exception){}
     try{     
-    reals.write(Array<Byte>(5, item: 1))
+    reals.write(Array<Byte>(5, repeat: 1))
     }catch(e: Exception){}
     try{     
-    reals.write(Array<Byte>(5, item: 1),1,3)
+    reals.write(Array<Byte>(5, repeat: 1),1,3)
     }catch(e: Exception){}
 
     try{     

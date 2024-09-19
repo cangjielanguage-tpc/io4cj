@@ -14,7 +14,7 @@ public class okio_byteString_409 {
     var str = Buffer()
     var str1 = str.getBuffer()
     var str2 = str.write(Array<Byte>())
-    var str3 = str.write(Array<Byte>(5, item: 1),1,2)
+    var str3 = str.write(Array<Byte>(5, repeat: 1),1,2)
     var str5 = str.writeUtf8CodePoint(2047)
     var str6 = str.writeUtf8CodePoint(65535)
     var str7 = str.writeUtf8CodePoint(55298)

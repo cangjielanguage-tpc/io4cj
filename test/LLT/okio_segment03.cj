@@ -7,11 +7,11 @@ import std.io.*
 import std.time.*
 
 main () {
-    let str = Segment(Array<UInt8>(8192, item: 0), 0, 8888, false, false)
-    let strr = Segment(Array<UInt8>(8192, item: 0), 0, 8888, false, false)
-    let strr1 = Segment(Array<UInt8>(8192, item: 0), 0, 8888, true, true)
-    let strr2 = Segment(Array<UInt8>(8192, item: 0), 0, 8888, false, true)
-    let strr3 = Segment(Array<UInt8>(8192, item: 0), 1000, 8192, false, true)
+    let str = Segment(Array<UInt8>(8192, repeat: 0), 0, 8888, false, false)
+    let strr = Segment(Array<UInt8>(8192, repeat: 0), 0, 8888, false, false)
+    let strr1 = Segment(Array<UInt8>(8192, repeat: 0), 0, 8888, true, true)
+    let strr2 = Segment(Array<UInt8>(8192, repeat: 0), 0, 8888, false, true)
+    let strr3 = Segment(Array<UInt8>(8192, repeat: 0), 1000, 8192, false, true)
     var ess: String = ""
     try {
         let str1 = str.writeTo(strr,10)

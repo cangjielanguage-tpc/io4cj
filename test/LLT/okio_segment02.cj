@@ -7,7 +7,7 @@ import std.io.*
 import std.time.*
 
 main () {
-    let str = Segment(Array<UInt8>(8192, item: 0), 0, 8888, false, false)
+    let str = Segment(Array<UInt8>(8192, repeat: 0), 0, 8888, false, false)
     let strr = Segment()
     var ess: String = ""
     let str1 = str.split(1025)

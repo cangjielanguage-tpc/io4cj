@@ -13,7 +13,7 @@ public class okio_read_021{
         var exc = ""
         let arrb:Array<Byte> = [6,5,4,3,2,16,7]
         let a_buffer = Buffer()
-        let arrb2 :Array<Byte> = Array<Byte>(7,item:0)
+        let arrb2 :Array<Byte> = Array<Byte>(7, repeat: 0)
         try {
             a_buffer.write(arrb)
             println(a_buffer.read(arrb2,6,1))
@@ -36,7 +36,7 @@ public class okio_read_021{
         var exc = ""
         let arrb:Array<Byte> = [6,5,4,3,2,16,7]
         let a_buffer = Buffer()
-        let arrb2 :Array<Byte> = Array<Byte>(7,item:0)
+        let arrb2 :Array<Byte> = Array<Byte>(7, repeat: 0)
         let source: Source = a_buffer
         let bufferedSource: BufferedSource = Okio.buffer(source)
         try {

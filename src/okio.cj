@@ -22,7 +22,7 @@ internal import crypto4cj.sha256cj.*
 internal import crypto4cj.sha512cj.*
 internal import crypto4cj.hmaccj.*
 internal import std.time.*
-internal import std.socket.*
+internal import std.net.*
 internal import net.tls.*
 
 /**

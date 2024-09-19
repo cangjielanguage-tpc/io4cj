@@ -25,13 +25,13 @@ public class okio_socketbuffer_408 {
                 clientSocket()
             }
             try (client = serverSocket.accept()) {
-                var buf = Array<UInt8>(1024*105, item: 0)
+                var buf = Array<UInt8>(1024*105, repeat: 0)
                 var str = SocketBuffer(client)
                 var str1 = str.length
                 let string1 = "hello"
                 var arr: Array<Byte> = string1.toArray()
                 var str2 = str.write(arr)
-                var arr1 = Array<Byte>(5, item: 1)
+                var arr1 = Array<Byte>(5, repeat: 1)
                 var str4 = str.read(arr1)
                 var exc = ""
                 try{

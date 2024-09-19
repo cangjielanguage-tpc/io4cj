@@ -10,12 +10,12 @@ public class OkioTest {
 
     @TestCase
     func testBuffer(): Unit {
-        let str = Segment(Array<UInt8>(8192, item: 0), 0, 8888, false, false)
+        let str = Segment(Array<UInt8>(8192, repeat: 0), 0, 8888, false, false)
         let str1 = Segment()
-        let strr = Segment(Array<UInt8>(8192, item: 0), 0, 8888, false, false)
-        let strr1 = Segment(Array<UInt8>(8192, item: 0), 0, 8888, true, true)
-        let strr2 = Segment(Array<UInt8>(8192, item: 0), 0, 8888, false, true)
-        let strr3 = Segment(Array<UInt8>(8192, item: 0), 1000, 8192, false, true)
+        let strr = Segment(Array<UInt8>(8192, repeat: 0), 0, 8888, false, false)
+        let strr1 = Segment(Array<UInt8>(8192, repeat: 0), 0, 8888, true, true)
+        let strr2 = Segment(Array<UInt8>(8192, repeat: 0), 0, 8888, false, true)
+        let strr3 = Segment(Array<UInt8>(8192, repeat: 0), 1000, 8192, false, true)
         let str4 = str.writeTo(strr3,1)
         let str5 = str.push(strr)
         let str6 = str.pop()

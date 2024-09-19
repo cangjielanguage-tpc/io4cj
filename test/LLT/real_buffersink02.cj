@@ -15,8 +15,8 @@ main () {
     let path: String = "${getcwd()}/test.txt"
     var file = File(path, Open(true, false))
     var reals = Okio.buffer(Okio.sink(file))
-    reals.write(Array<Byte>(5, item: 1))
-    reals.write(Array<Byte>(5, item: 1),1,3)
+    reals.write(Array<Byte>(5, repeat: 1))
+    reals.write(Array<Byte>(5, repeat: 1),1,3)
     let sou = Okio.source(file)
     reals.write(sou,5)
     reals.timeout()

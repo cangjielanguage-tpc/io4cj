@@ -15,7 +15,7 @@ func call_fuzz(offset: Int64,byteCount: Int64){
     let arrb:Array<Byte> = "Fuzz_RealBufferedSource_read".toUtf8Array()
     let a_buffer = Buffer()
     a_buffer.write(arrb)
-    let arrb2 :Array<Byte> = Array<Byte>(arrb.size,item:0)
+    let arrb2 :Array<Byte> = Array<Byte>(arrb.size, repeat: 0)
     let source: Source = a_buffer
     let bufferedSource: BufferedSource = Okio.buffer(source)
     if (offset < 0 || byteCount < 0  || byteCount > MemoryInfo.maxHeapSize || offset >  MemoryInfo.maxHeapSize ) {

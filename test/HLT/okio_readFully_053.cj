@@ -13,7 +13,7 @@ public class okio_readFully_053{
         let arrb:Array<Byte> = [6,5,4,3,2,16,7,100,9]
         let a_buffer = Buffer()
         a_buffer.write(arrb)
-        let arrb2:Array<Byte> = Array<Byte>(7,item:0)
+        let arrb2:Array<Byte> = Array<Byte>(7, repeat: 0)
         @Assert(a_buffer.toString(),"[size=9] [6, 5, 4, 3, 2, 16, 7, 100, 9]")
         a_buffer.readFully(arrb2)
         let arrb3:Array<Byte> = [6,5,4,3,2,16,7]
@@ -28,7 +28,7 @@ public class okio_readFully_053{
         a_buffer.write(arrb)
         let source: Source = a_buffer
         let bufferedSource: BufferedSource = Okio.buffer(source)
-        let arrb2:Array<Byte> = Array<Byte>(7,item:0)
+        let arrb2:Array<Byte> = Array<Byte>(7, repeat: 0)
         // @Assert(a_buffer.toString(),"[size=9] [6, 5, 4, 3, 2, 16, 7, 100, 9]")
         bufferedSource.readFully(arrb2)
         let arrb3:Array<Byte> = [6,5,4,3,2,16,7]
@@ -37,7 +37,7 @@ public class okio_readFully_053{
 
         var exc = ""
         try{
-            let arrb4:Array<Byte> = Array<Byte>(7,item:0)
+            let arrb4:Array<Byte> = Array<Byte>(7, repeat: 0)
             a_buffer.write(arrb)
             bufferedSource.close()
             bufferedSource.readFully(arrb4)
