@@ -63,7 +63,7 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
      * @since 0.32.5
      */
     public static func of(target: Array<Byte>, offset: Int64, byteCount: Int64): ByteString {
-        let bytes: Array<Byte> = Array<Byte>(byteCount, item: 0)
+        let bytes: Array<Byte> = Array<Byte>(byteCount, repeat: 0)
         var i = 0
         while (i < byteCount) {
             bytes[i] = target[i + offset]
@@ -116,7 +116,7 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
     @OverflowWrapping
     protected func encode(input: Array<Byte>, map: Array<Byte>): String {
         let length = (input.size + 2) / 3 * 4
-        let out = Array<Byte>(length, item: NULL)
+        let out = Array<Byte>(length, repeat: NULL)
         var index = 0
         var end = input.size - input.size % 3
         for (i in 0..end:3) {
@@ -178,7 +178,7 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
             }
             limit--
         }
-        let out = Array<Byte>(limit * 6 / 8, item: 0)
+        let out = Array<Byte>(limit * 6 / 8, repeat: 0)
         var outCount = 0
         var inCount = 0
         var word = 0
@@ -238,7 +238,7 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
      * @since 0.32.5
      */
     public func hex(): String {
-        let chars: Array<Byte> = Array<Byte>(this.data.size * 2, item: NULL)
+        let chars: Array<Byte> = Array<Byte>(this.data.size * 2, repeat: NULL)
         var c = 0
         for (d in 0..this.data.size) {
             chars[c] = HEX_DIGITS[Int64((data[d] >> 4) & 0x0f)]
@@ -263,7 +263,7 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
         if (hex.size % 2 != 0) {
             throw IllegalArgumentException("Unexpected hex string: ${hex}")
         }
-        let result = Array<Byte>(hex.size / 2, item: NULL)
+        let result = Array<Byte>(hex.size / 2, repeat: NULL)
         for (i in 0..result.size) {
             let d1 = decodeHexDigit(Rune(UInt32(hex[i * 2]))) << 4
             let d2 = decodeHexDigit(Rune(UInt32(hex[i * 2 + 1])))
@@ -298,7 +298,7 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
         if (byteCount < 0) {
             throw IllegalArgumentException("byteCount < 0")
         }
-        let arr = Array<Byte>(byteCount, item: 0)
+        let arr = Array<Byte>(byteCount, repeat: 0)
         try {
             input.read(arr)
         } catch (e: Exception) {
@@ -387,7 +387,7 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
         if (beginIndex == 0 && endIndex == this.data.size) {
             return this
         }
-        let copy = Array<Byte>(subLen, item: 0)
+        let copy = Array<Byte>(subLen, repeat: 0)
         ArrayCopy(this.data, beginIndex, copy, 0, subLen)
         return ByteString(copy)
     }

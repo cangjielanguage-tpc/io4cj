@@ -13,7 +13,7 @@ func call_fuzz(int64: Int64) {
     let arrb: Array<Byte> = [6, 5, 4, 3, 2, 16, 7]
     let a_buffer = Buffer()
     a_buffer.write(arrb)
-    let arrb2: Array<Byte> = Array<Byte>(7, item: 0)
+    let arrb2: Array<Byte> = Array<Byte>(7, repeat: 0)
     a_buffer.read(arrb2, int64, 2)
     return
 }

@@ -66,8 +66,8 @@ public class DeflaterSink {
     private func deflate (source: Buffer , byteCount: Int64): Unit {
         let buffer: Buffer = sink.buffer()
         
-            let byteSink: Array<Byte> = Array<Byte>(byteCount, item: 0)
-            let gzipBuffer: Array<Byte> = Array<Byte>(byteCount, item: 0)
+            let byteSink: Array<Byte> = Array<Byte>(byteCount, repeat: 0)
+            let gzipBuffer: Array<Byte> = Array<Byte>(byteCount, repeat: 0)
             var result = source.read(byteSink)
 
             var file:File = File("./temporarily.txt" , OpenOption. CreateOrTruncate(true))

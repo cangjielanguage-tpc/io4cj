@@ -14,7 +14,7 @@ main () {
     let str3 = str.UTF8()
     let str4 = str.hex()
     var srr = ByteArrayStream()
-    srr.write(Array<Byte>(5, item: 0))
+    srr.write(Array<Byte>(5, repeat: 0))
     let str8 = ByteString.read("./root_rsa.cer")
     let str9 = str.toAsciiLowercase()
     let str10 = str.toAsciiUppercase()

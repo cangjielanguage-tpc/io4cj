@@ -13,7 +13,7 @@ main () {
     var str = Buffer()
     var str1 = str.getBuffer()
     var str2 = str.write(Array<Byte>())
-    var str3 = str.write(Array<Byte>(5, item: 1),1,2)
+    var str3 = str.write(Array<Byte>(5, repeat: 1),1,2)
     var str5 = str.writeUtf8CodePoint(2047)
     var str6 = str.writeUtf8CodePoint(65535)
     var str7 = str.writeUtf8CodePoint(55298)
@@ -39,7 +39,7 @@ main () {
         println("case pass")
     }
     var str21 = str.read(Array<Byte>())
-    var str23 = str.read(Array<Byte>(5, item: 1),1,4)
+    var str23 = str.read(Array<Byte>(5, repeat: 1),1,4)
     var str24 = str.read(Buffer(),1)
     var str26 = str.read(Buffer(),111411666)
     try {

@@ -831,7 +831,7 @@ public class Buffer <: Object &  BufferedSource & BufferedSink & Equatable<Buffe
         if (byteCount > Int64(Int32.Max)) {
             throw IllegalArgumentException()
         }
-        let result = Array<Byte>(byteCount, item:0)
+        let result = Array<Byte>(byteCount, repeat: 0)
         readFully(result)
         return result
     }

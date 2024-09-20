@@ -80,9 +80,9 @@ public class HashingSink <: ForwardingSink {
         if(key.size <= 0) {
         throw Exception("The key cannot be empty.")
         }
-        HashingSink.algorithmArray = Array<UInt8>(20,item: 0)
+        HashingSink.algorithmArray = Array<UInt8>(20, repeat: 0)
         HashingSink.key = key.toArray()
-        HashingSink.result = String(Array<Rune>(41, item: r'0'))
+        HashingSink.result = String(Array<Rune>(41, repeat: r'0'))
         return HashingSink(sink)
     }
 
@@ -100,9 +100,9 @@ public class HashingSink <: ForwardingSink {
         if(key.size <= 0) {
         throw Exception("The key cannot be empty.")
         }
-        HashingSink.algorithmArray = Array<UInt8>(32,item: 0)
+        HashingSink.algorithmArray = Array<UInt8>(32, repeat: 0)
         HashingSink.key = key.toArray()
-        HashingSink.result = String(Array<Rune>(65, item: r'0'))
+        HashingSink.result = String(Array<Rune>(65, repeat: r'0'))
         return HashingSink(sink)
     }
 
@@ -120,9 +120,9 @@ public class HashingSink <: ForwardingSink {
         if(key.size <= 0) {
         throw Exception("The key cannot be empty.")
         }
-        HashingSink.algorithmArray = Array<UInt8>(64,item: 0)
+        HashingSink.algorithmArray = Array<UInt8>(64, repeat: 0)
         HashingSink.key = key.toArray()
-        HashingSink.result = String(Array<Rune>(129, item: r'0'))
+        HashingSink.result = String(Array<Rune>(129, repeat: r'0'))
         return HashingSink(sink)
     }
 
@@ -134,7 +134,7 @@ public class HashingSink <: ForwardingSink {
     private init(sink: Sink , algorithm: String){
         super(sink)
         this.sink = sink
-        HashingSink.algorithmArray = Array<UInt8>(getLength(algorithm),item: 0)
+        HashingSink.algorithmArray = Array<UInt8>(getLength(algorithm), repeat: 0)
     }
 
     /**

@@ -49,12 +49,12 @@ main () {
         println("pass")
     }
     try {
-        let str11 = real0s.read(Array<Byte>(5, item: 1))
+        let str11 = real0s.read(Array<Byte>(5, repeat: 1))
     } catch(e: Exception) {
         println("pass")
     }
     try {
-        let str12 = real0s.readFully(Array<Byte>(5, item: 1))
+        let str12 = real0s.readFully(Array<Byte>(5, repeat: 1))
     } catch(e: Exception) {
         println("pass")
     }

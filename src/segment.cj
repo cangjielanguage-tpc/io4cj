@@ -31,7 +31,7 @@ public class Segment <: Object & Equatable<Segment> {
      * @since 0.32.5
      */
     public init() {
-        this.data = Array<UInt8>(SIZE, item: NULL)
+        this.data = Array<UInt8>(SIZE, repeat: NULL)
         this.pos = 0
         this.limit = 0
         this.shared = false

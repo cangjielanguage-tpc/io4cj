@@ -15,7 +15,7 @@ public class okio_read_020{
             let arrb:Array<Byte> = [6,5,4,3,2,16,7]
             let a_buffer = Buffer()
             a_buffer.write(arrb)
-            let arrb2 :Array<Byte> = Array<Byte>(7,item:0)
+            let arrb2 :Array<Byte> = Array<Byte>(7, repeat: 0)
             a_buffer.read(arrb2,7,1)
         } catch (e:ArrayIndexOutOfBoundsException) {
             println("[${e.message}]")
@@ -30,7 +30,7 @@ public class okio_read_020{
             let arrb:Array<Byte> = [6,5,4,3,2,16,7]
             let a_buffer = Buffer()
             a_buffer.write(arrb)
-            let arrb2 :Array<Byte> = Array<Byte>(7,item:0)
+            let arrb2 :Array<Byte> = Array<Byte>(7, repeat: 0)
             let source: Source = a_buffer
             let bufferedSource: BufferedSource = Okio.buffer(source)
             bufferedSource.read(arrb2,7,1)
