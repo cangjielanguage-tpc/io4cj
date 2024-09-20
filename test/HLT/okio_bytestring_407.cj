@@ -13,8 +13,11 @@ public class okio_byteString_407 {
     func okio_byteString_write_221(): Unit {
 
         println("---------------------------okio_byteString_write_221-----------------------------")
-
-        var file = File("../../../testData/okio_emitCompleteSegments_214.txt" , CreateOrTruncate(true))
+        let path: Path = Path("../../../testData/okio_emitCompleteSegments_214.txt")
+        if (exists(path)) {
+            remove(path, recursive: true)
+        }
+        var file = File(path , OpenMode.ReadWrite)
         let bufferedSink: BufferedSink = Okio.buffer(Okio.sink(file))
 
         try {
@@ -26,7 +29,7 @@ public class okio_byteString_407 {
                 bufferedSink.buffer().writeUtf8(i.toString()) 
             }
             
-            file = File.openRead("../../../testData/okio_emitCompleteSegments_214.txt")
+            file = File("../../../testData/okio_emitCompleteSegments_214.txt", OpenMode.Read)
             var reals = Okio.buffer(Okio.source(file))
 
             var size = bufferedSink.buffer().size

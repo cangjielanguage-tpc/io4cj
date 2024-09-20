@@ -12,7 +12,7 @@ public class okio_read_022{
     func okio_read_022(): Unit {
         let arrb:Array<Byte> = [6,5,4,3,2,16,7]
         let a_buffer = Buffer()
-        let arrb2 :Array<Byte> = Array<Byte>(7,item:0)
+        let arrb2 :Array<Byte> = Array<Byte>(7, repeat: 0)
         a_buffer.write(arrb)
         @Assert(a_buffer.read(arrb2,5,1),1)
         println(arrb2)
@@ -27,7 +27,7 @@ public class okio_read_022{
     func okio_read_022_2(): Unit {
         let arrb:Array<Byte> = [6,5,4,3,2,16,7]
         let a_buffer = Buffer()
-        let arrb2 :Array<Byte> = Array<Byte>(7,item:0)
+        let arrb2 :Array<Byte> = Array<Byte>(7, repeat: 0)
         let source: Source = a_buffer
         let bufferedSource: BufferedSource = Okio.buffer(source)
         a_buffer.write(arrb)

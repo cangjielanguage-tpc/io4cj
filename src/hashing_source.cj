@@ -61,9 +61,9 @@ public class HashingSource <: ForwardingSource {
         if(key.size <= 0) {
         throw Exception("The key cannot be empty.")
         }
-        HashingSource.algorithmArray = Array<UInt8>(20,item: 0)
+        HashingSource.algorithmArray = Array<UInt8>(20, repeat: 0)
         HashingSource.key = key.toArray()
-        HashingSource.result = String(Array<Rune>(41, item: r'0'))
+        HashingSource.result = String(Array<Rune>(41, repeat: r'0'))
         return HashingSource(source)
     }
 
@@ -79,9 +79,9 @@ public class HashingSource <: ForwardingSource {
         if(key.size <= 0) {
         throw Exception("The key cannot be empty.")
         }
-        HashingSource.algorithmArray = Array<UInt8>(32,item: 0)
+        HashingSource.algorithmArray = Array<UInt8>(32, repeat: 0)
         HashingSource.key = key.toArray()
-        HashingSource.result = String(Array<Rune>(65, item: r'0'))
+        HashingSource.result = String(Array<Rune>(65, repeat: r'0'))
         return HashingSource(source)
     }
 
@@ -93,7 +93,7 @@ public class HashingSource <: ForwardingSource {
     private init(source: Source,algorithm: String){
         super(source)
         this.source = source
-        HashingSource.algorithmArray = Array<UInt8>(getLength(algorithm),item: 0)
+        HashingSource.algorithmArray = Array<UInt8>(getLength(algorithm), repeat: 0)
     }
 
     /**

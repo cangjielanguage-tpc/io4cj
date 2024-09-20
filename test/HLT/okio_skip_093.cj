@@ -22,7 +22,7 @@ public class okio_skip_093{
     @TestCase
     func okio_skip_093_2(): Unit {
         let arrb:Array<Byte> = [6,0,4,3,5,16,5]
-        let arrb2:Array<Byte> = Array<Byte>(7,item:0)
+        let arrb2:Array<Byte> = Array<Byte>(7, repeat: 0)
         let a_buffer = Buffer()
         a_buffer.write(arrb)
         let source: Source = a_buffer

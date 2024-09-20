@@ -7,8 +7,7 @@ public class ParseDataStr {
         var subData:String = ""
         dataSize = baseStr.size
         subData = baseStr[dataSize -baseIndex..dataSize -baseIndex +length]
-                  .trimAsciiLeft()
-                  .trimAsciiRight()
+                  .trimAscii()
         tuple_1 = (dataSize,subData)
 
         return tuple_1
@@ -41,8 +40,7 @@ public class ParseDataStr {
         var str2 = ""
         for(i in 0..arr.size){
             str2 = arr[i]
-            arr[i] = str2.trimAsciiLeft()
-                    .trimAsciiRight()
+            arr[i] = str2.trimAscii()
         }
 
         return (arr,arr.size)

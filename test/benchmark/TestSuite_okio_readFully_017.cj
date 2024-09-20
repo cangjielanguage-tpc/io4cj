@@ -8,7 +8,7 @@ import io4cj.*
 public class okio_readFully_017{
     let arrb:Array<Byte> = [6,5,4,3,2,16,7,100,9]
     let a_buffer = Buffer()
-    let arrb2:Array<Byte> = Array<Byte>(7,item:0)
+    let arrb2:Array<Byte> = Array<Byte>(7, repeat: 0)
 
     public override func beforeAll(): Unit {}
     public override func afterAll(): Unit {

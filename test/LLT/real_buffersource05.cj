@@ -4,13 +4,13 @@
 
 import io4cj.*
 import io4cj.*
-import std.os.posix.*
+import std.posix.*
 import std.io.*
 import std.fs.*
 
 main () {
     let path: String = "${getcwd()}/test1.txt"
-    var file = File(path, Open(true, false))
+    var file = File(path, OpenMode.Read)
     var real0s = Okio.buffer(Okio.source(file))
 
      let sink1: Sink = Buffer()

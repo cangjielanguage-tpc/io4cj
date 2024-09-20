@@ -43,9 +43,14 @@ public class InflaterSource <: Source {
         if (byteCount == 0) {
             return 0
         }
-            var sourceArray: Array<UInt8> = Array<UInt8>(1024, item: 0)
-            var tempBuf: Array<UInt8> = Array<UInt8>(1024, item: 0)
-            var file: File = File("./temporar.txt" , OpenOption. CreateOrTruncate(true))
+            var sourceArray: Array<UInt8> = Array<UInt8>(1024, repeat: 0)
+            var tempBuf: Array<UInt8> = Array<UInt8>(1024, repeat: 0)
+
+            let path: Path = Path("./temporar.txt")
+            if ((exists(path))) {
+                remove(path, recursive: true)
+            }
+            var file: File = File(path, OpenMode.ReadWrite)
             while(true){
                 var index = source.read(buffer,1024)
                 buffer.read(tempBuf)

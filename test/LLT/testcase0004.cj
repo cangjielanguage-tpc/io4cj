@@ -2,7 +2,7 @@
 // EXEC: ./main
 
 import io4cj.*
-import std.os.posix.*
+import std.posix.*
 import std.io.*
 import std.fs.*
 
@@ -13,7 +13,7 @@ let c = "1234"
 main () {
     let path: String = "${getcwd()}/test.txt"
 
-    var file = File(path, CreateOrAppend)
+    var file = File(path, OpenMode.Append)
     
     Okio.buffer(Okio.sink(file))
         .writeUtf8("${a}\n")
@@ -21,7 +21,7 @@ main () {
         .writeUtf8(c)
         .close()
 
-    file = File(path, Open(true,false))
+    file = File(path, OpenMode.Read)
     let bufferedSource = Okio.buffer(Okio.source(file))
     if (bufferedSource.readUtf8Line() != a) {
         return 1

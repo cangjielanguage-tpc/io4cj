@@ -13,7 +13,7 @@ public class okio_peek_100{
     func okio_peek_100(): Unit {
         var exc = ""
         try {
-            File.delete("../../../testData/okio_peek_100.txt")
+            remove("../../../testData/okio_peek_100.txt", recursive: true)
         } catch (e:Exception){
             // println("e.message = ${e.message}")
         }
@@ -26,7 +26,7 @@ public class okio_peek_100{
         a_buffer.readAll(sink)
         sink.close()
 
-        file = File.openRead("../../../testData/okio_peek_100.txt")
+        file = File("../../../testData/okio_peek_100.txt", OpenMode.Read)
         var reals = Okio.buffer(Okio.source(file))
         
         // println("reals.readUtf8(3)")

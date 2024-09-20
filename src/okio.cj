@@ -13,7 +13,6 @@ internal import std.io.*
 internal import std.sync.*
 internal import std.math.*
 internal import std.collection.*
-internal import std.format.*
 internal import encoding.hex.*
 internal import encoding.base64.*
 internal import crypto4cj.md5cj.*
@@ -22,7 +21,7 @@ internal import crypto4cj.sha256cj.*
 internal import crypto4cj.sha512cj.*
 internal import crypto4cj.hmaccj.*
 internal import std.time.*
-internal import std.socket.*
+internal import std.net.*
 internal import net.tls.*
 
 /**

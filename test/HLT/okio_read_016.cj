@@ -15,7 +15,7 @@ public class okio_read_016{
         let arrb:Array<Byte> = [6,5,4,3,2,16,7]
         let a_buffer = Buffer()
         a_buffer.write(arrb)
-        let arrb2 :Array<Byte> = Array<Byte>(7,item:0)
+        let arrb2 :Array<Byte> = Array<Byte>(7, repeat: 0)
         @Assert(a_buffer.read(arrb2),Int64(7))
         println(arrb2)
         @Assert(arrb2,arrb)
@@ -30,7 +30,7 @@ public class okio_read_016{
         let arrb3:Array<Byte> = [6,5,4,3,2,16,7]
         let a_buffer2 = Buffer()
         a_buffer2.write(arrb3)
-        let arrb4 :Array<Byte> = Array<Byte>(7,item:0)
+        let arrb4 :Array<Byte> = Array<Byte>(7, repeat: 0)
 
         let source: Source = a_buffer2
         let bufferedSource: BufferedSource = Okio.buffer(source)
@@ -48,7 +48,7 @@ public class okio_read_016{
         //     let arrb3:Array<Byte> = [6,5,4,3,2,16,7]
         //     let a_buffer2 = Buffer()
         //     a_buffer2.write(arrb3)
-        //     let arrb4 :Array<Byte> = Array<Byte>(7,item:0)
+        //     let arrb4 :Array<Byte> = Array<Byte>(7, repeat: 0)
 
         //     let source: Source = a_buffer2
         //     let bufferedSource: BufferedSource = Okio.buffer(source)

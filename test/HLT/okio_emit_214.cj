@@ -13,7 +13,7 @@ public class okio_emit_214{
     func okio_emit_214(): Unit {
         //var exc = ""
         try {
-            File.delete("../../../testData/okio_emit_214.txt")
+            remove("../../../testData/okio_emit_214.txt", recursive: true)
         } catch (e:Exception){
             println("e.message = ${e.message}")
         }
@@ -27,7 +27,7 @@ public class okio_emit_214{
 
             bufferedSink.buffer().writeUtf8(" world") 
 
-            file = File.openRead("../../../testData/okio_emit_214.txt")
+            file = File("../../../testData/okio_emit_214.txt", OpenMode.Read)
             var reals = Okio.buffer(Okio.source(file))
 
             var size = bufferedSink.buffer().size
@@ -44,7 +44,7 @@ public class okio_emit_214{
             println("bufferedSink.emit()")
             bufferedSink.emit()
 
-            var file2 = File.openRead("../../../testData/okio_emit_214.txt")
+            var file2 = File("../../../testData/okio_emit_214.txt", OpenMode.Read)
             reals = Okio.buffer(Okio.source(file2))
 
             size = bufferedSink.buffer().size
@@ -69,7 +69,7 @@ public class okio_emit_214{
     func okio_emit_214_2(): Unit {
         // var exc = ""
         try {
-            File.delete("../../../testData/okio_emit_214_2.txt")
+            remove("../../../testData/okio_emit_214_2.txt", recursive: true)
         } catch (e:Exception){
             println("e.message = ${e.message}")
         }
@@ -86,7 +86,7 @@ public class okio_emit_214{
                 bufferedSink.buffer().writeUtf8(i.toString()) 
             }
             
-            file = File.openRead("../../../testData/okio_emit_214_2.txt")
+            file = File("../../../testData/okio_emit_214_2.txt", OpenMode.Read)
             var reals = Okio.buffer(Okio.source(file))
 
             var size = bufferedSink.buffer().size
@@ -103,7 +103,7 @@ public class okio_emit_214{
             println("bufferedSink.emit()")
             bufferedSink.emit()
 
-            var file2 = File.openRead("../../../testData/okio_emit_214_2.txt")
+            var file2 = File("../../../testData/okio_emit_214_2.txt", OpenMode.Read)
             reals = Okio.buffer(Okio.source(file2))
 
             size = bufferedSink.buffer().size

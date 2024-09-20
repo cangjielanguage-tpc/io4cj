@@ -1,9 +1,9 @@
 // EXEC: cjc %import-path %L %l %f
 // EXEC: ./main
 
-import io4cj.*
-import std.os.posix.*
-import std.io.*
+import io4cj.ByteString
+import std.io.ByteBuffer
+import std.posix.*
 import std.time.*
 
 main () {
@@ -17,13 +17,13 @@ main () {
     var ess: String = ""
     try {
         let str6 = ByteString.decodeHex("ssfas")
-        let str10 = ByteString.read(ByteArrayStream(),5)
+        let str10 = ByteString.read(ByteBuffer(),5)
         let str12 = ByteString.read("pip")
     } catch(e: Exception) {
         ess = e.toString()
     }
     let str7 = str.hex()
-    let str11 = ByteString.read(ByteArrayStream(),0)
+    let str11 = ByteString.read(ByteBuffer(),0)
     if (ess != "IllegalArgumentException: Unexpected hex string: ssfas") {
         return 1
     }

@@ -2,7 +2,7 @@
 // EXEC: ./main
 
 import io4cj.*
-import std.os.posix.*
+import std.posix.*
 import std.io.*
 import std.fs.*
 
@@ -12,7 +12,7 @@ main () {
     a_buffer.write(arrb)
 
     let path: String = "./okio_readAll_057.txt"
-    var file = File(path, CreateOrAppend)
+    var file = File(path, OpenMode.Append)
     let sink: Sink = Okio.sink(file)
     if (a_buffer.size != 9) {
         return 1
@@ -24,8 +24,8 @@ main () {
         return 1
     }
 
-    var file1 = File(path, Open(true,false)) 
-    if (file1.readToEnd().size != 9) {
+    var file1 = File(path, OpenMode.Read) 
+    if (file1.length != 9) {
         return 1
     }
     return 0

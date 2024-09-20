@@ -13,7 +13,7 @@ public class okio_read_115{
     func okio_read_115(): Unit {
         var exc = ""
         try {
-            File.delete("../../../testData/okio_read_115.txt")
+            remove("../../../testData/okio_read_115.txt", recursive: true)
         } catch (e:Exception){
             println("e.message = ${e.message}")
         }

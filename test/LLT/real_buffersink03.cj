@@ -3,7 +3,7 @@
 // EXEC: ./main
 
 import io4cj.*
-import std.os.posix.*
+import std.posix.*
 import std.io.*
 import std.fs.*
 
@@ -13,7 +13,7 @@ let c = "1234"
 
 main () {
     let path: String = "${getcwd()}/test1.txt"
-    var file = File(path, Open(true, false))
+    var file = File(path, OpenMode.Read)
     var reals = Okio.buffer(Okio.sink(file))
     let sou = Okio.source(file)
     try{     
@@ -24,10 +24,10 @@ main () {
     reals.write(ByteString(Array<Byte>()))
     }catch(e: Exception){}
     try{     
-    reals.write(Array<Byte>(5, item: 1))
+    reals.write(Array<Byte>(5, repeat: 1))
     }catch(e: Exception){}
     try{     
-    reals.write(Array<Byte>(5, item: 1),1,3)
+    reals.write(Array<Byte>(5, repeat: 1),1,3)
     }catch(e: Exception){}
 
     try{     

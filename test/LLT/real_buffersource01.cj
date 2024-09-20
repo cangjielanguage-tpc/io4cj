@@ -3,14 +3,14 @@
 // EXEC: ./main
 
 import io4cj.*
-import std.os.posix.*
+import std.posix.*
 import std.io.*
 import std.fs.*
 
 
 main () {
     let path: String = "${getcwd()}/test.txt"
-    var file = File(path, Open(true, false))
+    var file = File(path, OpenMode.Read)
     var real0s = Okio.buffer(Okio.source(file))
     let str2 = real0s.getBuffer()
     try {
@@ -49,12 +49,12 @@ main () {
         println("pass")
     }
     try {
-        let str11 = real0s.read(Array<Byte>(5, item: 1))
+        let str11 = real0s.read(Array<Byte>(5, repeat: 1))
     } catch(e: Exception) {
         println("pass")
     }
     try {
-        let str12 = real0s.readFully(Array<Byte>(5, item: 1))
+        let str12 = real0s.readFully(Array<Byte>(5, repeat: 1))
     } catch(e: Exception) {
         println("pass")
     }

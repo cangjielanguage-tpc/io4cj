@@ -66,11 +66,14 @@ public class DeflaterSink {
     private func deflate (source: Buffer , byteCount: Int64): Unit {
         let buffer: Buffer = sink.buffer()
         
-            let byteSink: Array<Byte> = Array<Byte>(byteCount, item: 0)
-            let gzipBuffer: Array<Byte> = Array<Byte>(byteCount, item: 0)
+            let byteSink: Array<Byte> = Array<Byte>(byteCount, repeat: 0)
+            let gzipBuffer: Array<Byte> = Array<Byte>(byteCount, repeat: 0)
             var result = source.read(byteSink)
-
-            var file:File = File("./temporarily.txt" , OpenOption. CreateOrTruncate(true))
+            let path: Path = Path("./temporarily.txt")
+            if ((exists(path))) {
+                remove(path, recursive: true)
+            }
+            var file:File = File(path , OpenMode.ReadWrite)
             file.write(byteSink)
             file.seek(SeekPosition.Begin(0))
             var compressInputStream: CompressInputStream = CompressInputStream(file , wrap: DeflateFormat)

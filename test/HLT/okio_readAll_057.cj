@@ -13,7 +13,7 @@ public class okio_readAll_057{
     func okio_readAll_057(): Unit {
         var exc = ""
         try {
-            File.delete("../../../testData/okio_readAll_057.txt")
+            remove("../../../testData/okio_readAll_057.txt", recursive: true)
         } catch (e:Exception){
             println("e.message = ${e.message}")
         }
@@ -41,7 +41,7 @@ public class okio_readAll_057{
     func okio_readAll_057_2(): Unit {
         var exc = ""
         try {
-            File.delete("../../../testData/okio_readAll_057_2.txt")
+            remove("../../../testData/okio_readAll_057_2.txt", recursive: true)
         } catch (e:Exception){
             println("e.message = ${e.message}")
         }
