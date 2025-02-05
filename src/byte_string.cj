@@ -316,7 +316,7 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
      * @since 0.32.5
      */
     public static func read(path: String): ByteString {
-        let src = File(path, Open(true, false))
+        let src = File(path, OpenMode.Read)
         return read(src,src.length)
     }
 
@@ -438,7 +438,7 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
      * @since 0.32.5
      */
     public func write (outPath: String): Unit {
-        write(File(outPath, OpenOption.CreateOrAppend))
+        write(File(outPath, OpenMode.Append))
         // write(File(outPath, Write, mode))
     }
 

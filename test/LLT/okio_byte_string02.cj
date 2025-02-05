@@ -2,9 +2,9 @@
 // EXEC: cjc %import-path %L %l %f
 // EXEC: ./main
 
-import io4cj.*
-import std.os.posix.*
-import std.io.*
+import io4cj.ByteString
+import std.posix.*
+import std.io.ByteBuffer
 import std.time.*
 
 main () {
@@ -13,7 +13,7 @@ main () {
     let str2 = ByteString.encodeUtf8("ssfas")
     let str3 = str.UTF8()
     let str4 = str.hex()
-    var srr = ByteArrayStream()
+    var srr = ByteBuffer()
     srr.write(Array<Byte>(5, repeat: 0))
     let str8 = ByteString.read("./root_rsa.cer")
     let str9 = str.toAsciiLowercase()
@@ -25,7 +25,7 @@ main () {
         println("case pass")
     }
     try {
-        let str6 = ByteString.read(ByteArrayStream(),-1)
+        let str6 = ByteString.read(ByteBuffer(),-1)
         return 1
     } catch(e: Exception) {
         println("case pass")

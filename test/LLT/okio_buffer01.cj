@@ -3,7 +3,7 @@
 // EXEC: ./main
 
 import io4cj.*
-import std.os.posix.*
+import std.posix.*
 import std.io.*
 import std.fs.*
 import std.time.*
@@ -52,7 +52,7 @@ main () {
     } catch(e: Exception) {
         println("case pass")
     }
-    let file = File("./a.txt", Open(true, false))
+    let file = File("./a.txt", OpenMode.Read)
     let bufferedSource = Okio.source(file)
     var ess: String = ""
     try {

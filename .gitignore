@@ -18,3 +18,7 @@ tmp/
 .cjpm-history
 module-lock.json
 .cache
+cjpm.lock
+test/tmp/*
+target/
+test_temp/

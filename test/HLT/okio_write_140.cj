@@ -1,9 +1,9 @@
 // 3rd_party_lib:io4cj/target/release/io4cj
 // 3rd_party_lib:io4cj/target/release/crypto4cj
 
-import std.io.*
 import std.time.*
-import io4cj.*
+import io4cj.ByteString
+import std.io.ByteBuffer
 
 @Test
 public class okio_read_140 {
@@ -12,7 +12,7 @@ public class okio_read_140 {
     func okio_read_140(): Unit {
         var exc = ""
         try {
-            var bAs = ByteArrayStream()
+            var bAs = ByteBuffer()
             var byteString = ByteString("hello world".toArray())
             byteString.write(bAs)
             var arrbyte = Array<Byte>(11, repeat: 0)

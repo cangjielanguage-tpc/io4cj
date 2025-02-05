@@ -13,7 +13,6 @@ internal import std.io.*
 internal import std.sync.*
 internal import std.math.*
 internal import std.collection.*
-internal import std.format.*
 internal import encoding.hex.*
 internal import encoding.base64.*
 internal import crypto4cj.md5cj.*

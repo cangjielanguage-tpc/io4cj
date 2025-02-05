@@ -4,7 +4,6 @@
 import std.io.*
 import std.net.*
 import std.time.*
-import std.socket.*
 import net.tls.*
 import net.http.*
 import io4cj.*

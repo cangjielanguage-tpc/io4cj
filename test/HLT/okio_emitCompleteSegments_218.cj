@@ -14,7 +14,7 @@ public class okio_emitCompleteSegments_218{
     func okio_emitCompleteSegments_218(): Unit {
         var exc = ""
         try {
-            File.delete("../../../testData/okio_emit_214.txt")
+            remove("../../../testData/okio_emit_214.txt", recursive: true)
         } catch (e:Exception){
             println("e.message = ${e.message}")
         }
@@ -28,7 +28,7 @@ public class okio_emitCompleteSegments_218{
 
             bufferedSink.buffer().writeUtf8(" world") 
 
-            file = File.openRead("../../../testData/okio_emit_214.txt")
+            file = File("../../../testData/okio_emit_214.txt", OpenMode.Read)
             var reals = Okio.buffer(Okio.source(file))
 
             var size = bufferedSink.buffer().size
@@ -45,7 +45,7 @@ public class okio_emitCompleteSegments_218{
             println("bufferedSink.emitCompleteSegments()")
             bufferedSink.emitCompleteSegments()
 
-            var file2 = File.openRead("../../../testData/okio_emit_214.txt")
+            var file2 = File("../../../testData/okio_emit_214.txt", OpenMode.Read)
             reals = Okio.buffer(Okio.source(file2))
 
             size = bufferedSink.buffer().size
@@ -69,7 +69,7 @@ public class okio_emitCompleteSegments_218{
     func okio_emitCompleteSegments_218_2(): Unit {
         var exc = ""
         try {
-            File.delete("../../../testData/okio_emitCompleteSegments_218.txt")
+            remove("../../../testData/okio_emitCompleteSegments_218.txt", recursive: true)
         } catch (e:Exception){
             println("e.message = ${e.message}")
         }
@@ -86,7 +86,7 @@ public class okio_emitCompleteSegments_218{
                 bufferedSink.buffer().writeUtf8(i.toString()) 
             }
             
-            file = File.openRead("../../../testData/okio_emitCompleteSegments_218.txt")
+            file = File("../../../testData/okio_emitCompleteSegments_218.txt", OpenMode.Read)
             var reals = Okio.buffer(Okio.source(file))
 
             var size = bufferedSink.buffer().size
@@ -103,7 +103,7 @@ public class okio_emitCompleteSegments_218{
             println("bufferedSink.emitCompleteSegments()")
             bufferedSink.emitCompleteSegments()
 
-            var file2 = File.openRead("../../../testData/okio_emitCompleteSegments_218.txt")
+            var file2 = File("../../../testData/okio_emitCompleteSegments_218.txt", OpenMode.Read)
             reals = Okio.buffer(Okio.source(file2))
 
             size = bufferedSink.buffer().size

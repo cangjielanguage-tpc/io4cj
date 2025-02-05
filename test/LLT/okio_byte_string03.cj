@@ -3,7 +3,7 @@
 // EXEC: ./main
 
 import io4cj.*
-import std.os.posix.*
+import std.posix.*
 import std.io.*
 import std.fs.*
 import std.time.*
@@ -35,7 +35,7 @@ main () {
     let str7 = str.size
     let str8 = str.toByteArray()
     let str9 = str.write("./a.txt")
-    let fs = File("./a.txt",Open(true, false))
+    let fs = File("./a.txt",OpenMode.Read)
     try {
         let str10 = str.write(fs)
     } catch(e: Exception) {

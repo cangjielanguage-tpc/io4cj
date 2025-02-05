@@ -4,7 +4,7 @@
 //data_file:basefile.txt
 
 import io4cj.*
-import std.os.posix.*
+import std.posix.*
 import std.unittest.*
 import std.fs.*
 
@@ -27,7 +27,7 @@ public class OkioTest {
     @TestCase
     func testBuffer(): Unit {
         // class Buffer <: BufferedSource & BufferedSink &&  BufferedSource <: Source
-        let file:File = File("${path_base}/basefile.txt", Open(true, true))
+        let file:File = File("${path_base}/basefile.txt", OpenMode.ReadWrite)
         var sourceIns:Source = Okio.source(file)
         let buffer_1: Buffer = Buffer()
         var bufferedsourceIns:BufferedSource = Okio.buffer(sourceIns) // > BufferedSource

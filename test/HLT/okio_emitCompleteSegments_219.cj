@@ -13,7 +13,7 @@ public class okio_emitCompleteSegments_219{
     func okio_emitCompleteSegments_219(): Unit {
         var exc = ""
         try {
-            File.delete("../../../testData/okio_emit_214.txt")
+            remove("../../../testData/okio_emit_214.txt", recursive: true)
         } catch (e:Exception){
             println("e.message = ${e.message}")
         }
@@ -25,7 +25,7 @@ public class okio_emitCompleteSegments_219{
             var byteString = ByteString("hello".toArray())
             byteString.write("../../../testData/okio_emit_214.txt")
 
-            file = File.openRead("../../../testData/okio_emit_214.txt")
+            file = File("../../../testData/okio_emit_214.txt", OpenMode.Read)
             var reals = Okio.buffer(Okio.source(file))
 
             var size = bufferedSink.buffer().size
@@ -42,7 +42,7 @@ public class okio_emitCompleteSegments_219{
             println("bufferedSink.emitCompleteSegments()")
             bufferedSink.emitCompleteSegments()
 
-            var file2 = File.openRead("../../../testData/okio_emit_214.txt")
+            var file2 = File("../../../testData/okio_emit_214.txt", OpenMode.Read)
             reals = Okio.buffer(Okio.source(file2))
 
             size = bufferedSink.buffer().size

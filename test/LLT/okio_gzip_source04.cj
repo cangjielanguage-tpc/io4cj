@@ -2,7 +2,7 @@
 // EXEC: ./main
 
 import io4cj.*
-import std.os.posix.*
+import std.posix.*
 import std.io.*
 import compress.zlib.*
 import std.fs.*

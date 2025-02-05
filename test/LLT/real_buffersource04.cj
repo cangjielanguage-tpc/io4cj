@@ -4,14 +4,14 @@
 
 import io4cj.*
 import io4cj.*
-import std.os.posix.*
+import std.posix.*
 import std.io.*
 import std.fs.*
 
 
 main () {
     let path: String = "${getcwd()}/test.txt"
-    var file = File(path, Open(true, false))
+    var file = File(path, OpenMode.Read)
     var real0s = Okio.buffer(Okio.source(file))
     real0s.readUtf8CodePoint()
     var es: String = ""

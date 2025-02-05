@@ -1,9 +1,9 @@
 // 3rd_party_lib:io4cj/target/release/io4cj
 // 3rd_party_lib:io4cj/target/release/crypto4cj
 
-import std.io.*
 import std.time.*
-import io4cj.*
+import io4cj.ByteString
+import std.io.ByteBuffer
 
 @Test
 public class okio_read_114{
@@ -13,7 +13,7 @@ public class okio_read_114{
         var exc = ""
         try {
             var arr : Array<Byte> = "hello world".toArray()
-            var bas = ByteArrayStream()
+            var bas = ByteBuffer()
             bas.write(arr)
 
             let bs = ByteString.read(bas,bas.length)
@@ -21,7 +21,7 @@ public class okio_read_114{
             @Assert(bs.toString(),"[text=hello world]")
 
             var arr2 : Array<Byte> = "".toArray()
-            var bas2 = ByteArrayStream()
+            var bas2 = ByteBuffer()
             bas2.write(arr2)
 
             let bs2 = ByteString.read(bas2,bas2.length)
