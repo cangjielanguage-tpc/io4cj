@@ -1,0 +1,11 @@
+[
+    {
+        "Name": " crypto4cj ",
+        "License": " Apache License 2.0",
+        "License File": " LICENSE ",
+        "Owner": " Eric A. Young, Tim J. Hudson "
+        "Upstream URL": " https://github.com/openssl/openssl ",
+         "Version Number": " v3.0.7 ",
+        "Description": " OpenSSL is a robust, commercial-grade, full-featured Open Source Toolkit for the Transport Layer Security (TLS) protocol formerly known as the Secure Sockets Layer (SSL) protocol. The protocol implementation is based on a full-strength general purpose cryptographic library, which can also be used stand-alone. "
+    }
+]
