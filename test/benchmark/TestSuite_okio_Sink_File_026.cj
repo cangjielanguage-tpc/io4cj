@@ -1,64 +1,27 @@
-
+// 3rd_party_lib:io4cj/build/io4cj
+// 3rd_party_lib:io4cj/ci_lib/crypto4cj
 
 import std.io.*
 import std.time.*
 import std.fs.*
 import io4cj.*
 
-@Test
-public class okio_Sink_File_026{
+func runBench(n:Int64):Unit{
+	var file : File = File.create("okio_Sink_File_026.txt")
+	let s = MonoTime.now()
+	for (i in 0..n){
+		Okio.sink(file)
+	}
+	let tmp = MonoTime.now()
+	let e=(tmp-s).toNanoseconds()
+	print("[ PASSED ] CASE: okio_Sink_File_026_${n} (${e} ns, ${Float64(e)/Float64(n)} ns/op)\n", flush:true)
+	remove("okio_Sink_File_026.txt")
+}
 
-    var file : File = File.create("../testData/okio_Sink_File_026.txt")
-    
-    public override func beforeAll(): Unit {
-        try {
-            File.delete("../testData/okio_Sink_File_026.txt")
-        } catch (e:Exception){
-            // println("e.message = ${e.message}")
-        }
-    }
-    public override func afterAll(): Unit {
-        try {
-            File.delete("../testData/okio_Sink_File_026.txt")
-        } catch (e:Exception){
-            // println("e.message = ${e.message}")
-        }
-        // let sink: Sink = Okio.sink(file)
-        // println("sink is Buffer?: ${sink is Buffer}")
-        // println("sink is Sink?: ${sink is Sink}")
-        // println("sink is Source?: ${sink is Source}")
-        // println("Okio.sink(file) is BufferedSink?: ${Okio.sink(file) is BufferedSink}")
-        // println("Okio.sink(file) is BufferedSource?: ${Okio.sink(file) is BufferedSource}")
-    }
-    public override func beforeEach(): Unit {
-    }
-    public override func afterEach(): Unit {
-        
-    }
-    // sink(file: File): Sink 返回写入File的Sink。
-    @TestCase
-    @Bench[1]
-    func okio_Sink_File_026_1(): Unit {
-        Okio.sink(file)
-    }
-    @TestCase
-    @Bench[10]
-    func okio_Sink_File_026_10(): Unit {
-        Okio.sink(file)
-    }
-    @TestCase
-    @Bench[100]
-    func okio_Sink_File_026_100(): Unit {
-        Okio.sink(file)
-    }
-    @TestCase
-    @Bench[1000]
-    func okio_Sink_File_026_1000(): Unit {
-        Okio.sink(file)
-    }
-    @TestCase
-    @Bench[10000]
-    func okio_Sink_File_026_10000(): Unit {
-        Okio.sink(file)
-    }
+main(){
+	println("TCS: okio_Sink_File_026, time elapsed: 1 ns, RESULT:")
+	let count = [10, 100, 1000, 10000, 100000]  
+	for (n in count){
+		runBench(n)
+	}
 }

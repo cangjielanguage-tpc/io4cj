@@ -1,49 +1,34 @@
-
+// 3rd_party_lib:io4cj/build/io4cj
+// 3rd_party_lib:io4cj/ci_lib/crypto4cj
 
 import std.io.*
 import std.time.*
 import io4cj.*
+import std.collection.*
 
-@Test
-public class okio_read_002 {
-
-    let arrb:Array<Byte> = [6,5,4,3]
-    let sink = Buffer()
-    let source = Buffer()
-
-    public override func beforeAll(): Unit {}
-    public override func afterAll(): Unit {}
-    public override func beforeEach(): Unit {}
-    public override func afterEach(): Unit {}
-
-    @TestCase//read(sink: Buffer, byteCount: Int64): Int64 从Source中删除至少1个字节，并将它们附加到Sink中。
-    @Bench[1]
-    func okio_read_002_1(): Unit {
-        source.write(arrb)
-        source.read(sink,3)
-    }
-    @TestCase//read(sink: Buffer, byteCount: Int64): Int64
-    @Bench[10]
-    func okio_read_002_10(): Unit {
-        source.write(arrb)
-        source.read(sink,3)
-    }
-    @TestCase//read(sink: Buffer, byteCount: Int64): Int64
-    @Bench[100]
-    func okio_read_002_100(): Unit {
-        source.write(arrb)
-        source.read(sink,3)
-    }
-    @TestCase//read(sink: Buffer, byteCount: Int64): Int64
-    @Bench[1000]
-    func okio_read_002_1000(): Unit {
-        source.write(arrb)
-        source.read(sink,3)
-    }
-        @TestCase//read(sink: Buffer, byteCount: Int64): Int64
-    @Bench[10000]
-    func okio_read_002_10000(): Unit {
-        source.write(arrb)
-        source.read(sink,3)
-    }
+func runBench(n:Int64,dataLen:Int64):Unit{
+	let arrb=Array<Byte>(dataLen, repeat: 1)
+	let sink = Buffer()
+	let source = Buffer()
+	source.write(arrb)
+	let s = MonoTime.now()
+	for (i in 0..n){
+       source.read(sink,3)
+	}
+	let tmp = MonoTime.now()
+	let e=(tmp-s).toNanoseconds()
+	print("[ PASSED ] CASE: okio_read_002_${dataLen}_${n} (${e} ns, ${Float64(e)/Float64(n)} ns/op)\n", flush:true)
 }
+
+main(){
+	println("TCS: okio_read_002, time elapsed: 1 ns, RESULT:")
+	let count = [10, 100, 1000, 10000, 100000]  
+	let dataLens = [10, 100, 1000, 10000, 100000]  
+
+	for (dataLen in dataLens){
+		for (n in count){
+			runBench(n, dataLen)
+		}
+	}
+}
+

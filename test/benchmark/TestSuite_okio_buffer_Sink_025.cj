@@ -1,51 +1,26 @@
-
+// 3rd_party_lib:io4cj/build/io4cj
+// 3rd_party_lib:io4cj/ci_lib/crypto4cj
 
 import std.io.*
 import std.time.*
 import io4cj.*
 
-@Test
-public class okio_buffer_Sink_025{
 
-    let sink:Sink = Buffer()
-    public override func beforeAll(): Unit {}
-    public override func afterAll(): Unit {
-        // println("sink is Buffer?: ${sink is Buffer}")
-        // println("sink is Sink?: ${sink is Sink}")
-        // println("sink is Source?: ${sink is Source}")
-        // println("Okio.buffer(sink) is BufferedSink?: ${Okio.buffer(sink) is BufferedSink}")
-        // println("Okio.buffer(sink) is BufferedSource?: ${Okio.buffer(sink) is BufferedSource}")
-    }
-    public override func beforeEach(): Unit {
-    }
-    public override func afterEach(): Unit {
-        
-    }
-    // buffer(sink: Sink): BufferedSink 
-    // 返回缓冲写入Sink的新Sink。返回的BufferedSink可以将Sink的内存缓冲区进行批量写入。
-    @TestCase
-    @Bench[1]
-    func okio_buffer_Sink_025_1(): Unit {
-        Okio.buffer(sink)
-    }
-    @TestCase
-    @Bench[10]
-    func okio_buffer_Sink_025_10(): Unit {
-        Okio.buffer(sink)
-    }
-    @TestCase
-    @Bench[100]
-    func okio_buffer_Sink_025_100(): Unit {
-        Okio.buffer(sink)
-    }
-    @TestCase
-    @Bench[1000]
-    func okio_buffer_Sink_025_1000(): Unit {
-        Okio.buffer(sink)
-    }
-    @TestCase
-    @Bench[10000]
-    func okio_buffer_Sink_025_10000(): Unit {
-        Okio.buffer(sink)
-    }
+func runBench(n:Int64):Unit{
+	let sink:Sink = Buffer()
+	let s = MonoTime.now()
+	for (i in 0..n){
+		Okio.buffer(sink)
+	}
+	let tmp = MonoTime.now()
+	let e=(tmp-s).toNanoseconds()
+	print("[ PASSED ] CASE: okio_buffer_Sink_025_${n} (${e} ns, ${Float64(e)/Float64(n)} ns/op)\n", flush:true)
+}
+
+main(){
+	println("TCS: okio_buffer_Sink_025, time elapsed: 1 ns, RESULT:")
+	let count = [10, 100, 1000, 10000, 100000]  
+	for (n in count){
+		runBench(n)
+	}
 }

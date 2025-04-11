@@ -1,5 +1,6 @@
 [dependencies]
-  crypto4cj = {branch = "v0.0.1.B004", git = "https://gitcode.com/Cangjie-TPC/crypto4cj.git"}
+  [dependencies.crypto4cj]
+    path = "./crypto4cj"
 
 [package]
   cjc-version = "0.58.3"

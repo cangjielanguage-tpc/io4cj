@@ -1,55 +1,28 @@
-
+// 3rd_party_lib:io4cj/build/io4cj
+// 3rd_party_lib:io4cj/ci_lib/crypto4cj
 
 import std.io.*
 import std.time.*
 import io4cj.*
+import std.collection.*
 
-@Test
-public class okio_readInt64_016{
-    let arrb:Array<Byte> = [6,5,4,3,2,16,7,128,6,5,4,3,2,16,7,128]
-    let a_buffer = Buffer()
+func runBench(n:Int64):Unit{
+	let arrb=Array<Byte>(n*8, repeat: 1)
+	let a_buffer = Buffer()
+	a_buffer.write(arrb)
+	let s = MonoTime.now()
+	for (i in 0..n){
+		a_buffer.readInt64()
+	}
+	let tmp = MonoTime.now()
+	let e=(tmp-s).toNanoseconds()
+	print("[ PASSED ] CASE: okio_readInt64_016_${n} (${e} ns, ${Float64(e)/Float64(n)} ns/op)\n", flush:true)
+}
 
-    public override func beforeAll(): Unit {}
-    public override func afterAll(): Unit {
-        // println("a_buffer.readInt64() : ${a_buffer.readInt64()}")
-    }
-
-    public override func beforeEach(): Unit {
-        
-    }
-    public override func afterEach(): Unit {
-    }
-
-    // readInt64(): Int64
-    // 从这个源中删除八个字节，并返回一个大端int64
-    @TestCase
-    @Bench[1]
-    func okio_readInt64_016_1(): Unit {
-        a_buffer.write(arrb)
-        a_buffer.readInt64()
-    }
-    @TestCase
-    @Bench[10]
-    func okio_readInt64_016_10(): Unit {
-        a_buffer.write(arrb)
-        a_buffer.readInt64()
-    }
-    @TestCase
-    @Bench[100]
-    func okio_readInt64_016_100(): Unit {
-        a_buffer.write(arrb)
-        a_buffer.readInt64()
-    }
-    @TestCase
-    @Bench[1000]
-    func okio_readInt64_016_1000(): Unit {
-        a_buffer.write(arrb)
-        a_buffer.readInt64()
-    }
-    @TestCase
-    @Bench[10000]
-    func okio_readInt64_016_10000(): Unit {
-        a_buffer.write(arrb)
-        a_buffer.readInt64()
-    }
+main(){
+	println("TCS: okio_readInt64_016, time elapsed: 1 ns, RESULT:")
+	let count = [10, 100, 1000, 10000, 100000]  
+	for (n in count){
+		runBench(n)
+	}
 }

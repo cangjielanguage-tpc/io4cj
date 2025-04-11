@@ -1,45 +1,25 @@
-
+// 3rd_party_lib:io4cj/build/io4cj
+// 3rd_party_lib:io4cj/ci_lib/crypto4cj
 
 import std.io.*
 import std.time.*
 import io4cj.*
-
-@Test
-public class  okio_writeUtf8_003 {
-
-    let bufferedSink:BufferedSink = Buffer()
-    public override func beforeEach(): Unit {
-
-    }
-    public override func afterEach(): Unit {
-        // println((bufferedSink as Buffer).getOrThrow().readUtf8().getOrThrow().size)
-        // (bufferedSink as Buffer).getOrThrow().clear()
-    }
-    // writeUtf8(string: String): BufferedSink 向BufferedSink中写入UTF-8编码的字符串
-    @TestCase
-    @Bench[1]
-    func okio_writeUtf8_003_1(): Unit {
-        bufferedSink.writeUtf8("1234567890")
-    }
-    @TestCase
-    @Bench[10]
-    func okio_writeUtf8_003_10(): Unit {
-        bufferedSink.writeUtf8("1234567890")
-    }
-    @TestCase
-    @Bench[100]
-    func okio_writeUtf8_003_100(): Unit {
-        bufferedSink.writeUtf8("1234567890")
-    }
-    @TestCase
-    @Bench[1000]
-    func okio_writeUtf8_003_1000(): Unit {
-        bufferedSink.writeUtf8("1234567890")
-    }
-    @TestCase
-    @Bench[10000]
-    func okio_writeUtf8_003_10000(): Unit {
-        bufferedSink.writeUtf8("1234567890")
-    }
-
+func runBench(n:Int64):Unit{
+	let bufferedSink:BufferedSink = Buffer()
+	let s = MonoTime.now()
+	for (i in 0..n){
+		bufferedSink.writeUtf8("1234567890")
+	}
+	let tmp = MonoTime.now()
+	let e=(tmp-s).toNanoseconds()
+	print("[ PASSED ] CASE: okio_writeUtf8_003_${n} (${e} ns, ${Float64(e)/Float64(n)} ns/op)\n", flush:true)
 }
+
+main(){
+	println("TCS: okio_writeUtf8_003, time elapsed: 1 ns, RESULT:")
+	let count = [10, 100, 1000, 10000, 100000]  
+	for (n in count){
+		runBench(n)
+	}
+}
+

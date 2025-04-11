@@ -6,7 +6,6 @@ build/
 ci_lib
 ci_test
 bin
-crypto4cj/
 module-resolve.json
 log/
 test/HLT/report/

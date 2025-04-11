@@ -1,55 +1,30 @@
-
+// 3rd_party_lib:io4cj/build/io4cj
+// 3rd_party_lib:io4cj/ci_lib/crypto4cj
 
 import std.io.*
 import std.time.*
 import io4cj.*
+import std.collection.*
 
-@Test
-public class okio_skip_021{
-    let arrb:Array<Byte> = [6,5,4,3,2,16,7,128]
-    let a_buffer = Buffer()
-
-    public override func beforeAll(): Unit {}
-    public override func afterAll(): Unit {
-        // println("a_buffer.skip(1) : ${a_buffer.skip(1)}")
-    }
-
-    public override func beforeEach(): Unit {
-        
-    }
-    public override func afterEach(): Unit {
-    }
-
-    // skip(byteCount: Int64): Unit
-    // 从此源读取并丢弃byteCount字节。如果源在请求的字节被跳过之前耗尽, 抛出EOFException.
-    @TestCase
-    @Bench[1]
-    func okio_skip_021_1(): Unit {
-        a_buffer.write(arrb)
-        a_buffer.skip(1)
-    }
-    @TestCase
-    @Bench[10]
-    func okio_skip_021_10(): Unit {
-        a_buffer.write(arrb)
-        a_buffer.skip(1)
-    }
-    @TestCase
-    @Bench[100]
-    func okio_skip_021_100(): Unit {
-        a_buffer.write(arrb)
-        a_buffer.skip(1)
-    }
-    @TestCase
-    @Bench[1000]
-    func okio_skip_021_1000(): Unit {
-        a_buffer.write(arrb)
-        a_buffer.skip(1)
-    }
-    @TestCase
-    @Bench[10000]
-    func okio_skip_021_10000(): Unit {
-        a_buffer.write(arrb)
-        a_buffer.skip(1)
-    }
+func runBench(n:Int64):Unit{
+	let arrb=Array<Byte>(n, repeat: 1)
+	let a_buffer = Buffer()
+	a_buffer.write(arrb)
+	let s = MonoTime.now()
+	for (i in 0..n){
+		a_buffer.skip(1)
+	}
+	let tmp = MonoTime.now()
+	let e=(tmp-s).toNanoseconds()
+	print("[ PASSED ] CASE: okio_skip_021_${n} (${e} ns, ${Float64(e)/Float64(n)} ns/op)\n", flush:true)
 }
+
+main(){
+	println("TCS: okio_skip_021, time elapsed: 1 ns, RESULT:")
+	let count = [10, 100, 1000, 10000, 100000]  
+	for (n in count){
+		runBench(n)
+	}
+}
+
+

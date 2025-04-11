@@ -1,47 +1,25 @@
-
+// 3rd_party_lib:io4cj/build/io4cj
+// 3rd_party_lib:io4cj/ci_lib/crypto4cj
 
 import std.io.*
 import std.time.*
 import io4cj.*
 
-@Test
-public class okio_writeInt16_005{
+func runBench(n:Int64):Unit{
+	let bufferedSink:BufferedSink = Buffer()
+	let s = MonoTime.now()
+	for (i in 0..n){
+		bufferedSink.writeInt16(256)
+	}
+	let tmp = MonoTime.now()
+	let e=(tmp-s).toNanoseconds()
+	print("[ PASSED ] CASE: okio_writeInt16_005_${n} (${e} ns, ${Float64(e)/Float64(n)} ns/op)\n", flush:true)
+}
 
-    let bufferedSink:BufferedSink = Buffer()
-    var i:Int64 = 0
-    public override func beforeEach(): Unit {
-
-    }
-    public override func afterEach(): Unit {
-        // println((bufferedSink as Buffer).getOrThrow())
-        // println((bufferedSink as Buffer).getOrThrow().size)
-        // (bufferedSink as Buffer).getOrThrow().clear()
-    }
-
-    // writeInt16(value: Int64): BufferedSink 向BufferedSink中写入一个大端int16的字节
-    @TestCase
-    @Bench[1]
-    func okio_writeInt16_005_1(): Unit {
-        bufferedSink.writeInt16(256)
-    }
-    @TestCase
-    @Bench[10]
-    func okio_writeInt16_005_10(): Unit {
-        bufferedSink.writeInt16(256)
-    }
-    @TestCase
-    @Bench[100]
-    func okio_writeInt16_005_100(): Unit {
-        bufferedSink.writeInt16(256)
-    }
-    @TestCase
-    @Bench[1000]
-    func okio_writeInt16_005_1000(): Unit {
-        bufferedSink.writeInt16(256)
-    }
-    @TestCase
-    @Bench[10000]
-    func okio_writeInt16_005_10000(): Unit {
-        bufferedSink.writeInt16(256)
-    }
+main(){
+	println("TCS: okio_writeInt16_005, time elapsed: 1 ns, RESULT:")
+	let count = [10, 100, 1000, 10000, 100000]  
+	for (n in count){
+		runBench(n)
+	}
 }

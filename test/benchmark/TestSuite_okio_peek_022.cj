@@ -1,62 +1,34 @@
-
+// 3rd_party_lib:io4cj/build/io4cj
+// 3rd_party_lib:io4cj/ci_lib/crypto4cj
 
 import std.io.*
 import std.time.*
 import io4cj.*
+import std.collection.*
 
-@Test
-public class okio_peek_022{
-    let buffer = Buffer()
-
-    public override func beforeAll(): Unit {
-        
-    }
-    public override func afterAll(): Unit {
-        // let peek = buffer.peek()
-        // println("peek.readUtf8(3) : ${peek.readUtf8(3).getOrThrow()}")
-    }
-
-    public override func beforeEach(): Unit {
-        
-    }
-    public override func afterEach(): Unit {
-    }
-
-    // peek(): BufferedSource
-    // 返回一个新的BufferedSource，它可以从该BufferedResource读取数据，而不使用它。一旦下次读取或关闭此源，返回的源将变为无效。例如，我们可以使用peek（）向前看并多次读取相同的数据。
-    @TestCase
-    @Bench[1]
-    func okio_peek_022_1(): Unit {
-        buffer.writeUtf8("abcdefghi")
-        let peek = buffer.peek()
+func runBench(n:Int64, dataLen:Int64):Unit{
+	var data = StringBuilder( r'X',dataLen).toString()
+	var bs : ByteString = ByteString(data.toArray())
+	let buffer = Buffer()
+	buffer.writeUtf8(data)
+	let s = MonoTime.now()
+	for (i in 0..n){
+		let peek = buffer.peek()
         peek.readUtf8(3)
-    }
-    @TestCase
-    @Bench[10]
-    func okio_peek_022_10(): Unit {
-        buffer.writeUtf8("abcdefghi")
-        let peek = buffer.peek()
-        peek.readUtf8(3)
-    }
-    @TestCase
-    @Bench[100]
-    func okio_peek_022_100(): Unit {
-        buffer.writeUtf8("abcdefghi")
-        let peek = buffer.peek()
-        peek.readUtf8(3)
-    }
-    @TestCase
-    @Bench[1000]
-    func okio_peek_022_1000(): Unit {
-        buffer.writeUtf8("abcdefghi")
-        let peek = buffer.peek()
-        peek.readUtf8(3)
-    }
-    @TestCase
-    @Bench[10000]
-    func okio_peek_022_10000(): Unit {
-        buffer.writeUtf8("abcdefghi")
-        let peek = buffer.peek()
-        peek.readUtf8(3)
-    }
+	}
+	let tmp = MonoTime.now()
+	let e=(tmp-s).toNanoseconds()
+	print("[ PASSED ] CASE: okio_peek_022_${dataLen}_${n} (${e} ns, ${Float64(e)/Float64(n)} ns/op)\n", flush:true)
 }
+
+main(){
+	println("TCS: okio_peek_022, time elapsed: 1 ns, RESULT:")
+	let count = [10, 100, 1000, 10000, 100000]  
+	let dataLens = [10, 100, 1000, 10000, 100000]  
+	for (dataLen in dataLens){
+		for (n in count){
+			runBench(n, dataLen)
+		}
+	}
+}
+

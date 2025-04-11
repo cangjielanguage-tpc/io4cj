@@ -1,61 +1,28 @@
-
+// 3rd_party_lib:io4cj/build/io4cj
+// 3rd_party_lib:io4cj/ci_lib/crypto4cj
 
 import std.io.*
 import std.time.*
 import io4cj.*
 
-@Test
-public class okio_write_001{
-
-    let arrb:Array<Byte> = [6,5,4,3]
-    let source = Buffer()
+func runBench(n:Int64):Unit{
+	let arrb=Array<Byte>(n, repeat: 1)
+	let source = Buffer()
     let sink = Buffer()
+	source.write(arrb)
+	let s = MonoTime.now()
+	for (i in 0..n){
+		sink.write(source,1)
+	}
+	let tmp = MonoTime.now()
+	let e=(tmp-s).toNanoseconds()
+	print("[ PASSED ] CASE: okio_write_001_${n} (${e} ns, ${Float64(e)/Float64(n)} ns/op)\n", flush:true)
+}
 
-    public override func beforeAll(): Unit {
-        // source.clear()
-    }
-    public override func afterAll(): Unit {}
-    public override func beforeEach(): Unit {
-        // var i:Int64 = 0
-        // source.clear()
-        // while(i<1000){
-        //     source.write(arrb)
-        //     i++
-        // }
-    }
-    public override func afterEach(): Unit {
-        // println("sink = ${sink.size}")
-        // println("source = ${source.size}")
-        // sink.clear()
-    }
-    @TestCase//write(source: Buffer, byteCount: Int64): Unit 从Source中删除byteCount字节并将其附加到此Sink中
-    @Bench[1]
-    func okio_write_001_1(): Unit {
-        source.write(arrb)
-        sink.write(source,3)
-    }
-    // @TestCase//write(source: Buffer, byteCount: Int64): Unit 从Source中删除byteCount字节并将其附加到此Sink中
-    // @Bench[10]
-    // func okio_write_001_10(): Unit {
-    //     source.write(arrb)
-    //     sink.write(source,3)
-    // }
-    // @TestCase//write(source: Buffer, byteCount: Int64): Unit
-    // @Bench[100]
-    // func okio_write_001_100(): Unit {
-    //     source.write(arrb)
-    //     sink.write(source,3)
-    // }
-    // @TestCase//write(source: Buffer, byteCount: Int64): Unit
-    // @Bench[1000]
-    // func okio_write_001_1000(): Unit {
-    //     source.write(arrb)
-    //     sink.write(source,3)
-    // }
-    @TestCase//write(source: Buffer, byteCount: Int64): Unit
-    @Bench[10000]
-    func okio_write_001_10000(): Unit {
-        source.write(arrb)
-        sink.write(source,3)
-    }
+main(){
+	println("TCS: okio_write_001, time elapsed: 1 ns, RESULT:")
+	let count = [10, 100, 1000, 10000, 100000]  
+	for (n in count){
+		runBench(n)
+	}
 }
