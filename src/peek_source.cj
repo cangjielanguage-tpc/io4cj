@@ -37,6 +37,7 @@ class PeekSource <: Source & ToString{
      * @return Type of Int64
      * @since 0.32.5
      */
+    @Frozen
     public func read(sink: Buffer, byteCount: Int64): Int64 {
         if (byteCount < 0) {
             throw IllegalArgumentException("byteCount < 0: ${byteCount}")
@@ -68,6 +69,7 @@ class PeekSource <: Source & ToString{
      * @return Type of Unit
      * @since 0.32.5
      */
+    @Frozen
     public func close(): Unit {
         this.closed = true
     }
@@ -77,6 +79,7 @@ class PeekSource <: Source & ToString{
      * @return Type of Timeout
      * @since 0.32.5
      */
+    @Frozen
     public func timeout(): Timeout {
         return Timeout()  // TODO
     }
@@ -87,6 +90,7 @@ class PeekSource <: Source & ToString{
      * @return Type of Bool
      * @since 0.32.5
      */
+    @Frozen
     public func isClosed(): Bool {
         return this.closed
     }
@@ -97,6 +101,7 @@ class PeekSource <: Source & ToString{
      * @return Type of String
      * @since 0.32.5
      */
+    @Frozen
     public override func toString(): String{
         return this.toString()
     }

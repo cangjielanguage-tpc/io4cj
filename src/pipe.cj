@@ -29,14 +29,17 @@ public class Pipe {
         maxBufferSize = bufferSize
     }
 
+    @Frozen
     public func source(): Source {
         return psource
     }
 
+    @Frozen
     public func sink(): Sink {
         return psink
     }
 
+    @Frozen
     public func fold(sink: Sink) {
         while (true) {
             var closed: Bool = false
@@ -80,6 +83,7 @@ class PipeSink <: Sink {
 
     let ptimeout: PushableTimeout = PushableTimeout()
 
+    @Frozen
     public override func write(source: Buffer , bytecount: Int64): Unit {
         var byteCount: Int64 = bytecount
         var sink: ?Sink = Option.None
@@ -125,6 +129,7 @@ class PipeSink <: Sink {
         }
     }
 
+    @Frozen
     public override func flush() {
         var sink: ?Sink = Option.None
         synchronized(monitor){
@@ -152,6 +157,7 @@ class PipeSink <: Sink {
         }
     }
 
+    @Frozen
     public override func close() {
         var sink: ?Sink = Option.None
         synchronized(monitor) {
@@ -176,6 +182,7 @@ class PipeSink <: Sink {
         }
     }
 
+    @Frozen
     public override func timeout(): Timeout {
         return ptimeout
     }
@@ -186,6 +193,7 @@ class PipeSink <: Sink {
      * @return Type of Bool
      * @since 0.33.3
      */
+    @Frozen
     public override func isClosed(): Bool {
         return sinkClosed
     } 
@@ -196,6 +204,7 @@ class PipeSink <: Sink {
      *@return Type of String
      * @since 0.33.3
      */
+    @Frozen
     public override func toString():String{
         return foldedSink.getOrThrow().toString()
     }
@@ -206,6 +215,7 @@ class PipeSource <: Source {
 
     let ptimeout: Timeout = Timeout()
 
+    @Frozen
     public override func read(sink: Buffer , byteCount: Int64): Int64 {
         synchronized(monitor){
             if (sourceClosed) {
@@ -223,12 +233,14 @@ class PipeSource <: Source {
         }
     }
 
+    @Frozen
     public override func close(){
         synchronized(monitor){
             sourceClosed = true
         }
     }
 
+    @Frozen
     public override func timeout(): Timeout {
         return ptimeout
     }
@@ -239,6 +251,7 @@ class PipeSource <: Source {
      *@return Type of Bool
      * @since 0.33.3
      */
+    @Frozen
     public override func isClosed(): Bool {
         return sourceClosed
     } 
@@ -249,6 +262,7 @@ class PipeSource <: Source {
      *@return Type of String
      * @since 0.33.3
      */
+    @Frozen
     public override func toString():String{
         return foldedSink.getOrThrow().toString()
     }

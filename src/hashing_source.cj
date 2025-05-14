@@ -23,6 +23,7 @@ public class HashingSource <: ForwardingSource {
      * @return Type of HashingSource
      * @since 0.34.3
      */
+    @Frozen
     public static func md5(source:Source):HashingSource{
         return HashingSource(source,"MD5")
     }
@@ -34,6 +35,7 @@ public class HashingSource <: ForwardingSource {
      * @return Type of HashingSource
      * @since 0.34.3
      */
+    @Frozen
     public static func sha1(source: Source): HashingSource{
         return HashingSource(source, "SHA-1")
     }
@@ -45,6 +47,7 @@ public class HashingSource <: ForwardingSource {
      * @return Type of HashingSource
      * @since 0.34.3
      */
+    @Frozen
     public static func sha256(source: Source): HashingSource{
         return HashingSource(source, "SHA-256")
     }
@@ -57,6 +60,7 @@ public class HashingSource <: ForwardingSource {
      * @return Type of HashingSource
      * @since 0.34.3
      */
+    @Frozen
     public static func hmacSha1(source: Source,key: String):HashingSource{
         if(key.size <= 0) {
         throw Exception("The key cannot be empty.")
@@ -75,6 +79,7 @@ public class HashingSource <: ForwardingSource {
      * @return Type of HashingSource
      * @since 0.34.3
      */
+    @Frozen
     public static func hmacSha256(source:Source,key:String):HashingSource{
         if(key.size <= 0) {
         throw Exception("The key cannot be empty.")
@@ -114,6 +119,7 @@ public class HashingSource <: ForwardingSource {
      * @return Type of Int64
      * @since 0.34.3
      */
+    @Frozen
     public override func read(sink: Buffer,byteCount: Int64):Int64{
         let readResult: Int64 = super.read(sink , byteCount)
         this.sink = sink
@@ -126,6 +132,7 @@ public class HashingSource <: ForwardingSource {
      * @return Type of Unit
      * @since 0.34.3
      */
+    @Frozen
     public func readMD5(): Unit {
         let sinkArray: Array<UInt8> = sink.readByteArray()
         md5(sinkArray , algorithmArray)
@@ -138,6 +145,7 @@ public class HashingSource <: ForwardingSource {
      * @return Type of Unit
      * @since 0.34.3
      */
+    @Frozen
     public func readSHA1(): Unit {
         let sinkArray: Array<UInt8> = sink.readByteArray()        
         sha1(sinkArray , algorithmArray)
@@ -150,6 +158,7 @@ public class HashingSource <: ForwardingSource {
      * @return Type of Unit
      * @since 0.34.3
      */
+    @Frozen
     public func readSHA256(): Unit {
         let sinkArray: Array<UInt8> = sink.readByteArray()  
         sha256(sinkArray , algorithmArray)
@@ -162,6 +171,7 @@ public class HashingSource <: ForwardingSource {
      * @return Type of Unit
      * @since 0.34.3
      */
+    @Frozen
     public func readhmacSha1(): Unit {
         var algorithm: AlgorithmType = AlgorithmType.Sha1
         var sinkArray: Array<UInt8> = Array<UInt8>()
@@ -177,6 +187,7 @@ public class HashingSource <: ForwardingSource {
      * @return Type of Unit
      * @since 0.34.3
      */
+    @Frozen
     public func readhmacSha256(): Unit {
         var algorithm: AlgorithmType = AlgorithmType.Sha256
         var sinkArray: Array<UInt8> = Array<UInt8>()
@@ -186,6 +197,7 @@ public class HashingSource <: ForwardingSource {
         HashingSource.result = toHexString(algorithmArray)
     }
 
+    @Frozen
     public func hash(): String{
         return result
     }
@@ -197,6 +209,7 @@ public class HashingSource <: ForwardingSource {
      * @return Type of Int64
      * @since 0.34.3
      */
+    @Frozen
     private func getLength(algorithm:String): Int64 {
         let result: Int64 = match (algorithm) {
             case "MD5" => 16
@@ -213,6 +226,7 @@ public class HashingSource <: ForwardingSource {
      * @return Type of Bool
      * @since 0.34.3
      */
+    @Frozen
     public override func isClosed(): Bool {
         source.isClosed()
     } 

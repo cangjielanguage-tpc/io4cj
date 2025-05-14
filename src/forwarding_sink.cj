@@ -35,6 +35,7 @@ public open class ForwardingSink <: Sink {
      * @return Type of Sink
      * @since 0.33.3
      */
+    @Frozen
     public func delegate(): Sink{
         return sink
     }
@@ -45,6 +46,7 @@ public open class ForwardingSink <: Sink {
      * @return Type of Bool
      * @since 0.34.3
      */
+    @Frozen
     public open override func isClosed(): Bool {
         sink.isClosed()
     } 
@@ -58,7 +60,8 @@ public open class ForwardingSink <: Sink {
      * @return Type of Unit
      * @since 0.33.3
      */
-    public override open func write(source: Buffer,byteCount: Int64): Unit {
+    @Frozen
+    public open override func write(source: Buffer,byteCount: Int64): Unit {
         sink.write(source,byteCount)
     }
 
@@ -68,6 +71,7 @@ public open class ForwardingSink <: Sink {
      * @return Type of Unit
      * @since 0.33.3
      */
+    @Frozen
     public override func flush(): Unit {
         sink.flush()
     }
@@ -78,6 +82,7 @@ public open class ForwardingSink <: Sink {
      * @return Type of Timeout
      * @since 0.33.3
      */
+    @Frozen
     public override func timeout(): Timeout{
         return sink.timeout()
     }
@@ -88,6 +93,7 @@ public open class ForwardingSink <: Sink {
      * @return Type of Unit
      * @since 0.33.3
      */
+    @Frozen
     public override func close(): Unit {
         sink.close()
     }
@@ -98,6 +104,7 @@ public open class ForwardingSink <: Sink {
      * @return Type of String
      * @since 0.33.3
      */
+    @Frozen
     public override func toString(): String{
         return "Sink" + "(" + sink.toString() + ")"
   

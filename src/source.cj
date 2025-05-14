@@ -20,6 +20,7 @@ public interface Source <: Resource & ToString {
      * @return Type of Unit
      * @since 0.32.5
      */
+    @Frozen
     func close(): Unit
     /*
      * The Function is read
@@ -30,6 +31,7 @@ public interface Source <: Resource & ToString {
      * @return Type of Int64
      * @since 0.32.5
      */
+    @Frozen
     func read(sink: Buffer, byteCount: Int64): Int64
     /*
      * The Function is timeout
@@ -37,5 +39,6 @@ public interface Source <: Resource & ToString {
      * @return Type of Timeout
      * @since 0.32.5
      */
+    @Frozen
     func timeout(): Timeout
 }

@@ -35,6 +35,7 @@ public class GzipSink <: Sink {
      * @return Type of Unit
      * @since 0.34.3
      */
+    @Frozen
     public func write(source: Buffer,byteCount: Int64): Unit {
         if (byteCount < 0) {
             throw IllegalArgumentException("byteCount < 0: ${byteCount}")
@@ -52,6 +53,7 @@ public class GzipSink <: Sink {
      * @return Type of Unit
      * @since 0.34.3
      */
+    @Frozen
     public override func flush(): Unit {
         sink.flush()
     }
@@ -61,6 +63,7 @@ public class GzipSink <: Sink {
      *
      * @since 0.34.3
      */
+    @Frozen
     public override func timeout(): Timeout{
         return sink.timeout()
     }
@@ -71,6 +74,7 @@ public class GzipSink <: Sink {
      * @return Type of Unit
      * @since 0.34.3
      */
+    @Frozen
     public override func close(): Unit{
         if(this.closed){
             return
@@ -100,6 +104,7 @@ public class GzipSink <: Sink {
      * @return Type of Unit
      * @since 0.34.3
      */
+    @Frozen
     private func updateCrc(buffer: Buffer, bytecount: Int64): Unit{
         var head: Segment = buffer.head.getOrThrow()
         var byteCount = bytecount
@@ -117,6 +122,7 @@ public class GzipSink <: Sink {
      *@return Type of Bool
      * @since 0.34.3
      */
+    @Frozen
     public override func isClosed(): Bool {
         return sink.isClosed()
     } 
@@ -127,6 +133,7 @@ public class GzipSink <: Sink {
      *@return Type of String
      * @since 0.34.3
      */
+    @Frozen
     public override func toString():String{
         return sink.toString()
     }
@@ -141,6 +148,7 @@ public class GzipSink <: Sink {
      * @return Type of Unit
      * @since 0.34.3
      */
+    @Frozen
     func update(b: Array<Byte> , off: Int64 , len: Int64):Unit {
         if (off < 0 || len < 0 || off > b.size - len) {
             throw ArrayIndexOutOfBoundsException()
@@ -159,6 +167,7 @@ public class GzipSink <: Sink {
      * @return Type of Unit
      * @since 0.34.3
      */
+    @Frozen
     func updateBytes(b: Array<Byte> , off: Int64 , len: Int64):Unit {
         updateBytesCheck(b , off , len)
 
@@ -174,6 +183,7 @@ public class GzipSink <: Sink {
      * @return Type of Unit
      * @since 0.34.3
      */
+    @Frozen
     func updateBytesCheck(b: Array<Byte> , off: Int64 , len: Int64):Unit {
         if (len <= 0) {
             return

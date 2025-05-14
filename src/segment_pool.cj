@@ -22,7 +22,8 @@ public class SegmentPool {
     static var next: ?Segment = None 
 
     static var byteCount = 0
-
+    
+    @Frozen
     static func take(): Segment {
         synchronized (mutex) {
             match(next) {
@@ -37,6 +38,7 @@ public class SegmentPool {
         return Segment()
     }
 
+    @Frozen
     static func recycle(segment: Segment) {
         match(segment.prev) {
             case None => ()

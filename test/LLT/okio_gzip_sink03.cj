@@ -4,7 +4,7 @@
 import io4cj.*
 import std.posix.*
 import std.io.*
-import compress.zlib.*
+import stdx.compress.zlib.*
 import std.fs.*
 main () {
     let data: Buffer = Buffer()

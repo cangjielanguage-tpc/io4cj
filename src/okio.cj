@@ -8,21 +8,21 @@
  */
 package io4cj
 internal import std.fs.*
-internal import compress.zlib.*
+internal import stdx.compress.zlib.*
 internal import std.io.*
 internal import std.sync.*
 internal import std.math.*
 internal import std.collection.*
-internal import encoding.hex.*
-internal import encoding.base64.*
-internal import crypto4cj.md5cj.*
-internal import crypto4cj.sha1cj.*
-internal import crypto4cj.sha256cj.*
-internal import crypto4cj.sha512cj.*
-internal import crypto4cj.hmaccj.*
+internal import stdx.encoding.hex.*
+internal import stdx.encoding.base64.*
+internal import crypto_ffi.md5cj.*
+internal import crypto_ffi.sha1cj.*
+internal import crypto_ffi.sha256cj.*
+internal import crypto_ffi.sha512cj.*
+internal import crypto_ffi.hmaccj.*
 internal import std.time.*
 internal import std.net.*
-internal import net.tls.*
+internal import stdx.net.tls.*
 
 /**
  * The class is Okio
@@ -42,6 +42,7 @@ public class Okio {
      * @return Type of BufferedSource
      * @since 0.32.5
      */
+    @Frozen
     public static func buffer(source: Source): BufferedSource {
         return RealBufferedSource(source)
     }
@@ -54,6 +55,7 @@ public class Okio {
      * @return Type of BufferedSink
      * @since 0.32.5
      */
+    @Frozen
     public static func buffer(sink: Sink): BufferedSink {
         return RealBufferedSink(sink)
     }
@@ -66,6 +68,7 @@ public class Okio {
      * @return Type of Sink
      * @since 0.32.5
      */
+    @Frozen
     public static func sink(socket: TcpSocket): Sink {
         let timeout = timeout(socket)
         let sink = sink(SocketBuffer(socket), timeout)
@@ -80,6 +83,7 @@ public class Okio {
      * @return Type of Sink
      * @since 0.32.5
      */
+    @Frozen
     public static func sink(socket: TlsSocket): Sink {
         let timeout = timeout(socket)
         let sink = sink(SocketBuffer(socket), timeout)
@@ -95,6 +99,7 @@ public class Okio {
      * @return Type of Sink
      * @since 0.32.5
      */
+    @Frozen
     public static func sink(file: File): Sink {
         return sink(file, Timeout())
     }
@@ -107,6 +112,7 @@ public class Okio {
      * @return Type of Source
      * @since 0.32.5
      */
+    @Frozen
     public static func source(socket: TcpSocket): Source {
         let timeout = timeout(socket)
         let source = source(SocketBuffer(socket), timeout)
@@ -121,6 +127,7 @@ public class Okio {
      * @return Type of Source
      * @since 0.32.5
      */
+    @Frozen
     public static func source(socket: TlsSocket): Source {
         let timeout = timeout(socket)
         let source = source(SocketBuffer(socket), timeout)
@@ -135,6 +142,7 @@ public class Okio {
      * @return Type of Source
      * @since 0.32.5
      */
+    @Frozen
     public static func source(file: File): Source {
         return source(file, Timeout())
     }
@@ -245,6 +253,7 @@ class AnonymousSource <: Source {
      * @return Type of Unit
      * @since 0.32.5
      */
+    @Frozen
     public override func close(): Unit { }
 
     /**
@@ -256,6 +265,7 @@ class AnonymousSource <: Source {
      * @return Type of Int64
      * @since 0.32.5
      */
+    @Frozen
     public override func read(sink: Buffer, byteCount: Int64): Int64 {
         match (this.funRead) {
             case None => -1
@@ -269,6 +279,7 @@ class AnonymousSource <: Source {
      * @return Type of Timeout
      * @since 0.32.5
      */
+    @Frozen
     public override func timeout(): Timeout {
         return this.funTimeout.getOrThrow()()
     }
@@ -279,6 +290,7 @@ class AnonymousSource <: Source {
      * @return Type of Bool
      * @since 0.32.5
      */
+    @Frozen
     public override func isClosed(): Bool {false}
 
     /**
@@ -287,6 +299,7 @@ class AnonymousSource <: Source {
      * @return Type of String
      * @since 0.32.5
      */
+    @Frozen
     public override func toString(): String{
         return this.toString()
     }
@@ -304,6 +317,7 @@ class AnonymousSink <: Sink {
      * @return Type of Unit
      * @since 0.32.5
      */
+    @Frozen
     public override func close(): Unit {}
 
     /**
@@ -312,6 +326,7 @@ class AnonymousSink <: Sink {
      * @return Type of Unit
      * @since 0.32.5
      */
+    @Frozen
     public override func flush(): Unit {
         match (this.funFlush) {
             case None => ()
@@ -325,6 +340,7 @@ class AnonymousSink <: Sink {
      * @return Type of Timeout
      * @since 0.32.5
      */
+    @Frozen
     public override func timeout(): Timeout {
         return this.funTimeout.getOrThrow()()
     }
@@ -338,6 +354,7 @@ class AnonymousSink <: Sink {
      * @return Type of Unit
      * @since 0.32.5
      */
+    @Frozen
     public override func write(source: Buffer, byteCount: Int64): Unit {
         match (this.funWrite) {
             case None => ()
@@ -351,6 +368,7 @@ class AnonymousSink <: Sink {
      * @return Type of Bool
      * @since 0.32.5
      */
+    @Frozen
     public override func isClosed(): Bool {false}
 
      /**
@@ -359,6 +377,7 @@ class AnonymousSink <: Sink {
      * @return Type of String
      * @since 0.32.5
      */
+    @Frozen
     public override func toString(): String{
         return this.toString()
     }

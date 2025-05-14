@@ -27,6 +27,7 @@ public class HashingSink <: ForwardingSink {
      * @return Type of HashingSink
      * @since 0.34.3
      */
+    @Frozen
     public static func md5(sink: Sink): HashingSink {
         return HashingSink(sink , "MD5")
     }
@@ -39,6 +40,7 @@ public class HashingSink <: ForwardingSink {
      * @return Type of HashingSink
      * @since 0.34.3
      */
+    @Frozen
     public static func sha1(sink: Sink): HashingSink {
         return HashingSink(sink , "SHA-1")
     }
@@ -51,6 +53,7 @@ public class HashingSink <: ForwardingSink {
      * @return Type of HashingSink
      * @since 0.34.3
      */
+    @Frozen
     public static func sha256(sink: Sink): HashingSink {
         return HashingSink(sink , "SHA-256")
     }
@@ -63,6 +66,7 @@ public class HashingSink <: ForwardingSink {
      * @return Type of HashingSink
      * @since 0.34.3
      */
+    @Frozen
     public static func sha512(sink: Sink): HashingSink {
         return HashingSink(sink , "SHA-512")
     }
@@ -76,6 +80,7 @@ public class HashingSink <: ForwardingSink {
      * @return Type of HashingSink
      * @since 0.34.3
      */
+    @Frozen
     public static func hmacSha1(sink: Sink , key: String): HashingSink {
         if(key.size <= 0) {
         throw Exception("The key cannot be empty.")
@@ -95,6 +100,7 @@ public class HashingSink <: ForwardingSink {
      * @return Type of HashingSink
      * @since 0.34.3
      */
+    @Frozen
     public static func hmacSha256(sink: Sink , key: String):HashingSink {
         HashingSink(sink)
         if(key.size <= 0) {
@@ -115,6 +121,7 @@ public class HashingSink <: ForwardingSink {
      * @return Type of HashingSink
      * @since 0.34.3
      */
+    @Frozen
     public static func hmacSha512(sink: Sink , key: String): HashingSink {
         HashingSink(sink)
         if(key.size <= 0) {
@@ -155,6 +162,7 @@ public class HashingSink <: ForwardingSink {
      *
      * @since 0.34.3
      */
+    @Frozen
     public override func write(source: Buffer , byteCount: Int64){
         Util.checkOffsetAndCount(source.size, 0, byteCount)
         super.write(source, byteCount)
@@ -168,6 +176,7 @@ public class HashingSink <: ForwardingSink {
      *
      * @since 0.34.3
      */
+    @Frozen
     public func writeMD5(source: Buffer , byteCount: Int64){
         source.copyTo(this.source,0, byteCount)
         let sourceArray: Array<UInt8> = source.readByteArray()
@@ -185,6 +194,7 @@ public class HashingSink <: ForwardingSink {
      *
      * @since 0.34.3
      */
+    @Frozen
     public func writeSHA1(source: Buffer , byteCount: Int64){
         source.copyTo(this.source,0, byteCount)
         let sourceArray: Array<UInt8> = source.readByteArray()
@@ -202,6 +212,7 @@ public class HashingSink <: ForwardingSink {
      *
      * @since 0.34.3
      */
+    @Frozen
     public func writeSHA256(source: Buffer , byteCount: Int64){
         source.copyTo(this.source,0, byteCount)
         let sourceArray: Array<UInt8> = source.readByteArray() 
@@ -219,6 +230,7 @@ public class HashingSink <: ForwardingSink {
      *
      * @since 0.34.3
      */
+    @Frozen
     public func writeSHA512(source: Buffer , byteCount: Int64){
         source.copyTo(this.source,0, byteCount)
         let sourceArray: Array<UInt8> = source.readByteArray()
@@ -236,6 +248,7 @@ public class HashingSink <: ForwardingSink {
      *
      * @since 0.34.3
      */
+    @Frozen
     public func writehmacSha1(source: Buffer , byteCount: Int64){
         source.copyTo(this.source,0, byteCount)
         var algorithm: AlgorithmType = AlgorithmType.Sha1
@@ -256,6 +269,7 @@ public class HashingSink <: ForwardingSink {
      *
      * @since 0.34.3
      */
+    @Frozen
     public func writehmacSha256(source: Buffer , byteCount: Int64){
         source.copyTo(this.source,0, byteCount)
         var algorithm: AlgorithmType = AlgorithmType.Sha256
@@ -275,6 +289,7 @@ public class HashingSink <: ForwardingSink {
      *
      * @since 0.34.3
      */
+    @Frozen
     public func writehmacSha512(source: Buffer , byteCount: Int64){
         source.copyTo(this.source,0, byteCount)
         var algorithm: AlgorithmType = AlgorithmType.Sha512
@@ -292,6 +307,7 @@ public class HashingSink <: ForwardingSink {
      * @return Type of ByteString
      * @since 0.34.3
      */
+    @Frozen
     public func hash(): String{
         return result      
     }
@@ -302,6 +318,7 @@ public class HashingSink <: ForwardingSink {
      * @return Type of Bool
      * @since 0.34.3
      */
+    @Frozen
     public override func isClosed(): Bool {
         sink.isClosed()
     } 
@@ -313,6 +330,7 @@ public class HashingSink <: ForwardingSink {
      * @return Type of Int64
      * @since 0.34.3
      */
+    @Frozen
     private func getLength(algorithm:String): Int64 {
         let result: Int64 = match (algorithm) {
             case "MD5" => 16

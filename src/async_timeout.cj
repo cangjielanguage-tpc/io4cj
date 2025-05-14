@@ -9,9 +9,6 @@
 
 package io4cj
 
-
-
-
 let reentrantMutex = ReentrantMutex()
 
 let IDLE_TIMEOUT_MILLIS: Duration = Duration.nanosecond * 6000
@@ -41,6 +38,7 @@ open class AsyncTimeout <: Timeout & Equatable<AsyncTimeout> {
      *
      * @since 0.32.5
      */
+    @Frozen
     public open func enter() {
         if (inQueue) {
             throw IllegalArgumentException("Unbalanced enter/exit")
@@ -93,6 +91,7 @@ open class AsyncTimeout <: Timeout & Equatable<AsyncTimeout> {
         }
     }
 
+    @Frozen
     private func watchdog() {
         spawn { =>
             while (true) {
@@ -121,6 +120,7 @@ open class AsyncTimeout <: Timeout & Equatable<AsyncTimeout> {
      * @return Type of Exception
      * @since 0.32.5
      */
+    @Frozen
     public open func newTimeoutException(e: Exception): Exception {
         return InterruptedException("timeout ${e.toString()}")
     }
@@ -131,6 +131,7 @@ open class AsyncTimeout <: Timeout & Equatable<AsyncTimeout> {
      * @return Type of Exception
      * @since 0.32.5
      */
+    @Frozen
     public open func newTimeoutException(): Exception {
         return InterruptedException("timeout")
     }
@@ -150,6 +151,7 @@ open class AsyncTimeout <: Timeout & Equatable<AsyncTimeout> {
      * @return Type of Sink
      * @since 0.32.5
      */
+    @Frozen
     public func sink(sink: Sink): Sink {
         func subWrite(source: Buffer, byteCount: Int64): Unit {
             Util.checkOffsetAndCount(source.size, 0, byteCount)
@@ -198,6 +200,7 @@ open class AsyncTimeout <: Timeout & Equatable<AsyncTimeout> {
      * @return Type of Source
      * @since 0.32.5
      */
+    @Frozen
     public func source(source: Source): Source {
         func subRead (sink: Buffer, byteCount: Int64): Int64 {
             var throwOnTimeout = false
@@ -221,13 +224,13 @@ open class AsyncTimeout <: Timeout & Equatable<AsyncTimeout> {
         return sourceOther
     }
 
-    func exit(e: Exception): Exception {
+        func exit(e: Exception): Exception {
         if (!exit()) {
             return e
         }
         return newTimeoutException(e)
     }
-    func exit(throwOnTimeout: Bool) {
+        func exit(throwOnTimeout: Bool) {
         if (exit() && throwOnTimeout) {
             throw newTimeoutException()
         }
@@ -239,6 +242,7 @@ open class AsyncTimeout <: Timeout & Equatable<AsyncTimeout> {
      * @return Type of Bool
      * @since 0.32.5
      */
+    @Frozen
     public func exit() : Bool {
         if (!inQueue) {
             return false
@@ -247,6 +251,7 @@ open class AsyncTimeout <: Timeout & Equatable<AsyncTimeout> {
         return cancelScheduledTimeout(this)
     }
 
+    @Frozen
     private func cancelScheduledTimeout(node: AsyncTimeout): Bool {
         synchronized(reentrantMutex) {
             var node = node
@@ -295,6 +300,7 @@ open class AsyncTimeout <: Timeout & Equatable<AsyncTimeout> {
      * @return Type of ?AsyncTimeout
      * @since 0.32.5
      */
+    @Frozen
     public func awaitTimeout(): ?AsyncTimeout {
         let node = head
         match (node) {
@@ -323,6 +329,7 @@ open class AsyncTimeout <: Timeout & Equatable<AsyncTimeout> {
         }
     }
 
+    @Frozen
     private func remainingNanos(now: Int64): Int64 {
         return this.timeoutAt - now
     }
