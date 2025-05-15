@@ -33,6 +33,7 @@ public open class ForwardingSource <: Source{
      * @return Type of Source
      * @since 0.33.3
      */
+    @Frozen
     public func delegate(): Source{
         return source
     }
@@ -43,6 +44,7 @@ public open class ForwardingSource <: Source{
      * @return Type of Bool
      * @since 0.34.3
      */
+    @Frozen
     public open func isClosed(): Bool {
         source.isClosed()
     } 
@@ -56,7 +58,8 @@ public open class ForwardingSource <: Source{
      * @return Type of Int64
      * @since 0.33.3
      */
-    public override open func read(sink: Buffer,byteCount:Int64): Int64{
+    @Frozen
+    public open override func read(sink: Buffer,byteCount:Int64): Int64{
         return source.read(sink,byteCount)
     }
 
@@ -66,6 +69,7 @@ public open class ForwardingSource <: Source{
      * @return Type of Timeout
      * @since 0.33.3
      */
+    @Frozen
     public override func timeout(): Timeout{
         return source.timeout()
     }
@@ -76,6 +80,7 @@ public open class ForwardingSource <: Source{
      * @return Type of Unit
      * @since 0.33.3
      */
+    @Frozen
     public override func close(): Unit {
         source.close()
     }
@@ -86,6 +91,7 @@ public open class ForwardingSource <: Source{
      * @return Type of String
      * @since 0.33.3
      */
+    @Frozen
     public override func toString(): String{
         return "Source" + "(" + source.toString() + ")"
     }

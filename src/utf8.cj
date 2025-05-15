@@ -23,6 +23,7 @@ public class Utf8 {
      * @return Type of Int64
      * @since 0.32.5
      */
+    @Frozen
     public static func size(str: String): Int64 {
         size(str, 0, str.size)
     }
@@ -37,6 +38,7 @@ public class Utf8 {
      * @return Type of Int64
      * @since 0.32.5
      */
+    @Frozen
     public static func size(str: String, beginIndex: Int64, endIndex: Int64): Int64 {
         if (beginIndex < 0) {
             throw IllegalArgumentException ("beginIndex < 0: ${beginIndex}.")

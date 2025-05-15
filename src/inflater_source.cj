@@ -32,6 +32,7 @@ public class InflaterSource <: Source {
      * @return Type of Int64
      * @since 0.34.3
      */
+    @Frozen
     public func read(sink: Buffer , byteCount: Int64): Int64 {
         let buffer: Buffer = Buffer()
         if (byteCount < 0) {
@@ -84,6 +85,7 @@ public class InflaterSource <: Source {
      * @return Type of Timeout
      * @since 0.34.3
      */
+    @Frozen
     public override func timeout(): Timeout {
         return source.timeout()
     }
@@ -94,6 +96,7 @@ public class InflaterSource <: Source {
      * @return Type of Unit
      * @since 0.34.3
      */
+    @Frozen
     public override func close():Unit {
         if (closed) {
             return
@@ -108,6 +111,7 @@ public class InflaterSource <: Source {
      *@return Type of Bool
      * @since 0.34.3
      */
+    @Frozen
     public override func isClosed(): Bool {
         return source.isClosed()
     } 
@@ -118,6 +122,7 @@ public class InflaterSource <: Source {
      *@return Type of String
      * @since 0.34.3
      */
+    @Frozen
     public override func toString():String{
         return source.toString()
     }

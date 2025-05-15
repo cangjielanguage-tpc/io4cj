@@ -48,6 +48,7 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
      * @return Type of ByteString
      * @since 0.32.5
      */
+    @Frozen
     public static func of (data: Array<Byte>): ByteString {
         return ByteString(data.clone())
     }
@@ -62,6 +63,7 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
      * @return Type of ByteString
      * @since 0.32.5
      */
+    @Frozen
     public static func of(target: Array<Byte>, offset: Int64, byteCount: Int64): ByteString {
         let bytes: Array<Byte> = Array<Byte>(byteCount, repeat: 0)
         var i = 0
@@ -81,6 +83,7 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
      * @since 0.32.5
      */
     // Returns a new byte string containing the {@code UTF-8} bytes of {@code s}. */
+    @Frozen
     public static func encodeUtf8(s: String): ByteString {
         return ByteString(s)
     }
@@ -92,6 +95,7 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
      * @since 0.32.5
      */
     /** Constructs a new {@code String} by decoding the bytes as {@code UTF-8}. */
+    @Frozen
     public func UTF8(): String {
         match (this.utf8) {
             case Some(v) => return v
@@ -109,6 +113,7 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
      * @return Type of String
      * @since 0.32.5
      */
+    @Frozen
     public func base64 (): String {
         return encode(this.data, MAP)
     }
@@ -161,6 +166,7 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
      * @return Type of ?ByteString
      * @since 0.32.5
      */
+    @Frozen
     public static func decodeBase64 (base64: String): ?ByteString {
         match (decode(base64)) {
             case Some(arr) => return ByteString(arr)
@@ -237,6 +243,7 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
      * @return Type of String
      * @since 0.32.5
      */
+    @Frozen
     public func hex(): String {
         let chars: Array<Byte> = Array<Byte>(this.data.size * 2, repeat: NULL)
         var c = 0
@@ -259,6 +266,7 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
      * @since 0.32.5
      */
     @OverflowWrapping
+    @Frozen
     public static func decodeHex(hex: String): ByteString {
         if (hex.size % 2 != 0) {
             throw IllegalArgumentException("Unexpected hex string: ${hex}")
@@ -294,6 +302,7 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
      * @return Type of ByteString
      * @since 0.32.5
      */
+    @Frozen
     public static func read(input: InputStream, byteCount: Int64): ByteString {
         if (byteCount < 0) {
             throw IllegalArgumentException("byteCount < 0")
@@ -315,6 +324,7 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
      * @return Type of ByteString
      * @since 0.32.5
      */
+    @Frozen
     public static func read(path: String): ByteString {
         let src = File(path, OpenMode.Read)
         return read(src,src.length)
@@ -326,6 +336,7 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
      * @return Type of ByteString
      * @since 0.32.5
      */
+    @Frozen
     public func toAsciiLowercase (): ByteString {
         let arr = this.data.clone()
         var index = 0
@@ -342,6 +353,7 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
      * @return Type of ByteString
      * @since 0.32.5
      */
+    @Frozen
     public func toAsciiUppercase (): ByteString {
         let arr = this.data.clone()
         var index = 0
@@ -360,6 +372,7 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
      * @return Type of ByteString
      * @since 0.32.5
      */
+    @Frozen
     public func substring(beginIndex: Int64): ByteString {
         return substring(beginIndex, data.size)
     }
@@ -373,6 +386,7 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
      * @return Type of ByteString
      * @since 0.32.5
      */
+    @Frozen
     public func substring(beginIndex: Int64, endIndex: Int64): ByteString {
         if (beginIndex < 0) {
             throw IllegalArgumentException("beginIndex < 0")
@@ -400,6 +414,7 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
      * @return Type of Byte
      * @since 0.32.5
      */
+    @Frozen
     public func getByte (pos: Int64): Byte {
         return this.data[pos]
     }
@@ -420,10 +435,12 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
      * @return Type of Array<Byte>
      * @since 0.32.5
      */
+    @Frozen
     public func toByteArray (): Array<Byte> {
         return this.data.clone()
     }
 
+    @Frozen
     func internalArray(): Array<Byte> {
         return this.data
     }
@@ -437,6 +454,7 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
      * @return Type of Unit
      * @since 0.32.5
      */
+    @Frozen
     public func write (outPath: String): Unit {
         write(File(outPath, OpenMode.Append))
         // write(File(outPath, Write, mode))
@@ -450,6 +468,7 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
      * @return Type of Unit
      * @since 0.32.5
      */
+    @Frozen
     public func write (out: OutputStream): Unit {
         out.write(this.data)
     }
@@ -460,6 +479,7 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
      * @param buffer of Buffer
      * @since 0.32.5
      */
+    @Frozen
     public func write (buffer: Buffer) {
         buffer.write(this.data, 0, data.size)
     }
@@ -475,6 +495,7 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
      * @return Type of Bool
      * @since 0.32.5
      */
+    @Frozen
     public func rangeEquals(offset: Int64, other: ByteString, otherOffset: Int64, byteCount: Int64): Bool {
         return other.rangeEquals(otherOffset, this.data, offset, byteCount)
     }
@@ -490,6 +511,7 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
      * @return Type of Bool
      * @since 0.32.5
      */
+    @Frozen
     public func rangeEquals(offset: Int64, other: Array<Byte>, otherOffset: Int64, byteCount: Int64): Bool {
         return offset >= 0 && offset <= data.size - byteCount
         && otherOffset >= 0 && otherOffset <= other.size - byteCount
@@ -504,6 +526,7 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
      * @return Type of Bool
      * @since 0.32.5
      */
+    @Frozen
     public func startsWith(prefix: ByteString): Bool {
         return rangeEquals(0, prefix, 0, prefix.size)
     }
@@ -516,6 +539,7 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
      * @return Type of Bool
      * @since 0.32.5
      */
+    @Frozen
     public func startsWith(prefix: Array<Byte>): Bool {
         return rangeEquals(0, prefix, 0, prefix.size)
     }   
@@ -528,6 +552,7 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
      * @return Type of Bool
      * @since 0.32.5
      */
+    @Frozen
     public func endsWith (suffix: ByteString):Bool {
         return rangeEquals(this.size - suffix.size, suffix, 0, suffix.size)
     }
@@ -540,6 +565,7 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
      * @return Type of Bool
      * @since 0.32.5
      */
+    @Frozen
     public func endsWith (suffix:Array<Byte>) :Bool {
         return rangeEquals(this.size - suffix.size, suffix, 0, suffix.size)
     }
@@ -552,6 +578,7 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
      * @return Type of Int64
      * @since 0.32.5
      */
+    @Frozen
     public func indexOf(other: ByteString): Int64 {
         return indexOf(other.internalArray(), 0)
     }
@@ -565,6 +592,7 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
      * @return Type of Int64
      * @since 0.32.5
      */
+    @Frozen
     public func indexOf(other: ByteString, fromIndex: Int64): Int64 {
         return indexOf(other.internalArray(), fromIndex)
     }
@@ -577,6 +605,7 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
      * @return Type of Int64
      * @since 0.32.5
      */
+    @Frozen
     public func indexOf(other: Array<Byte>): Int64 {
         return indexOf(other, 0)
     }
@@ -590,6 +619,7 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
      * @return Type of Int64
      * @since 0.32.5
      */
+    @Frozen
     public func indexOf(other: Array<Byte>, fromIndex: Int64): Int64 {
         for (i in max(fromIndex, 0)..=data.size-other.size where Util.arrayRangeEquals(this.data, i, other, 0, other.size)) {
             return i
@@ -605,6 +635,7 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
      * @return Type of Int64
      * @since 0.32.5
      */
+    @Frozen
     public func lastIndexOf(other: ByteString) : Int64 {
         return lastIndexOf(other.internalArray(), this.size)
     }
@@ -618,6 +649,7 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
      * @return Type of Int64
      * @since 0.32.5
      */
+    @Frozen
     public func lastIndexOf(other: ByteString, fromIndex: Int64): Int64 {
         return lastIndexOf(other.internalArray(), fromIndex)
     }
@@ -630,6 +662,7 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
      * @return Type of Int64
      * @since 0.32.5
      */
+    @Frozen
     public func lastIndexOf(other: Array<Byte>): Int64 {
         return lastIndexOf(other, this.size)
     }
@@ -643,6 +676,7 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
      * @return Type of Int64
      * @since 0.32.5
      */
+    @Frozen
     public func lastIndexOf(other: Array<Byte>, fromIndex: Int64): Int64 {
         for (i in min(fromIndex, data.size - other.size)..=0:-1 where Util.arrayRangeEquals(this.data, i, other, 0, other.size)) {
             return i
@@ -682,6 +716,7 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
      * @return Type of Bool
      * @since 0.32.5
      */
+    @Frozen
     public func equals (o: ByteString): Bool {
         if (refEq(this, o)) {
             return true
@@ -702,6 +737,7 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
      * @since 0.32.5
      */
     @OverflowWrapping
+    @Frozen
     public func hashCode (): Int64 {
         return if (this.hashcode != 0) {
             this.hashcode
@@ -721,6 +757,7 @@ public open class ByteString <: Object & Hashable & ToString & Equatable<ByteStr
      * @return Type of String
      * @since 0.32.5
      */
+    @Frozen
     public func toString (): String {
         if ( this.data.size == 0) {
             return "[size=0]"

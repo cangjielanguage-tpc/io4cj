@@ -20,6 +20,7 @@ class PushableTimeout <: Timeout {
 
     }
     
+    @Frozen
     func push(ptime: Timeout) {
         this.ptime = ptime
         this.phasDeadline = ptime.hasDeadline()
@@ -41,6 +42,7 @@ class PushableTimeout <: Timeout {
         }
     }
 
+    @Frozen
     func pop() {
         ptime.timeout(ptimeoutNanos)
         if (phasDeadline) {

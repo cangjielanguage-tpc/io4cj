@@ -22,6 +22,7 @@ enum SockClient {
      * @return Type of Int64
      * @since 0.32.5
      */
+    @Frozen
     public func read(buffer: Array<Byte>): Int64 {
         return match(this) {
             case SocketC(conn) => conn.read(buffer)
@@ -37,6 +38,7 @@ enum SockClient {
      * @return Type of Unit
      * @since 0.32.5
      */
+    @Frozen
     public func write(buffer: Array<Byte>): Unit {
         return match(this) {
             case SocketC(conn) => conn.write(buffer)
@@ -50,6 +52,7 @@ enum SockClient {
      * @return Type of Unit
      * @since 0.32.5
      */
+    @Frozen
     public func close(): Unit {
         return match(this) {
             case SocketC(conn) => conn.close()
@@ -100,6 +103,7 @@ public open class SocketBuffer <: InputStream & OutputStream & Resource & ToStri
      * @return Type of Unit
      * @since 0.32.5
      */
+    @Frozen
     public open func write(buffer: Array<Byte>): Unit {
         synchronized(lock) {this.sockClient.write(buffer)}
     }
@@ -109,6 +113,7 @@ public open class SocketBuffer <: InputStream & OutputStream & Resource & ToStri
      * @return Type of Unit
      * @since 0.32.5
      */
+    @Frozen
     public open func flush(): Unit {
         synchronized(lock) {}
     }
@@ -121,6 +126,7 @@ public open class SocketBuffer <: InputStream & OutputStream & Resource & ToStri
      * @return Type of Int64
      * @since 0.32.5
      */
+    @Frozen
     public open func read(buffer: Array<Byte>): Int64 {
         synchronized(lock) {this.sockClient.read(buffer)}
     }
@@ -131,6 +137,7 @@ public open class SocketBuffer <: InputStream & OutputStream & Resource & ToStri
      * @return Type of Bool
      * @since 0.32.5
      */
+    @Frozen
     public open func isClosed(): Bool {
         synchronized(lock) {this.closed}
     }
@@ -141,6 +148,7 @@ public open class SocketBuffer <: InputStream & OutputStream & Resource & ToStri
      * @return Type of Unit
      * @since 0.32.5
      */
+    @Frozen
     public open func close(): Unit {
         synchronized(lock) {
             this.sockClient.close()
@@ -155,6 +163,7 @@ public open class SocketBuffer <: InputStream & OutputStream & Resource & ToStri
      * @return Type of String
      * @since 0.32.5
      */
+    @Frozen
     public open func toString(): String {
         synchronized(lock) {
             match (this.sockClient) {

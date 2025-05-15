@@ -39,6 +39,7 @@ package io4cj
      * @return Type of Timeout
      * @since 0.33.3
      */
+    @Frozen
     public func delegate():Timeout{
         return assignment
     }
@@ -51,6 +52,7 @@ package io4cj
      * @return Type of ForwardingTimeout
      * @since 0.33.3
      */
+    @Frozen
     public func  setDelegate(assignment: Timeout):ForwardingTimeout{
         this.assignment = assignment
     return this    
@@ -64,6 +66,7 @@ package io4cj
      * @return Type of Timeout
      * @since 0.33.3
      */
+    @Frozen
     public override func timeout(timeout: Int64):Timeout { //unit: TimeUnit 
         let thi =  assignment.timeout(timeout)
         return thi
@@ -75,6 +78,7 @@ package io4cj
      * @return Type of Int64
      * @since 0.33.3
      */
+    @Frozen
     public override func timeoutNanos(): Int64{
         return assignment.timeoutNanos()
     }
@@ -85,6 +89,7 @@ package io4cj
      * @return Type of Bool
      * @since 0.33.3
      */
+    @Frozen
     public override func hasDeadline():Bool{
         return assignment.hasDeadline()
     }
@@ -95,8 +100,9 @@ package io4cj
      * @return Type of Int64
      * @since 0.33.3
      */
+    @Frozen
     public override func deadlineNanoTime():Int64 {
-    return assignment.deadlineNanoTime();
+        return assignment.deadlineNanoTime()
     }
 
     /**
@@ -107,8 +113,9 @@ package io4cj
      * @return Type of Timeout
      * @since 0.33.3
      */
+    @Frozen
     public override func deadlineNanoTime(deadlineNanoTime: Int64):Timeout {
-    return assignment.deadlineNanoTime(deadlineNanoTime);
+        return assignment.deadlineNanoTime(deadlineNanoTime)
     }
 
     /**
@@ -117,8 +124,9 @@ package io4cj
      * @return Type of Timeout
      * @since 0.33.3
      */
+    @Frozen
     public override func clearTimeout(): Timeout {
-    return assignment.clearTimeout();
+        return assignment.clearTimeout()
     }
 
     /**
@@ -127,8 +135,9 @@ package io4cj
      * @return Type of Timeout
      * @since 0.33.3
      */
+    @Frozen
     public override func clearDeadline(): Timeout {
-    return assignment.clearDeadline();
+        return assignment.clearDeadline()
     }
 
     /**
@@ -136,7 +145,8 @@ package io4cj
      *
      * @since 0.33.3
      */
+    @Frozen
     public override func throwIfReached(): Unit{
-    assignment.throwIfReached();
+        assignment.throwIfReached()
     }
  }

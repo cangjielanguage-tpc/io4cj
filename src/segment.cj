@@ -56,6 +56,7 @@ public class Segment <: Object & Equatable<Segment> {
         this.owner = owner
     }
 
+    @Frozen
     func sharedCopy(): Segment {
         shared = true
         return Segment(this.data, this.pos, this.limit, true, false)
@@ -69,6 +70,7 @@ public class Segment <: Object & Equatable<Segment> {
      * @return Type of Segment
      * @since 0.32.5
      */
+    @Frozen
     public func push(segment: Segment): Segment {
         segment.prev = this
         segment.next = next
@@ -83,6 +85,7 @@ public class Segment <: Object & Equatable<Segment> {
      * @return Type of ?Segment
      * @since 0.32.5
      */
+    @Frozen
     public func pop(): ?Segment {
         let nextA = next.getOrThrow()
         let result: ?Segment = if (nextA != this) {
@@ -103,6 +106,7 @@ public class Segment <: Object & Equatable<Segment> {
      *  The second paragraph contains the data in [pos+byteCount.. Limit],
      *  It is useful to move some segments from one buffer to another.
      */
+    @Frozen
     public func split(byteCount: Int64): Segment {
         if (byteCount <= 0 || byteCount > limit - pos) {
             throw IllegalArgumentException()
@@ -125,6 +129,7 @@ public class Segment <: Object & Equatable<Segment> {
      *
      * @since 0.32.5
      */
+    @Frozen
     public func compact() {
         match (prev) {
             case Some(seg) => doCompact(seg)
@@ -134,6 +139,7 @@ public class Segment <: Object & Equatable<Segment> {
         }
     }
 
+    @Frozen
     func doCompact(prev: Segment) {
         if (!prev.owner) {
             return
@@ -159,6 +165,7 @@ public class Segment <: Object & Equatable<Segment> {
      * @param byteCount of Int64
      * @since 0.32.5
      */
+    @Frozen
     public func writeTo(sink: Segment, byteCount: Int64) {
         if (!sink.owner) {
             throw IllegalArgumentException()

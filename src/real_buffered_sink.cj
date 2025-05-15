@@ -35,6 +35,7 @@ class RealBufferedSink <: BufferedSink {
      * @return Type of Buffer
      * @since 0.32.5
      */
+    @Frozen
     public override func buffer (): Buffer {
         return this.buf
     }
@@ -47,6 +48,7 @@ class RealBufferedSink <: BufferedSink {
      * @return Type of BufferedSink
      * @since 0.32.5
      */
+    @Frozen
     public override func write(byteString: ByteString): BufferedSink {
         if (this.closed) {
             throw IllegalArgumentException("closed.")
@@ -63,6 +65,7 @@ class RealBufferedSink <: BufferedSink {
      * @return Type of BufferedSink
      * @since 0.32.5
      */
+    @Frozen
     public override func write(source: Array<Byte>): BufferedSink {
         if (closed) {
             throw IllegalStateException("closed")
@@ -81,6 +84,7 @@ class RealBufferedSink <: BufferedSink {
      * @return Type of BufferedSink
      * @since 0.32.5
      */
+    @Frozen
     public override func write(source: Array<Byte>, offset: Int64, byteCount: Int64): BufferedSink {
         if (closed) {
             throw IllegalStateException("closed")
@@ -98,6 +102,7 @@ class RealBufferedSink <: BufferedSink {
      * @return Type of BufferedSink
      * @since 0.32.5
      */
+    @Frozen
     public override func write(source: Source, bytecount: Int64): BufferedSink {
         var byteCount = bytecount
         while (byteCount > 0) {
@@ -119,6 +124,7 @@ class RealBufferedSink <: BufferedSink {
      * @return Type of Int64
      * @since 0.32.5
      */
+    @Frozen
     public override func writeAll(source: Source): Int64 {
         var totalBytesRead = 0
         var readCount = source.read(this.buf, Segment.SIZE)
@@ -137,6 +143,7 @@ class RealBufferedSink <: BufferedSink {
      * @return Type of BufferedSink
      * @since 0.32.5
      */
+    @Frozen
     public override func writeUtf8(string: String): BufferedSink {
         this.buf.writeUtf8(string)
         return emitCompleteSegments()
@@ -152,6 +159,7 @@ class RealBufferedSink <: BufferedSink {
      * @return Type of BufferedSink
      * @since 0.32.5
      */
+    @Frozen
     public override func writeUtf8(string: String, beginIndex: Int64, endIndex: Int64): BufferedSink {
         this.buf.writeUtf8(string, beginIndex, endIndex)
         return emitCompleteSegments()
@@ -165,6 +173,7 @@ class RealBufferedSink <: BufferedSink {
      * @return Type of BufferedSink
      * @since 0.32.5
      */
+    @Frozen
     public override func writeUtf8CodePoint(codePoInt64: Int64): BufferedSink {
         this.buf.writeUtf8CodePoint(codePoInt64)
         return emitCompleteSegments()
@@ -178,6 +187,7 @@ class RealBufferedSink <: BufferedSink {
      * @return Type of BufferedSink
      * @since 0.32.5
      */
+    @Frozen
     public override func writeInt8(value: Int64): BufferedSink {
         this.buf.writeInt8(value)
         return emitCompleteSegments()
@@ -191,6 +201,7 @@ class RealBufferedSink <: BufferedSink {
      * @return Type of BufferedSink
      * @since 0.32.5
      */
+    @Frozen
     public override func writeInt16(value: Int64): BufferedSink {
         this.buf.writeInt16(value)
         return emitCompleteSegments()
@@ -204,6 +215,7 @@ class RealBufferedSink <: BufferedSink {
      * @return Type of BufferedSink
      * @since 0.32.5
      */
+    @Frozen
     public override func writeInt16Le(value: Int64): BufferedSink {
         this.buf.writeInt16Le(value)
         return emitCompleteSegments()
@@ -217,6 +229,7 @@ class RealBufferedSink <: BufferedSink {
      * @return Type of BufferedSink
      * @since 0.32.5
      */
+    @Frozen
     public override func writeInt32(value: Int64): BufferedSink {
         this.buf.writeInt32(value)
         return emitCompleteSegments()
@@ -230,6 +243,7 @@ class RealBufferedSink <: BufferedSink {
      * @return Type of BufferedSink
      * @since 0.32.5
      */
+    @Frozen
     public override func writeInt32Le(value: Int64): BufferedSink {
         this.buf.writeInt32Le(value)
         return emitCompleteSegments()
@@ -243,6 +257,7 @@ class RealBufferedSink <: BufferedSink {
      * @return Type of BufferedSink
      * @since 0.32.5
      */
+    @Frozen
     public override func writeInt64(value: Int64): BufferedSink {
         this.buf.writeInt64(value)
         return emitCompleteSegments()
@@ -256,6 +271,7 @@ class RealBufferedSink <: BufferedSink {
      * @return Type of BufferedSink
      * @since 0.32.5
      */
+    @Frozen
     public override func writeInt64Le(value: Int64): BufferedSink {
         this.buf.writeInt64Le(value)
         return emitCompleteSegments()
@@ -267,6 +283,7 @@ class RealBufferedSink <: BufferedSink {
      * @return Type of Unit
      * @since 0.32.5
      */
+    @Frozen
     public override func flush(): Unit {
         if (this.closed) {
             throw IllegalArgumentException("closed")
@@ -283,6 +300,7 @@ class RealBufferedSink <: BufferedSink {
      * @return Type of BufferedSink
      * @since 0.32.5
      */
+    @Frozen
     public override func emit(): BufferedSink {
         if (closed) {
             throw IllegalStateException("closed")
@@ -300,6 +318,7 @@ class RealBufferedSink <: BufferedSink {
      * @return Type of Unit
      * @since 0.32.5
      */
+    @Frozen
     public override func close(): Unit {
         if (this.closed) {
             return
@@ -333,6 +352,7 @@ class RealBufferedSink <: BufferedSink {
      * @return Type of Timeout
      * @since 0.32.5
      */
+    @Frozen
     public override func timeout(): Timeout {
         return this.sink.timeout()
     }
@@ -346,6 +366,7 @@ class RealBufferedSink <: BufferedSink {
      * @return Type of Unit
      * @since 0.32.5
      */
+    @Frozen
     public override func write(source: Buffer, byteCount: Int64): Unit {
         this.buf.write(source, byteCount)
         emitCompleteSegments()
@@ -357,6 +378,7 @@ class RealBufferedSink <: BufferedSink {
      * @return Type of Bool
      * @since 0.32.5
      */
+    @Frozen
     public override func isClosed():Bool {
         this.closed
     }
@@ -367,6 +389,7 @@ class RealBufferedSink <: BufferedSink {
      * @return Type of BufferedSink
      * @since 0.32.5
      */
+    @Frozen
     public override func emitCompleteSegments(): BufferedSink {
         if (this.closed) {
             throw IllegalArgumentException("closed.")
@@ -384,6 +407,7 @@ class RealBufferedSink <: BufferedSink {
      * @return Type of String
      * @since 0.32.5
      */
+    @Frozen
     public override func toString (): String {
         return "RealBufferedSink: ${this.buf.toString()}"
     }

@@ -21,6 +21,7 @@ public interface BufferedSink <: Sink & ToString {
      * @return Type of Buffer
      * @since 0.32.5
      */
+    @Frozen
     func buffer(): Buffer
     /*
      * The Function is write
@@ -30,6 +31,7 @@ public interface BufferedSink <: Sink & ToString {
      * @return Type of BufferedSink
      * @since 0.32.5
      */
+    @Frozen
     func write(byteString: ByteString): BufferedSink
     /*
      * The Function is write
@@ -39,6 +41,7 @@ public interface BufferedSink <: Sink & ToString {
      * @return Type of BufferedSink
      * @since 0.32.5
      */
+    @Frozen
     func write(source: Array<Byte>): BufferedSink
     /*
      * The Function is write
@@ -50,6 +53,7 @@ public interface BufferedSink <: Sink & ToString {
      * @return Type of BufferedSink
      * @since 0.32.5
      */
+    @Frozen
     func write(source: Array<Byte>, offset: Int64, byteCount: Int64): BufferedSink
     // func write(source: Buffer): BufferedSink
     /*
@@ -61,6 +65,7 @@ public interface BufferedSink <: Sink & ToString {
      * @return Type of BufferedSink
      * @since 0.32.5
      */
+    @Frozen
     func write(source: Source, byteCount: Int64): BufferedSink
     // func write(source: Buffer, byteCount: Int64): Unit
     /*
@@ -71,6 +76,7 @@ public interface BufferedSink <: Sink & ToString {
      * @return Type of Int64
      * @since 0.32.5
      */
+    @Frozen
     func writeAll(source: Source): Int64
     /*
      * The Function is writeUtf8
@@ -80,6 +86,7 @@ public interface BufferedSink <: Sink & ToString {
      * @return Type of BufferedSink
      * @since 0.32.5
      */
+    @Frozen
     func writeUtf8(string: String): BufferedSink
     /*
      * The Function is writeUtf8
@@ -91,6 +98,7 @@ public interface BufferedSink <: Sink & ToString {
      * @return Type of BufferedSink
      * @since 0.32.5
      */
+    @Frozen
     func writeUtf8(string: String, beginIndex: Int64, endIndex: Int64): BufferedSink
     /*
      * The Function is writeUtf8CodePoint
@@ -100,6 +108,7 @@ public interface BufferedSink <: Sink & ToString {
      * @return Type of BufferedSink
      * @since 0.32.5
      */
+    @Frozen
     func writeUtf8CodePoint(codePoInt64: Int64): BufferedSink
     // func writeString(string: String, charset: Charset): BufferedSink
     // func writeString(string: String, beginIndex: Int64, endIndex: Int64, charset: Charset): BufferedSink
@@ -111,6 +120,7 @@ public interface BufferedSink <: Sink & ToString {
      * @return Type of BufferedSink
      * @since 0.32.5
      */
+    @Frozen
     func writeInt8(value: Int64): BufferedSink
     /*
      * The Function is writeInt16
@@ -120,6 +130,7 @@ public interface BufferedSink <: Sink & ToString {
      * @return Type of BufferedSink
      * @since 0.32.5
      */
+    @Frozen
     func writeInt16(value: Int64): BufferedSink
     /*
      * The Function is writeInt16Le
@@ -129,6 +140,7 @@ public interface BufferedSink <: Sink & ToString {
      * @return Type of BufferedSink
      * @since 0.32.5
      */
+    @Frozen
     func writeInt16Le(value: Int64): BufferedSink
     /*
      * The Function is writeInt32
@@ -138,6 +150,7 @@ public interface BufferedSink <: Sink & ToString {
      * @return Type of BufferedSink
      * @since 0.32.5
      */
+    @Frozen
     func writeInt32(value: Int64): BufferedSink
     /*
      * The Function is writeInt32Le
@@ -147,6 +160,7 @@ public interface BufferedSink <: Sink & ToString {
      * @return Type of BufferedSink
      * @since 0.32.5
      */
+    @Frozen
     func writeInt32Le(value: Int64): BufferedSink
     /*
      * The Function is writeInt64
@@ -156,6 +170,7 @@ public interface BufferedSink <: Sink & ToString {
      * @return Type of BufferedSink
      * @since 0.32.5
      */
+    @Frozen
     func writeInt64(value: Int64): BufferedSink
     /*
      * The Function is writeInt64Le
@@ -165,6 +180,7 @@ public interface BufferedSink <: Sink & ToString {
      * @return Type of BufferedSink
      * @since 0.32.5
      */
+    @Frozen
     func writeInt64Le(value: Int64): BufferedSink
     /*
      * The Function is emit
@@ -172,6 +188,7 @@ public interface BufferedSink <: Sink & ToString {
      * @return Type of BufferedSink
      * @since 0.32.5
      */
+    @Frozen
     func emit(): BufferedSink
     /*
      * The Function is emitCompleteSegments
@@ -179,6 +196,7 @@ public interface BufferedSink <: Sink & ToString {
      * @return Type of BufferedSink
      * @since 0.32.5
      */
+    @Frozen
     func emitCompleteSegments(): BufferedSink
     // func outputStream(): OutputStream
 }

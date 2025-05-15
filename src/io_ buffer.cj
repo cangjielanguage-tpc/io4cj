@@ -95,10 +95,12 @@ public class ByteBuffer  {
         this.off_ = offsets
     }
     
+    @Frozen
     public func mark(): Unit {
         mar_ = pos_
     }
 
+    @Frozen
     public func put(src: Array<Byte>, offsets: Int64, length: Int64): Unit {
         ArrayCopy(src, offsets, hb, pos_ + off_, length)
         pos_ = pos_ + length

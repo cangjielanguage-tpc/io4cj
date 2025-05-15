@@ -35,6 +35,7 @@ public class DeflaterSink {
      * @return Type of Bool
      * @since 0.34.3
      */
+    @Frozen
     public func isClosed(): Bool{
         sinks.isClosed()
     }
@@ -48,6 +49,7 @@ public class DeflaterSink {
      * @return Type of Unit
      * @since 0.34.3
      */
+    @Frozen
     public func write(source: Buffer , byteCount: Int64){
         deflate(source , byteCount)
         this.bufferSink = source
@@ -63,6 +65,7 @@ public class DeflaterSink {
      * @return Type of Unit
      * @since 0.34.3
      */
+    @Frozen
     private func deflate (source: Buffer , byteCount: Int64): Unit {
         let buffer: Buffer = sink.buffer()
         

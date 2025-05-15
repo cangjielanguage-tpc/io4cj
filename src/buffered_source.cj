@@ -21,6 +21,7 @@ public interface BufferedSource <: Source & ToString {
      * @return Type of Buffer
      * @since 0.32.5
      */
+    @Frozen
     func getBuffer(): Buffer
     /*
      * The Function is exhausted
@@ -28,6 +29,7 @@ public interface BufferedSource <: Source & ToString {
      * @return Type of Bool
      * @since 0.32.5
      */
+    @Frozen
     func exhausted(): Bool
     /*
      * The Function is require
@@ -37,6 +39,7 @@ public interface BufferedSource <: Source & ToString {
      * @return Type of Unit
      * @since 0.32.5
      */
+    @Frozen
     func require(byteCount: Int64): Unit
     /*
      * The Function is request
@@ -46,6 +49,7 @@ public interface BufferedSource <: Source & ToString {
      * @return Type of Bool
      * @since 0.32.5
      */
+    @Frozen
     func request(byteCount: Int64): Bool
     /*
      * The Function is read
@@ -55,6 +59,7 @@ public interface BufferedSource <: Source & ToString {
      * @return Type of Int64
      * @since 0.32.5
      */
+    @Frozen
     func read(sink: Array<Byte>): Int64
     /*
      * The Function is read
@@ -64,6 +69,7 @@ public interface BufferedSource <: Source & ToString {
      * @return Type of Int64
      * @since 0.32.5
      */
+    @Frozen
     func read(sink: ByteBuffer): Int64
     /*
      * The Function is read
@@ -75,6 +81,7 @@ public interface BufferedSource <: Source & ToString {
      * @return Type of Int64
      * @since 0.32.5
      */
+    @Frozen
     func read(sink: Array<Byte>, offset: Int64, byteCount: Int64): Int64
     /*
      * The Function is readInt8
@@ -82,6 +89,7 @@ public interface BufferedSource <: Source & ToString {
      * @return Type of Int8
      * @since 0.32.5
      */
+    @Frozen
     func readInt8(): Int8
     /*
      * The Function is readInt16
@@ -89,6 +97,7 @@ public interface BufferedSource <: Source & ToString {
      * @return Type of Int16
      * @since 0.32.5
      */
+    @Frozen
     func readInt16(): Int16
     /*
      * The Function is readInt16Le
@@ -96,6 +105,7 @@ public interface BufferedSource <: Source & ToString {
      * @return Type of Int16
      * @since 0.32.5
      */
+    @Frozen
     func readInt16Le(): Int16
     /*
      * The Function is readInt32
@@ -103,6 +113,7 @@ public interface BufferedSource <: Source & ToString {
      * @return Type of Int32
      * @since 0.32.5
      */
+    @Frozen
     func readInt32(): Int32
     /*
      * The Function is readInt32Le
@@ -110,6 +121,7 @@ public interface BufferedSource <: Source & ToString {
      * @return Type of Int32
      * @since 0.32.5
      */
+    @Frozen
     func readInt32Le(): Int32
     /*
      * The Function is readInt64
@@ -117,6 +129,7 @@ public interface BufferedSource <: Source & ToString {
      * @return Type of Int64
      * @since 0.32.5
      */
+    @Frozen
     func readInt64(): Int64
     /*
      * The Function is readInt64Le
@@ -124,6 +137,7 @@ public interface BufferedSource <: Source & ToString {
      * @return Type of Int64
      * @since 0.32.5
      */
+    @Frozen
     func readInt64Le(): Int64
     /*
      * The Function is readDecimalInt64
@@ -131,6 +145,7 @@ public interface BufferedSource <: Source & ToString {
      * @return Type of Int64
      * @since 0.32.5
      */
+    @Frozen
     func readDecimalInt64(): Int64
     /*
      * The Function is readHexadecimalUInt64
@@ -138,6 +153,7 @@ public interface BufferedSource <: Source & ToString {
      * @return Type of Int64
      * @since 0.32.5
      */
+    @Frozen
     func readHexadecimalUInt64(): Int64
     /*
      * The Function is readByteString
@@ -145,6 +161,7 @@ public interface BufferedSource <: Source & ToString {
      * @return Type of ByteString
      * @since 0.32.5
      */
+    @Frozen
     func readByteString(): ByteString
     /*
      * The Function is readByteString
@@ -154,6 +171,7 @@ public interface BufferedSource <: Source & ToString {
      * @return Type of ByteString
      * @since 0.32.5
      */
+    @Frozen
     func readByteString(byteCount: Int64): ByteString
     /*
      * The Function is readByteArray
@@ -161,6 +179,7 @@ public interface BufferedSource <: Source & ToString {
      * @return Type of Array<Byte>
      * @since 0.32.5
      */
+    @Frozen
     func readByteArray(): Array<Byte>
     /*
      * The Function is readByteArray
@@ -170,6 +189,7 @@ public interface BufferedSource <: Source & ToString {
      * @return Type of Array<Byte>
      * @since 0.32.5
      */
+    @Frozen
     func readByteArray(byteCount: Int64): Array<Byte>
     /*
      * The Function is readFully
@@ -179,6 +199,7 @@ public interface BufferedSource <: Source & ToString {
      * @return Type of Unit
      * @since 0.32.5
      */
+    @Frozen
     func readFully(sink: Array<Byte>): Unit
     /*
      * The Function is readFully
@@ -189,6 +210,7 @@ public interface BufferedSource <: Source & ToString {
      * @return Type of Unit
      * @since 0.32.5
      */
+    @Frozen
     func readFully(sink: Buffer, byteCount: Int64): Unit
     /*
      * The Function is readAll
@@ -198,6 +220,7 @@ public interface BufferedSource <: Source & ToString {
      * @return Type of Int64
      * @since 0.32.5
      */
+    @Frozen
     func readAll(sink: Sink): Int64
     /*
      * The Function is readUtf8
@@ -205,6 +228,7 @@ public interface BufferedSource <: Source & ToString {
      * @return Type of ?String
      * @since 0.32.5
      */
+    @Frozen
     func readUtf8(): String
     /*
      * The Function is readUtf8
@@ -214,6 +238,7 @@ public interface BufferedSource <: Source & ToString {
      * @return Type of ?String
      * @since 0.32.5
      */
+    @Frozen
     func readUtf8(byteCount: Int64): String
     /*
      * The Function is readString
@@ -221,6 +246,7 @@ public interface BufferedSource <: Source & ToString {
      * @return Type of ?String
      * @since 0.32.5
      */
+    @Frozen
     func readString(): String
     /*
      * The Function is readString
@@ -230,6 +256,7 @@ public interface BufferedSource <: Source & ToString {
      * @return Type of ?String
      * @since 0.32.5
      */
+    @Frozen
     func readString(byteCount: Int64): String
     /*
      * The Function is readUtf8Line
@@ -237,6 +264,7 @@ public interface BufferedSource <: Source & ToString {
      * @return Type of ?String
      * @since 0.32.5
      */
+    @Frozen
     func readUtf8Line(): ?String
     /*
      * The Function is readUtf8LineStrict
@@ -244,6 +272,7 @@ public interface BufferedSource <: Source & ToString {
      * @return Type of ?String
      * @since 0.32.5
      */
+    @Frozen
     func readUtf8LineStrict(): ?String
     /*
      * The Function is readUtf8LineStrict
@@ -253,6 +282,7 @@ public interface BufferedSource <: Source & ToString {
      * @return Type of ?String
      * @since 0.32.5
      */
+    @Frozen
     func readUtf8LineStrict(limit: Int64): ?String
     /*
      * The Function is readUtf8CodePoint
@@ -260,6 +290,7 @@ public interface BufferedSource <: Source & ToString {
      * @return Type of Int64
      * @since 0.32.5
      */
+    @Frozen
     func readUtf8CodePoint(): Int64
     /*
      * The Function is indexOf
@@ -269,6 +300,7 @@ public interface BufferedSource <: Source & ToString {
      * @return Type of Int64
      * @since 0.32.5
      */
+    @Frozen
     func indexOf(value: Int8): Int64
     /*
      * The Function is indexOf
@@ -279,6 +311,7 @@ public interface BufferedSource <: Source & ToString {
      * @return Type of Int64
      * @since 0.32.5
      */
+    @Frozen
     func indexOf(value: Int8, fromIndex: Int64): Int64
     /*
      * The Function is indexOf
@@ -290,6 +323,7 @@ public interface BufferedSource <: Source & ToString {
      * @return Type of Int64
      * @since 0.32.5
      */
+    @Frozen
     func indexOf(value: Int8, fromIndex: Int64, toIndex: Int64): Int64
     /*
      * The Function is indexOf
@@ -299,6 +333,7 @@ public interface BufferedSource <: Source & ToString {
      * @return Type of Int64
      * @since 0.32.5
      */
+    @Frozen
     func indexOf(bytes: ByteString): Int64
     /*
      * The Function is indexOf
@@ -309,6 +344,7 @@ public interface BufferedSource <: Source & ToString {
      * @return Type of Int64
      * @since 0.32.5
      */
+    @Frozen
     func indexOf(bytes: ByteString, fromIndex: Int64): Int64
     /*
      * The Function is indexOfElement
@@ -318,6 +354,7 @@ public interface BufferedSource <: Source & ToString {
      * @return Type of Int64
      * @since 0.32.5
      */
+    @Frozen
     func indexOfElement(targetBytes: ByteString): Int64
     /*
      * The Function is indexOfElement
@@ -328,6 +365,7 @@ public interface BufferedSource <: Source & ToString {
      * @return Type of Int64
      * @since 0.32.5
      */
+    @Frozen
     func indexOfElement(targetBytes: ByteString, fromIndex: Int64): Int64
     /*
      * The Function is rangeEquals
@@ -338,6 +376,7 @@ public interface BufferedSource <: Source & ToString {
      * @return Type of Bool
      * @since 0.32.5
      */
+    @Frozen
     func rangeEquals(offset: Int64, bytes: ByteString): Bool
     /*
      * The Function is rangeEquals
@@ -350,6 +389,7 @@ public interface BufferedSource <: Source & ToString {
      * @return Type of Bool
      * @since 0.32.5
      */
+    @Frozen
     func rangeEquals(offset: Int64, bytes: ByteString, bytesOffset: Int64, byteCount: Int64): Bool
     /*
      * The Function is skip
@@ -359,6 +399,7 @@ public interface BufferedSource <: Source & ToString {
      * @return Type of Unit
      * @since 0.32.5
      */
+    @Frozen
     func skip(byteCount: Int64): Unit
     /*
      * The Function is peek
@@ -366,5 +407,6 @@ public interface BufferedSource <: Source & ToString {
      * @return Type of BufferedSource
      * @since 0.32.5
      */
+    @Frozen
     func peek(): BufferedSource
 }

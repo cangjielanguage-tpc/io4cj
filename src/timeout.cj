@@ -39,6 +39,7 @@ public open class Timeout <: Object {
      * @return Type of Timeout
      * @since 0.32.5
      */
+    @Frozen
     public open func timeout(timeout: Int64): Timeout {
         if (timeout < 0) {
             throw  IllegalArgumentException("timeout < 0: ${timeout}")
@@ -53,6 +54,7 @@ public open class Timeout <: Object {
      * @return Type of Int64
      * @since 0.32.5
      */
+    @Frozen
     public open func timeoutNanos(): Int64 {
         return timeoutnanos
     }
@@ -63,6 +65,7 @@ public open class Timeout <: Object {
      * @return Type of Bool
      * @since 0.32.5
      */
+    @Frozen
     public open func hasDeadline(): Bool {
         return hasdeadline
     }
@@ -73,6 +76,7 @@ public open class Timeout <: Object {
      * @return Type of Int64
      * @since 0.32.5
      */
+    @Frozen
     public open func deadlineNanoTime(): Int64 {
         if (!hasdeadline) {
             throw IllegalArgumentException("No deadline")
@@ -88,6 +92,7 @@ public open class Timeout <: Object {
      * @return Type of Timeout
      * @since 0.32.5
      */
+    @Frozen
     public open func deadlineNanoTime(deadlineNanoTime: Int64): Timeout {
         this.hasdeadline = true
         this.deadlinenanotime = deadlineNanoTime
@@ -103,6 +108,7 @@ public open class Timeout <: Object {
      * @return Type of Timeout
      * @since 0.32.5
      */
+    @Frozen
     public func deadline(duration: Duration, timeout: Int64) : Timeout {
         if (timeout < 0) {
             throw IllegalArgumentException("duration <= 0: ${duration}")
@@ -117,6 +123,7 @@ public open class Timeout <: Object {
      * @return Type of Timeout
      * @since 0.32.5
      */
+    @Frozen
     public open func clearTimeout(): Timeout {
         this.timeoutnanos = 0
         return this
@@ -128,6 +135,7 @@ public open class Timeout <: Object {
      * @return Type of Timeout
      * @since 0.32.5
      */
+    @Frozen
     public open func clearDeadline(): Timeout {
         this.hasdeadline = false
         return this
@@ -138,6 +146,7 @@ public open class Timeout <: Object {
      *
      * @since 0.32.5
      */
+    @Frozen
     public open func throwIfReached() {
         if (this.hasdeadline && this.deadlinenanotime - DateTime.now().nanosecond <= 0) {
             throw InterruptedException("deadline reached");
@@ -150,6 +159,7 @@ public open class Timeout <: Object {
      * @param monitor of Monitor
      * @since 0.32.5
      */
+    @Frozen
     public func waitUntilNotified(monitor: Monitor) {
         try {
             var hasDeadline = hasDeadline()
@@ -193,7 +203,8 @@ public open class Timeout <: Object {
         }
     }
 
-    static func minTimeout(aNanos: Int64, bNanos: Int64): Int64 {
+    @Frozen
+    public static func minTimeout(aNanos: Int64, bNanos: Int64): Int64 {
         if (aNanos == 0) {
             return bNanos
         }
@@ -219,6 +230,7 @@ class AnonymousTimeout <: Timeout {
      * @return Type of Timeout
      * @since 0.32.5
      */
+    @Frozen
     public override func timeout(timeout: Int64): Timeout {
         return this
     }
@@ -230,6 +242,7 @@ class AnonymousTimeout <: Timeout {
      * @return Type of Timeout
      * @since 0.32.5
      */
+    @Frozen
     public override func deadlineNanoTime(deadLineNanoTime: Int64): Timeout {
         return this
     }
@@ -238,6 +251,7 @@ class AnonymousTimeout <: Timeout {
      *
      * @since 0.32.5
      */
+    @Frozen
     public override func throwIfReached() {
         return ()
     }
