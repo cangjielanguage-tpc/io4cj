@@ -18,7 +18,7 @@
       path-option = [ "${CANGJIE_STDX_PATH}/windows_x86_64_llvm/dynamic/stdx" ]
 
 [dependencies]
-  crypto_ffi = {branch = "v0.0.1.B006", git = "https://gitcode.com/Cangjie-TPC/crypto-ffi.git"}
+  crypto_ffi = {branch = "v1.0.3", git = "https://gitcode.com/Cangjie-TPC/crypto-ffi.git"}
 
 [package]
   cjc-version = "0.60.5"

@@ -1,5 +1,5 @@
 // 3rd_party_lib:io4cj/target/release/io4cj
-// 3rd_party_lib:io4cj/target/release/crypto4cj
+// 3rd_party_lib:io4cj/target/release/crypto_ffi
 
 
 import io4cj.*

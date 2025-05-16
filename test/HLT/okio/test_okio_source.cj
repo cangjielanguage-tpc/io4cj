@@ -1,5 +1,5 @@
 // 3rd_party_lib:io4cj/target/release/io4cj
-// 3rd_party_lib:io4cj/target/release/crypto4cj
+// 3rd_party_lib:io4cj/target/release/crypto_ffi
 //dependence:../utils/parseStringData.cj
 //data_file:basefile.txt
 
