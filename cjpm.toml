@@ -32,3 +32,8 @@
   version = "1.0.2"
   package-configuration = {}
   scripts = {}
+    scripts = {}
+      scripts = {}
+        scripts = {}
+          scripts = {}
+          
