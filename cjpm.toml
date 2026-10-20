@@ -21,7 +21,7 @@
   crypto_ffi = {branch = "v1.0.4", git = "https://gitcode.com/Cangjie-TPC/crypto-ffi.git"}
 
 [package]
-  cjc-version = "1.0.0"
+  cjc-version = "1.2.0"
   compile-option = "-O2 --fno-chir-function-inlining -Woff all"
   description = "io library for okhttp ecosystem"
   link-option = ""
@@ -29,6 +29,6 @@
   output-type = "dynamic"
   src-dir = "src"
   target-dir = ""
-  version = "1.0.2"
+  version = "1.0.3"
   package-configuration = {}
   scripts = {}
